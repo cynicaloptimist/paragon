@@ -6,9 +6,7 @@ import {
   Card,
   CardContent,
   Typography,
-  Container,
-  Box,
-  Grid
+  Container
 } from "@material-ui/core";
 
 const App = () => {
