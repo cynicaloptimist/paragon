@@ -16,14 +16,18 @@ const App = () => {
     <>
       <TopBar />
       <Container>
-        <Card >
-          <CardContent>
-            <Typography>Hello World</Typography>
-          </CardContent>
-        </Card>
+        <HelloCard />
       </Container>
     </>
   );
 };
+
+const HelloCard = () => (
+  <Card>
+    <CardContent>
+      <Typography>Hello World</Typography>
+    </CardContent>
+  </Card>
+);
 
 export default App;
