@@ -1,16 +1,65 @@
 import "./App.css";
 
 import React from "react";
-import { Card, CardContent, Typography, Container } from "@material-ui/core";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Container,
+  Fab
+} from "@material-ui/core";
 import GridLayout from "react-grid-layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import { TopBar } from "./TopBar";
 
+type Action = {
+  type: string;
+  payload?: object;
+};
+
+const AddCardAction = "ADD_CARD";
+
+function AppReducer(oldState: AppState, action: Action) {
+  if (action.type === AddCardAction) {
+    return {
+      cardCount: oldState.cardCount + 1
+    };
+  }
+
+  return oldState;
+}
+
+type AppState = {
+  cardCount: number;
+};
+
+const GetInitialState = (): AppState => ({
+  cardCount: 1
+});
+
 const App = () => {
+  const [state, dispatch] = React.useReducer(AppReducer, GetInitialState());
+
+  let cards: JSX.Element[] = [];
+  for (let i = 0; i < state.cardCount; i++) {
+    cards.push(
+      <div key={i} data-grid={{ x: 2 * (i % 6), y: 0, w: 2, h: 4 }}>
+        <HelloCard />
+      </div>
+    );
+  }
+
   return (
     <Container>
+      <Fab
+        color="primary"
+        aria-label="add"
+        onClick={() => dispatch({ type: AddCardAction })}
+      >
+        <FontAwesomeIcon icon={faPlus} />
+      </Fab>
       <TopBar />
       <GridLayout
         cols={12}
@@ -20,9 +69,7 @@ const App = () => {
         verticalCompact={false}
         style={{ position: "absolute" }}
       >
-        <div key="hello" data-grid={{ x: 5, y: 0, w: 2, h: 4 }}>
-          <HelloCard />
-        </div>
+        {cards}
       </GridLayout>
     </Container>
   );
