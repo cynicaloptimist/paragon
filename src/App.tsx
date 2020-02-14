@@ -77,7 +77,7 @@ const App = () => {
 };
 
 const HelloCard = () => (
-  <Card>
+  <Card style={{ height: "100%" }}>
     <CardContent>
       <FontAwesomeIcon icon={faBars} className="drag-handle" />
       <Typography>Hello World</Typography>
