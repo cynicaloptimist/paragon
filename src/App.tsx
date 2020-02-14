@@ -59,7 +59,7 @@ const App = () => {
         rowHeight={30}
         width={1200}
         draggableHandle=".drag-handle"
-        verticalCompact={false}
+        compactType={null}
         style={{ position: "absolute" }}
       >
         {cards}
