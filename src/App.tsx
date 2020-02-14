@@ -45,21 +45,14 @@ const App = () => {
   let cards: JSX.Element[] = [];
   for (let i = 0; i < state.cardCount; i++) {
     cards.push(
-      <div key={i} data-grid={{ x: 2 * (i % 6), y: 0, w: 2, h: 4 }}>
+      <div key={i} data-grid={{ x: 2 * (i % 6) + 1, y: 0, w: 2, h: 4 }}>
         <HelloCard />
       </div>
     );
   }
 
   return (
-    <Container>
-      <Fab
-        color="primary"
-        aria-label="add"
-        onClick={() => dispatch({ type: AddCardAction })}
-      >
-        <FontAwesomeIcon icon={faPlus} />
-      </Fab>
+    <Container style={{ height: "100%", position: "relative" }}>
       <TopBar />
       <GridLayout
         cols={12}
@@ -71,6 +64,14 @@ const App = () => {
       >
         {cards}
       </GridLayout>
+      <Fab
+        style={{ position: "absolute", top: 80, left: 50 }}
+        color="primary"
+        aria-label="add"
+        onClick={() => dispatch({ type: AddCardAction })}
+      >
+        <FontAwesomeIcon icon={faPlus} />
+      </Fab>
     </Container>
   );
 };
