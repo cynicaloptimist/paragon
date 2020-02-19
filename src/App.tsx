@@ -15,31 +15,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import { TopBar } from "./TopBar";
-
-type Action = {
-  type: string;
-  payload?: object;
-};
-
-const AddCardAction = "ADD_CARD";
-
-function AppReducer(oldState: AppState, action: Action) {
-  if (action.type === AddCardAction) {
-    return {
-      cardCount: oldState.cardCount + 1
-    };
-  }
-
-  return oldState;
-}
-
-type AppState = {
-  cardCount: number;
-};
-
-const GetInitialState = (): AppState => ({
-  cardCount: 1
-});
+import { AppReducer } from "./AppReducer";
+import { Actions } from "./Actions";
+import { GetInitialState } from "./AppState";
 
 const App = () => {
   const [state, dispatch] = React.useReducer(AppReducer, GetInitialState());
@@ -70,7 +48,7 @@ const App = () => {
         style={{ position: "absolute", top: 80, left: 50 }}
         color="primary"
         aria-label="add"
-        onClick={() => dispatch({ type: AddCardAction })}
+        onClick={() => dispatch(Actions.AddCard())}
       >
         <FontAwesomeIcon icon={faPlus} />
       </Fab>
