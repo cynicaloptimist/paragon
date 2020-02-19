@@ -11,7 +11,8 @@ import {
   Box,
   AppBar,
   Toolbar,
-  IconButton
+  IconButton,
+  CardContent
 } from "@material-ui/core";
 import GridLayout from "react-grid-layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -68,7 +69,7 @@ function BaseCard(props: {
       <AppBar position="relative" className="drag-handle">
         <Toolbar variant="dense">{props.header}</Toolbar>
       </AppBar>
-      {props.children}
+      <CardContent>{props.children}</CardContent>
     </Paper>
   );
 }
