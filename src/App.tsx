@@ -4,11 +4,14 @@ import "./App.css";
 
 import React from "react";
 import {
-  Card,
-  CardContent,
   Typography,
   Container,
-  Fab
+  Fab,
+  Paper,
+  Box,
+  AppBar,
+  Toolbar,
+  IconButton
 } from "@material-ui/core";
 import GridLayout from "react-grid-layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -56,13 +59,24 @@ const App = () => {
   );
 };
 
+function BaseCard(props: {
+  header: React.ReactElement;
+  children?: React.ReactElement;
+}) {
+  return (
+    <Paper style={{ height: "100%" }}>
+      <AppBar position="relative" className="drag-handle">
+        <Toolbar variant="dense">{props.header}</Toolbar>
+      </AppBar>
+      {props.children}
+    </Paper>
+  );
+}
+
 const HelloCard = () => (
-  <Card style={{ height: "100%" }}>
-    <CardContent>
-      <FontAwesomeIcon icon={faBars} className="drag-handle" />
-      <Typography>Hello World</Typography>
-    </CardContent>
-  </Card>
+  <BaseCard header={<Typography>Card Title</Typography>}>
+    <Typography>Hello World</Typography>
+  </BaseCard>
 );
 
 export default App;
