@@ -8,15 +8,13 @@ import {
   Container,
   Fab,
   Paper,
-  Box,
   AppBar,
   Toolbar,
-  IconButton,
   CardContent
 } from "@material-ui/core";
 import GridLayout from "react-grid-layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import { TopBar } from "./TopBar";
 import { AppReducer } from "./AppReducer";
