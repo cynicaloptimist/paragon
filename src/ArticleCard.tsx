@@ -1,3 +1,5 @@
+import "./ArticleCard.css";
+
 import React from "react";
 import { BaseCard } from "./BaseCard";
 import { Typography, TextField } from "@material-ui/core";
