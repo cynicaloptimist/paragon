@@ -3,15 +3,7 @@ import "react-resizable/css/styles.css";
 import "./App.css";
 
 import React from "react";
-import {
-  Typography,
-  Container,
-  Fab,
-  Paper,
-  AppBar,
-  Toolbar,
-  CardContent
-} from "@material-ui/core";
+import { Container, Fab } from "@material-ui/core";
 import GridLayout from "react-grid-layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -20,6 +12,7 @@ import { TopBar } from "./TopBar";
 import { AppReducer } from "./AppReducer";
 import { Actions } from "./Actions";
 import { GetInitialState } from "./AppState";
+import { ArticleCard } from "./ArticleCard";
 
 const App = () => {
   const [state, dispatch] = React.useReducer(AppReducer, GetInitialState());
@@ -28,7 +21,7 @@ const App = () => {
   for (let i = 0; i < state.cardCount; i++) {
     cards.push(
       <div key={i} data-grid={{ x: 2 * (i % 6) + 1, y: 0, w: 2, h: 4 }}>
-        <HelloCard />
+        <ArticleCard cardId={i.toString()} />
       </div>
     );
   }
@@ -57,25 +50,5 @@ const App = () => {
     </Container>
   );
 };
-
-function BaseCard(props: {
-  header: React.ReactElement;
-  children?: React.ReactElement;
-}) {
-  return (
-    <Paper style={{ height: "100%" }}>
-      <AppBar position="relative" className="drag-handle">
-        <Toolbar variant="dense">{props.header}</Toolbar>
-      </AppBar>
-      <CardContent>{props.children}</CardContent>
-    </Paper>
-  );
-}
-
-const HelloCard = () => (
-  <BaseCard header={<Typography>Card Title</Typography>}>
-    <Typography>Hello World</Typography>
-  </BaseCard>
-);
 
 export default App;
