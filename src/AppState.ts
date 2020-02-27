@@ -1,7 +1,9 @@
 export type AppState = {
   openCardIds: string[];
-  cardsById: { [cardId: string]: CardState };
+  cardsById: CardsState;
 };
+
+export type CardsState = { [cardId: string]: CardState };
 
 export const GetInitialState = (): AppState => ({
   openCardIds: [],

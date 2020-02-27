@@ -1,6 +1,6 @@
 import { createReducer } from "typesafe-actions";
 import { RootAction, Actions } from "./Actions";
-import { AppState, GetInitialState } from "./AppState";
+import { AppState, GetInitialState, CardsState } from "./AppState";
 
 const idChars = "qwertyuiopasdfghjklzxcvbnm1234567890";
 function newId(length: number = 8): string {
@@ -27,15 +27,22 @@ export const AppReducer = createReducer<AppState, RootAction>(GetInitialState())
     };
   })
   .handleAction(Actions.SetCardContent, (oldState: AppState, action) => {
-    const cardId = action.payload.cardId;
     return {
       openCardIds: oldState.openCardIds,
-      cardsById: {
-        ...oldState.cardsById,
-        [cardId]: {
-          ...oldState.cardsById[cardId],
-          content: action.payload.content
-        }
-      }
+      cardsById: CardsReducer(oldState.cardsById, action)
     };
   });
+
+const CardsReducer = createReducer<CardsState, RootAction>({}).handleAction(
+  Actions.SetCardContent,
+  (oldState: CardsState, action) => {
+    const cardId = action.payload.cardId;
+    return {
+      ...oldState,
+      [cardId]: {
+        ...oldState[cardId],
+        content: action.payload.content
+      }
+    };
+  }
+);
