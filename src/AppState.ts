@@ -1,7 +1,7 @@
 export type AppState = {
-  cardCount: number;
+  openCardsById: string[];
 };
 
 export const GetInitialState = (): AppState => ({
-  cardCount: 1
+  openCardsById: []
 });

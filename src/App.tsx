@@ -17,14 +17,16 @@ import { ArticleCard } from "./ArticleCard";
 const App = () => {
   const [state, dispatch] = React.useReducer(AppReducer, GetInitialState());
 
-  let cards: JSX.Element[] = [];
-  for (let i = 0; i < state.cardCount; i++) {
-    cards.push(
-      <div key={i} data-grid={{ x: 2 * (i % 6) + 1, y: 0, w: 2, h: 4 }}>
-        <ArticleCard cardId={i.toString()} />
+  const cards = state.openCardsById.map((cardId, index) => {
+    return (
+      <div
+        key={cardId}
+        data-grid={{ x: 2 * (index % 6) + 1, y: 0, w: 2, h: 4 }}
+      >
+        <ArticleCard cardId={cardId} />
       </div>
     );
-  }
+  });
 
   return (
     <Container style={{ height: "100%", position: "relative" }}>
