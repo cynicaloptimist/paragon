@@ -5,7 +5,7 @@ import { BaseCard } from "./BaseCard";
 import { Typography, TextField } from "@material-ui/core";
 
 export function ArticleCard(props: { cardId: string }) {
-  const fullHeight = {
+  const fullHeightStyle = {
     style: {
       height: "100%"
     }
@@ -17,7 +17,7 @@ export function ArticleCard(props: { cardId: string }) {
         className="article-card__text-field"
         multiline
         variant="outlined"
-        inputProps={fullHeight}
+        inputProps={fullHeightStyle}
         style={{ height: "100%", display: "flex", flexDirection: "column" }}
       />
     </BaseCard>
