@@ -13,6 +13,7 @@ import { AppReducer } from "./AppReducer";
 import { Actions } from "./Actions";
 import { GetInitialState } from "./AppState";
 import { ArticleCard } from "./ArticleCard";
+import { ReducerContext } from "./ReducerContext";
 
 const App = () => {
   const [state, dispatch] = React.useReducer(AppReducer, GetInitialState());
@@ -29,27 +30,29 @@ const App = () => {
   });
 
   return (
-    <Container style={{ height: "100%", position: "relative" }}>
-      <TopBar />
-      <GridLayout
-        cols={12}
-        rowHeight={30}
-        width={1200}
-        draggableHandle=".drag-handle"
-        compactType={null}
-        style={{ position: "absolute" }}
-      >
-        {cards}
-      </GridLayout>
-      <Fab
-        style={{ position: "absolute", top: 80, left: 50 }}
-        color="primary"
-        aria-label="add"
-        onClick={() => dispatch(Actions.AddCard())}
-      >
-        <FontAwesomeIcon icon={faPlus} />
-      </Fab>
-    </Container>
+    <ReducerContext.Provider value={{ state, dispatch }}>
+      <Container style={{ height: "100%", position: "relative" }}>
+        <TopBar />
+        <GridLayout
+          cols={12}
+          rowHeight={30}
+          width={1200}
+          draggableHandle=".drag-handle"
+          compactType={null}
+          style={{ position: "absolute" }}
+        >
+          {cards}
+        </GridLayout>
+        <Fab
+          style={{ position: "absolute", top: 80, left: 50 }}
+          color="primary"
+          aria-label="add"
+          onClick={() => dispatch(Actions.AddCard())}
+        >
+          <FontAwesomeIcon icon={faPlus} />
+        </Fab>
+      </Container>
+    </ReducerContext.Provider>
   );
 };
 
