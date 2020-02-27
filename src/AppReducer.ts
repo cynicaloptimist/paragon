@@ -16,6 +16,6 @@ export const AppReducer = createReducer<AppState, RootAction>(
   GetInitialState()
 ).handleAction(Actions.AddCard, (oldState: AppState) => {
   return {
-    openCardsById: oldState.openCardsById.concat(newId())
+    openCardIds: oldState.openCardIds.concat(newId())
   };
 });

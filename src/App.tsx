@@ -17,7 +17,7 @@ import { ArticleCard } from "./ArticleCard";
 const App = () => {
   const [state, dispatch] = React.useReducer(AppReducer, GetInitialState());
 
-  const cards = state.openCardsById.map((cardId, index) => {
+  const cards = state.openCardIds.map((cardId, index) => {
     return (
       <div
         key={cardId}
