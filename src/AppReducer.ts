@@ -15,7 +15,15 @@ function newId(length: number = 8): string {
 export const AppReducer = createReducer<AppState, RootAction>(
   GetInitialState()
 ).handleAction(Actions.AddCard, (oldState: AppState) => {
+  const cardId = newId();
   return {
-    openCardIds: oldState.openCardIds.concat(newId())
+    openCardIds: oldState.openCardIds.concat(cardId),
+    cardsById: {
+      ...oldState.cardsById,
+      [cardId]: {
+        cardId,
+        content: ""
+      }
+    }
   };
 });
