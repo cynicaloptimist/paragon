@@ -2,8 +2,8 @@ import React from "react";
 import { Paper, AppBar, Toolbar, CardContent } from "@material-ui/core";
 
 export function BaseCard(props: {
-  header: React.ReactElement;
-  children?: React.ReactElement;
+  header: React.ReactNode;
+  children: React.ReactNode;
 }) {
   return (
     <Paper style={{ height: "100%", display: "flex", flexDirection: "column" }}>
