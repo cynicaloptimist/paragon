@@ -24,15 +24,15 @@ export function ArticleCard(props: { cardId: string }) {
     <BaseCard
       header={
         <>
+          <Typography style={{ flexGrow: 1 }}>Article</Typography>
           <IconButton
-            edge="start"
+            edge="end"
             color="inherit"
             aria-label="toggle-edit-mode"
             onClick={() => setEditMode(!editMode)}
           >
             <FontAwesomeIcon size="xs" icon={editMode ? faCheck : faEdit} />
           </IconButton>
-          <Typography>Article</Typography>
         </>
       }
     >
