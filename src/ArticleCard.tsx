@@ -30,7 +30,7 @@ export function ArticleCard(props: { cardId: string }) {
             aria-label="toggle-edit-mode"
             onClick={() => setEditMode(!editMode)}
           >
-            <FontAwesomeIcon icon={editMode ? faCheck : faEdit} />
+            <FontAwesomeIcon size="xs" icon={editMode ? faCheck : faEdit} />
           </IconButton>
           <Typography>Article</Typography>
         </>

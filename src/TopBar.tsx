@@ -11,7 +11,7 @@ export const TopBar = () => (
   <AppBar position="static">
     <Toolbar>
       <IconButton edge="start" color="inherit" aria-label="menu">
-        <FontAwesomeIcon icon={faBars} />
+        <FontAwesomeIcon size="sm" icon={faBars} />
       </IconButton>
       <Typography variant="h6" style={{ flexGrow: 1 }}>
         Paragon Campaign Dashboard
