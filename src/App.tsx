@@ -3,7 +3,6 @@ import "react-resizable/css/styles.css";
 import "./App.css";
 
 import React from "react";
-import { Container, Fab } from "@material-ui/core";
 import GridLayout from "react-grid-layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -14,6 +13,7 @@ import { Actions } from "./Actions";
 import { GetInitialState } from "./AppState";
 import { ArticleCard } from "./ArticleCard";
 import { ReducerContext } from "./ReducerContext";
+import { Grommet, Button, Box } from "grommet";
 
 const App = () => {
   const [state, dispatch] = React.useReducer(AppReducer, GetInitialState());
@@ -31,27 +31,29 @@ const App = () => {
 
   return (
     <ReducerContext.Provider value={{ state, dispatch }}>
-      <Container style={{ height: "100%", position: "relative" }}>
-        <TopBar />
-        <GridLayout
-          cols={12}
-          rowHeight={30}
-          width={1200}
-          draggableHandle=".drag-handle"
-          compactType={null}
-          style={{ position: "absolute" }}
-        >
-          {cards}
-        </GridLayout>
-        <Fab
-          style={{ position: "absolute", top: 80, left: 50 }}
-          color="primary"
-          aria-label="add"
-          onClick={() => dispatch(Actions.AddCard())}
-        >
-          <FontAwesomeIcon icon={faPlus} />
-        </Fab>
-      </Container>
+      <Grommet plain style={{ height: "100%" }}>
+        <Box fill align="center">
+          <Box fill="vertical" width="xxlarge">
+            <TopBar />
+            <Button
+              primary
+              aria-label="add"
+              onClick={() => dispatch(Actions.AddCard())}
+              icon={<FontAwesomeIcon icon={faPlus} />}
+            />
+            <GridLayout
+              cols={12}
+              rowHeight={30}
+              width={1200}
+              draggableHandle=".drag-handle"
+              compactType={null}
+              style={{ flexGrow: 1 }}
+            >
+              {cards}
+            </GridLayout>
+          </Box>
+        </Box>
+      </Grommet>
     </ReducerContext.Provider>
   );
 };
