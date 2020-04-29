@@ -1,5 +1,3 @@
-import "./ArticleCard.css";
-
 import React from "react";
 import { BaseCard } from "./BaseCard";
 import { Button, Text, TextArea } from "grommet";
