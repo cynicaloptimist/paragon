@@ -6,11 +6,15 @@ export function BaseCard(props: {
   children: React.ReactNode;
 }) {
   return (
-    <Box style={{ height: "100%", display: "flex", flexDirection: "column" }}>
+    <Box fill elevation="medium">
       <Box className="drag-handle">
-        <Header background="brand">{props.header}</Header>
+        <Header pad="xsmall" background="brand">
+          {props.header}
+        </Header>
       </Box>
-      {props.children}
+      <Box flex={{ grow: 1 }} pad="xxsmall">
+        {props.children}
+      </Box>
     </Box>
   );
 }
