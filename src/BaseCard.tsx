@@ -1,16 +1,16 @@
 import React from "react";
-import { Paper, AppBar, Toolbar, CardContent } from "@material-ui/core";
+import { Box, Header } from "grommet";
 
 export function BaseCard(props: {
   header: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
-    <Paper style={{ height: "100%", display: "flex", flexDirection: "column" }}>
-      <AppBar position="relative" className="drag-handle">
-        <Toolbar variant="dense">{props.header}</Toolbar>
-      </AppBar>
-      <CardContent style={{ height: "100%" }}>{props.children}</CardContent>
-    </Paper>
+    <Box style={{ height: "100%", display: "flex", flexDirection: "column" }}>
+      <Box className="drag-handle">
+        <Header background="brand">{props.header}</Header>
+      </Box>
+      {props.children}
+    </Box>
   );
 }

@@ -31,7 +31,7 @@ const App = () => {
 
   return (
     <ReducerContext.Provider value={{ state, dispatch }}>
-      <Grommet plain style={{ height: "100%" }}>
+      <Grommet style={{ height: "100%" }}>
         <Box fill align="center">
           <Box fill="vertical" width="xxlarge">
             <TopBar />
