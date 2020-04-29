@@ -14,9 +14,14 @@ import { GetInitialState } from "./AppState";
 import { ArticleCard } from "./ArticleCard";
 import { ReducerContext } from "./ReducerContext";
 import { Grommet, Button, Box } from "grommet";
+import { useStorageBackedReducer } from "./useStorageBackedReducer";
 
 const App = () => {
-  const [state, dispatch] = React.useReducer(AppReducer, GetInitialState());
+  const [state, dispatch] = useStorageBackedReducer(
+    AppReducer,
+    GetInitialState(),
+    "appState"
+  );
 
   const cards = state.openCardIds.map((cardId, index) => {
     return (
