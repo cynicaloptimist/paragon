@@ -27,7 +27,7 @@ const App = () => {
     return (
       <div
         key={cardId}
-        data-grid={{ x: 2 * (index % 6) + 1, y: 0, w: 2, h: 4 }}
+        data-grid={{ x: 2 * (index % 6), y: 0, w: 2, h: 4 }}
       >
         <ArticleCard cardId={cardId} />
       </div>
@@ -38,7 +38,7 @@ const App = () => {
     <ReducerContext.Provider value={{ state, dispatch }}>
       <Grommet style={{ height: "100%" }}>
         <Box fill align="center">
-          <Box fill="vertical" width="xxlarge">
+          <Box fill="vertical" width="1200px">
             <TopBar />
             <Button
               primary
