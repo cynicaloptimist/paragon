@@ -22,7 +22,7 @@ export function ArticleCard(props: { cardId: string }) {
         <>
           {isHeaderEditable ? (
             <TextInput
-              defaultValue={cardState.title}
+              placeholder={cardState.title}
               onChange={(changeEvent) =>
                 dispatch(
                   Actions.SetCardTitle({
@@ -36,6 +36,8 @@ export function ArticleCard(props: { cardId: string }) {
                   setHeaderEditable(false);
                 }
               }}
+              autoFocus
+              onBlur={() => setHeaderEditable(false)}
             />
           ) : (
             <Text
