@@ -7,7 +7,7 @@ export const Actions = {
     cardId: string;
     content: string;
   }>(),
-  SetCardTitle: createAction("SET_CARD_CONTENT")<{
+  SetCardTitle: createAction("SET_CARD_TITLE")<{
     cardId: string;
     title: string;
   }>(),
