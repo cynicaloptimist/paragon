@@ -18,7 +18,7 @@ export function BaseCard(props: {
   return (
     <Box fill elevation="medium">
       <Box>
-        <Header pad="xsmall" background="brand">
+        <Header pad="xsmall" background="brand" gap="xxsmall">
           <Button
             className="drag-handle"
             icon={<FontAwesomeIcon icon={faGripLines} />}
