@@ -24,10 +24,11 @@ const App = () => {
   );
 
   const cards = state.openCardIds.map((cardId, index) => {
+    const thisLayout = state.layouts.find((l) => l.i === cardId);
     return (
       <div
         key={cardId}
-        data-grid={{ x: 2 * (index % 6), y: 0, w: 2, h: 4 }}
+        data-grid={thisLayout ?? { x: 2 * (index % 6), y: 0, w: 2, h: 4 }}
       >
         <ArticleCard cardId={cardId} />
       </div>
@@ -53,6 +54,9 @@ const App = () => {
               draggableHandle=".drag-handle"
               compactType={null}
               style={{ flexGrow: 1 }}
+              onLayoutChange={(newLayout) =>
+                dispatch(Actions.SetLayout(newLayout))
+              }
             >
               {cards}
             </GridLayout>

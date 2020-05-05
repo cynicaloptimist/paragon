@@ -16,20 +16,27 @@ export const AppReducer = createReducer<AppState, RootAction>(GetInitialState())
   .handleAction(Actions.AddCard, (oldState: AppState) => {
     const cardId = newId();
     return {
+      ...oldState,
       openCardIds: oldState.openCardIds.concat(cardId),
       cardsById: {
         ...oldState.cardsById,
         [cardId]: {
           cardId,
-          content: ""
-        }
-      }
+          content: "",
+        },
+      },
     };
   })
   .handleAction(Actions.SetCardContent, (oldState: AppState, action) => {
     return {
-      openCardIds: oldState.openCardIds,
-      cardsById: CardsReducer(oldState.cardsById, action)
+      ...oldState,
+      cardsById: CardsReducer(oldState.cardsById, action),
+    };
+  })
+  .handleAction(Actions.SetLayout, (oldState: AppState, action) => {
+    return {
+      ...oldState,
+      layouts: action.payload,
     };
   });
 
@@ -41,8 +48,8 @@ const CardsReducer = createReducer<CardsState, RootAction>({}).handleAction(
       ...oldState,
       [cardId]: {
         ...oldState[cardId],
-        content: action.payload.content
-      }
+        content: action.payload.content,
+      },
     };
   }
 );
