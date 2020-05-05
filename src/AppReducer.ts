@@ -1,4 +1,4 @@
-import { createReducer } from "typesafe-actions";
+import { createReducer, Reducer } from "typesafe-actions";
 import { RootAction, Actions } from "./Actions";
 import { AppState, GetInitialState, CardsState } from "./AppState";
 
@@ -12,7 +12,7 @@ function newId(length: number = 8): string {
   return id;
 }
 
-export const AppReducer = createReducer<AppState, RootAction>(GetInitialState())
+export const AppReducer: Reducer<AppState, RootAction> = createReducer<AppState, RootAction>(GetInitialState())
   .handleAction(Actions.AddCard, (oldState: AppState) => {
     const cardId = newId();
     return {
@@ -22,6 +22,8 @@ export const AppReducer = createReducer<AppState, RootAction>(GetInitialState())
         ...oldState.cardsById,
         [cardId]: {
           cardId,
+          type: "article",
+          title: "Article",
           content: "",
         },
       },
