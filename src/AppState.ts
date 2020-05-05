@@ -18,7 +18,7 @@ export type CardState = {
   cardId: string;
   title: string;
 
-} &  ArticleCardState;
+} & ArticleCardState | ClockCardState;
 
 export type ArticleCardState = {
   type: "article";

@@ -9,6 +9,9 @@ import { faEdit, faCheck } from "@fortawesome/free-solid-svg-icons";
 export function ArticleCard(props: { cardId: string }) {
   const { state, dispatch } = React.useContext(ReducerContext);
   const cardState = state.cardsById[props.cardId];
+  if (cardState.type !== "article") {
+    throw new Error("Card type is not Article");
+  }
 
   const [isContentEditable, setContentEditable] = React.useState<boolean>(true);
 
