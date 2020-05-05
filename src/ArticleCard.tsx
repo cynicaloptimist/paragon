@@ -10,7 +10,7 @@ export function ArticleCard(props: { cardId: string }) {
   const { state, dispatch } = React.useContext(ReducerContext);
   const cardState = state.cardsById[props.cardId];
 
-  const [editMode, setEditMode] = React.useState<boolean>(true);
+  const [isContentEditable, setContentEditable] = React.useState<boolean>(true);
 
   return (
     <BaseCard
@@ -19,15 +19,15 @@ export function ArticleCard(props: { cardId: string }) {
           <Text style={{ flexGrow: 1 }}>Article</Text>
           <Button
             aria-label="toggle-edit-mode"
-            onClick={() => setEditMode(!editMode)}
+            onClick={() => setContentEditable(!isContentEditable)}
             icon={
-              <FontAwesomeIcon size="xs" icon={editMode ? faCheck : faEdit} />
+              <FontAwesomeIcon size="xs" icon={isContentEditable ? faCheck : faEdit} />
             }
           />
         </>
       }
     >
-      {editMode ? (
+      {isContentEditable ? (
         <TextArea
           style={{ height: "100%" }}
           className="article-card__text-field"
