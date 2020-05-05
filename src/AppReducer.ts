@@ -33,7 +33,7 @@ export const AppReducer = createReducer<AppState, RootAction>(GetInitialState())
       cardsById: CardsReducer(oldState.cardsById, action),
     };
   })
-  .handleAction(Actions.SetLayout, (oldState: AppState, action) => {
+  .handleAction(Actions.SetLayouts, (oldState: AppState, action) => {
     return {
       ...oldState,
       layouts: action.payload,

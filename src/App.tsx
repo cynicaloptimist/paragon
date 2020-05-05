@@ -55,7 +55,7 @@ const App = () => {
               compactType={null}
               style={{ flexGrow: 1 }}
               onLayoutChange={(newLayout) =>
-                dispatch(Actions.SetLayout(newLayout))
+                dispatch(Actions.SetLayouts(newLayout))
               }
             >
               {cards}

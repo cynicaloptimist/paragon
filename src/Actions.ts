@@ -7,7 +7,7 @@ export const Actions = {
     cardId: string;
     content: string;
   }>(),
-  SetLayout: createAction("SET_LAYOUT")<GridLayout.Layout[]>(),
+  SetLayouts: createAction("SET_LAYOUT")<GridLayout.Layout[]>(),
 };
 
 export type RootAction = ActionType<typeof Actions>;
