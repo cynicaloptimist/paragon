@@ -4,8 +4,6 @@ import "./App.css";
 
 import React from "react";
 import GridLayout from "react-grid-layout";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import { TopBar } from "./TopBar";
 import { AppReducer } from "./AppReducer";
@@ -13,7 +11,7 @@ import { Actions } from "./Actions";
 import { GetInitialState } from "./AppState";
 import { ArticleCard } from "./ArticleCard";
 import { ReducerContext } from "./ReducerContext";
-import { Grommet, Button, Box } from "grommet";
+import { Grommet, Box } from "grommet";
 import { useStorageBackedReducer } from "./useStorageBackedReducer";
 
 const App = () => {
@@ -41,12 +39,6 @@ const App = () => {
         <Box fill align="center">
           <Box fill="vertical" width="1200px">
             <TopBar />
-            <Button
-              primary
-              aria-label="add"
-              onClick={() => dispatch(Actions.AddCard())}
-              icon={<FontAwesomeIcon icon={faPlus} />}
-            />
             <GridLayout
               cols={12}
               rowHeight={30}
