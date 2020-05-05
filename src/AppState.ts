@@ -17,8 +17,7 @@ export const GetInitialState = (): AppState => ({
 export type CardState = {
   cardId: string;
   title: string;
-
-} & ArticleCardState | ClockCardState;
+} & (ArticleCardState | ClockCardState);
 
 export type ArticleCardState = {
   type: "article";
@@ -29,4 +28,4 @@ export type ClockCardState = {
   type: "clock";
   max: number;
   current: number;
-}
+};
