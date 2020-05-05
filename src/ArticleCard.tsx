@@ -1,6 +1,6 @@
 import React from "react";
 import { BaseCard } from "./BaseCard";
-import { Button, Text, TextArea } from "grommet";
+import { Button, Text, TextArea, TextInput } from "grommet";
 import { ReducerContext } from "./ReducerContext";
 import { Actions } from "./Actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,18 +13,46 @@ export function ArticleCard(props: { cardId: string }) {
     throw new Error("Card type is not Article");
   }
 
+  const [isHeaderEditable, setHeaderEditable] = React.useState<boolean>(false);
   const [isContentEditable, setContentEditable] = React.useState<boolean>(true);
 
   return (
     <BaseCard
       header={
         <>
-          <Text style={{ flexGrow: 1 }}>Article</Text>
+          {isHeaderEditable ? (
+            <TextInput
+              defaultValue={cardState.title}
+              onChange={(changeEvent) =>
+                dispatch(
+                  Actions.SetCardTitle({
+                    cardId: cardState.cardId,
+                    title: changeEvent.target.value,
+                  })
+                )
+              }
+              onKeyDown={(keyEvent) => {
+                if (keyEvent.key === "Enter") {
+                  setHeaderEditable(false);
+                }
+              }}
+            />
+          ) : (
+            <Text
+              style={{ flexGrow: 1 }}
+              onDoubleClick={() => setHeaderEditable(true)}
+            >
+              {cardState.title}
+            </Text>
+          )}
           <Button
             aria-label="toggle-edit-mode"
             onClick={() => setContentEditable(!isContentEditable)}
             icon={
-              <FontAwesomeIcon size="xs" icon={isContentEditable ? faCheck : faEdit} />
+              <FontAwesomeIcon
+                size="xs"
+                icon={isContentEditable ? faCheck : faEdit}
+              />
             }
           />
         </>

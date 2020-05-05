@@ -12,7 +12,10 @@ function newId(length: number = 8): string {
   return id;
 }
 
-export const AppReducer: Reducer<AppState, RootAction> = createReducer<AppState, RootAction>(GetInitialState())
+export const AppReducer: Reducer<AppState, RootAction> = createReducer<
+  AppState,
+  RootAction
+>(GetInitialState())
   .handleAction(Actions.AddCard, (oldState: AppState) => {
     const cardId = newId();
     return {
@@ -29,12 +32,15 @@ export const AppReducer: Reducer<AppState, RootAction> = createReducer<AppState,
       },
     };
   })
-  .handleAction(Actions.SetCardContent, (oldState: AppState, action) => {
-    return {
-      ...oldState,
-      cardsById: CardsReducer(oldState.cardsById, action),
-    };
-  })
+  .handleAction(
+    [Actions.SetCardContent, Actions.SetCardTitle],
+    (oldState: AppState, action) => {
+      return {
+        ...oldState,
+        cardsById: CardsReducer(oldState.cardsById, action),
+      };
+    }
+  )
   .handleAction(Actions.SetLayouts, (oldState: AppState, action) => {
     return {
       ...oldState,
@@ -42,9 +48,8 @@ export const AppReducer: Reducer<AppState, RootAction> = createReducer<AppState,
     };
   });
 
-const CardsReducer = createReducer<CardsState, RootAction>({}).handleAction(
-  Actions.SetCardContent,
-  (oldState: CardsState, action) => {
+const CardsReducer = createReducer<CardsState, RootAction>({})
+  .handleAction(Actions.SetCardContent, (oldState: CardsState, action) => {
     const cardId = action.payload.cardId;
     return {
       ...oldState,
@@ -53,5 +58,14 @@ const CardsReducer = createReducer<CardsState, RootAction>({}).handleAction(
         content: action.payload.content,
       },
     };
-  }
-);
+  })
+  .handleAction(Actions.SetCardTitle, (oldState: CardsState, action) => {
+    const cardId = action.payload.cardId;
+    return {
+      ...oldState,
+      [cardId]: {
+        ...oldState[cardId],
+        title: action.payload.title,
+      },
+    };
+  });

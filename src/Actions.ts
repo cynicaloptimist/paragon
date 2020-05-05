@@ -7,6 +7,10 @@ export const Actions = {
     cardId: string;
     content: string;
   }>(),
+  SetCardTitle: createAction("SET_CARD_CONTENT")<{
+    cardId: string;
+    title: string;
+  }>(),
   SetLayouts: createAction("SET_LAYOUT")<GridLayout.Layout[]>(),
 };
 
