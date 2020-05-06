@@ -18,9 +18,10 @@ export const AppReducer: Reducer<AppState, RootAction> = createReducer<
 >(GetInitialState())
   .handleAction(Actions.AddCard, (oldState: AppState) => {
     const cardId = newId();
+    const cardId2 = newId();
     return {
       ...oldState,
-      openCardIds: oldState.openCardIds.concat(cardId),
+      openCardIds: oldState.openCardIds.concat([cardId, cardId2]),
       cardsById: {
         ...oldState.cardsById,
         [cardId]: {
@@ -28,6 +29,13 @@ export const AppReducer: Reducer<AppState, RootAction> = createReducer<
           type: "article",
           title: "Article",
           content: "",
+        },
+        [cardId2]: {
+          cardId: cardId2,
+          type: "clock",
+          title: "Clock",
+          current: 0,
+          max: 6
         },
       },
     };
