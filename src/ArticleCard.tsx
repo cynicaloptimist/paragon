@@ -1,6 +1,6 @@
 import React from "react";
 import { BaseCard } from "./BaseCard";
-import { Button, Text, TextArea, Markdown, Box } from "grommet";
+import { Button, TextArea, Markdown, Box } from "grommet";
 import { ReducerContext } from "./ReducerContext";
 import { Actions } from "./Actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
