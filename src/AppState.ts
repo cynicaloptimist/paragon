@@ -14,18 +14,20 @@ export const GetInitialState = (): AppState => ({
   layouts: [],
 });
 
-export type CardState = {
-  cardId: string;
-  title: string;
-} & (ArticleCardState | ClockCardState);
+export type CardState = ArticleCardState | ClockCardState;
 
-export type ArticleCardState = {
+export type ArticleCardState = BaseCardState & {
   type: "article";
   content: string;
 };
 
-export type ClockCardState = {
+export type ClockCardState = BaseCardState & {
   type: "clock";
   max: number;
   current: number;
+};
+
+type BaseCardState = {
+  cardId: string;
+  title: string;
 };

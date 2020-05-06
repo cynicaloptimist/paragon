@@ -3,10 +3,12 @@ import GridLayout from "react-grid-layout";
 import { Actions } from "./Actions";
 import { ArticleCard } from "./ArticleCard";
 import { ReducerContext } from "./ReducerContext";
+import { CardState } from "./AppState";
+import { ClockCard } from "./ClockCard";
 
 export function CardGrid() {
   const { state, dispatch } = useContext(ReducerContext);
-  
+
   const cards = state.openCardIds.map((cardId, index) => {
     const thisLayout = state.layouts.find((l) => l.i === cardId);
     return (
@@ -14,7 +16,7 @@ export function CardGrid() {
         key={cardId}
         data-grid={thisLayout ?? { x: 2 * (index % 6), y: 0, w: 2, h: 4 }}
       >
-        <ArticleCard cardId={cardId} />
+        {getComponentForCard(state.cardsById[cardId])}
       </div>
     );
   });
@@ -32,4 +34,10 @@ export function CardGrid() {
       {cards}
     </GridLayout>
   );
+}
+
+function getComponentForCard(card: CardState) {
+  if (card.type === "article") {
+    return <ArticleCard card={card} />;
+  }
 }

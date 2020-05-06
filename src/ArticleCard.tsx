@@ -1,23 +1,21 @@
 import React from "react";
 import { BaseCard } from "./BaseCard";
-import { Button, Text, TextArea } from "grommet";
+import { Button, Text, TextArea, Markdown, Box } from "grommet";
 import { ReducerContext } from "./ReducerContext";
 import { Actions } from "./Actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { ArticleCardState } from "./AppState";
 
-export function ArticleCard(props: { cardId: string }) {
-  const { state, dispatch } = React.useContext(ReducerContext);
-  const cardState = state.cardsById[props.cardId];
-  if (cardState.type !== "article") {
-    throw new Error("Card type is not Article");
-  }
+export function ArticleCard(props: { card: ArticleCardState }) {
+  const { dispatch } = React.useContext(ReducerContext);
+  const { card } = props;
 
-  const [isContentEditable, setContentEditable] = React.useState<boolean>(true);
+  const [isContentEditable, setContentEditable] = React.useState(true);
 
   return (
     <BaseCard
-      cardId={props.cardId}
+      cardId={card.cardId}
       commands={
         <Button
           aria-label="toggle-edit-mode"
@@ -35,19 +33,21 @@ export function ArticleCard(props: { cardId: string }) {
         <TextArea
           style={{ height: "100%" }}
           className="article-card__text-field"
-          value={cardState.content}
+          value={card.content}
           onChange={(changeEvent) => {
             const content = changeEvent.target.value;
             dispatch(
               Actions.SetCardContent({
-                cardId: props.cardId,
+                cardId: card.cardId,
                 content,
               })
             );
           }}
         />
       ) : (
-        <Text style={{ whiteSpace: "pre" }}>{cardState.content}</Text>
+        <Box pad={{ top: "0px" }}>
+          <Markdown style={{ whiteSpace: "pre" }}>{card.content}</Markdown>
+        </Box>
       )}
     </BaseCard>
   );
