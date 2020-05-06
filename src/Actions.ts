@@ -7,6 +7,10 @@ export const Actions = {
     cardId: string;
     content: string;
   }>(),
+  SetClockValue: createAction("SET_CLOCK_VALUE")<{
+    cardId: string;
+    value: number;
+  }>(),
   SetCardTitle: createAction("SET_CARD_TITLE")<{
     cardId: string;
     title: string;

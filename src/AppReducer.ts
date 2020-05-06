@@ -35,13 +35,13 @@ export const AppReducer: Reducer<AppState, RootAction> = createReducer<
           type: "clock",
           title: "Clock",
           value: 0,
-          max: 6
+          max: 6,
         },
       },
     };
   })
   .handleAction(
-    [Actions.SetCardContent, Actions.SetCardTitle],
+    [Actions.SetCardContent, Actions.SetCardTitle, Actions.SetClockValue],
     (oldState: AppState, action) => {
       return {
         ...oldState,
@@ -74,6 +74,16 @@ const CardsReducer = createReducer<CardsState, RootAction>({})
       [cardId]: {
         ...oldState[cardId],
         title: action.payload.title,
+      },
+    };
+  })
+  .handleAction(Actions.SetClockValue, (oldState, action) => {
+    const cardId = action.payload.cardId;
+    return {
+      ...oldState,
+      [cardId]: {
+        ...oldState[cardId],
+        value: action.payload.value,
       },
     };
   });
