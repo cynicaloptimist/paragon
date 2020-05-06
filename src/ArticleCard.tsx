@@ -5,7 +5,7 @@ import { ReducerContext } from "./ReducerContext";
 import { Actions } from "./Actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faCheck } from "@fortawesome/free-solid-svg-icons";
-import { ArticleCardState } from "./AppState";
+import { ArticleCardState } from "./CardState";
 
 export function ArticleCard(props: { card: ArticleCardState }) {
   const { dispatch } = React.useContext(ReducerContext);

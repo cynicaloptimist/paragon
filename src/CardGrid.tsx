@@ -3,7 +3,7 @@ import GridLayout from "react-grid-layout";
 import { Actions } from "./Actions";
 import { ArticleCard } from "./ArticleCard";
 import { ReducerContext } from "./ReducerContext";
-import { CardState } from "./AppState";
+import { CardState } from "./CardState";
 import { ClockCard } from "./ClockCard";
 
 export function CardGrid() {

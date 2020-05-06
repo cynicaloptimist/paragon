@@ -1,4 +1,5 @@
 import GridLayout from "react-grid-layout";
+import { CardState } from "./CardState";
 
 export type AppState = {
   openCardIds: string[];
@@ -13,21 +14,3 @@ export const GetInitialState = (): AppState => ({
   cardsById: {},
   layouts: [],
 });
-
-export type CardState = ArticleCardState | ClockCardState;
-
-export type ArticleCardState = BaseCardState & {
-  type: "article";
-  content: string;
-};
-
-export type ClockCardState = BaseCardState & {
-  type: "clock";
-  max: number;
-  current: number;
-};
-
-type BaseCardState = {
-  cardId: string;
-  title: string;
-};

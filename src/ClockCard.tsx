@@ -4,7 +4,7 @@ import { BaseCard } from "./BaseCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { Button, RangeInput } from "grommet";
-import { ClockCardState } from "./AppState";
+import { ClockCardState } from "./CardState";
 
 export function ClockCard(props: { card: ClockCardState }) {
   const { dispatch } = React.useContext(ReducerContext);

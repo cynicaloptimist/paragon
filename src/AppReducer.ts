@@ -34,7 +34,7 @@ export const AppReducer: Reducer<AppState, RootAction> = createReducer<
           cardId: cardId2,
           type: "clock",
           title: "Clock",
-          current: 0,
+          value: 0,
           max: 6
         },
       },
