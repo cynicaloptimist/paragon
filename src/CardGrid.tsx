@@ -40,4 +40,7 @@ function getComponentForCard(card: CardState) {
   if (card.type === "article") {
     return <ArticleCard card={card} />;
   }
+  if (card.type === "clock") {
+    return <ClockCard card={card} />;
+  }
 }
