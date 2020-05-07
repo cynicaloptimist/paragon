@@ -60,14 +60,14 @@ function Clock(props: {
     segments.push(
       <Box
         key={i}
-        flex="grow"
+        fill
         background={color}
         onClick={() => props.onChange(i + 1)}
       />
     );
   }
   return (
-    <Box direction="row" height="xxsmall" gap="xxsmall" justify="stretch">
+    <Box direction="row" fill gap="xxsmall" justify="stretch">
       {segments}
     </Box>
   );
