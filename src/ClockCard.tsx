@@ -2,7 +2,7 @@ import * as React from "react";
 import { ReducerContext } from "./ReducerContext";
 import { BaseCard } from "./BaseCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faEdit, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { Button, Box } from "grommet";
 import { ClockCardState } from "./CardState";
 import { Actions } from "./Actions";
@@ -61,14 +61,23 @@ function Clock(props: {
       <Box
         key={i}
         fill
+        hoverIndicator
         background={color}
         onClick={() => props.onChange(i + 1)}
       />
     );
   }
   return (
-    <Box direction="row" fill gap="xxsmall" justify="stretch">
-      {segments}
+    <Box direction="row" align="center">
+      <Button
+        plain
+        margin="xsmall"
+        icon={<FontAwesomeIcon icon={faTimes} />}
+        onClick={() => props.onChange(0)}
+      />
+      <Box direction="row" fill gap="xxsmall" justify="stretch">
+        {segments}
+      </Box>
     </Box>
   );
 }
