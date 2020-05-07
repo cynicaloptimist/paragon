@@ -68,10 +68,11 @@ function Clock(props: {
     );
   }
   return (
-    <Box direction="row" align="center">
+    <Box direction="row" align="center" fill>
       <Button
         plain
         margin="xsmall"
+        fill="vertical"
         icon={<FontAwesomeIcon icon={faTimes} />}
         onClick={() => props.onChange(0)}
       />
