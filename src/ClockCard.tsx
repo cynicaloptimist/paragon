@@ -56,7 +56,7 @@ function Clock(props: {
 }) {
   let segments = [];
   for (let i = 0; i < props.max; i++) {
-    const color = i < props.value ? "brand" : "neutral-3";
+    const color = i < props.value ? "brand" : "light-6";
     segments.push(
       <Box
         key={i}
