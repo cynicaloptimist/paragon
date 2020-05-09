@@ -2,6 +2,10 @@ html, body, #root {
   height: 100%;
 }
 
+p {
+  margin-block-start: 0;
+}
+
 .react-grid-item.react-grid-placeholder {
   background: gray;
 }
