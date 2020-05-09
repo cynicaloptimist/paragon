@@ -11,7 +11,9 @@ export function ArticleCard(props: { card: ArticleCardState }) {
   const { dispatch } = React.useContext(ReducerContext);
   const { card } = props;
 
-  const [isContentEditable, setContentEditable] = React.useState(true);
+  const [isContentEditable, setContentEditable] = React.useState(
+    card.content.length === 0
+  );
 
   return (
     <BaseCard
@@ -32,6 +34,7 @@ export function ArticleCard(props: { card: ArticleCardState }) {
       {isContentEditable ? (
         <TextArea
           fill
+          autoFocus
           defaultValue={card.content}
           onChange={(changeEvent) => {
             const content = changeEvent.target.value;
@@ -44,10 +47,8 @@ export function ArticleCard(props: { card: ArticleCardState }) {
           }}
         />
       ) : (
-        <Box pad="small">
-          <Markdown style={{ whiteSpace: "pre" }}>
-            {card.content}
-          </Markdown>
+        <Box fill pad="small" onDoubleClick={() => setContentEditable(true)}>
+          <Markdown style={{ whiteSpace: "pre" }}>{card.content}</Markdown>
         </Box>
       )}
     </BaseCard>
