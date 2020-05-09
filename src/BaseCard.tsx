@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, Box, Header, Button, TextInput } from "grommet";
+import { Text, Box, Header, Button, TextInput, Heading } from "grommet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGripLines } from "@fortawesome/free-solid-svg-icons";
 import { ReducerContext } from "./ReducerContext";
@@ -43,12 +43,15 @@ export function BaseCard(props: {
               onBlur={() => setHeaderEditable(false)}
             />
           ) : (
-            <Text
+            <Heading
+              level={3}
+              margin="none"
               style={{ flexGrow: 1 }}
               onDoubleClick={() => setHeaderEditable(true)}
+              truncate
             >
               {cardState.title}
-            </Text>
+            </Heading>
           )}
           {props.commands}
         </Header>
