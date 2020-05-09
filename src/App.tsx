@@ -8,10 +8,9 @@ import { TopBar } from "./TopBar";
 import { AppReducer } from "./AppReducer";
 import { GetInitialState } from "./AppState";
 import { ReducerContext } from "./ReducerContext";
-import { Grommet, Box, base } from "grommet";
+import { Grommet, Box } from "grommet";
 import { useStorageBackedReducer } from "./useStorageBackedReducer";
 import { CardGrid } from "./CardGrid";
-import { deepMerge } from "grommet/utils";
 import { Theme } from "./Theme";
 
 const App = () => {
@@ -23,7 +22,7 @@ const App = () => {
 
   return (
     <ReducerContext.Provider value={{ state, dispatch }}>
-      <Grommet style={{ height: "100%" }} theme={deepMerge(base, Theme)}>
+      <Grommet style={{ height: "100%" }} theme={Theme}>
         <Box fill align="center">
           <Box fill="vertical" width="1200px">
             <TopBar />
