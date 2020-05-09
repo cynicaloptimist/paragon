@@ -31,9 +31,8 @@ export function ArticleCard(props: { card: ArticleCardState }) {
     >
       {isContentEditable ? (
         <TextArea
-          style={{ height: "100%" }}
-          className="article-card__text-field"
-          value={card.content}
+          fill
+          defaultValue={card.content}
           onChange={(changeEvent) => {
             const content = changeEvent.target.value;
             dispatch(
@@ -45,8 +44,10 @@ export function ArticleCard(props: { card: ArticleCardState }) {
           }}
         />
       ) : (
-        <Box pad={{ top: "0px" }}>
-          <Markdown style={{ whiteSpace: "pre" }}>{card.content}</Markdown>
+        <Box pad="small">
+          <Markdown style={{ whiteSpace: "pre" }}>
+            {card.content}
+          </Markdown>
         </Box>
       )}
     </BaseCard>
