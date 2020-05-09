@@ -16,7 +16,7 @@ export const Theme: ThemeType = {
   },
   heading: {
     font: {
-      family: "Spectral SC"
-    }
-  }
+      family: "Spectral SC",
+    },
+  },
 };
