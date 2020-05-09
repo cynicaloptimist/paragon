@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, Box, Header, Button, TextInput, Heading } from "grommet";
+import { Box, Header, Button, TextInput, Heading } from "grommet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGripLines } from "@fortawesome/free-solid-svg-icons";
 import { ReducerContext } from "./ReducerContext";
