@@ -61,7 +61,7 @@ function Clock(props: {
       <Box
         key={i}
         fill
-        hoverIndicator
+        hoverIndicator={{ color: "brand-2" }}
         background={color}
         onClick={() => props.onChange(i + 1)}
       />

@@ -5,9 +5,13 @@ export const Theme: ThemeType = {
   global: {
     colors: {
       brand: {
-        dark: "#476A6F",
+        dark: "#555F3E",
         light: "#AFD5AA",
       },
+      "brand-2": {
+        dark: "#52675E",
+        light: "#A3C4BC",
+      }
     },
     font: {
       family: "Roboto",
