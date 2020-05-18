@@ -11,7 +11,8 @@ export const Theme: ThemeType = {
       "brand-2": {
         dark: "#52675E",
         light: "#A3C4BC",
-      }
+      },
+      background: "#F1F7EE",
     },
     font: {
       family: "Roboto",
