@@ -18,6 +18,9 @@ export const Theme: ThemeType = {
       family: "Roboto",
       face: FontFacesUrlString,
     },
+    input: {
+      weight: 300
+    }
   },
   heading: {
     font: {
