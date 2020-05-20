@@ -17,6 +17,7 @@ export const TopBar = () => {
         Paragon Campaign Dashboard
       </Heading>
       <Menu
+        dropAlign={{ right: "right", top: "bottom" }}
         icon={<FontAwesomeIcon icon={faPlus} />}
         items={[
           {
