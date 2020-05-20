@@ -8,6 +8,7 @@ import { Actions } from "./Actions";
 export const TopBar = () => {
   const addArticle = useDispatchAddCard("article");
   const addClock = useDispatchAddCard("clock");
+  const addRollTable = useDispatchAddCard("roll-table");
 
   return (
     <Header background="brand" pad="small">
@@ -25,6 +26,10 @@ export const TopBar = () => {
           {
             label: "Clock",
             onClick: addClock,
+          },
+          {
+            label: "Rollable Table",
+            onClick: addRollTable,
           },
         ]}
       />

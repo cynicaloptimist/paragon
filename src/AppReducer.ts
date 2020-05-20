@@ -50,6 +50,18 @@ function newCard(cardId: string, type: string): CardState {
     };
   }
 
+  if (type === "roll-table") {
+    return {
+      ...baseCard,
+      type,
+      entries: [
+        { weight: 1, content: "Test" },
+        { weight: 1, content: "Test2" },
+        { weight: 1, content: "Test3" },
+      ],
+    };
+  }
+
   return {
     ...baseCard,
     type: "article",
