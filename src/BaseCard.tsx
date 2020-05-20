@@ -18,41 +18,46 @@ export function BaseCard(props: {
   return (
     <Box fill elevation="medium">
       <Box>
-        <Header pad="xsmall" background="brand" gap="xxsmall">
-          <Button
+        <Header pad="xsmall" background="brand">
+          <Box
+            fill
             className="drag-handle"
-            icon={<FontAwesomeIcon icon={faGripLines} />}
-          />
-          {isHeaderEditable ? (
-            <TextInput
-              placeholder={cardState.title}
-              onChange={(changeEvent) =>
-                dispatch(
-                  Actions.SetCardTitle({
-                    cardId: cardState.cardId,
-                    title: changeEvent.target.value,
-                  })
-                )
-              }
-              onKeyDown={(keyEvent) => {
-                if (keyEvent.key === "Enter") {
-                  setHeaderEditable(false);
+            direction="row"
+            align="baseline"
+            gap="xxsmall"
+          >
+            <Button icon={<FontAwesomeIcon icon={faGripLines} />} />
+            {isHeaderEditable ? (
+              <TextInput
+                placeholder={cardState.title}
+                onChange={(changeEvent) =>
+                  dispatch(
+                    Actions.SetCardTitle({
+                      cardId: cardState.cardId,
+                      title: changeEvent.target.value,
+                    })
+                  )
                 }
-              }}
-              autoFocus
-              onBlur={() => setHeaderEditable(false)}
-            />
-          ) : (
-            <Heading
-              level={3}
-              margin="none"
-              style={{ flexGrow: 1 }}
-              onDoubleClick={() => setHeaderEditable(true)}
-              truncate
-            >
-              {cardState.title}
-            </Heading>
-          )}
+                onKeyDown={(keyEvent) => {
+                  if (keyEvent.key === "Enter") {
+                    setHeaderEditable(false);
+                  }
+                }}
+                autoFocus
+                onBlur={() => setHeaderEditable(false)}
+              />
+            ) : (
+              <Heading
+                level={3}
+                margin="none"
+                style={{ flexGrow: 1 }}
+                onDoubleClick={() => setHeaderEditable(true)}
+                truncate
+              >
+                {cardState.title}
+              </Heading>
+            )}
+          </Box>
           {props.commands}
         </Header>
       </Box>
