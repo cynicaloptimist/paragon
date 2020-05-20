@@ -43,7 +43,7 @@ function RollTable(props: { entries: RollTableEntries }) {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableCell scope="col" border="bottom">
+          <TableCell scope="col" border="bottom" size="xxsmall" align="center">
             <FontAwesomeIcon icon={faDice} />
           </TableCell>
           <TableCell scope="col" border="bottom">
@@ -55,7 +55,7 @@ function RollTable(props: { entries: RollTableEntries }) {
         {props.entries.map((entry, index) => {
           return (
             <TableRow key={index}>
-              <TableCell>{entry.weight}</TableCell>
+              <TableCell align="center">{entry.weight}</TableCell>
               <TableCell scope="row">{entry.content}</TableCell>
             </TableRow>
           );
