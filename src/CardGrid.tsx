@@ -15,7 +15,7 @@ export function CardGrid() {
     return (
       <div
         key={cardId}
-        data-grid={thisLayout ?? { x: 2 * (index % 6), y: 0, w: 2, h: 4 }}
+        data-grid={thisLayout ?? { x: 2 * (index % 6), y: 0, w: 4, h: 6 }}
       >
         {getComponentForCard(state.cardsById[cardId])}
       </div>
