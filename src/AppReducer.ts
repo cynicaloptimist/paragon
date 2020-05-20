@@ -1,42 +1,20 @@
 import { createReducer, Reducer } from "typesafe-actions";
 import { RootAction, Actions } from "./Actions";
 import { AppState, GetInitialState, CardsState } from "./AppState";
-
-const idChars = "qwertyuiopasdfghjklzxcvbnm1234567890";
-function newId(length: number = 8): string {
-  let id = "";
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * idChars.length);
-    id += idChars[randomIndex];
-  }
-  return id;
-}
+import { CardState } from "./CardState";
 
 export const AppReducer: Reducer<AppState, RootAction> = createReducer<
   AppState,
   RootAction
 >(GetInitialState())
-  .handleAction(Actions.AddCard, (oldState: AppState) => {
-    const cardId = newId();
-    const cardId2 = newId();
+  .handleAction(Actions.AddCard, (oldState: AppState, action) => {
+    const { cardType, cardId } = action.payload;
     return {
       ...oldState,
-      openCardIds: oldState.openCardIds.concat([cardId, cardId2]),
+      openCardIds: oldState.openCardIds.concat([cardId]),
       cardsById: {
         ...oldState.cardsById,
-        [cardId]: {
-          cardId,
-          type: "article",
-          title: "Article",
-          content: "",
-        },
-        [cardId2]: {
-          cardId: cardId2,
-          type: "clock",
-          title: "Clock",
-          value: 0,
-          max: 6,
-        },
+        [cardId]: newCard(cardId, cardType),
       },
     };
   })
@@ -87,3 +65,25 @@ const CardsReducer = createReducer<CardsState, RootAction>({})
       },
     };
   });
+
+function newCard(cardId: string, type: string): CardState {
+  const baseCard = {
+    cardId,
+    title: "New Card",
+  };
+
+  if (type === "clock") {
+    return {
+      ...baseCard,
+      type,
+      value: 0,
+      max: 6,
+    };
+  }
+
+  return {
+    ...baseCard,
+    type: "article",
+    content: "",
+  };
+}
