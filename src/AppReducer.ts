@@ -57,7 +57,9 @@ function newCard(cardId: string, type: string): CardState {
       entries: [
         { weight: 1, content: "Test" },
         { weight: 1, content: "Test2" },
-        { weight: 1, content: "Test3" },
+        { weight: 2, content: "Test3" },
+        { weight: 2, content: "Test4" },
+        { weight: 1, content: "Test5" },
       ],
     };
   }

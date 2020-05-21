@@ -3,12 +3,13 @@ import { RollTableCardState } from "./CardState";
 import { BaseCard } from "./BaseCard";
 import { Button, Box } from "grommet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faEdit, faDice } from "@fortawesome/free-solid-svg-icons";
 
 export function RollTableCard(props: { card: RollTableCardState }) {
   const { card } = props;
 
   const [isConfigurable, setConfigurable] = useState(false);
+  const [rollResult, setRollResult] = useState(0);
 
   let runningTotal = 0;
   const entriesWithDiceRanges = card.entries.map((entry) => {
@@ -22,6 +23,7 @@ export function RollTableCard(props: { card: RollTableCardState }) {
     return {
       content: entry.content,
       diceRange,
+      isRolled: rollResult >= diceRangeFloor && rollResult <= runningTotal,
     };
   });
 
@@ -29,16 +31,24 @@ export function RollTableCard(props: { card: RollTableCardState }) {
     <BaseCard
       cardId={card.cardId}
       commands={
-        <Button
-          aria-label="toggle-edit-mode"
-          onClick={() => setConfigurable(!isConfigurable)}
-          icon={
-            <FontAwesomeIcon
-              size="xs"
-              icon={isConfigurable ? faCheck : faEdit}
-            />
-          }
-        />
+        <>
+          <Button
+            onClick={() =>
+              setRollResult(Math.ceil(Math.random() * runningTotal))
+            }
+            icon={<FontAwesomeIcon size="xs" icon={faDice} />}
+          />
+          <Button
+            aria-label="toggle-edit-mode"
+            onClick={() => setConfigurable(!isConfigurable)}
+            icon={
+              <FontAwesomeIcon
+                size="xs"
+                icon={isConfigurable ? faCheck : faEdit}
+              />
+            }
+          />
+        </>
       }
     >
       {isConfigurable ? (
@@ -52,7 +62,7 @@ export function RollTableCard(props: { card: RollTableCardState }) {
 
 function RollTable(props: {
   dieSize: number;
-  entries: { content: string; diceRange: string }[];
+  entries: { content: string; diceRange: string; isRolled: boolean }[];
 }) {
   return (
     <Box>
@@ -70,7 +80,12 @@ function RollTable(props: {
       <Box overflow="auto">
         {props.entries.map((entry, index) => {
           return (
-            <Box key={index} direction="row" flex="grow">
+            <Box
+              key={index}
+              direction="row"
+              flex="grow"
+              background={entry.isRolled ? "brand-2" : "background"}
+            >
               <Box width="xsmall" align="center">
                 {entry.diceRange}
               </Box>
