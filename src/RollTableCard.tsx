@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { RollTableCardState, RollTableEntries } from "./CardState";
+import { RollTableCardState } from "./CardState";
 import { BaseCard } from "./BaseCard";
 import { Button, Box } from "grommet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,6 +9,21 @@ export function RollTableCard(props: { card: RollTableCardState }) {
   const { card } = props;
 
   const [isConfigurable, setConfigurable] = useState(false);
+
+  let runningTotal = 0;
+  const entriesWithDiceRanges = card.entries.map((entry) => {
+    runningTotal += entry.weight;
+    const diceRangeFloor = runningTotal + 1 - entry.weight;
+    const diceRange =
+      entry.weight === 1
+        ? runningTotal.toString()
+        : `${diceRangeFloor} - ${runningTotal}`;
+
+    return {
+      content: entry.content,
+      diceRange,
+    };
+  });
 
   return (
     <BaseCard
@@ -26,27 +41,19 @@ export function RollTableCard(props: { card: RollTableCardState }) {
         />
       }
     >
-      {isConfigurable ? "Configure" : <RollTable entries={card.entries} />}
+      {isConfigurable ? (
+        "Configure"
+      ) : (
+        <RollTable dieSize={runningTotal} entries={entriesWithDiceRanges} />
+      )}
     </BaseCard>
   );
 }
 
-function RollTable(props: { entries: RollTableEntries }) {
-  let runningTotal = 0;
-  const entriesWithDiceRanges = props.entries.map((entry) => {
-    runningTotal += entry.weight;
-    const diceRangeFloor = runningTotal + 1 - entry.weight;
-    const diceRange =
-      entry.weight === 1
-        ? runningTotal.toString()
-        : `${diceRangeFloor} - ${runningTotal}`;
-
-    return {
-      content: entry.content,
-      diceRange,
-    };
-  });
-
+function RollTable(props: {
+  dieSize: number;
+  entries: { content: string; diceRange: string }[];
+}) {
   return (
     <Box>
       <Box
@@ -56,12 +63,12 @@ function RollTable(props: { entries: RollTableEntries }) {
         style={{ fontWeight: "bold", borderBottom: "1px solid" }}
       >
         <Box width="xsmall" align="center">
-          1d{runningTotal}
+          1d{props.dieSize}
         </Box>
         <Box>Result</Box>
       </Box>
       <Box overflow="auto">
-        {entriesWithDiceRanges.map((entry, index) => {
+        {props.entries.map((entry, index) => {
           return (
             <Box key={index} direction="row" flex="grow">
               <Box width="xsmall" align="center">
