@@ -31,6 +31,16 @@ export function CardGrid() {
       compactType={null}
       style={{ flexGrow: 1 }}
       onLayoutChange={(newLayout) => dispatch(Actions.SetLayouts(newLayout))}
+      onResize={(_, __, layoutItem, placeholder) => {
+        if (layoutItem.h < 3) {
+          layoutItem.h = 3;
+          placeholder.h = 3;
+        }
+        if (layoutItem.w < 2) {
+          layoutItem.w = 2;
+          placeholder.w = 2;
+        }
+      }}
     >
       {cards}
     </GridLayout>
