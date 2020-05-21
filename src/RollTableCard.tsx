@@ -34,7 +34,7 @@ export function RollTableCard(props: { card: RollTableCardState }) {
         <>
           <Button
             onClick={() =>
-              setRollResult(Math.ceil(Math.random() * runningTotal))
+              setRollResult(RandomInt(runningTotal))
             }
             icon={<FontAwesomeIcon size="xs" icon={faDice} />}
           />
@@ -96,4 +96,8 @@ function RollTable(props: {
       </Box>
     </Box>
   );
+}
+
+function RandomInt(max: number) {
+  return Math.ceil(Math.random() * max);
 }
