@@ -1,16 +1,9 @@
 import React, { useState } from "react";
 import { RollTableCardState, RollTableEntries } from "./CardState";
 import { BaseCard } from "./BaseCard";
-import {
-  Button,
-  Table,
-  TableHeader,
-  TableRow,
-  TableCell,
-  TableBody,
-} from "grommet";
+import { Button, Box } from "grommet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faEdit, faDice } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faEdit } from "@fortawesome/free-solid-svg-icons";
 
 export function RollTableCard(props: { card: RollTableCardState }) {
   const { card } = props;
@@ -39,28 +32,46 @@ export function RollTableCard(props: { card: RollTableCardState }) {
 }
 
 function RollTable(props: { entries: RollTableEntries }) {
+  let runningTotal = 0;
+  const entriesWithDiceRanges = props.entries.map((entry) => {
+    runningTotal += entry.weight;
+    const diceRangeFloor = runningTotal + 1 - entry.weight;
+    const diceRange =
+      entry.weight === 1
+        ? runningTotal.toString()
+        : `${diceRangeFloor} - ${runningTotal}`;
+
+    return {
+      content: entry.content,
+      diceRange,
+    };
+  });
+
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableCell scope="col" border="bottom" size="xxsmall" align="center">
-            <FontAwesomeIcon icon={faDice} />
-          </TableCell>
-          <TableCell scope="col" border="bottom">
-            Result
-          </TableCell>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {props.entries.map((entry, index) => {
+    <Box>
+      <Box
+        direction="row"
+        flex="grow"
+        pad={{ vertical: "xsmall" }}
+        style={{ fontWeight: "bold", borderBottom: "1px solid" }}
+      >
+        <Box width="xsmall" align="center">
+          1d{runningTotal}
+        </Box>
+        <Box>Result</Box>
+      </Box>
+      <Box overflow="auto">
+        {entriesWithDiceRanges.map((entry, index) => {
           return (
-            <TableRow key={index}>
-              <TableCell align="center">{entry.weight}</TableCell>
-              <TableCell scope="row">{entry.content}</TableCell>
-            </TableRow>
+            <Box key={index} direction="row" flex="grow">
+              <Box width="xsmall" align="center">
+                {entry.diceRange}
+              </Box>
+              <Box>{entry.content}</Box>
+            </Box>
           );
         })}
-      </TableBody>
-    </Table>
+      </Box>
+    </Box>
   );
 }
