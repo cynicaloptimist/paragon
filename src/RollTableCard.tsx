@@ -74,7 +74,7 @@ function RollTable(props: { rollTableModel: RollTableModel }) {
               background={entry.isRolled ? "brand-2" : "background"}
               ref={entry.isRolled ? rolledElement : undefined}
             >
-              <Box width="xsmall" align="center">
+              <Box flex={false} width="xsmall" align="center">
                 {entry.diceRange}
               </Box>
               <Box>{entry.content}</Box>
