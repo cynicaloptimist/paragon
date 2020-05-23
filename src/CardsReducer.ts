@@ -32,4 +32,14 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
         value: action.payload.value,
       },
     };
+  })
+  .handleAction(Actions.SetRollTableEntries, (oldState, action) => {
+    const cardId = action.payload.cardId;
+    return {
+      ...oldState,
+      [cardId]: {
+        ...oldState[cardId],
+        entries: action.payload.entries,
+      },
+    };
   });

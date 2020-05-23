@@ -20,7 +20,12 @@ export const AppReducer: Reducer<AppState, RootAction> = createReducer<
     };
   })
   .handleAction(
-    [Actions.SetCardContent, Actions.SetCardTitle, Actions.SetClockValue],
+    [
+      Actions.SetCardContent,
+      Actions.SetCardTitle,
+      Actions.SetClockValue,
+      Actions.SetRollTableEntries,
+    ],
     (oldState: AppState, action) => {
       return {
         ...oldState,
