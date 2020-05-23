@@ -13,13 +13,13 @@ export type ClockCardState = BaseCardState & {
 
 export type RollTableCardState = BaseCardState & {
   type: "roll-table";
-  entries: RollTableEntries;
+  entries: RollTableEntry [];
 };
 
-export type RollTableEntries = {
+export type RollTableEntry = {
   weight: number;
   content: string;
-}[];
+};
 
 type BaseCardState = {
   cardId: string;
