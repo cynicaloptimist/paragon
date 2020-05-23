@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef, useLayoutEffect } from "react";
 import { RollTableCardState, RollTableEntry } from "./CardState";
 import { BaseCard } from "./BaseCard";
 import { Button, Box, TextArea } from "grommet";
@@ -46,6 +46,11 @@ export function RollTableCard(props: { card: RollTableCardState }) {
 }
 
 function RollTable(props: { rollTableModel: RollTableModel }) {
+  const rolledElement = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    rolledElement.current?.scrollIntoView({ behavior: "smooth" });
+  });
+
   return (
     <Box>
       <Box
@@ -67,6 +72,7 @@ function RollTable(props: { rollTableModel: RollTableModel }) {
               direction="row"
               flex="grow"
               background={entry.isRolled ? "brand-2" : "background"}
+              ref={entry.isRolled ? rolledElement : undefined}
             >
               <Box width="xsmall" align="center">
                 {entry.diceRange}
