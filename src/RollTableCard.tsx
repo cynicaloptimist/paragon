@@ -10,22 +10,7 @@ export function RollTableCard(props: { card: RollTableCardState }) {
 
   const [isConfigurable, setConfigurable] = useState(false);
   const [rollResult, setRollResult] = useState(0);
-
-  let runningTotal = 0;
-  const entriesWithDiceRanges = card.entries.map((entry) => {
-    runningTotal += entry.weight;
-    const diceRangeFloor = runningTotal + 1 - entry.weight;
-    const diceRange =
-      entry.weight === 1
-        ? runningTotal.toString()
-        : `${diceRangeFloor} - ${runningTotal}`;
-
-    return {
-      content: entry.content,
-      diceRange,
-      isRolled: rollResult >= diceRangeFloor && rollResult <= runningTotal,
-    };
-  });
+  const rollTableModel = GetRollTableModel(card, rollResult);
 
   return (
     <BaseCard
@@ -33,9 +18,7 @@ export function RollTableCard(props: { card: RollTableCardState }) {
       commands={
         <>
           <Button
-            onClick={() =>
-              setRollResult(RandomInt(runningTotal))
-            }
+            onClick={() => setRollResult(RandomInt(rollTableModel.dieSize))}
             icon={<FontAwesomeIcon size="xs" icon={faDice} />}
           />
           <Button
@@ -54,16 +37,13 @@ export function RollTableCard(props: { card: RollTableCardState }) {
       {isConfigurable ? (
         "Configure"
       ) : (
-        <RollTable dieSize={runningTotal} entries={entriesWithDiceRanges} />
+        <RollTable rollTableModel={rollTableModel} />
       )}
     </BaseCard>
   );
 }
 
-function RollTable(props: {
-  dieSize: number;
-  entries: { content: string; diceRange: string; isRolled: boolean }[];
-}) {
+function RollTable(props: { rollTableModel: RollTableModel }) {
   return (
     <Box>
       <Box
@@ -73,12 +53,12 @@ function RollTable(props: {
         style={{ fontWeight: "bold", borderBottom: "1px solid" }}
       >
         <Box width="xsmall" align="center">
-          1d{props.dieSize}
+          1d{props.rollTableModel.dieSize}
         </Box>
         <Box>Result</Box>
       </Box>
       <Box overflow="auto">
-        {props.entries.map((entry, index) => {
+        {props.rollTableModel.entries.map((entry, index) => {
           return (
             <Box
               key={index}
@@ -101,3 +81,45 @@ function RollTable(props: {
 function RandomInt(max: number) {
   return Math.ceil(Math.random() * max);
 }
+
+function GetRollTableModel(
+  card: RollTableCardState,
+  rollResult: number
+): RollTableModel {
+  let runningTotal = 0;
+  const entries = card.entries.map((entry) => {
+    
+    runningTotal += entry.weight;
+    const diceRangeFloor = runningTotal - entry.weight + 1;
+    const diceRangeCeiling = runningTotal;
+
+    const diceRange =
+      entry.weight === 1
+        ? diceRangeCeiling.toString()
+        : `${diceRangeFloor} - ${diceRangeCeiling}`;
+
+    return {
+      ...entry,
+      diceRangeFloor,
+      diceRangeCeiling,
+      diceRange,
+      isRolled: rollResult >= diceRangeFloor && rollResult <= diceRangeCeiling,
+    };
+  });
+  return {
+    dieSize: runningTotal,
+    entries,
+  };
+}
+
+type RollTableModel = {
+  dieSize: number;
+  entries: {
+    content: string;
+    weight: number;
+    diceRangeFloor: number;
+    diceRangeCeiling: number;
+    diceRange: string;
+    isRolled: boolean;
+  }[];
+};
