@@ -49,7 +49,7 @@ function RollTable(props: { rollTableModel: RollTableModel }) {
   const rolledElement = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
     rolledElement.current?.scrollIntoView({ behavior: "smooth" });
-  });
+  }, [props.rollTableModel.rollResult]);
 
   return (
     <Box>
@@ -182,6 +182,7 @@ function GetRollTableModel(
   return {
     cardId: card.cardId,
     dieSize: runningTotal,
+    rollResult,
     entries,
   };
 }
@@ -189,6 +190,7 @@ function GetRollTableModel(
 type RollTableModel = {
   cardId: string;
   dieSize: number;
+  rollResult: number;
   entries: {
     content: string;
     weight: number;
