@@ -9,6 +9,7 @@ export const TopBar = () => {
   const addArticle = useDispatchAddCard("article");
   const addClock = useDispatchAddCard("clock");
   const addRollTable = useDispatchAddCard("roll-table");
+  const addImage = useDispatchAddCard("image");
 
   return (
     <Header background="brand" pad="small">
@@ -31,6 +32,10 @@ export const TopBar = () => {
           {
             label: "Rollable Table",
             onClick: addRollTable,
+          },
+          {
+            label: "Image",
+            onClick: addImage,
           },
         ]}
       />

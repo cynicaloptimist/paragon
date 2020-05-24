@@ -69,6 +69,14 @@ function newCard(cardId: string, type: string): CardState {
     };
   }
 
+  if (type === "image") {
+    return {
+      ...baseCard,
+      type,
+      imageUrl: "",
+    };
+  }
+
   return {
     ...baseCard,
     type: "article",

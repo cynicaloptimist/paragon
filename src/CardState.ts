@@ -1,4 +1,4 @@
-export type CardState = ArticleCardState | ClockCardState | RollTableCardState;
+export type CardState = ArticleCardState | ClockCardState | RollTableCardState | ImageCardState;
 
 export type ArticleCardState = BaseCardState & {
   type: "article";
@@ -20,6 +20,11 @@ export type RollTableEntry = {
   weight: number;
   content: string;
 };
+
+export type ImageCardState = BaseCardState & {
+  type: "image";
+  imageUrl: string;
+}
 
 type BaseCardState = {
   cardId: string;
