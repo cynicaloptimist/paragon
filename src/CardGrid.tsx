@@ -15,7 +15,7 @@ export function CardGrid() {
     return (
       <div
         key={cardId}
-        data-grid={thisLayout ?? { x: 2 * (index % 6), y: 0, w: 4, h: 6 }}
+        data-grid={thisLayout ?? { x: 2 * (index % 12), y: 0, w: 8, h: 6 }}
       >
         {getComponentForCard(state.cardsById[cardId])}
       </div>
@@ -24,7 +24,7 @@ export function CardGrid() {
 
   return (
     <GridLayout
-      cols={12}
+      cols={24}
       rowHeight={30}
       width={1200}
       draggableHandle=".drag-handle"
@@ -36,9 +36,9 @@ export function CardGrid() {
           layoutItem.h = 3;
           placeholder.h = 3;
         }
-        if (layoutItem.w < 2) {
-          layoutItem.w = 2;
-          placeholder.w = 2;
+        if (layoutItem.w < 4) {
+          layoutItem.w = 4;
+          placeholder.w = 4;
         }
       }}
     >
