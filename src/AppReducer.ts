@@ -1,14 +1,11 @@
-import { createReducer, Reducer } from "typesafe-actions";
+import { isActionOf } from "typesafe-actions";
 import { RootAction, Actions } from "./Actions";
-import { AppState, GetInitialState } from "./AppState";
+import { AppState } from "./AppState";
 import { CardState } from "./CardState";
 import { CardsReducer } from "./CardsReducer";
 
-export const AppReducer: Reducer<AppState, RootAction> = createReducer<
-  AppState,
-  RootAction
->(GetInitialState())
-  .handleAction(Actions.AddCard, (oldState: AppState, action) => {
+export function AppReducer(oldState: AppState, action: RootAction) {
+  if (isActionOf(Actions.AddCard, action)) {
     const { cardType, cardId } = action.payload;
     return {
       ...oldState,
@@ -18,27 +15,20 @@ export const AppReducer: Reducer<AppState, RootAction> = createReducer<
         [cardId]: newCard(cardId, cardType),
       },
     };
-  })
-  .handleAction(
-    [
-      Actions.SetCardContent,
-      Actions.SetCardTitle,
-      Actions.SetClockValue,
-      Actions.SetRollTableEntries,
-    ],
-    (oldState: AppState, action) => {
-      return {
-        ...oldState,
-        cardsById: CardsReducer(oldState.cardsById, action),
-      };
-    }
-  )
-  .handleAction(Actions.SetLayouts, (oldState: AppState, action) => {
+  }
+
+  if (isActionOf(Actions.SetLayouts, action)) {
     return {
       ...oldState,
       layouts: action.payload,
     };
-  });
+  }
+
+  return {
+    ...oldState,
+    cardsById: CardsReducer(oldState.cardsById, action),
+  };
+}
 
 function newCard(cardId: string, type: string): CardState {
   const baseCard = {
