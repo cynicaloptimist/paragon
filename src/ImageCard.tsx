@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { BaseCard } from "./BaseCard";
 import { ImageCardState } from "./CardState";
 import { Button, Image, Box } from "grommet";
+import { ReducerContext } from "./ReducerContext";
+import { Actions } from "./Actions";
 
 export function ImageCard(props: { card: ImageCardState }) {
+  const { dispatch } = useContext(ReducerContext);
   const { card } = props;
-  const [url, setUrl] = useState("");
 
   return (
     <BaseCard commands={null} cardId={card.cardId}>
@@ -13,11 +15,11 @@ export function ImageCard(props: { card: ImageCardState }) {
         fill
         onDropCapture={(dropEvent) => {
           const imageUrl = dropEvent.dataTransfer.getData("URL");
-          setUrl(imageUrl);
+          dispatch(Actions.SetImageUrl({ cardId: card.cardId, imageUrl }));
         }}
       >
-        {url.length ? (
-          <Image fit="contain" alt="" src={url} />
+        {card.imageUrl.length ? (
+          <Image fit="contain" alt="" src={card.imageUrl} />
         ) : (
           <Button label="Drop" />
         )}

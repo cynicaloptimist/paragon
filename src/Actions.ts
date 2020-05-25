@@ -23,6 +23,10 @@ export const Actions = {
     cardId: string;
     entries: RollTableEntry[];
   }>(),
+  SetImageUrl: createAction("SET_IMAGE_URL")<{
+    cardId: string;
+    imageUrl: string;
+  }>(),
   SetLayouts: createAction("SET_LAYOUT")<GridLayout.Layout[]>(),
 };
 

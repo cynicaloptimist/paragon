@@ -42,4 +42,14 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
         entries: action.payload.entries,
       },
     };
+  })
+  .handleAction(Actions.SetImageUrl, (oldState, action) => {
+    const cardId = action.payload.cardId;
+    return {
+      ...oldState,
+      [cardId]: {
+        ...oldState[cardId],
+        imageUrl: action.payload.imageUrl,
+      },
+    };
   });
