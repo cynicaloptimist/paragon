@@ -1,3 +1,7 @@
+# Paragon Campaign Dashboard
+
+This is a webapp designed for use when running a tabletop RPG as a GM, MC, DM, et cetera. It provides a screen where you can stick "notecards" that display common GMing tools, such as notes, random tables, and images.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
