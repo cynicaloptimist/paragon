@@ -1,7 +1,7 @@
 import React from "react";
-import { Box, Header, Button, TextInput, Heading } from "grommet";
+import { Box, Header, Button, TextInput, Heading, Footer } from "grommet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGripLines } from "@fortawesome/free-solid-svg-icons";
+import { faGripLines, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { ReducerContext } from "./ReducerContext";
 import { Actions } from "./Actions";
 
@@ -57,11 +57,13 @@ export function BaseCard(props: {
             </Heading>
           )}
         </Box>
-        {props.commands}
       </Header>
       <Box flex pad="xxsmall">
         {props.children}
       </Box>
+      <Footer background="brand" justify="end" pad={{ right: "small" }}>
+        {props.commands}
+      </Footer>
     </Box>
   );
 }
