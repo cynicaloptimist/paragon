@@ -56,6 +56,12 @@ export function BaseCard(props: {
               {cardState.title}
             </Heading>
           )}
+          <Button
+            icon={<FontAwesomeIcon icon={faTimes} />}
+            onClick={() =>
+              dispatch(Actions.CloseCard({ cardId: cardState.cardId }))
+            }
+          />
         </Box>
       </Header>
       <Box flex pad="xxsmall">

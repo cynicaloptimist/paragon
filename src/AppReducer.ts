@@ -17,6 +17,15 @@ export function AppReducer(oldState: AppState, action: RootAction) {
     };
   }
 
+  if (isActionOf(Actions.CloseCard, action)) {
+    return {
+      ...oldState,
+      openCardIds: oldState.openCardIds.filter(
+        (cardId) => cardId !== action.payload.cardId
+      ),
+    };
+  }
+
   if (isActionOf(Actions.SetLayouts, action)) {
     return {
       ...oldState,
