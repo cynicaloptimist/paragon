@@ -1,4 +1,6 @@
 import { isActionOf } from "typesafe-actions";
+import { omit } from "lodash";
+
 import { RootAction, Actions } from "./Actions";
 import { AppState } from "./AppState";
 import { CardState } from "./CardState";
@@ -23,6 +25,16 @@ export function AppReducer(oldState: AppState, action: RootAction) {
       openCardIds: oldState.openCardIds.filter(
         (cardId) => cardId !== action.payload.cardId
       ),
+    };
+  }
+
+  if (isActionOf(Actions.DeleteCard, action)) {
+    return {
+      ...oldState,
+      openCardIds: oldState.openCardIds.filter(
+        (openCardId) => openCardId !== action.payload.cardId
+      ),
+      cardsById: omit(oldState.cardsById, action.payload.cardId),
     };
   }
 
