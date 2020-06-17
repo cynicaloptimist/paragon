@@ -12,6 +12,7 @@ import { Grommet, Box } from "grommet";
 import { useStorageBackedReducer } from "./useStorageBackedReducer";
 import { CardGrid } from "./CardGrid";
 import { Theme } from "./Theme";
+import { useServerStateUpdates } from "./useServerStateUpdates";
 
 const App = () => {
   const [state, dispatch] = useStorageBackedReducer(
@@ -19,6 +20,8 @@ const App = () => {
     GetInitialState(),
     "appState"
   );
+
+  useServerStateUpdates(state);
 
   return (
     <ReducerContext.Provider value={{ state, dispatch }}>
