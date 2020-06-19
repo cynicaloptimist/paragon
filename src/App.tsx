@@ -3,6 +3,7 @@ import "react-resizable/css/styles.css";
 import "./App.css";
 
 import React from "react";
+import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 
 import { TopBar } from "./TopBar";
 import { AppReducer } from "./AppReducer";
@@ -15,6 +16,18 @@ import { Theme } from "./Theme";
 import { useServerStateUpdates } from "./useServerStateUpdates";
 
 const App = () => {
+  return (
+    <Router>
+      <Switch>
+        <Route path="/">
+          <GameMasterView />
+        </Route>
+      </Switch>
+    </Router>
+  );
+};
+
+const GameMasterView = () => {
   const [state, dispatch] = useStorageBackedReducer(
     AppReducer,
     GetInitialState(),
