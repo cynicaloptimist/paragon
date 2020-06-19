@@ -5,19 +5,19 @@ import "firebase/database";
 import pickBy from "lodash/pickBy";
 import mapValues from "lodash/mapValues";
 
-function deepFilterUndefined(object: any): any {
+function removeUndefinedNodesFromTree(object: any): any {
   if (typeof object !== "object") {
     return object;
   }
   return mapValues(
     pickBy(object, (value) => value !== undefined),
-    deepFilterUndefined
+    removeUndefinedNodesFromTree
   );
 }
 
 export function useServerStateUpdates(state: AppState) {
   useEffect(() => {
-    const cleanState = deepFilterUndefined(state);
+    const cleanState = removeUndefinedNodesFromTree(state);
     console.log(cleanState);
     const dbRef = database().ref("playerviews/test");
     dbRef.set({ state: cleanState });
