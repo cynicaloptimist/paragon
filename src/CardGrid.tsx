@@ -11,17 +11,9 @@ import { ImageCard } from "./ImageCard";
 export function CardGrid() {
   const { state, dispatch } = useContext(ReducerContext);
 
-  const cards = state.openCardIds.map((cardId, index) => {
-    const thisLayout = state.layouts.find((l) => l.i === cardId);
-    return (
-      <div
-        key={cardId}
-        data-grid={thisLayout ?? { x: 2 * (index % 12), y: 0, w: 8, h: 6 }}
-      >
-        {getComponentForCard(state.cardsById[cardId])}
-      </div>
-    );
-  });
+  const cards = state.openCardIds.map((cardId) => (
+    <div key={cardId}>{getComponentForCard(state.cardsById[cardId])}</div>
+  ));
 
   return (
     <GridLayout
@@ -31,6 +23,7 @@ export function CardGrid() {
       draggableHandle=".drag-handle"
       compactType={null}
       style={{ flexGrow: 1 }}
+      layout={state.layouts}
       onLayoutChange={(newLayout) => dispatch(Actions.SetLayouts(newLayout))}
       onResize={(_, __, layoutItem, placeholder) => {
         if (layoutItem.h < 3) {
