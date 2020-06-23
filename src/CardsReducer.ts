@@ -43,6 +43,16 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
       },
     };
   })
+  .handleAction(Actions.SetRollTableLastRoll, (oldState, action) => {
+    const cardId = action.payload.cardId;
+    return {
+      ...oldState,
+      [cardId]: {
+        ...oldState[cardId],
+        lastRoll: action.payload.rollResult,
+      },
+    };
+  })
   .handleAction(Actions.SetImageUrl, (oldState, action) => {
     const cardId = action.payload.cardId;
     return {

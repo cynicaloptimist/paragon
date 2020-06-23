@@ -25,6 +25,10 @@ export const Actions = {
     cardId: string;
     entries: RollTableEntry[];
   }>(),
+  SetRollTableLastRoll: createAction("SET_ROLL_TABLE_ENTRIES")<{
+    cardId: string;
+    rollResult: number;
+  }>(),
   SetImageUrl: createAction("SET_IMAGE_URL")<{
     cardId: string;
     imageUrl: string;

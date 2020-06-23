@@ -19,6 +19,7 @@ export function InitialCardState(cardId: string, type: string): CardState {
     return {
       ...baseCard,
       type,
+      lastRoll: null,
       entries: [
         { weight: 1, content: "Test" },
         { weight: 1, content: "Test2" },

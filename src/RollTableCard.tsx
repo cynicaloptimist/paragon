@@ -8,11 +8,11 @@ import { ReducerContext } from "./ReducerContext";
 import { Actions } from "./Actions";
 
 export function RollTableCard(props: { card: RollTableCardState }) {
+  const { dispatch } = useContext(ReducerContext);
   const { card } = props;
 
   const [isConfigurable, setConfigurable] = useState(false);
-  const [rollResult, setRollResult] = useState(0);
-  const rollTableModel = GetRollTableModel(card, rollResult);
+  const rollTableModel = GetRollTableModel(card, card.lastRoll || 0);
 
   return (
     <BaseCard
@@ -20,7 +20,14 @@ export function RollTableCard(props: { card: RollTableCardState }) {
       commands={
         <>
           <Button
-            onClick={() => setRollResult(RandomInt(rollTableModel.dieSize))}
+            onClick={() =>
+              dispatch(
+                Actions.SetRollTableLastRoll({
+                  cardId: card.cardId,
+                  rollResult: RandomInt(rollTableModel.dieSize),
+                })
+              )
+            }
             icon={<FontAwesomeIcon size="xs" icon={faDice} />}
           />
           <Button
