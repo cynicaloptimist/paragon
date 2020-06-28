@@ -17,7 +17,7 @@
     "@types/react-grid-layout": "^0.17.0",
     "@types/react-router-dom": "^5.1.5",
     "firebase": "^7.15.0",
-    "grommet": "^2.13.0",
+    "grommet": "^2.14.0",
     "lodash": "^4.17.15",
     "polished": "^3.5.2",
     "react": "^16.12.0",
