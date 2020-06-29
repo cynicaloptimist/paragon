@@ -13,6 +13,11 @@ export function CardLibrary() {
     () => dispatch(Actions.SetCardLibraryVisibility({ visibility: false })),
     [dispatch]
   );
+  const openCard = useCallback(
+    (cardId: string) => dispatch(Actions.OpenCard({ cardId })),
+    [dispatch]
+  );
+
   return (
     <Box
       background="background"
@@ -27,7 +32,9 @@ export function CardLibrary() {
       </Header>
       <Box pad="xsmall">
         {values(state.cardsById).map((card) => (
-          <Text key={card.cardId}>{card.title}</Text>
+          <Text key={card.cardId} onClick={() => openCard(card.cardId)}>
+            {card.title}
+          </Text>
         ))}
       </Box>
     </Box>

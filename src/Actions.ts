@@ -7,6 +7,7 @@ export const Actions = {
     cardId: string;
     cardType: string;
   }>(),
+  OpenCard: createAction("OpenCard")<{ cardId: string }>(),
   CloseCard: createAction("CloseCard")<{ cardId: string }>(),
   DeleteCard: createAction("DeleteCard")<{ cardId: string }>(),
   SetCardContent: createAction("SetCardContent")<{

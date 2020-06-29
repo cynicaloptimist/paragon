@@ -1,5 +1,5 @@
 import { isActionOf } from "typesafe-actions";
-import { omit } from "lodash";
+import { omit, union } from "lodash";
 
 import { RootAction, Actions } from "./Actions";
 import { AppState } from "./AppState";
@@ -23,6 +23,22 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
         ...oldState.cardsById,
         [cardId]: InitialCardState(cardId, cardType),
       },
+    };
+  }
+
+  if (isActionOf(Actions.OpenCard, action)) {
+    return {
+      ...oldState,
+      openCardIds: union(oldState.openCardIds, [action.payload.cardId]),
+      layouts: union(oldState.layouts, [
+        {
+          i: action.payload.cardId,
+          w: 8,
+          h: 6,
+          x: 0,
+          y: 0,
+        },
+      ]),
     };
   }
 
