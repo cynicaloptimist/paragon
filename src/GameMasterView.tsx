@@ -21,7 +21,7 @@ export function GameMasterView() {
 
   return (
     <ReducerContext.Provider value={{ state, dispatch }}>
-      <Grommet theme={Theme}>
+      <Grommet style={{ minHeight: "100%" }} theme={Theme}>
         <Box fill align="center">
           <Box fill="vertical" width="1200px">
             <TopBar />
