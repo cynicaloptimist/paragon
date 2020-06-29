@@ -3,38 +3,38 @@ import { createAction, ActionType } from "typesafe-actions";
 import { RollTableEntry } from "./CardState";
 
 export const Actions = {
-  AddCard: createAction("ADD_CARD")<{
+  AddCard: createAction("AddCard")<{
     cardId: string;
     cardType: string;
   }>(),
-  CloseCard: createAction("CLOSE_CARD")<{ cardId: string }>(),
-  DeleteCard: createAction("DELETE_CARD")<{ cardId: string }>(),
-  SetCardContent: createAction("SET_CARD_CONTENT")<{
+  CloseCard: createAction("CloseCard")<{ cardId: string }>(),
+  DeleteCard: createAction("DeleteCard")<{ cardId: string }>(),
+  SetCardContent: createAction("SetCardContent")<{
     cardId: string;
     content: string;
   }>(),
-  SetClockValue: createAction("SET_CLOCK_VALUE")<{
+  SetClockValue: createAction("SetClockValue")<{
     cardId: string;
     value: number;
   }>(),
-  SetCardTitle: createAction("SET_CARD_TITLE")<{
+  SetCardTitle: createAction("SetCardTitle")<{
     cardId: string;
     title: string;
   }>(),
-  SetRollTableEntries: createAction("SET_ROLL_TABLE_ENTRIES")<{
+  SetRollTableEntries: createAction("SetRollTableEntries")<{
     cardId: string;
     entries: RollTableEntry[];
   }>(),
-  SetRollTableLastRoll: createAction("SET_ROLL_TABLE_ENTRIES")<{
+  SetRollTableLastRoll: createAction("SetRollTableLastRoll")<{
     cardId: string;
     rollResult: number;
   }>(),
-  SetImageUrl: createAction("SET_IMAGE_URL")<{
+  SetImageUrl: createAction("SetImageUrl")<{
     cardId: string;
     imageUrl: string;
   }>(),
-  SetLayouts: createAction("SET_LAYOUT")<GridLayout.Layout[]>(),
-  SetCardLibraryVisibility: createAction("SET_CARD_LIBRARY_VISIBILITY")<{
+  SetLayouts: createAction("SetLayouts")<GridLayout.Layout[]>(),
+  SetCardLibraryVisibility: createAction("SetCardLibraryVisibility")<{
     visibility: boolean;
   }>(),
 };
