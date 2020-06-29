@@ -27,7 +27,7 @@ export function GameMasterView() {
           <Box fill="vertical" width="1200px">
             <TopBar />
             <CardGrid />
-            <CardLibrary />
+            {state.cardLibraryVisibility && <CardLibrary />}
           </Box>
         </Box>
       </Grommet>

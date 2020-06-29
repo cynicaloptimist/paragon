@@ -10,10 +10,18 @@ export const TopBar = () => {
   const addClock = useDispatchAddCard("clock");
   const addRollTable = useDispatchAddCard("roll-table");
   const addImage = useDispatchAddCard("image");
+  const { dispatch } = useContext(ReducerContext);
+  const showCardLibrary = useCallback(
+    () => dispatch(Actions.SetCardLibraryVisibility({ visibility: true })),
+    [dispatch]
+  );
 
   return (
     <Header background="brand" pad="small">
-      <Button icon={<FontAwesomeIcon size="sm" icon={faBars} />} />
+      <Button
+        icon={<FontAwesomeIcon size="sm" icon={faBars} />}
+        onClick={showCardLibrary}
+      />
       <Heading level={1} size="small" margin="xxsmall">
         Paragon Campaign Dashboard
       </Heading>

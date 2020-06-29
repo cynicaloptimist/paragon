@@ -5,6 +5,7 @@ export type AppState = {
   openCardIds: string[];
   cardsById: CardsState;
   layouts: GridLayout.Layout[];
+  cardLibraryVisibility: boolean;
 };
 
 export type CardsState = { [cardId: string]: CardState };
@@ -13,4 +14,5 @@ export const GetInitialState = (): AppState => ({
   openCardIds: [],
   cardsById: {},
   layouts: [],
+  cardLibraryVisibility: false,
 });

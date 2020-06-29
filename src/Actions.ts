@@ -34,6 +34,9 @@ export const Actions = {
     imageUrl: string;
   }>(),
   SetLayouts: createAction("SET_LAYOUT")<GridLayout.Layout[]>(),
+  SetCardLibraryVisibility: createAction("SET_CARD_LIBRARY_VISIBILITY")<{
+    visibility: boolean;
+  }>(),
 };
 
 export type RootAction = ActionType<typeof Actions>;

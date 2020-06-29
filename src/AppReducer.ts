@@ -6,7 +6,14 @@ import { AppState } from "./AppState";
 import { CardsReducer } from "./CardsReducer";
 import { InitialCardState } from "./InitialCardState";
 
-export function AppReducer(oldState: AppState, action: RootAction) {
+export function AppReducer(oldState: AppState, action: RootAction): AppState {
+  if (isActionOf(Actions.SetCardLibraryVisibility, action)) {
+    return {
+      ...oldState,
+      cardLibraryVisibility: action.payload.visibility,
+    };
+  }
+
   if (isActionOf(Actions.AddCard, action)) {
     const { cardType, cardId } = action.payload;
     return {
