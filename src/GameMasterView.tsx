@@ -1,17 +1,15 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { TopBar } from "./TopBar";
 import { AppReducer } from "./AppReducer";
 import { GetInitialState } from "./AppState";
 import { ReducerContext } from "./ReducerContext";
-import { Grommet, Box, Text, Header, Button } from "grommet";
+import { Grommet, Box } from "grommet";
 import { useStorageBackedReducer } from "./useStorageBackedReducer";
 import { CardGrid } from "./CardGrid";
 import { Theme } from "./Theme";
 import { useServerStateUpdates } from "./useServerStateUpdates";
-import values from "lodash/values";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { CardLibrary } from "./CardLibrary";
 
 export function GameMasterView() {
   const [state, dispatch] = useStorageBackedReducer(
@@ -34,25 +32,5 @@ export function GameMasterView() {
         </Box>
       </Grommet>
     </ReducerContext.Provider>
-  );
-}
-
-function CardLibrary() {
-  const { state } = useContext(ReducerContext);
-  return (
-    <Box
-      background="background"
-      elevation="large"
-      style={{ position: "fixed", width: "300px", height: "100%" }}
-    >
-      <Header background="brand" pad="small">
-        <Button icon={<FontAwesomeIcon size="sm" icon={faBars} />} />
-      </Header>
-      <Box pad="xsmall">
-        {values(state.cardsById).map((card) => (
-          <Text key={card.cardId}>{card.title}</Text>
-        ))}
-      </Box>
-    </Box>
   );
 }
