@@ -32,9 +32,9 @@ export function CardLibrary() {
       </Header>
       <Box pad="xsmall">
         {values(state.cardsById).map((card) => (
-          <Text key={card.cardId} onClick={() => openCard(card.cardId)}>
+          <Button key={card.cardId} onClick={() => openCard(card.cardId)}>
             {card.title}
-          </Text>
+          </Button>
         ))}
       </Box>
     </Box>
