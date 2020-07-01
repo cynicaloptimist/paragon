@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import GridLayout from "react-grid-layout";
-import { Actions } from "./Actions";
+import { Actions } from "../actions/Actions";
 import { ArticleCard } from "./ArticleCard";
-import { ReducerContext } from "./ReducerContext";
-import { CardState } from "./CardState";
+import { ReducerContext } from "../reducers/ReducerContext";
+import { CardState } from "../state/CardState";
 import { ClockCard } from "./ClockCard";
 import { RollTableCard } from "./RollTableCard";
 import { ImageCard } from "./ImageCard";

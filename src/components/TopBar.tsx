@@ -2,8 +2,8 @@ import React, { useContext, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Header, Button, Heading, Menu } from "grommet";
-import { ReducerContext } from "./ReducerContext";
-import { Actions } from "./Actions";
+import { ReducerContext } from "../reducers/ReducerContext";
+import { Actions } from "../actions/Actions";
 
 export const TopBar = () => {
   const addArticle = useDispatchAddCard("article");

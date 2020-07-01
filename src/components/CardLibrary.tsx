@@ -1,10 +1,10 @@
 import React, { useContext, useCallback } from "react";
-import { ReducerContext } from "./ReducerContext";
+import { ReducerContext } from "../reducers/ReducerContext";
 import { Box, Header, Button } from "grommet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import values from "lodash/values";
-import { Actions } from "./Actions";
+import { Actions } from "../actions/Actions";
 import { CardLibraryRow } from "./CardLibraryRow";
 
 export function CardLibrary() {

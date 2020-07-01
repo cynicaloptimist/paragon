@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { BaseCard } from "./BaseCard";
-import { ImageCardState } from "./CardState";
+import { ImageCardState } from "../state/CardState";
 import { Button, Image, Box } from "grommet";
-import { ReducerContext } from "./ReducerContext";
-import { Actions } from "./Actions";
+import { ReducerContext } from "../reducers/ReducerContext";
+import { Actions } from "../actions/Actions";
 
 export function ImageCard(props: { card: ImageCardState }) {
   const { dispatch } = useContext(ReducerContext);

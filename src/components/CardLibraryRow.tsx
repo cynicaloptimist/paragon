@@ -1,8 +1,8 @@
 import React, { useContext, useCallback } from "react";
-import { ReducerContext } from "./ReducerContext";
+import { ReducerContext } from "../reducers/ReducerContext";
 import { Button, Box } from "grommet";
-import { Actions } from "./Actions";
-import { CardState } from "./CardState";
+import { Actions } from "../actions/Actions";
+import { CardState } from "../state/CardState";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 

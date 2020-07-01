@@ -1,6 +1,6 @@
 import GridLayout from "react-grid-layout";
 import { createAction, ActionType } from "typesafe-actions";
-import { RollTableEntry } from "./CardState";
+import { RollTableEntry } from "../state/CardState";
 
 export const Actions = {
   AddCard: createAction("AddCard")<{

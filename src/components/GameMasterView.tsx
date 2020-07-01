@@ -1,14 +1,14 @@
 import React from "react";
 
 import { TopBar } from "./TopBar";
-import { AppReducer } from "./AppReducer";
-import { GetInitialState } from "./AppState";
-import { ReducerContext } from "./ReducerContext";
+import { AppReducer } from "../reducers/AppReducer";
+import { GetInitialState } from "../state/AppState";
+import { ReducerContext } from "../reducers/ReducerContext";
 import { Grommet, Box } from "grommet";
-import { useStorageBackedReducer } from "./useStorageBackedReducer";
+import { useStorageBackedReducer } from "./hooks/useStorageBackedReducer";
 import { CardGrid } from "./CardGrid";
-import { Theme } from "./Theme";
-import { useServerStateUpdates } from "./useServerStateUpdates";
+import { Theme } from "../Theme";
+import { useServerStateUpdates } from "./hooks/useServerStateUpdates";
 import { CardLibrary } from "./CardLibrary";
 
 export function GameMasterView() {

@@ -1,11 +1,11 @@
 import React from "react";
 import { BaseCard } from "./BaseCard";
 import { Button, TextArea, Markdown, Box } from "grommet";
-import { ReducerContext } from "./ReducerContext";
-import { Actions } from "./Actions";
+import { ReducerContext } from "../reducers/ReducerContext";
+import { Actions } from "../actions/Actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faCheck } from "@fortawesome/free-solid-svg-icons";
-import { ArticleCardState } from "./CardState";
+import { ArticleCardState } from "../state/CardState";
 
 export function ArticleCard(props: { card: ArticleCardState }) {
   const { dispatch } = React.useContext(ReducerContext);

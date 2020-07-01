@@ -1,11 +1,11 @@
 import * as React from "react";
-import { ReducerContext } from "./ReducerContext";
+import { ReducerContext } from "../reducers/ReducerContext";
 import { BaseCard } from "./BaseCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faEdit, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { Button, Box } from "grommet";
-import { ClockCardState } from "./CardState";
-import { Actions } from "./Actions";
+import { ClockCardState } from "../state/CardState";
+import { Actions } from "../actions/Actions";
 
 export function ClockCard(props: { card: ClockCardState }) {
   const { dispatch } = React.useContext(ReducerContext);

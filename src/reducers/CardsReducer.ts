@@ -1,6 +1,6 @@
 import { createReducer } from "typesafe-actions";
-import { RootAction, Actions } from "./Actions";
-import { CardsState } from "./AppState";
+import { RootAction, Actions } from "../actions/Actions";
+import { CardsState } from "../state/AppState";
 
 export const CardsReducer = createReducer<CardsState, RootAction>({})
   .handleAction(Actions.SetCardContent, (oldState: CardsState, action) => {

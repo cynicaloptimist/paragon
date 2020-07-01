@@ -3,12 +3,12 @@ import React, { useState, useEffect } from "react";
 import { database } from "firebase/app";
 import "firebase/database";
 
-import { ReducerContext } from "./ReducerContext";
+import { ReducerContext } from "../reducers/ReducerContext";
 import { Grommet, Box } from "grommet";
-import { Theme } from "./Theme";
+import { Theme } from "../Theme";
 import { TopBar } from "./TopBar";
 import { CardGrid } from "./CardGrid";
-import { GetInitialState, AppState } from "./AppState";
+import { GetInitialState, AppState } from "../state/AppState";
 
 function useRemoteState() {
   const [state, setState] = useState(GetInitialState());
