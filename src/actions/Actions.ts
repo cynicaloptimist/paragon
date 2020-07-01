@@ -17,6 +17,7 @@ export const Actions = {
   SetClockValue: createAction("SetClockValue")<{
     cardId: string;
     value: number;
+    max?: number;
   }>(),
   SetCardTitle: createAction("SetCardTitle")<{
     cardId: string;
