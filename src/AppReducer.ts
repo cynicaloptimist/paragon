@@ -35,7 +35,7 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
           i: action.payload.cardId,
           w: 8,
           h: 6,
-          x: 0,
+          x: 6,
           y: 0,
         },
       ]),
