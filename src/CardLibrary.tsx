@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import values from "lodash/values";
 import { Actions } from "./Actions";
-import { CardState } from "./CardState";
+import { CardLibraryRow } from "./CardLibraryRow";
 
 export function CardLibrary() {
   const { state, dispatch } = useContext(ReducerContext);
@@ -29,24 +29,9 @@ export function CardLibrary() {
       </Header>
       <Box pad="xsmall">
         {values(state.cardsById).map((card) => (
-          <CardLibraryRow key={card.cardId}   card={card} />
+          <CardLibraryRow key={card.cardId} card={card} />
         ))}
       </Box>
     </Box>
-  );
-}
-
-function CardLibraryRow(props: { card: CardState }) {
-  const { dispatch } = useContext(ReducerContext);
-
-  const openCard = useCallback(
-    () => dispatch(Actions.OpenCard({ cardId: props.card.cardId })),
-    [dispatch, props.card.cardId]
-  );
-
-  return (
-    <Button key={props.card.cardId} onClick={openCard}>
-      {props.card.title}
-    </Button>
   );
 }
