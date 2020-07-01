@@ -26,8 +26,53 @@ export function ClockCard(props: { card: ClockCardState }) {
         />
       }
     >
-      {isConfigurable ? "Configure" : <Clock card={props.card} />}
+      {isConfigurable ? (
+        <ConfigureClock card={props.card} />
+      ) : (
+        <Clock card={props.card} />
+      )}
     </BaseCard>
+  );
+}
+
+function ConfigureClock(props: { card: ClockCardState }) {
+  const { dispatch } = React.useContext(ReducerContext);
+  const setCardValue = React.useCallback(
+    (value: number) =>
+      dispatch(
+        Actions.SetClockValue({
+          cardId: props.card.cardId,
+          value,
+        })
+      ),
+    [props.card.cardId, dispatch]
+  );
+
+  const setCardMax = React.useCallback(
+    (max: number) =>
+      dispatch(
+        Actions.SetClockMax({
+          cardId: props.card.cardId,
+          max,
+        })
+      ),
+    [props.card.cardId, dispatch]
+  );
+
+  return (
+    <Box direction="row">
+      <TextInput
+        type="number"
+        defaultValue={props.card.value}
+        onBlur={(e) => setCardValue(parseInt(e.target.value))}
+      />
+      <p>{" / "}</p>
+      <TextInput
+        type="number"
+        defaultValue={props.card.max}
+        onBlur={(e) => setCardMax(parseInt(e.target.value))}
+      />
+    </Box>
   );
 }
 

@@ -1,7 +1,6 @@
 import { createReducer } from "typesafe-actions";
 import { RootAction, Actions } from "../actions/Actions";
 import { CardsState } from "../state/AppState";
-import { ClockCardState } from "../state/CardState";
 
 export const CardsReducer = createReducer<CardsState, RootAction>({})
   .handleAction(Actions.SetCardContent, (oldState: CardsState, action) => {
@@ -26,13 +25,21 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
   })
   .handleAction(Actions.SetClockValue, (oldState, action) => {
     const cardId = action.payload.cardId;
-    const oldCard = oldState[cardId] as ClockCardState;
     return {
       ...oldState,
       [cardId]: {
-        ...oldCard,
+        ...oldState[cardId],
         value: action.payload.value,
-        max: action.payload.max || oldCard.max,
+      },
+    };
+  })
+  .handleAction(Actions.SetClockMax, (oldState, action) => {
+    const cardId = action.payload.cardId;
+    return {
+      ...oldState,
+      [cardId]: {
+        ...oldState[cardId],
+        max: action.payload.max,
       },
     };
   })
