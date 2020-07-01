@@ -1,20 +1,17 @@
 import React, { useContext, useCallback } from "react";
 import { ReducerContext } from "./ReducerContext";
-import { Box, Text, Header, Button } from "grommet";
+import { Box, Header, Button } from "grommet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import values from "lodash/values";
 import { Actions } from "./Actions";
+import { CardState } from "./CardState";
 
 export function CardLibrary() {
   const { state, dispatch } = useContext(ReducerContext);
 
   const hideCardLibrary = useCallback(
     () => dispatch(Actions.SetCardLibraryVisibility({ visibility: false })),
-    [dispatch]
-  );
-  const openCard = useCallback(
-    (cardId: string) => dispatch(Actions.OpenCard({ cardId })),
     [dispatch]
   );
 
@@ -32,11 +29,24 @@ export function CardLibrary() {
       </Header>
       <Box pad="xsmall">
         {values(state.cardsById).map((card) => (
-          <Button key={card.cardId} onClick={() => openCard(card.cardId)}>
-            {card.title}
-          </Button>
+          <CardLibraryRow key={card.cardId}   card={card} />
         ))}
       </Box>
     </Box>
+  );
+}
+
+function CardLibraryRow(props: { card: CardState }) {
+  const { dispatch } = useContext(ReducerContext);
+
+  const openCard = useCallback(
+    () => dispatch(Actions.OpenCard({ cardId: props.card.cardId })),
+    [dispatch, props.card.cardId]
+  );
+
+  return (
+    <Button key={props.card.cardId} onClick={openCard}>
+      {props.card.title}
+    </Button>
   );
 }
