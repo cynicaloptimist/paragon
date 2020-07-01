@@ -5,6 +5,7 @@ import { RootAction, Actions } from "./Actions";
 import { AppState } from "./AppState";
 import { CardsReducer } from "./CardsReducer";
 import { InitialCardState } from "./InitialCardState";
+import { InitialLayout } from "./InitialLayout";
 
 export function AppReducer(oldState: AppState, action: RootAction): AppState {
   if (isActionOf(Actions.SetCardLibraryVisibility, action)) {
@@ -23,6 +24,7 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
         ...oldState.cardsById,
         [cardId]: InitialCardState(cardId, cardType),
       },
+      layouts: union(oldState.layouts, [InitialLayout(action.payload.cardId)]),
     };
   }
 
@@ -30,15 +32,7 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     return {
       ...oldState,
       openCardIds: union(oldState.openCardIds, [action.payload.cardId]),
-      layouts: union(oldState.layouts, [
-        {
-          i: action.payload.cardId,
-          w: 8,
-          h: 6,
-          x: 6,
-          y: 0,
-        },
-      ]),
+      layouts: union(oldState.layouts, [InitialLayout(action.payload.cardId)]),
     };
   }
 
