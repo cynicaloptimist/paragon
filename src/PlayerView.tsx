@@ -15,8 +15,12 @@ function useRemoteState() {
   useEffect(() => {
     const dbRef = database().ref("playerviews/test");
     dbRef.on("value", (appState) => {
-      const networkGameState: AppState = appState.val().state;
-      setState(networkGameState);
+      const networkAppState: Partial<AppState> = appState.val().state;
+      const completeAppState = {
+        ...GetInitialState(),
+        ...networkAppState,
+      };
+      setState(completeAppState);
     });
 
     return () => dbRef.off();
