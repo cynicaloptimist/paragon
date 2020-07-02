@@ -1,13 +1,14 @@
 import { createReducer } from "typesafe-actions";
-import { RootAction, CardActions } from "../actions/Actions";
+import { RootAction, CardActions, CardAction } from "../actions/Actions";
 import { CardsState } from "../state/AppState";
 import { CardState } from "../state/CardState";
 
 function mergeCardState<T extends CardState>(
   oldState: CardsState,
-  cardId: string,
+  action: CardAction,
   stateUpdate: Partial<T>
 ): CardsState {
+  const cardId = action.payload.cardId;
   return {
     ...oldState,
     [cardId]: {
@@ -19,37 +20,37 @@ function mergeCardState<T extends CardState>(
 
 export const CardsReducer = createReducer<CardsState, RootAction>({})
   .handleAction(CardActions.SetCardContent, (oldState: CardsState, action) => {
-    return mergeCardState(oldState, action.payload.cardId, {
+    return mergeCardState(oldState, action, {
       content: action.payload.content,
     });
   })
   .handleAction(CardActions.SetCardTitle, (oldState: CardsState, action) => {
-    return mergeCardState(oldState, action.payload.cardId, {
+    return mergeCardState(oldState, action, {
       title: action.payload.title,
     });
   })
   .handleAction(CardActions.SetClockValue, (oldState, action) => {
-    return mergeCardState(oldState, action.payload.cardId, {
+    return mergeCardState(oldState, action, {
       value: action.payload.value,
     });
   })
   .handleAction(CardActions.SetClockMax, (oldState, action) => {
-    return mergeCardState(oldState, action.payload.cardId, {
+    return mergeCardState(oldState, action, {
       max: action.payload.max,
     });
   })
   .handleAction(CardActions.SetRollTableEntries, (oldState, action) => {
-    return mergeCardState(oldState, action.payload.cardId, {
+    return mergeCardState(oldState, action, {
       entries: action.payload.entries,
     });
   })
   .handleAction(CardActions.SetRollTableLastRoll, (oldState, action) => {
-    return mergeCardState(oldState, action.payload.cardId, {
+    return mergeCardState(oldState, action, {
       lastRoll: action.payload.rollResult,
     });
   })
   .handleAction(CardActions.SetImageUrl, (oldState, action) => {
-    return mergeCardState(oldState, action.payload.cardId, {
+    return mergeCardState(oldState, action, {
       imageUrl: action.payload.imageUrl,
     });
   });
