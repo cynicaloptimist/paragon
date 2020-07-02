@@ -3,7 +3,7 @@ import { ReducerContext } from "../reducers/ReducerContext";
 import { BaseCard } from "./BaseCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faEdit, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { Button, Box, TextInput } from "grommet";
+import { Button, Box, TextInput, Text, FormField } from "grommet";
 import { ClockCardState } from "../state/CardState";
 import { CardActions } from "../actions/Actions";
 
@@ -60,18 +60,21 @@ function ConfigureClock(props: { card: ClockCardState }) {
   );
 
   return (
-    <Box direction="row">
-      <TextInput
-        type="number"
-        defaultValue={props.card.value}
-        onBlur={(e) => setCardValue(parseInt(e.target.value))}
-      />
-      <p>{" / "}</p>
-      <TextInput
-        type="number"
-        defaultValue={props.card.max}
-        onBlur={(e) => setCardMax(parseInt(e.target.value))}
-      />
+    <Box direction="row" align="center">
+      <FormField label="Current">
+        <TextInput
+          type="number"
+          defaultValue={props.card.value}
+          onBlur={(e) => setCardValue(parseInt(e.target.value))}
+        />
+      </FormField>
+      <FormField label="Maximum">
+        <TextInput
+          type="number"
+          defaultValue={props.card.max}
+          onBlur={(e) => setCardMax(parseInt(e.target.value))}
+        />
+      </FormField>
     </Box>
   );
 }
