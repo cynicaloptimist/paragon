@@ -3,12 +3,12 @@ import { CardState } from "./CardState";
 export function InitialCardState(cardId: string, type: string): CardState {
   const baseCard = {
     cardId,
-    title: "New Card",
   };
 
   if (type === "clock") {
     return {
       ...baseCard,
+      title: "Clock",
       type,
       value: 0,
       max: 6,
@@ -18,6 +18,7 @@ export function InitialCardState(cardId: string, type: string): CardState {
   if (type === "roll-table") {
     return {
       ...baseCard,
+      title: "Random Table",
       type,
       lastRoll: null,
       entries: [
@@ -33,6 +34,7 @@ export function InitialCardState(cardId: string, type: string): CardState {
   if (type === "image") {
     return {
       ...baseCard,
+      title: "Image",
       type,
       imageUrl: "",
     };
@@ -40,6 +42,7 @@ export function InitialCardState(cardId: string, type: string): CardState {
 
   return {
     ...baseCard,
+    title: "Article",
     type: "article",
     content: "",
   };
