@@ -1,75 +1,55 @@
 import { createReducer } from "typesafe-actions";
 import { RootAction, CardActions } from "../actions/Actions";
 import { CardsState } from "../state/AppState";
+import { CardState } from "../state/CardState";
+
+function mergeCardState<T extends CardState>(
+  oldState: CardsState,
+  cardId: string,
+  stateUpdate: Partial<T>
+): CardsState {
+  return {
+    ...oldState,
+    [cardId]: {
+      ...oldState[cardId],
+      ...stateUpdate,
+    },
+  };
+}
 
 export const CardsReducer = createReducer<CardsState, RootAction>({})
   .handleAction(CardActions.SetCardContent, (oldState: CardsState, action) => {
-    const cardId = action.payload.cardId;
-    return {
-      ...oldState,
-      [cardId]: {
-        ...oldState[cardId],
-        content: action.payload.content,
-      },
-    };
+    return mergeCardState(oldState, action.payload.cardId, {
+      content: action.payload.content,
+    });
   })
   .handleAction(CardActions.SetCardTitle, (oldState: CardsState, action) => {
-    const cardId = action.payload.cardId;
-    return {
-      ...oldState,
-      [cardId]: {
-        ...oldState[cardId],
-        title: action.payload.title,
-      },
-    };
+    return mergeCardState(oldState, action.payload.cardId, {
+      title: action.payload.title,
+    });
   })
   .handleAction(CardActions.SetClockValue, (oldState, action) => {
-    const cardId = action.payload.cardId;
-    return {
-      ...oldState,
-      [cardId]: {
-        ...oldState[cardId],
-        value: action.payload.value,
-      },
-    };
+    return mergeCardState(oldState, action.payload.cardId, {
+      value: action.payload.value,
+    });
   })
   .handleAction(CardActions.SetClockMax, (oldState, action) => {
-    const cardId = action.payload.cardId;
-    return {
-      ...oldState,
-      [cardId]: {
-        ...oldState[cardId],
-        max: action.payload.max,
-      },
-    };
+    return mergeCardState(oldState, action.payload.cardId, {
+      max: action.payload.max,
+    });
   })
   .handleAction(CardActions.SetRollTableEntries, (oldState, action) => {
-    const cardId = action.payload.cardId;
-    return {
-      ...oldState,
-      [cardId]: {
-        ...oldState[cardId],
-        entries: action.payload.entries,
-      },
-    };
+    return mergeCardState(oldState, action.payload.cardId, {
+      entries: action.payload.entries,
+    });
   })
   .handleAction(CardActions.SetRollTableLastRoll, (oldState, action) => {
-    const cardId = action.payload.cardId;
-    return {
-      ...oldState,
-      [cardId]: {
-        ...oldState[cardId],
-        lastRoll: action.payload.rollResult,
-      },
-    };
+    return mergeCardState(oldState, action.payload.cardId, {
+      lastRoll: action.payload.rollResult,
+    });
   })
   .handleAction(CardActions.SetImageUrl, (oldState, action) => {
-    const cardId = action.payload.cardId;
-    return {
-      ...oldState,
-      [cardId]: {
-        ...oldState[cardId],
-        imageUrl: action.payload.imageUrl,
-      },
-    };
+    return mergeCardState(oldState, action.payload.cardId, {
+      imageUrl: action.payload.imageUrl,
+    });
   });
