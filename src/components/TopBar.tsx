@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Header, Button, Heading, Menu } from "grommet";
 import { ReducerContext } from "../reducers/ReducerContext";
-import { Actions } from "../actions/Actions";
+import { CardActions, Actions } from "../actions/Actions";
 
 export const TopBar = () => {
   const addArticle = useDispatchAddCard("article");
@@ -55,7 +55,7 @@ function useDispatchAddCard(cardType: string) {
   const { dispatch } = useContext(ReducerContext);
   return useCallback(() => {
     const cardId = newId();
-    dispatch(Actions.AddCard({ cardId, cardType }));
+    dispatch(CardActions.AddCard({ cardId, cardType }));
   }, [cardType, dispatch]);
 }
 

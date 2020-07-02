@@ -5,7 +5,7 @@ import { Button, Box, TextArea } from "grommet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faEdit, faDice } from "@fortawesome/free-solid-svg-icons";
 import { ReducerContext } from "../reducers/ReducerContext";
-import { Actions } from "../actions/Actions";
+import { CardActions } from "../actions/Actions";
 
 export function RollTableCard(props: { card: RollTableCardState }) {
   const { dispatch } = useContext(ReducerContext);
@@ -22,7 +22,7 @@ export function RollTableCard(props: { card: RollTableCardState }) {
           <Button
             onClick={() =>
               dispatch(
-                Actions.SetRollTableLastRoll({
+                CardActions.SetRollTableLastRoll({
                   cardId: card.cardId,
                   rollResult: RandomInt(rollTableModel.dieSize),
                 })
@@ -107,7 +107,7 @@ function RollTableConfiguration(props: { rollTableModel: RollTableModel }) {
       onBlur={(e) => {
         const entries = GetRollTableEntriesFromMarkdown(e.target.value);
         dispatch(
-          Actions.SetRollTableEntries({
+          CardActions.SetRollTableEntries({
             cardId: props.rollTableModel.cardId,
             entries,
           })

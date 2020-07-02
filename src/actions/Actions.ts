@@ -3,6 +3,13 @@ import { createAction, ActionType } from "typesafe-actions";
 import { RollTableEntry } from "../state/CardState";
 
 export const Actions = {
+  SetLayouts: createAction("SetLayouts")<GridLayout.Layout[]>(),
+  SetCardLibraryVisibility: createAction("SetCardLibraryVisibility")<{
+    visibility: boolean;
+  }>(),
+};
+
+export const CardActions = {
   AddCard: createAction("AddCard")<{
     cardId: string;
     cardType: string;
@@ -38,10 +45,8 @@ export const Actions = {
     cardId: string;
     imageUrl: string;
   }>(),
-  SetLayouts: createAction("SetLayouts")<GridLayout.Layout[]>(),
-  SetCardLibraryVisibility: createAction("SetCardLibraryVisibility")<{
-    visibility: boolean;
-  }>(),
 };
 
-export type RootAction = ActionType<typeof Actions>;
+export type Action = ActionType<typeof Actions>
+export type CardAction = ActionType<typeof CardActions>;
+export type RootAction = Action | CardAction;

@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faEdit, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { Button, Box, TextInput } from "grommet";
 import { ClockCardState } from "../state/CardState";
-import { Actions } from "../actions/Actions";
+import { CardActions } from "../actions/Actions";
 
 export function ClockCard(props: { card: ClockCardState }) {
   const [isConfigurable, setConfigurable] = React.useState(false);
@@ -40,7 +40,7 @@ function ConfigureClock(props: { card: ClockCardState }) {
   const setCardValue = React.useCallback(
     (value: number) =>
       dispatch(
-        Actions.SetClockValue({
+        CardActions.SetClockValue({
           cardId: props.card.cardId,
           value,
         })
@@ -51,7 +51,7 @@ function ConfigureClock(props: { card: ClockCardState }) {
   const setCardMax = React.useCallback(
     (max: number) =>
       dispatch(
-        Actions.SetClockMax({
+        CardActions.SetClockMax({
           cardId: props.card.cardId,
           max,
         })
@@ -81,7 +81,7 @@ function Clock(props: { card: ClockCardState }) {
   const setCardValue = React.useCallback(
     (value: number) =>
       dispatch(
-        Actions.SetClockValue({
+        CardActions.SetClockValue({
           cardId: props.card.cardId,
           value,
         })

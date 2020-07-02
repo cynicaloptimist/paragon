@@ -1,7 +1,7 @@
 import { isActionOf } from "typesafe-actions";
 import { omit, union } from "lodash";
 
-import { RootAction, Actions } from "../actions/Actions";
+import { RootAction, CardActions, Actions } from "../actions/Actions";
 import { AppState } from "../state/AppState";
 import { CardsReducer } from "./CardsReducer";
 import { InitialCardState } from "../state/InitialCardState";
@@ -15,7 +15,7 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     };
   }
 
-  if (isActionOf(Actions.AddCard, action)) {
+  if (isActionOf(CardActions.AddCard, action)) {
     const { cardType, cardId } = action.payload;
     return {
       ...oldState,
@@ -28,7 +28,7 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     };
   }
 
-  if (isActionOf(Actions.OpenCard, action)) {
+  if (isActionOf(CardActions.OpenCard, action)) {
     return {
       ...oldState,
       openCardIds: union(oldState.openCardIds, [action.payload.cardId]),
@@ -36,7 +36,7 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     };
   }
 
-  if (isActionOf(Actions.CloseCard, action)) {
+  if (isActionOf(CardActions.CloseCard, action)) {
     return {
       ...oldState,
       openCardIds: oldState.openCardIds.filter(
@@ -45,7 +45,7 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     };
   }
 
-  if (isActionOf(Actions.DeleteCard, action)) {
+  if (isActionOf(CardActions.DeleteCard, action)) {
     return {
       ...oldState,
       openCardIds: oldState.openCardIds.filter(

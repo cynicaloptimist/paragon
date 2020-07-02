@@ -3,7 +3,7 @@ import { Box, Header, Button, TextInput, Heading, Footer } from "grommet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGripLines, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { ReducerContext } from "../reducers/ReducerContext";
-import { Actions } from "../actions/Actions";
+import { CardActions } from "../actions/Actions";
 
 export function BaseCard(props: {
   commands: React.ReactNode;
@@ -31,7 +31,7 @@ export function BaseCard(props: {
               placeholder={cardState.title}
               onChange={(changeEvent) =>
                 dispatch(
-                  Actions.SetCardTitle({
+                  CardActions.SetCardTitle({
                     cardId: cardState.cardId,
                     title: changeEvent.target.value,
                   })
@@ -59,7 +59,7 @@ export function BaseCard(props: {
           <Button
             icon={<FontAwesomeIcon icon={faTimes} />}
             onClick={() =>
-              dispatch(Actions.CloseCard({ cardId: cardState.cardId }))
+              dispatch(CardActions.CloseCard({ cardId: cardState.cardId }))
             }
           />
         </Box>

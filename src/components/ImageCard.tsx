@@ -3,7 +3,7 @@ import { BaseCard } from "./BaseCard";
 import { ImageCardState } from "../state/CardState";
 import { Button, Image, Box } from "grommet";
 import { ReducerContext } from "../reducers/ReducerContext";
-import { Actions } from "../actions/Actions";
+import { CardActions } from "../actions/Actions";
 
 export function ImageCard(props: { card: ImageCardState }) {
   const { dispatch } = useContext(ReducerContext);
@@ -15,7 +15,7 @@ export function ImageCard(props: { card: ImageCardState }) {
         fill
         onDropCapture={(dropEvent) => {
           const imageUrl = dropEvent.dataTransfer.getData("URL");
-          dispatch(Actions.SetImageUrl({ cardId: card.cardId, imageUrl }));
+          dispatch(CardActions.SetImageUrl({ cardId: card.cardId, imageUrl }));
         }}
       >
         {card.imageUrl.length ? (

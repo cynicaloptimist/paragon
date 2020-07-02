@@ -1,9 +1,9 @@
 import { createReducer } from "typesafe-actions";
-import { RootAction, Actions } from "../actions/Actions";
+import { RootAction, CardActions } from "../actions/Actions";
 import { CardsState } from "../state/AppState";
 
 export const CardsReducer = createReducer<CardsState, RootAction>({})
-  .handleAction(Actions.SetCardContent, (oldState: CardsState, action) => {
+  .handleAction(CardActions.SetCardContent, (oldState: CardsState, action) => {
     const cardId = action.payload.cardId;
     return {
       ...oldState,
@@ -13,7 +13,7 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
       },
     };
   })
-  .handleAction(Actions.SetCardTitle, (oldState: CardsState, action) => {
+  .handleAction(CardActions.SetCardTitle, (oldState: CardsState, action) => {
     const cardId = action.payload.cardId;
     return {
       ...oldState,
@@ -23,7 +23,7 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
       },
     };
   })
-  .handleAction(Actions.SetClockValue, (oldState, action) => {
+  .handleAction(CardActions.SetClockValue, (oldState, action) => {
     const cardId = action.payload.cardId;
     return {
       ...oldState,
@@ -33,7 +33,7 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
       },
     };
   })
-  .handleAction(Actions.SetClockMax, (oldState, action) => {
+  .handleAction(CardActions.SetClockMax, (oldState, action) => {
     const cardId = action.payload.cardId;
     return {
       ...oldState,
@@ -43,7 +43,7 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
       },
     };
   })
-  .handleAction(Actions.SetRollTableEntries, (oldState, action) => {
+  .handleAction(CardActions.SetRollTableEntries, (oldState, action) => {
     const cardId = action.payload.cardId;
     return {
       ...oldState,
@@ -53,7 +53,7 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
       },
     };
   })
-  .handleAction(Actions.SetRollTableLastRoll, (oldState, action) => {
+  .handleAction(CardActions.SetRollTableLastRoll, (oldState, action) => {
     const cardId = action.payload.cardId;
     return {
       ...oldState,
@@ -63,7 +63,7 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
       },
     };
   })
-  .handleAction(Actions.SetImageUrl, (oldState, action) => {
+  .handleAction(CardActions.SetImageUrl, (oldState, action) => {
     const cardId = action.payload.cardId;
     return {
       ...oldState,

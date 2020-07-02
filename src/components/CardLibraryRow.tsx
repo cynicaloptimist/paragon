@@ -1,7 +1,7 @@
 import React, { useContext, useCallback } from "react";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { Button, Box } from "grommet";
-import { Actions } from "../actions/Actions";
+import { CardActions } from "../actions/Actions";
 import { CardState } from "../state/CardState";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -10,12 +10,12 @@ export function CardLibraryRow(props: { card: CardState }) {
   const { dispatch } = useContext(ReducerContext);
 
   const openCard = useCallback(
-    () => dispatch(Actions.OpenCard({ cardId: props.card.cardId })),
+    () => dispatch(CardActions.OpenCard({ cardId: props.card.cardId })),
     [dispatch, props.card.cardId]
   );
 
   const deleteCard = useCallback(
-    () => dispatch(Actions.DeleteCard({ cardId: props.card.cardId })),
+    () => dispatch(CardActions.DeleteCard({ cardId: props.card.cardId })),
     [dispatch, props.card.cardId]
   );
 
