@@ -1,5 +1,4 @@
 import { ThemeType } from "grommet";
-import { FontFacesUrlString } from "./FontFacesUrlString";
 
 export const Theme: ThemeType = {
   global: {
@@ -15,16 +14,16 @@ export const Theme: ThemeType = {
       background: "#F1F7EE",
     },
     font: {
-      family: "Roboto",
-      face: FontFacesUrlString,
+      family: "'Roboto', sans-serif",
     },
     input: {
-      weight: 300
-    }
+      weight: 300,
+    },
   },
   heading: {
     font: {
-      family: "Spectral SC",
+      family: "'Vollkorn', serif",
     },
+    weight: 300
   },
 };
