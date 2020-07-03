@@ -36,7 +36,10 @@ export function DiceCard(props: { card: DiceCardState }) {
   const scrollBottom = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    scrollBottom.current?.scrollIntoView({ behavior: "smooth" });
+    scrollBottom.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+    });
   }, [card.history]);
 
   return (

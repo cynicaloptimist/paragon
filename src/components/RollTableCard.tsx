@@ -55,7 +55,10 @@ export function RollTableCard(props: { card: RollTableCardState }) {
 function RollTable(props: { rollTableModel: RollTableModel }) {
   const rolledElement = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
-    rolledElement.current?.scrollIntoView({ behavior: "smooth" });
+    rolledElement.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+    });
   }, [props.rollTableModel.rollResult]);
 
   return (
