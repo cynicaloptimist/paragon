@@ -22,11 +22,9 @@ export function InitialCardState(cardId: string, type: string): CardState {
       type,
       lastRoll: null,
       entries: [
-        { weight: 1, content: "Test" },
-        { weight: 1, content: "Test2" },
-        { weight: 2, content: "Test3" },
-        { weight: 2, content: "Test4" },
-        { weight: 1, content: "Test5" },
+        { weight: 3, content: "Miss" },
+        { weight: 2, content: "Partial" },
+        { weight: 1, content: "Success" },
       ],
     };
   }
