@@ -45,8 +45,13 @@ export const CardActions = {
     cardId: string;
     imageUrl: string;
   }>(),
+  RollDiceExpression: createAction("RollDiceExpression")<{
+    cardId: string;
+    expression: string;
+    result: string;
+  }>(),
 };
 
-export type Action = ActionType<typeof Actions>
+export type Action = ActionType<typeof Actions>;
 export type CardAction = ActionType<typeof CardActions>;
 export type RootAction = Action | CardAction;
