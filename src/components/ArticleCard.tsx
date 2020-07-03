@@ -47,8 +47,13 @@ export function ArticleCard(props: { card: ArticleCardState }) {
           }}
         />
       ) : (
-        <Box fill pad="small" onDoubleClick={() => setContentEditable(true)}>
-          <Markdown style={{ whiteSpace: "pre" }}>{card.content}</Markdown>
+        <Box
+          fill
+          pad="small"
+          onDoubleClick={() => setContentEditable(true)}
+          overflow={{ vertical: "auto" }}
+        >
+          <Markdown style={{ whiteSpace: "pre-wrap" }}>{card.content}</Markdown>
         </Box>
       )}
     </BaseCard>
