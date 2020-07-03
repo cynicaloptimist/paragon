@@ -4,8 +4,6 @@ import { Dice } from "dice-typescript";
 import { DiceCardState } from "../state/CardState";
 import { BaseCard } from "./BaseCard";
 import { Button, Box } from "grommet";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDice } from "@fortawesome/free-solid-svg-icons";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardActions } from "../actions/Actions";
 
@@ -13,30 +11,40 @@ const dice = new Dice();
 
 export function DiceCard(props: { card: DiceCardState }) {
   const { dispatch } = useContext(ReducerContext);
-
   const { card } = props;
-  const rollDice = useCallback(() => {
-    const expression = "1d6";
-    const result = dice.roll(expression);
-    dispatch(
-      CardActions.RollDiceExpression({
-        cardId: card.cardId,
-        expression,
-        result: result.renderedExpression,
-      })
-    );
-  }, [card.cardId, dispatch]);
+
+  const rollDice = useCallback(
+    (expression) => {
+      const result = dice.roll(expression);
+      dispatch(
+        CardActions.RollDiceExpression({
+          cardId: card.cardId,
+          expression,
+          result: result.renderedExpression,
+        })
+      );
+    },
+    [card.cardId, dispatch]
+  );
+
+  const quickDie = (dieSize: string) => (
+    <Button margin="xxsmall" onClick={() => rollDice("1" + dieSize)}>
+      {dieSize}
+    </Button>
+  );
 
   return (
     <BaseCard
       cardId={card.cardId}
       commands={
         <>
-          <Button
-            icon={
-              <FontAwesomeIcon size="xs" icon={faDice} onClick={rollDice} />
-            }
-          />
+          {quickDie("d2")}
+          {quickDie("d4")}
+          {quickDie("d6")}
+          {quickDie("d8")}
+          {quickDie("d10")}
+          {quickDie("d12")}
+          {quickDie("d20")}
         </>
       }
     >
