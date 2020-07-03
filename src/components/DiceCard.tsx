@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from "react";
+import React, { useCallback, useContext, useEffect, useRef } from "react";
 import { Dice } from "dice-typescript";
 
 import { DiceCardState } from "../state/CardState";
@@ -33,6 +33,12 @@ export function DiceCard(props: { card: DiceCardState }) {
     </Button>
   );
 
+  const scrollBottom = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    scrollBottom.current?.scrollIntoView({ behavior: "smooth" });
+  }, [card.history]);
+
   return (
     <BaseCard
       cardId={card.cardId}
@@ -56,6 +62,7 @@ export function DiceCard(props: { card: DiceCardState }) {
             {roll.result}
           </Box>
         ))}
+        <div ref={scrollBottom} />
       </Box>
     </BaseCard>
   );
