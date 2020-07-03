@@ -3,7 +3,7 @@ import { ReducerContext } from "../reducers/ReducerContext";
 import { BaseCard } from "./BaseCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faEdit, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { Button, Box, TextInput, Text, FormField } from "grommet";
+import { Button, Box, TextInput, FormField } from "grommet";
 import { ClockCardState } from "../state/CardState";
 import { CardActions } from "../actions/Actions";
 
