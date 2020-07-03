@@ -67,7 +67,12 @@ export function BaseCard(props: {
       <Box flex pad="xxsmall">
         {props.children}
       </Box>
-      <Footer background="brand" justify="end" pad={{ right: "small" }}>
+      <Footer
+        background="brand"
+        justify="end"
+        pad={{ right: "small" }}
+        overflow={{ horizontal: "auto" }}
+      >
         {props.commands}
       </Footer>
     </Box>
