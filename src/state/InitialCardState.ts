@@ -38,6 +38,15 @@ export function InitialCardState(cardId: string, type: string): CardState {
     };
   }
 
+  if (type === "dice") {
+    return {
+      ...baseCard,
+      title: "Dice",
+      type,
+      history: [],
+    };
+  }
+
   return {
     ...baseCard,
     title: "Article",

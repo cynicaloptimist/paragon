@@ -1,4 +1,9 @@
-export type CardState = ArticleCardState | ClockCardState | RollTableCardState | ImageCardState;
+export type CardState =
+  | ArticleCardState
+  | ClockCardState
+  | RollTableCardState
+  | ImageCardState
+  | DiceCardState;
 
 export type ArticleCardState = BaseCardState & {
   type: "article";
@@ -25,7 +30,17 @@ export type RollTableEntry = {
 export type ImageCardState = BaseCardState & {
   type: "image";
   imageUrl: string;
-}
+};
+
+export type DiceCardState = BaseCardState & {
+  type: "dice";
+  history: DiceRoll[];
+};
+
+export type DiceRoll = {
+  expression: string;
+  result: string;
+};
 
 type BaseCardState = {
   cardId: string;

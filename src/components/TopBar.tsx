@@ -9,6 +9,7 @@ export const TopBar = () => {
   const addArticle = useDispatchAddCard("article");
   const addClock = useDispatchAddCard("clock");
   const addRollTable = useDispatchAddCard("roll-table");
+  const addDice = useDispatchAddCard("dice");
   const addImage = useDispatchAddCard("image");
   const { dispatch } = useContext(ReducerContext);
   const showCardLibrary = useCallback(
@@ -40,6 +41,10 @@ export const TopBar = () => {
           {
             label: "Rollable Table",
             onClick: addRollTable,
+          },
+          {
+            label: "Dice",
+            onClick: addDice,
           },
           {
             label: "Image",

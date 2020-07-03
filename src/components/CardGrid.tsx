@@ -7,6 +7,7 @@ import { CardState } from "../state/CardState";
 import { ClockCard } from "./ClockCard";
 import { RollTableCard } from "./RollTableCard";
 import { ImageCard } from "./ImageCard";
+import { DiceCard } from "./DiceCard";
 
 export function CardGrid() {
   const { state, dispatch } = useContext(ReducerContext);
@@ -53,5 +54,8 @@ function getComponentForCard(card: CardState) {
   }
   if (card.type === "image") {
     return <ImageCard card={card} />;
+  }
+  if (card.type === "dice") {
+    return <DiceCard card={card} />;
   }
 }
