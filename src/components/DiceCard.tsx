@@ -26,7 +26,7 @@ export function DiceCard(props: { card: DiceCardState }) {
         CardActions.RollDiceExpression({
           cardId: card.cardId,
           expression,
-          result: result.renderedExpression,
+          result: result.renderedExpression + " = " + result.total,
         })
       );
     },
