@@ -46,15 +46,15 @@ export function BaseCard(props: {
               onBlur={() => setHeaderEditable(false)}
             />
           ) : (
-            <Heading
-              level={3}
-              margin="none"
-              style={{ flexGrow: 1 }}
+            <Box
+              fill
+              direction="row"
               onDoubleClick={() => setHeaderEditable(true)}
-              truncate
             >
-              {cardState.title}
-            </Heading>
+              <Heading level={3} margin="none" truncate>
+                {cardState.title}
+              </Heading>
+            </Box>
           )}
           <Button
             icon={<FontAwesomeIcon icon={faTimes} />}
