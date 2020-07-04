@@ -9,9 +9,11 @@ import { Dice } from "dice-typescript";
 
 import { DiceCardState } from "../state/CardState";
 import { BaseCard } from "./BaseCard";
-import { Button, Box, TextInput } from "grommet";
+import { Button, Box, TextInput, Text } from "grommet";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardActions } from "../actions/Actions";
+import { faRedo } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const dice = new Dice();
 
@@ -68,10 +70,21 @@ export function DiceCard(props: { card: DiceCardState }) {
     >
       <Box overflow={{ vertical: "auto" }} flex justify="start">
         {card.history.map((roll, index) => (
-          <Box flex={false} key={index}>
-            {roll.expression}
-            {" => "}
-            {roll.result}
+          <Box flex={false} key={index} direction="row">
+            <Box fill justify="center">
+              <Text>
+                {roll.expression}
+                {" => "}
+                {roll.result}
+              </Text>
+            </Box>
+            <Button
+              margin="xxsmall"
+              color="light-6"
+              hoverIndicator={{ color: "auto" }}
+              onClick={() => rollDice(roll.expression)}
+              icon={<FontAwesomeIcon icon={faRedo} size="xs" />}
+            />
           </Box>
         ))}
         <div ref={scrollBottom} />
