@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { Dice } from "dice-typescript";
 
-import { DiceCardState } from "../state/CardState";
+import { DiceCardState, DiceRoll } from "../state/CardState";
 import { BaseCard } from "./BaseCard";
 import { Button, Box, TextInput, Text } from "grommet";
 import { ReducerContext } from "../reducers/ReducerContext";
@@ -70,22 +70,7 @@ export function DiceCard(props: { card: DiceCardState }) {
     >
       <Box overflow={{ vertical: "auto" }} flex justify="start">
         {card.history.map((roll, index) => (
-          <Box flex={false} key={index} direction="row" border="top">
-            <Box fill justify="center">
-              <Text>
-                {roll.expression}
-                {" => "}
-                {roll.result}
-              </Text>
-            </Box>
-            <Button
-              margin="xxsmall"
-              color="light-6"
-              hoverIndicator={{ color: "auto" }}
-              onClick={() => rollDice(roll.expression)}
-              icon={<FontAwesomeIcon icon={faRedo} size="xs" />}
-            />
-          </Box>
+          <DiceRollRow key={index} roll={roll} rollDice={rollDice} />
         ))}
         <div ref={scrollBottom} />
       </Box>
@@ -112,5 +97,29 @@ export function DiceCard(props: { card: DiceCardState }) {
         }}
       />
     </BaseCard>
+  );
+}
+
+function DiceRollRow(props: {
+  roll: DiceRoll;
+  rollDice: (expression: string) => void;
+}) {
+  return (
+    <Box flex={false} direction="row" border="top">
+      <Box fill justify="center">
+        <Text>
+          {props.roll.expression}
+          {" => "}
+          {props.roll.result}
+        </Text>
+      </Box>
+      <Button
+        margin="xxsmall"
+        color="light-6"
+        hoverIndicator={{ color: "auto" }}
+        onClick={() => props.rollDice(props.roll.expression)}
+        icon={<FontAwesomeIcon icon={faRedo} size="xs" />}
+      />
+    </Box>
   );
 }
