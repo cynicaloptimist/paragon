@@ -16,8 +16,11 @@ export function useStorageBackedReducer<R extends Reducer<any, any>>(
 
   const storedState = localStorage.getItem(storageKey);
   if (storedState) {
-    initialState = JSON.parse(storedState);
+    initialState = {
+      ...initialState,
+      ...JSON.parse(storedState),
+    };
   }
-  
+
   return useReducer(reducerWithSave, initialState);
 }
