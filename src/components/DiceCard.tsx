@@ -28,7 +28,8 @@ export function DiceCard(props: { card: DiceCardState }) {
         CardActions.RollDiceExpression({
           cardId: card.cardId,
           expression,
-          result: result.renderedExpression + " = " + result.total,
+          result: result.renderedExpression,
+          total: result.total,
         })
       );
     },
@@ -111,6 +112,8 @@ function DiceRollRow(props: {
           {props.roll.expression}
           {" => "}
           {props.roll.result}
+          {" = "}
+          <strong>{props.roll.total}</strong>
         </Text>
       </Box>
       <Button

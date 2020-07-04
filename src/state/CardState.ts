@@ -40,6 +40,7 @@ export type DiceCardState = BaseCardState & {
 export type DiceRoll = {
   expression: string;
   result: string;
+  total: number;
 };
 
 type BaseCardState = {

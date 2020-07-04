@@ -49,6 +49,7 @@ export const CardActions = {
     cardId: string;
     expression: string;
     result: string;
+    total: number;
   }>(),
 };
 

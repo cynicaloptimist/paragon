@@ -56,12 +56,8 @@ export const CardsReducer = createReducer<CardsState, CardAction>({})
   })
   .handleAction(CardActions.RollDiceExpression, (oldState, action) => {
     const oldCard = oldState[action.payload.cardId] as DiceCardState;
+    const { cardId, ...historyItem } = action.payload;
     return mergeCardState(oldState, action, {
-      history: oldCard.history.concat([
-        {
-          expression: action.payload.expression,
-          result: action.payload.result,
-        },
-      ]),
+      history: oldCard.history.concat([historyItem]),
     });
   });
