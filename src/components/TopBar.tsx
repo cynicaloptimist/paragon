@@ -5,6 +5,7 @@ import {
   faPlus,
   faArrowUp,
   faArrowDown,
+  faArrowsAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { Header, Button, Heading, Menu, Box } from "grommet";
 import { ReducerContext } from "../reducers/ReducerContext";
@@ -42,13 +43,13 @@ export const TopBar = () => {
       </Box>
       {state.layoutCompaction === "free" && (
         <Button
-          icon={<FontAwesomeIcon size="sm" icon={faArrowUp} />}
+          icon={<FontAwesomeIcon size="sm" icon={faArrowsAlt} />}
           onClick={() => setLayoutCompaction("compact")}
         />
       )}
       {state.layoutCompaction === "compact" && (
         <Button
-          icon={<FontAwesomeIcon size="sm" icon={faArrowDown} />}
+          icon={<FontAwesomeIcon size="sm" icon={faArrowUp} />}
           onClick={() => setLayoutCompaction("free")}
         />
       )}
