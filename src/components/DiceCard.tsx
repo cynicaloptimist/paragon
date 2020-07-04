@@ -49,7 +49,7 @@ export function DiceCard(props: { card: DiceCardState }) {
   }, [card.history]);
 
   const [diceInput, setDiceInput] = useState("");
-  const [historyLookback, setHistoryLookback] = useState(0);
+  const [lookback, setLookback] = useState(0);
 
   return (
     <BaseCard
@@ -84,22 +84,17 @@ export function DiceCard(props: { card: DiceCardState }) {
             rollDice(diceInput);
             setDiceInput("");
           }
-          if (
-            e.key === "ArrowUp" &&
-            historyLookback + 1 < card.history.length
-          ) {
+          if (e.key === "ArrowUp" && lookback + 1 < card.history.length) {
             setDiceInput(
-              card.history[card.history.length - (historyLookback + 1)]
-                .expression
+              card.history[card.history.length - (lookback + 1)].expression
             );
-            setHistoryLookback(historyLookback + 1);
+            setLookback(lookback + 1);
           }
-          if (e.key === "ArrowDown" && historyLookback - 1 > 0) {
+          if (e.key === "ArrowDown" && lookback - 1 > 0) {
             setDiceInput(
-              card.history[card.history.length - (historyLookback - 1)]
-                .expression
+              card.history[card.history.length - (lookback - 1)].expression
             );
-            setHistoryLookback(historyLookback - 1);
+            setLookback(lookback - 1);
           }
         }}
       />
