@@ -3,7 +3,7 @@ export function InitialLayout(cardId: string): ReactGridLayout.Layout {
     i: cardId,
     w: 8,
     h: 6,
-    x: 6,
+    x: 8,
     y: 0,
   };
 }
