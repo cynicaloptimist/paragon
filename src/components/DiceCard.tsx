@@ -80,7 +80,7 @@ export function DiceCard(props: { card: DiceCardState }) {
         value={diceInput}
         onChange={(e) => setDiceInput(e.target.value)}
         onKeyDown={(e) => {
-          if (e.key === "Enter") {
+          if (e.key === "Enter" && diceInput.length > 0) {
             rollDice(diceInput);
             setDiceInput("");
           }
