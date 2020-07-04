@@ -7,6 +7,9 @@ export const Actions = {
   SetCardLibraryVisibility: createAction("SetCardLibraryVisibility")<{
     visibility: boolean;
   }>(),
+  SetLayoutCompaction: createAction("SetLayoutCompaction")<{
+    layoutCompaction: "free" | "compact";
+  }>(),
 };
 
 export const CardActions = {

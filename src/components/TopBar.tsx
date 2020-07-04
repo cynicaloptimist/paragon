@@ -1,7 +1,12 @@
 import React, { useContext, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faPlus } from "@fortawesome/free-solid-svg-icons";
-import { Header, Button, Heading, Menu } from "grommet";
+import {
+  faBars,
+  faPlus,
+  faArrowUp,
+  faArrowDown,
+} from "@fortawesome/free-solid-svg-icons";
+import { Header, Button, Heading, Menu, Box } from "grommet";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardActions, Actions } from "../actions/Actions";
 
@@ -11,9 +16,16 @@ export const TopBar = () => {
   const addRollTable = useDispatchAddCard("roll-table");
   const addDice = useDispatchAddCard("dice");
   const addImage = useDispatchAddCard("image");
-  const { dispatch } = useContext(ReducerContext);
+  const { state, dispatch } = useContext(ReducerContext);
+
   const showCardLibrary = useCallback(
     () => dispatch(Actions.SetCardLibraryVisibility({ visibility: true })),
+    [dispatch]
+  );
+
+  const setLayoutCompaction = useCallback(
+    (compaction: "free" | "compact") =>
+      dispatch(Actions.SetLayoutCompaction({ layoutCompaction: compaction })),
     [dispatch]
   );
 
@@ -23,9 +35,23 @@ export const TopBar = () => {
         icon={<FontAwesomeIcon size="sm" icon={faBars} />}
         onClick={showCardLibrary}
       />
-      <Heading level={1} size="small" margin="xxsmall">
-        Paragon Campaign Dashboard
-      </Heading>
+      <Box fill="horizontal" direction="row" justify="center">
+        <Heading level={1} size="small" margin="xxsmall">
+          Paragon Campaign Dashboard
+        </Heading>
+      </Box>
+      {state.layoutCompaction === "free" && (
+        <Button
+          icon={<FontAwesomeIcon size="sm" icon={faArrowUp} />}
+          onClick={() => setLayoutCompaction("compact")}
+        />
+      )}
+      {state.layoutCompaction === "compact" && (
+        <Button
+          icon={<FontAwesomeIcon size="sm" icon={faArrowDown} />}
+          onClick={() => setLayoutCompaction("free")}
+        />
+      )}
       <Menu
         dropAlign={{ right: "right", top: "bottom" }}
         icon={<FontAwesomeIcon icon={faPlus} />}

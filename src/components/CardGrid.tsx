@@ -22,7 +22,6 @@ export function CardGrid() {
       rowHeight={30}
       width={1200}
       draggableHandle=".drag-handle"
-      compactType={null}
       style={{ flexGrow: 1 }}
       layout={state.layouts}
       onLayoutChange={(newLayout) => dispatch(Actions.SetLayouts(newLayout))}
@@ -36,6 +35,7 @@ export function CardGrid() {
           placeholder.w = 4;
         }
       }}
+      verticalCompact={state.layoutCompaction === "compact"}
     >
       {cards}
     </GridLayout>

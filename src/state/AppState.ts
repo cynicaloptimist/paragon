@@ -6,6 +6,7 @@ export type AppState = {
   cardsById: CardsState;
   layouts: GridLayout.Layout[];
   cardLibraryVisibility: boolean;
+  layoutCompaction: "free" | "compact"
 };
 
 export type CardsState = { [cardId: string]: CardState };
@@ -25,6 +26,7 @@ export const GetInitialState = (): AppState => ({
     },
   ],
   cardLibraryVisibility: false,
+  layoutCompaction: "free"
 });
 
 function GetWelcomeCard(): ArticleCardState {

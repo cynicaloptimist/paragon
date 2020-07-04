@@ -15,6 +15,13 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     };
   }
 
+  if (isActionOf(Actions.SetLayoutCompaction, action)) {
+    return {
+      ...oldState,
+      layoutCompaction: action.payload.layoutCompaction,
+    };
+  }
+
   if (isActionOf(CardActions.AddCard, action)) {
     const { cardType, cardId } = action.payload;
     return {
