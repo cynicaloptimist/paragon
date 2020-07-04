@@ -1,9 +1,15 @@
-import React, { useCallback, useContext, useEffect, useRef } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Dice } from "dice-typescript";
 
 import { DiceCardState } from "../state/CardState";
 import { BaseCard } from "./BaseCard";
-import { Button, Box } from "grommet";
+import { Button, Box, TextInput } from "grommet";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardActions } from "../actions/Actions";
 
@@ -42,6 +48,9 @@ export function DiceCard(props: { card: DiceCardState }) {
     });
   }, [card.history]);
 
+  const [diceInput, setDiceInput] = useState("");
+  const [historyLookback, setHistoryLookback] = useState(0);
+
   return (
     <BaseCard
       cardId={card.cardId}
@@ -67,6 +76,33 @@ export function DiceCard(props: { card: DiceCardState }) {
         ))}
         <div ref={scrollBottom} />
       </Box>
+      <TextInput
+        value={diceInput}
+        onChange={(e) => setDiceInput(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            rollDice(diceInput);
+            setDiceInput("");
+          }
+          if (
+            e.key === "ArrowUp" &&
+            historyLookback + 1 < card.history.length
+          ) {
+            setDiceInput(
+              card.history[card.history.length - (historyLookback + 1)]
+                .expression
+            );
+            setHistoryLookback(historyLookback + 1);
+          }
+          if (e.key === "ArrowDown" && historyLookback - 1 > 0) {
+            setDiceInput(
+              card.history[card.history.length - (historyLookback - 1)]
+                .expression
+            );
+            setHistoryLookback(historyLookback - 1);
+          }
+        }}
+      />
     </BaseCard>
   );
 }
