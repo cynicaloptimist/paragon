@@ -70,7 +70,7 @@ export function DiceCard(props: { card: DiceCardState }) {
     >
       <Box overflow={{ vertical: "auto" }} flex justify="start">
         {card.history.map((roll, index) => (
-          <Box flex={false} key={index} direction="row">
+          <Box flex={false} key={index} direction="row" border="top">
             <Box fill justify="center">
               <Text>
                 {roll.expression}
