@@ -57,7 +57,7 @@ function RollTable(props: { rollTableModel: RollTableModel }) {
   useLayoutEffect(() => {
     rolledElement.current?.scrollIntoView({
       behavior: "smooth",
-      block: "nearest",
+      block: "center",
     });
   }, [props.rollTableModel.rollResult]);
 
