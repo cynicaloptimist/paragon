@@ -21,7 +21,7 @@ export function ImageCard(props: { card: ImageCardState }) {
         {card.imageUrl.length ? (
           <Image fit="contain" alt="" src={card.imageUrl} />
         ) : (
-          <Button label="Drop" />
+          <Button label="Drag and drop an image from another tab" fill />
         )}
       </Box>
     </BaseCard>
