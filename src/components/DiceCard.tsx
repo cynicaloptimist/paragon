@@ -84,7 +84,7 @@ export function DiceCard(props: { card: DiceCardState }) {
             rollDice(diceInput);
             setDiceInput("");
           }
-          if (e.key === "ArrowUp" && lookback + 1 < card.history.length) {
+          if (e.key === "ArrowUp" && lookback < card.history.length) {
             setDiceInput(
               card.history[card.history.length - (lookback + 1)].expression
             );
