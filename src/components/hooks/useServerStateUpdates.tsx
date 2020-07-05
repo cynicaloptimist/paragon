@@ -1,7 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AppState } from "../../state/AppState";
-import { database } from "firebase/app";
+import { auth, database } from "firebase/app";
 import "firebase/database";
+import "firebase/auth";
+
 import pickBy from "lodash/pickBy";
 import mapValues from "lodash/mapValues";
 
@@ -21,10 +23,27 @@ function removeUndefinedNodesFromTree(object: any): any {
 }
 
 export function useServerStateUpdates(state: AppState) {
+  const [userId, setUserId] = useState<string | null>(null);
+
   useEffect(() => {
+    auth()
+      .signInAnonymously()
+      .catch((e) => console.log(e));
+    auth().onAuthStateChanged((user) => {
+      if (user) {
+        setUserId(user.uid);
+        console.log(user.uid);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!userId) {
+      return;
+    }
     const cleanState = removeUndefinedNodesFromTree(state);
     console.log(cleanState);
-    const dbRef = database().ref("playerviews/test");
+    const dbRef = database().ref(`users/${userId}/appState`);
     dbRef.set({ state: cleanState });
-  }, [state]);
+  }, [state, userId]);
 }

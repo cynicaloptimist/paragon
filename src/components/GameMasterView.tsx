@@ -1,4 +1,5 @@
 import React from "react";
+import "firebase/auth";
 
 import { TopBar } from "./TopBar";
 import { AppReducer } from "../reducers/AppReducer";
@@ -8,7 +9,7 @@ import { Grommet, Box } from "grommet";
 import { useStorageBackedReducer } from "./hooks/useStorageBackedReducer";
 import { CardGrid } from "./CardGrid";
 import { Theme } from "../Theme";
-//import { useServerStateUpdates } from "./hooks/useServerStateUpdates";
+import { useServerStateUpdates } from "./hooks/useServerStateUpdates";
 import { CardLibrary } from "./CardLibrary";
 
 export function GameMasterView() {
@@ -18,7 +19,7 @@ export function GameMasterView() {
     "appState"
   );
 
-  //useServerStateUpdates(state);
+  useServerStateUpdates(state);
 
   return (
     <ReducerContext.Provider value={{ state, dispatch }}>
