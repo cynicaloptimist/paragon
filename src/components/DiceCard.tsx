@@ -12,7 +12,7 @@ import { BaseCard } from "./BaseCard";
 import { Button, Box, TextInput, Text } from "grommet";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardActions } from "../actions/Actions";
-import { faRedo } from "@fortawesome/free-solid-svg-icons";
+import { faRedo, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const dice = new Dice();
@@ -110,7 +110,11 @@ function DiceRollRow(props: {
       <Box fill justify="center">
         <Text>
           {props.roll.expression}
-          {" => "}
+          <FontAwesomeIcon
+            icon={faArrowRight}
+            size="xs"
+            style={{ padding: "0 5px 1px" }}
+          />
           {props.roll.result}
           {" = "}
           <strong>{props.roll.total}</strong>
