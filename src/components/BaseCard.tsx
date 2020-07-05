@@ -16,12 +16,14 @@ export function BaseCard(props: {
   const [isHeaderEditable, setHeaderEditable] = React.useState<boolean>(false);
   const [headerInput, setHeaderInput] = React.useState<string>("");
   const saveAndClose = () => {
-    dispatch(
-      CardActions.SetCardTitle({
-        cardId: cardState.cardId,
-        title: headerInput,
-      })
-    );
+    if (headerInput.length > 0) {
+      dispatch(
+        CardActions.SetCardTitle({
+          cardId: cardState.cardId,
+          title: headerInput,
+        })
+      );
+    }
     setHeaderEditable(false);
   };
 
