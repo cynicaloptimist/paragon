@@ -14,6 +14,16 @@ export function BaseCard(props: {
   const cardState = state.cardsById[props.cardId];
 
   const [isHeaderEditable, setHeaderEditable] = React.useState<boolean>(false);
+  const [headerInput, setHeaderInput] = React.useState<string>("");
+  const saveAndClose = () => {
+    dispatch(
+      CardActions.SetCardTitle({
+        cardId: cardState.cardId,
+        title: headerInput,
+      })
+    );
+    setHeaderEditable(false);
+  };
 
   return (
     <Box fill elevation="medium">
@@ -30,20 +40,15 @@ export function BaseCard(props: {
             <TextInput
               placeholder={cardState.title}
               onChange={(changeEvent) =>
-                dispatch(
-                  CardActions.SetCardTitle({
-                    cardId: cardState.cardId,
-                    title: changeEvent.target.value,
-                  })
-                )
+                setHeaderInput(changeEvent.target.value)
               }
               onKeyDown={(keyEvent) => {
                 if (keyEvent.key === "Enter") {
-                  setHeaderEditable(false);
+                  saveAndClose();
                 }
               }}
               autoFocus
-              onBlur={() => setHeaderEditable(false)}
+              onBlur={saveAndClose}
             />
           ) : (
             <Box
