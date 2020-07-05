@@ -15,6 +15,8 @@ export function ArticleCard(props: { card: ArticleCardState }) {
     card.content.length === 0
   );
 
+  const [content, setContent] = React.useState(card.content);
+
   return (
     <BaseCard
       cardId={card.cardId}
@@ -37,7 +39,9 @@ export function ArticleCard(props: { card: ArticleCardState }) {
           autoFocus
           defaultValue={card.content}
           onChange={(changeEvent) => {
-            const content = changeEvent.target.value;
+            setContent(changeEvent.target.value);
+          }}
+          onBlur={() => {
             dispatch(
               CardActions.SetCardContent({
                 cardId: card.cardId,
