@@ -1,10 +1,19 @@
 {
-  /* Visit https://firebase.google.com/docs/database/security to learn more about security rules. */
   "rules": {
     "users": {
       "$uid": {
         ".write": "$uid === auth.uid",
-        ".read": "$uid === auth.uid"
+        ".read": "$uid === auth.uid",
+        "playerViewState": {
+          ".read": true
+        }
+      }
+    },
+    "playerViews": {
+      "$playerViewId": {
+        ".read": true,
+        ".write": true,
+        ".validate": "newData.isString()"
       }
     }
   }
