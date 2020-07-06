@@ -12,10 +12,22 @@ import { GetInitialState, AppState } from "../state/AppState";
 
 function useRemoteState() {
   const [state, setState] = useState(GetInitialState());
+  const [playerViewUserId, setPlayerViewUserId] = useState<string | null>(null);
+
   useEffect(() => {
-    const dbRef = database().ref("playerviews/test");
+    const idDbRef = database().ref("playerViews/test");
+    idDbRef.once("value", (id) => {
+      setPlayerViewUserId(id.val());
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!playerViewUserId) {
+      return;
+    }
+    const dbRef = database().ref(`users/${playerViewUserId}/playerViewState`);
     dbRef.on("value", (appState) => {
-      const networkAppState: Partial<AppState> = appState.val().state;
+      const networkAppState: Partial<AppState> = appState.val();
       const completeAppState = {
         ...GetInitialState(),
         ...networkAppState,
@@ -24,7 +36,8 @@ function useRemoteState() {
     });
 
     return () => dbRef.off();
-  }, []);
+  }, [playerViewUserId]);
+
   return state;
 }
 
