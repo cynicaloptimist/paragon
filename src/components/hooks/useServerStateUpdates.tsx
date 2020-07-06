@@ -33,6 +33,8 @@ export function useServerStateUpdates(state: AppState) {
       if (user) {
         setUserId(user.uid);
         console.log(user.uid);
+        const dbRef = database().ref(`playerViews/test`);
+        dbRef.set(user.uid);
       }
     });
   }, []);
@@ -43,7 +45,10 @@ export function useServerStateUpdates(state: AppState) {
     }
     const cleanState = removeUndefinedNodesFromTree(state);
     console.log(cleanState);
-    const dbRef = database().ref(`users/${userId}/appState`);
-    dbRef.set({ state: cleanState });
+    const dbRef = database().ref(`users/${userId}`);
+    dbRef.set({
+      appState: cleanState,
+      playerViewState: cleanState,
+    });
   }, [state, userId]);
 }
