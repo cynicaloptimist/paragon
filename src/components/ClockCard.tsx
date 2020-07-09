@@ -12,7 +12,7 @@ export function ClockCard(props: { card: ClockCardState }) {
 
   return (
     <BaseCard
-      cardId={props.card.cardId}
+      cardState={props.card}
       commands={
         <Button
           aria-label="toggle-edit-mode"

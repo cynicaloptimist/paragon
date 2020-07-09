@@ -19,7 +19,7 @@ export function ArticleCard(props: { card: ArticleCardState }) {
 
   return (
     <BaseCard
-      cardId={card.cardId}
+      cardState={card}
       commands={
         <Button
           aria-label="toggle-edit-mode"

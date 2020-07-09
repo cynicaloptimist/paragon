@@ -10,7 +10,7 @@ export function ImageCard(props: { card: ImageCardState }) {
   const { card } = props;
 
   return (
-    <BaseCard commands={null} cardId={card.cardId}>
+    <BaseCard commands={null} cardState={card}>
       <Box
         fill
         onDropCapture={(dropEvent) => {

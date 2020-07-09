@@ -16,7 +16,7 @@ export function RollTableCard(props: { card: RollTableCardState }) {
 
   return (
     <BaseCard
-      cardId={card.cardId}
+      cardState={card}
       commands={
         <>
           <Button

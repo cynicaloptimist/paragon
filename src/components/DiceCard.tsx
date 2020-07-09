@@ -56,7 +56,7 @@ export function DiceCard(props: { card: DiceCardState }) {
 
   return (
     <BaseCard
-      cardId={card.cardId}
+      cardState={card}
       commands={
         <>
           {quickDie("d2")}
