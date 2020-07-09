@@ -47,7 +47,6 @@ export function useServerStateUpdates(state: AppState) {
     console.log(cleanState);
     const dbRef = database().ref(`users/${userId}`);
     dbRef.set({
-      appState: cleanState,
       playerViewState: cleanState,
     });
   }, [state, userId]);
