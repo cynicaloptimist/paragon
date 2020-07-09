@@ -35,7 +35,7 @@ export function CardGrid() {
           placeholder.w = 4;
         }
       }}
-      verticalCompact={state.layoutCompaction === "compact"}
+      compactType={state.layoutCompaction === "compact" ? "vertical" : null}
     >
       {cards}
     </GridLayout>
