@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { AppState } from "../../state/AppState";
 import { auth, database } from "firebase/app";
 import "firebase/database";
@@ -33,6 +33,7 @@ function getPlayerViewState(fullState: AppState): AppState {
 
 export function useServerStateUpdates(state: AppState) {
   const [userId, setUserId] = useState<string | null>(null);
+  const lastState = useRef(state);
 
   useEffect(() => {
     auth()
@@ -54,9 +55,13 @@ export function useServerStateUpdates(state: AppState) {
     }
     const cleanState = getPlayerViewState(removeUndefinedNodesFromTree(state));
     console.log(cleanState);
-    const dbRef = database().ref(`users/${userId}`);
-    dbRef.set({
-      playerViewState: cleanState,
-    });
+
+    if (JSON.stringify(lastState.current) !== JSON.stringify(cleanState)) {
+      const dbRef = database().ref(`users/${userId}`);
+      dbRef.set({
+        playerViewState: cleanState,
+      });
+      lastState.current = cleanState;
+    }
   }, [state, userId]);
 }
