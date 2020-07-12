@@ -22,7 +22,7 @@ function removeUndefinedNodesFromTree(object: any): any {
   );
 }
 
-function getPlayerViewState(fullState: AppState): AppState {
+function omitClosedCardsFromState(fullState: AppState): AppState {
   return {
     ...fullState,
     cardsById: pickBy(fullState.cardsById, (_, cardId) =>
@@ -53,15 +53,21 @@ export function useServerStateUpdates(state: AppState) {
     if (!userId) {
       return;
     }
-    const cleanState = getPlayerViewState(removeUndefinedNodesFromTree(state));
-    console.log(cleanState);
+    
+    const playerViewState = omitClosedCardsFromState(
+      removeUndefinedNodesFromTree(state)
+    );
 
-    if (JSON.stringify(previousState.current) !== JSON.stringify(cleanState)) {
+    console.log(playerViewState);
+
+    if (
+      JSON.stringify(previousState.current) !== JSON.stringify(playerViewState)
+    ) {
       const dbRef = database().ref(`users/${userId}`);
       dbRef.set({
-        playerViewState: cleanState,
+        playerViewState,
       });
-      previousState.current = cleanState;
+      previousState.current = playerViewState;
     }
   }, [state, userId]);
 }
