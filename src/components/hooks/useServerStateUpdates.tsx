@@ -33,7 +33,7 @@ function getPlayerViewState(fullState: AppState): AppState {
 
 export function useServerStateUpdates(state: AppState) {
   const [userId, setUserId] = useState<string | null>(null);
-  const lastState = useRef(state);
+  const previousState = useRef(state);
 
   useEffect(() => {
     auth()
@@ -56,12 +56,12 @@ export function useServerStateUpdates(state: AppState) {
     const cleanState = getPlayerViewState(removeUndefinedNodesFromTree(state));
     console.log(cleanState);
 
-    if (JSON.stringify(lastState.current) !== JSON.stringify(cleanState)) {
+    if (JSON.stringify(previousState.current) !== JSON.stringify(cleanState)) {
       const dbRef = database().ref(`users/${userId}`);
       dbRef.set({
         playerViewState: cleanState,
       });
-      lastState.current = cleanState;
+      previousState.current = cleanState;
     }
   }, [state, userId]);
 }
