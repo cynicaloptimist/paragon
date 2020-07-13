@@ -85,17 +85,17 @@ export const TopBar = () => {
 function useDispatchAddCard(cardType: string) {
   const { dispatch } = useContext(ReducerContext);
   return useCallback(() => {
-    const cardId = newId();
+    const cardId = randomString();
     dispatch(CardActions.AddCard({ cardId, cardType }));
   }, [cardType, dispatch]);
 }
 
-const idChars = "qwertyuiopasdfghjklzxcvbnm1234567890";
-function newId(length: number = 8): string {
-  let id = "";
+function randomString(length: number = 8): string {
+  const validChars = "qwertyuiopasdfghjklzxcvbnm1234567890";
+  let str = "";
   for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * idChars.length);
-    id += idChars[randomIndex];
+    const randomIndex = Math.floor(Math.random() * validChars.length);
+    str += validChars[randomIndex];
   }
-  return id;
+  return str;
 }
