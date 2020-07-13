@@ -9,6 +9,7 @@ import {
 import { Header, Button, Heading, Menu, Box } from "grommet";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardActions, Actions } from "../actions/Actions";
+import { randomString } from "../randomString";
 
 export const TopBar = () => {
   const addArticle = useDispatchAddCard("article");
@@ -88,14 +89,4 @@ function useDispatchAddCard(cardType: string) {
     const cardId = randomString();
     dispatch(CardActions.AddCard({ cardId, cardType }));
   }, [cardType, dispatch]);
-}
-
-function randomString(length: number = 8): string {
-  const validChars = "qwertyuiopasdfghjklzxcvbnm1234567890";
-  let str = "";
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * validChars.length);
-    str += validChars[randomIndex];
-  }
-  return str;
 }
