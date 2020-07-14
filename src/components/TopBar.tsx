@@ -1,12 +1,7 @@
 import React, { useContext, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBars,
-  faPlus,
-  faArrowUp,
-  faArrowsAlt,
-} from "@fortawesome/free-solid-svg-icons";
-import { Header, Button, Heading, Menu, Box } from "grommet";
+import { faBars, faPlus, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import { Header, Button, Heading, Menu, Box, CheckBox } from "grommet";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardActions, Actions } from "../actions/Actions";
 import { randomString } from "../randomString";
@@ -41,18 +36,6 @@ export const TopBar = () => {
           Paragon Campaign Dashboard
         </Heading>
       </Box>
-      {state.layoutCompaction === "free" && (
-        <Button
-          icon={<FontAwesomeIcon size="sm" icon={faArrowsAlt} />}
-          onClick={() => setLayoutCompaction("compact")}
-        />
-      )}
-      {state.layoutCompaction === "compact" && (
-        <Button
-          icon={<FontAwesomeIcon size="sm" icon={faArrowUp} />}
-          onClick={() => setLayoutCompaction("free")}
-        />
-      )}
       <Menu
         dropAlign={{ right: "right", top: "bottom" }}
         icon={<FontAwesomeIcon icon={faPlus} />}
@@ -77,6 +60,21 @@ export const TopBar = () => {
             label: "Image",
             onClick: addImage,
           },
+        ]}
+      />
+      <Menu
+        dropAlign={{ right: "right", top: "bottom" }}
+        icon={<FontAwesomeIcon icon={faEllipsisV} />}
+        items={[
+          state.layoutCompaction === "free"
+            ? {
+                label: <CheckBox label="Compact Cards" />,
+                onClick: () => setLayoutCompaction("compact"),
+              }
+            : {
+                label: <CheckBox label="Compact Cards" checked />,
+                onClick: () => setLayoutCompaction("free"),
+              },
         ]}
       />
     </Header>
