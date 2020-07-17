@@ -1,5 +1,5 @@
 import GridLayout from "react-grid-layout";
-import { CardState, ArticleCardState } from "./CardState";
+import { CardState, ArticleCardState, PlayerViewPermission } from "./CardState";
 import { randomString } from "../randomString";
 
 export type AppState = {
@@ -38,5 +38,6 @@ function GetWelcomeCard(): ArticleCardState {
     type: "article",
     title: "Welcome",
     content: `Welcome to Paragon Campaign Dashboard! This app provides a suite of tools to help prepare and run your tabletop RPGs. Add new cards from the '+' menu.`,
+    playerViewPermission: PlayerViewPermission.Hidden,
   };
 }

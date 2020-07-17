@@ -43,7 +43,13 @@ export type DiceRoll = {
   total: number;
 };
 
+export enum PlayerViewPermission {
+  Hidden = "hidden",
+  Visible = "visible",
+}
+
 type BaseCardState = {
   cardId: string;
   title: string;
+  playerViewPermission: PlayerViewPermission;
 };

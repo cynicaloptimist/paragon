@@ -1,8 +1,9 @@
-import { CardState } from "./CardState";
+import { CardState, PlayerViewPermission } from "./CardState";
 
 export function InitialCardState(cardId: string, type: string): CardState {
   const baseCard = {
     cardId,
+    playerViewPermission: PlayerViewPermission.Hidden,
   };
 
   if (type === "clock") {
