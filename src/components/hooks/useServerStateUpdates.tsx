@@ -47,7 +47,7 @@ export function useServerStateUpdates(state: AppState) {
         dbRef.set(user.uid);
       }
     });
-  }, []);
+  }, [state.playerViewId]);
 
   useEffect(() => {
     if (!userId) {

@@ -23,7 +23,7 @@ function useRemoteState() {
     idDbRef.once("value", (id) => {
       setPlayerViewUserId(id.val());
     });
-  }, []);
+  }, [playerViewId]);
 
   useEffect(() => {
     if (!playerViewUserId) {
