@@ -1,6 +1,6 @@
 import GridLayout from "react-grid-layout";
 import { createAction, ActionType } from "typesafe-actions";
-import { RollTableEntry } from "../state/CardState";
+import { RollTableEntry, PlayerViewPermission } from "../state/CardState";
 
 export const Actions = {
   SetLayouts: createAction("SetLayouts")<GridLayout.Layout[]>(),
@@ -35,6 +35,10 @@ export const CardActions = {
   SetCardTitle: createAction("SetCardTitle")<{
     cardId: string;
     title: string;
+  }>(),
+  SetPlayerViewPermission: createAction("SetPlayerViewPermission")<{
+    cardId: string;
+    playerViewPermission: PlayerViewPermission;
   }>(),
   SetRollTableEntries: createAction("SetRollTableEntries")<{
     cardId: string;

@@ -29,6 +29,14 @@ export const CardsReducer = createReducer<CardsState, CardAction>({})
       title: action.payload.title,
     });
   })
+  .handleAction(
+    CardActions.SetPlayerViewPermission,
+    (oldState: CardsState, action) => {
+      return mergeCardState(oldState, action, {
+        playerViewPermission: action.payload.playerViewPermission,
+      });
+    }
+  )
   .handleAction(CardActions.SetClockValue, (oldState, action) => {
     return mergeCardState(oldState, action, {
       value: action.payload.value,

@@ -1,10 +1,15 @@
 import React from "react";
 import { Box, Header, Button, TextInput, Heading, Footer } from "grommet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGripLines, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faGripLines,
+  faTimes,
+  faEye,
+  faEyeSlash,
+} from "@fortawesome/free-solid-svg-icons";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardActions } from "../actions/Actions";
-import { CardState } from "../state/CardState";
+import { CardState, PlayerViewPermission } from "../state/CardState";
 
 export function BaseCard(props: {
   commands: React.ReactNode;
@@ -62,6 +67,32 @@ export function BaseCard(props: {
                 {props.cardState.title}
               </Heading>
             </Box>
+          )}
+          {props.cardState.playerViewPermission ===
+          PlayerViewPermission.Hidden ? (
+            <Button
+              icon={<FontAwesomeIcon icon={faEye} />}
+              onClick={() =>
+                dispatch(
+                  CardActions.SetPlayerViewPermission({
+                    cardId: props.cardState.cardId,
+                    playerViewPermission: PlayerViewPermission.Visible,
+                  })
+                )
+              }
+            />
+          ) : (
+            <Button
+              icon={<FontAwesomeIcon icon={faEyeSlash} />}
+              onClick={() =>
+                dispatch(
+                  CardActions.SetPlayerViewPermission({
+                    cardId: props.cardState.cardId,
+                    playerViewPermission: PlayerViewPermission.Hidden,
+                  })
+                )
+              }
+            />
           )}
           <Button
             icon={<FontAwesomeIcon icon={faTimes} />}
