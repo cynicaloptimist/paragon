@@ -43,7 +43,7 @@ export function useServerStateUpdates(state: AppState) {
       if (user) {
         setUserId(user.uid);
         console.log(user.uid);
-        const dbRef = database().ref(`playerViews/test`);
+        const dbRef = database().ref(`playerViews/${state.playerViewId}`);
         dbRef.set(user.uid);
       }
     });
@@ -53,7 +53,7 @@ export function useServerStateUpdates(state: AppState) {
     if (!userId) {
       return;
     }
-    
+
     const playerViewState = omitClosedCardsFromState(
       removeUndefinedNodesFromTree(state)
     );

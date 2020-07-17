@@ -1,12 +1,14 @@
 import GridLayout from "react-grid-layout";
 import { CardState, ArticleCardState } from "./CardState";
+import { randomString } from "../randomString";
 
 export type AppState = {
   openCardIds: string[];
   cardsById: CardsState;
   layouts: GridLayout.Layout[];
   cardLibraryVisibility: boolean;
-  layoutCompaction: "free" | "compact"
+  layoutCompaction: "free" | "compact";
+  playerViewId: string;
 };
 
 export type CardsState = { [cardId: string]: CardState };
@@ -26,7 +28,8 @@ export const GetInitialState = (): AppState => ({
     },
   ],
   cardLibraryVisibility: false,
-  layoutCompaction: "free"
+  layoutCompaction: "free",
+  playerViewId: randomString(4),
 });
 
 function GetWelcomeCard(): ArticleCardState {

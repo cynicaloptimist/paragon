@@ -9,13 +9,15 @@ import { Theme } from "../Theme";
 import { TopBar } from "./TopBar";
 import { CardGrid } from "./CardGrid";
 import { GetInitialState, AppState } from "../state/AppState";
+import { useParams } from "react-router-dom";
 
 function useRemoteState() {
   const [state, setState] = useState(GetInitialState());
+  const { playerViewId } = useParams();
   const [playerViewUserId, setPlayerViewUserId] = useState<string | null>(null);
 
   useEffect(() => {
-    const idDbRef = database().ref("playerViews/test");
+    const idDbRef = database().ref(`playerViews/${playerViewId}`);
     idDbRef.once("value", (id) => {
       setPlayerViewUserId(id.val());
     });

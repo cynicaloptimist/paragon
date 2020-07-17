@@ -12,7 +12,7 @@ const App = () => {
   return (
     <Router>
       <Switch>
-        <Route path="/p">
+        <Route path="/p/:playerViewId">
           <PlayerView />
         </Route>
         <Route path="/">

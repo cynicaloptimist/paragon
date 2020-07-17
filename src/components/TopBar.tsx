@@ -75,6 +75,10 @@ export const TopBar = () => {
                 label: <CheckBox label="Compact Cards" checked />,
                 onClick: () => setLayoutCompaction("free"),
               },
+          {
+            label: "Player View: " + state.playerViewId,
+            onClick: () => window.open(`/p/${state.playerViewId}`, "_blank"),
+          },
         ]}
       />
     </Header>
