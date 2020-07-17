@@ -6,6 +6,7 @@ import "firebase/auth";
 
 import pickBy from "lodash/pickBy";
 import mapValues from "lodash/mapValues";
+import { PlayerViewPermission } from "../../state/CardState";
 
 function removeUndefinedNodesFromTree(object: any): any {
   if (typeof object !== "object") {
@@ -23,10 +24,16 @@ function removeUndefinedNodesFromTree(object: any): any {
 }
 
 function omitClosedCardsFromState(fullState: AppState): AppState {
+  const openCardIds = fullState.openCardIds.filter(
+    (cardId) =>
+      fullState.cardsById[cardId].playerViewPermission !==
+      PlayerViewPermission.Hidden
+  );
   return {
     ...fullState,
+    openCardIds,
     cardsById: pickBy(fullState.cardsById, (_, cardId) =>
-      fullState.openCardIds.some((openCardId) => openCardId === cardId)
+      openCardIds.some((openCardId) => openCardId === cardId)
     ),
   };
 }
