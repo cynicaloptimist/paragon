@@ -13,11 +13,13 @@ import { useParams } from "react-router-dom";
 
 function useRemoteState() {
   const [state, setState] = useState(GetInitialState());
-  const { playerViewId } = useParams();
+  const { playerViewId } = useParams<{ playerViewId: string }>();
   const [playerViewUserId, setPlayerViewUserId] = useState<string | null>(null);
 
   useEffect(() => {
-    const idDbRef = database().ref(`playerViews/${playerViewId}`);
+    const idDbRef = database().ref(
+      `playerViews/${playerViewId.toLocaleLowerCase()}`
+    );
     idDbRef.once("value", (id) => {
       setPlayerViewUserId(id.val());
     });
