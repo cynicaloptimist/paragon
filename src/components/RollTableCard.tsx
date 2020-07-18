@@ -59,7 +59,7 @@ function RollTable(props: { rollTableModel: RollTableModel }) {
       behavior: "smooth",
       block: "center",
     });
-  }, [props.rollTableModel.rollResult]);
+  }, [rolledElement, props.rollTableModel.rollResult]);
 
   return (
     <Box>

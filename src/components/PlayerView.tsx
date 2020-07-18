@@ -6,7 +6,6 @@ import "firebase/database";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { Grommet, Box } from "grommet";
 import { Theme } from "../Theme";
-import { TopBar } from "./TopBar";
 import { CardGrid } from "./CardGrid";
 import { GetInitialState, AppState } from "../state/AppState";
 import { useParams } from "react-router-dom";
@@ -53,7 +52,7 @@ export function PlayerView() {
   return (
     <ReducerContext.Provider value={{ state, dispatch: () => {} }}>
       <PlayerViewContext.Provider value={{ playerViewId: playerViewId }}>
-        <Grommet style={{ height: "100%" }} theme={Theme}>
+        <Grommet style={{ minHeight: "100%" }} theme={Theme}>
           <Box fill align="center">
             <Box fill="vertical" width="1200px">
               <PlayerViewTopBar />
