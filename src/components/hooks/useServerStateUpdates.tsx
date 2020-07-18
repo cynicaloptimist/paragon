@@ -35,6 +35,9 @@ function omitClosedCardsFromState(fullState: AppState): AppState {
     cardsById: pickBy(fullState.cardsById, (_, cardId) =>
       openCardIds.some((openCardId) => openCardId === cardId)
     ),
+    layouts: fullState.layouts.filter((layout) =>
+      openCardIds.includes(layout.i)
+    ),
   };
 }
 
