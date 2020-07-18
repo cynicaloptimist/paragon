@@ -1,7 +1,12 @@
 import React, { useContext, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faPlus, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-import { Header, Button, Heading, Menu, Box, CheckBox } from "grommet";
+import {
+  faBars,
+  faPlus,
+  faEllipsisV,
+  faExternalLinkAlt,
+} from "@fortawesome/free-solid-svg-icons";
+import { Header, Button, Heading, Menu, Box, CheckBox, Text } from "grommet";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardActions, Actions } from "../actions/Actions";
 import { randomString } from "../randomString";
@@ -76,7 +81,15 @@ export const TopBar = () => {
                 onClick: () => setLayoutCompaction("free"),
               },
           {
-            label: "Player View: " + state.playerViewId,
+            label: (
+              <Text>
+                <FontAwesomeIcon
+                  icon={faExternalLinkAlt}
+                  style={{ padding: "0 5px 1px" }}
+                />
+                {"Player View: " + state.playerViewId}
+              </Text>
+            ),
             onClick: () => window.open(`/p/${state.playerViewId}`, "_blank"),
           },
         ]}
