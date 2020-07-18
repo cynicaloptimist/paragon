@@ -11,6 +11,7 @@ import { CardGrid } from "./CardGrid";
 import { GetInitialState, AppState } from "../state/AppState";
 import { useParams } from "react-router-dom";
 import { PlayerViewContext } from "./PlayerViewContext";
+import { PlayerViewTopBar } from "./PlayerViewTopBar";
 
 function useRemoteState(playerViewId: string) {
   const [state, setState] = useState(GetInitialState());
@@ -55,7 +56,7 @@ export function PlayerView() {
         <Grommet style={{ height: "100%" }} theme={Theme}>
           <Box fill align="center">
             <Box fill="vertical" width="1200px">
-              <TopBar />
+              <PlayerViewTopBar />
               <CardGrid />
             </Box>
           </Box>
