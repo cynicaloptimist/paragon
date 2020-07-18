@@ -14,12 +14,15 @@ import { ReducerContext } from "../reducers/ReducerContext";
 import { CardActions } from "../actions/Actions";
 import { faRedo, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { PlayerViewContext } from "./PlayerViewContext";
 
 const dice = new Dice();
 
 export function DiceCard(props: { card: DiceCardState }) {
   const { dispatch } = useContext(ReducerContext);
   const { card } = props;
+
+  const canEdit = useContext(PlayerViewContext) === null;
 
   const rollDice = useCallback(
     (expression) => {
@@ -75,28 +78,30 @@ export function DiceCard(props: { card: DiceCardState }) {
         ))}
         <div ref={scrollBottom} />
       </Box>
-      <TextInput
-        value={diceInput}
-        onChange={(e) => setDiceInput(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" && diceInput.length > 0) {
-            rollDice(diceInput);
-            setDiceInput("");
-          }
-          if (e.key === "ArrowUp" && lookback < card.history.length) {
-            setDiceInput(
-              card.history[card.history.length - (lookback + 1)].expression
-            );
-            setLookback(lookback + 1);
-          }
-          if (e.key === "ArrowDown" && lookback - 1 > 0) {
-            setDiceInput(
-              card.history[card.history.length - (lookback - 1)].expression
-            );
-            setLookback(lookback - 1);
-          }
-        }}
-      />
+      {canEdit && (
+        <TextInput
+          value={diceInput}
+          onChange={(e) => setDiceInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && diceInput.length > 0) {
+              rollDice(diceInput);
+              setDiceInput("");
+            }
+            if (e.key === "ArrowUp" && lookback < card.history.length) {
+              setDiceInput(
+                card.history[card.history.length - (lookback + 1)].expression
+              );
+              setLookback(lookback + 1);
+            }
+            if (e.key === "ArrowDown" && lookback - 1 > 0) {
+              setDiceInput(
+                card.history[card.history.length - (lookback - 1)].expression
+              );
+              setLookback(lookback - 1);
+            }
+          }}
+        />
+      )}
     </BaseCard>
   );
 }

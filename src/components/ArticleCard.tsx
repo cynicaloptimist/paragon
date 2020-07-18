@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { BaseCard } from "./BaseCard";
 import { Button, TextArea, Markdown, Box } from "grommet";
 import { ReducerContext } from "../reducers/ReducerContext";
@@ -6,6 +6,8 @@ import { CardActions } from "../actions/Actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { ArticleCardState } from "../state/CardState";
+import { PlayerView } from "./PlayerView";
+import { PlayerViewContext } from "./PlayerViewContext";
 
 export function ArticleCard(props: { card: ArticleCardState }) {
   const { dispatch } = React.useContext(ReducerContext);
@@ -16,6 +18,7 @@ export function ArticleCard(props: { card: ArticleCardState }) {
   );
 
   const [content, setContent] = React.useState(card.content);
+  const canEdit = useContext(PlayerViewContext) === null;
 
   return (
     <BaseCard
@@ -23,7 +26,7 @@ export function ArticleCard(props: { card: ArticleCardState }) {
       commands={
         <Button
           aria-label="toggle-edit-mode"
-          onClick={() => setContentEditable(!isContentEditable)}
+          onClick={() => canEdit && setContentEditable(!isContentEditable)}
           icon={
             <FontAwesomeIcon
               size="xs"
