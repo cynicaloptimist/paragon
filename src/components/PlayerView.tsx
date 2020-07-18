@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext } from "react";
+import React, { useState, useEffect } from "react";
 
 import { database } from "firebase/app";
 import "firebase/database";
@@ -10,11 +10,7 @@ import { TopBar } from "./TopBar";
 import { CardGrid } from "./CardGrid";
 import { GetInitialState, AppState } from "../state/AppState";
 import { useParams } from "react-router-dom";
-
-type PlayerViewContext = {
-  playerViewId: string;
-};
-const PlayerViewContext = createContext<null | PlayerViewContext>(null);
+import { PlayerViewContext } from "./PlayerViewContext";
 
 function useRemoteState(playerViewId: string) {
   const [state, setState] = useState(GetInitialState());
