@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext } from "react";
 
 import { database } from "firebase/app";
 import "firebase/database";
@@ -11,9 +11,13 @@ import { CardGrid } from "./CardGrid";
 import { GetInitialState, AppState } from "../state/AppState";
 import { useParams } from "react-router-dom";
 
-function useRemoteState() {
+type PlayerViewContext = {
+  playerViewId: string;
+};
+const PlayerViewContext = createContext<null | PlayerViewContext>(null);
+
+function useRemoteState(playerViewId: string) {
   const [state, setState] = useState(GetInitialState());
-  const { playerViewId } = useParams<{ playerViewId: string }>();
   const [playerViewUserId, setPlayerViewUserId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -46,18 +50,21 @@ function useRemoteState() {
 }
 
 export function PlayerView() {
-  const state = useRemoteState();
+  const { playerViewId } = useParams<{ playerViewId: string }>();
+  const state = useRemoteState(playerViewId);
 
   return (
     <ReducerContext.Provider value={{ state, dispatch: () => {} }}>
-      <Grommet style={{ height: "100%" }} theme={Theme}>
-        <Box fill align="center">
-          <Box fill="vertical" width="1200px">
-            <TopBar />
-            <CardGrid />
+      <PlayerViewContext.Provider value={{ playerViewId: playerViewId }}>
+        <Grommet style={{ height: "100%" }} theme={Theme}>
+          <Box fill align="center">
+            <Box fill="vertical" width="1200px">
+              <TopBar />
+              <CardGrid />
+            </Box>
           </Box>
-        </Box>
-      </Grommet>
+        </Grommet>
+      </PlayerViewContext.Provider>
     </ReducerContext.Provider>
   );
 }
