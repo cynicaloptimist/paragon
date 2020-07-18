@@ -13,6 +13,15 @@ export type AppState = {
 
 export type CardsState = { [cardId: string]: CardState };
 
+export const EmptyState = (): AppState => ({
+  openCardIds: [],
+  cardsById: {},
+  layouts: [],
+  cardLibraryVisibility: false,
+  layoutCompaction: "free",
+  playerViewId: "",
+});
+
 export const GetInitialState = (): AppState => ({
   openCardIds: ["welcome"],
   cardsById: {

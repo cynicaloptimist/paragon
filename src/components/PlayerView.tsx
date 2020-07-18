@@ -7,13 +7,13 @@ import { ReducerContext } from "../reducers/ReducerContext";
 import { Grommet, Box } from "grommet";
 import { Theme } from "../Theme";
 import { CardGrid } from "./CardGrid";
-import { GetInitialState, AppState } from "../state/AppState";
+import { EmptyState, AppState } from "../state/AppState";
 import { useParams } from "react-router-dom";
 import { PlayerViewContext } from "./PlayerViewContext";
 import { PlayerViewTopBar } from "./PlayerViewTopBar";
 
 function useRemoteState(playerViewId: string) {
-  const [state, setState] = useState(GetInitialState());
+  const [state, setState] = useState(EmptyState());
   const [playerViewUserId, setPlayerViewUserId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ function useRemoteState(playerViewId: string) {
     dbRef.on("value", (appState) => {
       const networkAppState: Partial<AppState> = appState.val();
       const completeAppState = {
-        ...GetInitialState(),
+        ...EmptyState(),
         ...networkAppState,
       };
       setState(completeAppState);
