@@ -8,9 +8,11 @@ import { ClockCard } from "./ClockCard";
 import { RollTableCard } from "./RollTableCard";
 import { ImageCard } from "./ImageCard";
 import { DiceCard } from "./DiceCard";
+import { PlayerViewContext } from "./PlayerViewContext";
 
 export function CardGrid() {
   const { state, dispatch } = useContext(ReducerContext);
+  const canEdit = useContext(PlayerViewContext) === null;
 
   const cards = state.openCardIds.map((cardId) => (
     <div key={cardId}>{getComponentForCard(state.cardsById[cardId])}</div>
@@ -24,6 +26,8 @@ export function CardGrid() {
       draggableHandle=".drag-handle"
       style={{ flexGrow: 1 }}
       layout={state.layouts}
+      isDraggable={canEdit}
+      isResizable={canEdit}
       onLayoutChange={(newLayout) => dispatch(Actions.SetLayouts(newLayout))}
       onResize={(_, __, layoutItem, placeholder) => {
         if (layoutItem.h < 3) {

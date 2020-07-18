@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Box, Header, Button, TextInput, Heading, Footer } from "grommet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGripLines, faTimes, faEye } from "@fortawesome/free-solid-svg-icons";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardActions } from "../actions/Actions";
 import { CardState, PlayerViewPermission } from "../state/CardState";
+import { PlayerViewContext } from "./PlayerViewContext";
 
 export function BaseCard(props: {
   commands: React.ReactNode;
@@ -15,6 +16,8 @@ export function BaseCard(props: {
 
   const [isHeaderEditable, setHeaderEditable] = React.useState<boolean>(false);
   const [headerInput, setHeaderInput] = React.useState<string>("");
+  const canEdit = useContext(PlayerViewContext) === null;
+
   const saveAndClose = () => {
     if (headerInput.length > 0) {
       dispatch(
@@ -37,7 +40,7 @@ export function BaseCard(props: {
           align="baseline"
           gap="xxsmall"
         >
-          <Button icon={<FontAwesomeIcon icon={faGripLines} />} />
+          {canEdit && <Button icon={<FontAwesomeIcon icon={faGripLines} />} />}
           {isHeaderEditable ? (
             <TextInput
               placeholder={props.cardState.title}
@@ -56,49 +59,52 @@ export function BaseCard(props: {
             <Box
               fill
               direction="row"
-              onDoubleClick={() => setHeaderEditable(true)}
+              onDoubleClick={() => canEdit && setHeaderEditable(true)}
             >
               <Heading level={3} margin="none" truncate>
                 {props.cardState.title}
               </Heading>
             </Box>
           )}
-          {props.cardState.playerViewPermission ===
-          PlayerViewPermission.Hidden ? (
+          {canEdit &&
+            (props.cardState.playerViewPermission ===
+            PlayerViewPermission.Hidden ? (
+              <Button
+                icon={<FontAwesomeIcon icon={faEye} />}
+                color="light-on-brand"
+                hoverIndicator={{ color: "auto" }}
+                onClick={() =>
+                  dispatch(
+                    CardActions.SetPlayerViewPermission({
+                      cardId: props.cardState.cardId,
+                      playerViewPermission: PlayerViewPermission.Visible,
+                    })
+                  )
+                }
+              />
+            ) : (
+              <Button
+                icon={<FontAwesomeIcon icon={faEye} />}
+                onClick={() =>
+                  dispatch(
+                    CardActions.SetPlayerViewPermission({
+                      cardId: props.cardState.cardId,
+                      playerViewPermission: PlayerViewPermission.Hidden,
+                    })
+                  )
+                }
+              />
+            ))}
+          {canEdit && (
             <Button
-              icon={<FontAwesomeIcon icon={faEye} />}
-              color="light-on-brand"
-              hoverIndicator={{ color: "auto" }}
+              icon={<FontAwesomeIcon icon={faTimes} />}
               onClick={() =>
                 dispatch(
-                  CardActions.SetPlayerViewPermission({
-                    cardId: props.cardState.cardId,
-                    playerViewPermission: PlayerViewPermission.Visible,
-                  })
-                )
-              }
-            />
-          ) : (
-            <Button
-              icon={<FontAwesomeIcon icon={faEye} />}
-              onClick={() =>
-                dispatch(
-                  CardActions.SetPlayerViewPermission({
-                    cardId: props.cardState.cardId,
-                    playerViewPermission: PlayerViewPermission.Hidden,
-                  })
+                  CardActions.CloseCard({ cardId: props.cardState.cardId })
                 )
               }
             />
           )}
-          <Button
-            icon={<FontAwesomeIcon icon={faTimes} />}
-            onClick={() =>
-              dispatch(
-                CardActions.CloseCard({ cardId: props.cardState.cardId })
-              )
-            }
-          />
         </Box>
       </Header>
       <Box flex pad="xxsmall">
@@ -110,7 +116,7 @@ export function BaseCard(props: {
         pad={{ right: "small" }}
         overflow={{ horizontal: "auto" }}
       >
-        {props.commands}
+        {canEdit && props.commands}
       </Footer>
     </Box>
   );
