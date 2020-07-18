@@ -11,6 +11,9 @@ export const Theme: ThemeType = {
         dark: "#52675E",
         light: "#A3C4BC",
       },
+      "light-on-brand": {
+        light: "#ECFAEA",
+      },
       background: "#F1F7EE",
     },
     font: {
@@ -24,6 +27,6 @@ export const Theme: ThemeType = {
     font: {
       family: "'Vollkorn', serif",
     },
-    weight: 300
+    weight: 300,
   },
 };
