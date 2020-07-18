@@ -1,4 +1,10 @@
-import React, { useState, useContext, useRef, useLayoutEffect } from "react";
+import React, {
+  useState,
+  useContext,
+  useRef,
+  useLayoutEffect,
+  useEffect,
+} from "react";
 import { RollTableCardState, RollTableEntry } from "../state/CardState";
 import { BaseCard } from "./BaseCard";
 import { Button, Box, TextArea } from "grommet";
@@ -54,11 +60,23 @@ export function RollTableCard(props: { card: RollTableCardState }) {
 
 function RollTable(props: { rollTableModel: RollTableModel }) {
   const rolledElement = useRef<HTMLDivElement>(null);
-  useLayoutEffect(() => {
-    rolledElement.current?.scrollIntoView({
+  useEffect(() => {
+    if (!rolledElement.current) {
+      return;
+    }
+    const scrollTop = rolledElement.current.scrollTop;
+    rolledElement.current.scrollIntoView({
       behavior: "smooth",
       block: "center",
     });
+
+    // Chrome doesn't respect the smooth scroll on Player View for some reason,
+    // so as a workaround we scroll directly after a beat if it failed to scroll.
+    setTimeout(() => {
+      if (rolledElement.current?.scrollTop === scrollTop) {
+        rolledElement.current.scrollIntoView({ block: "center" });
+      }
+    }, 500);
   }, [rolledElement, props.rollTableModel.rollResult]);
 
   return (
