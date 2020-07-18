@@ -11,8 +11,11 @@ export const Theme: ThemeType = {
         dark: "#52675E",
         light: "#A3C4BC",
       },
-      "light-on-brand": {
-        light: "#ECFAEA",
+      text: {
+        light: "rgba(68, 68, 68, 1)",
+      },
+      "text-fade": {
+        light: "rgba(68, 68, 68, 0.2)"
       },
       background: "#F1F7EE",
     },

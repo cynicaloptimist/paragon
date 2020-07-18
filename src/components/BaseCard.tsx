@@ -1,7 +1,12 @@
 import React, { useContext } from "react";
 import { Box, Header, Button, TextInput, Heading, Footer } from "grommet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGripLines, faTimes, faEye } from "@fortawesome/free-solid-svg-icons";
+import {
+  faGripLines,
+  faTimes,
+  faEye,
+  faEyeSlash,
+} from "@fortawesome/free-solid-svg-icons";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardActions } from "../actions/Actions";
 import { CardState, PlayerViewPermission } from "../state/CardState";
@@ -65,9 +70,9 @@ export function BaseCard(props: {
             (props.cardState.playerViewPermission ===
             PlayerViewPermission.Hidden ? (
               <Button
-                icon={<FontAwesomeIcon icon={faEye} />}
-                color="light-on-brand"
-                hoverIndicator={{ color: "auto" }}
+                icon={<FontAwesomeIcon icon={faEyeSlash} />}
+                color="text-fade"
+                hoverIndicator
                 onClick={() =>
                   dispatch(
                     CardActions.SetPlayerViewPermission({
@@ -80,6 +85,7 @@ export function BaseCard(props: {
             ) : (
               <Button
                 icon={<FontAwesomeIcon icon={faEye} />}
+                hoverIndicator
                 onClick={() =>
                   dispatch(
                     CardActions.SetPlayerViewPermission({
