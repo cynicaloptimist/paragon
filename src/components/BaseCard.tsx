@@ -32,14 +32,8 @@ export function BaseCard(props: {
 
   return (
     <Box fill elevation="medium">
-      <Header pad="xsmall" background="brand">
-        <Box
-          fill
-          className="drag-handle"
-          direction="row"
-          align="baseline"
-          gap="xxsmall"
-        >
+      <Header pad="xsmall" background="brand" height="3.4rem">
+        <Box fill className="drag-handle" direction="row" gap="xxsmall">
           {canEdit && <Button icon={<FontAwesomeIcon icon={faGripLines} />} />}
           {isHeaderEditable ? (
             <TextInput
@@ -60,6 +54,7 @@ export function BaseCard(props: {
               fill
               direction="row"
               onDoubleClick={() => canEdit && setHeaderEditable(true)}
+              align="center"
             >
               <Heading level={3} margin="none" truncate>
                 {props.cardState.title}
