@@ -60,9 +60,39 @@ export function ArticleCard(props: { card: ArticleCardState }) {
           onDoubleClick={() => setContentEditable(true)}
           overflow={{ vertical: "auto" }}
         >
-          <Markdown style={{ whiteSpace: "pre-wrap" }}>{card.content}</Markdown>
+          <Markdown
+            style={{ whiteSpace: "pre-wrap" }}
+            components={{
+              a: {
+                component: CardLink,
+              },
+            }}
+          >
+            {card.content}
+          </Markdown>
         </Box>
       )}
     </BaseCard>
   );
 }
+
+const CardLink = (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
+  const { state, dispatch } = React.useContext(ReducerContext);
+  const cardId = props.href || "";
+  if (!state.cardsById[cardId]) {
+    return <a {...props} target="_blank" />;
+  }
+  return (
+    <a
+      href="#"
+      onClick={() => {
+        if (!props.href) {
+          return false;
+        }
+        dispatch(CardActions.OpenCard({ cardId }));
+      }}
+    >
+      {props.children}
+    </a>
+  );
+};
