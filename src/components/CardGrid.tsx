@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import GridLayout from "react-grid-layout";
-import { Actions } from "../actions/Actions";
+import { Actions, CardActions } from "../actions/Actions";
 import { ArticleCard } from "./ArticleCard";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardState } from "../state/CardState";
@@ -14,9 +14,15 @@ export function CardGrid() {
   const { state, dispatch } = useContext(ReducerContext);
   const canEdit = useContext(PlayerViewContext) === null;
 
-  const cards = state.openCardIds.map((cardId) => (
-    <div key={cardId}>{getComponentForCard(state.cardsById[cardId])}</div>
-  ));
+  const cards = state.openCardIds.map((cardId) => {
+    const card = state.cardsById[cardId];
+    if (!card) {
+      console.warn("Open card ID missing from state: " + cardId);
+      dispatch(CardActions.CloseCard({ cardId }));
+      return <div key={cardId}></div>;
+    }
+    return <div key={cardId}>{getComponentForCard(card)}</div>;
+  });
 
   return (
     <GridLayout
