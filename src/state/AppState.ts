@@ -46,7 +46,9 @@ function GetWelcomeCard(): ArticleCardState {
     cardId: "welcome",
     type: "article",
     title: "Welcome",
-    content: `Welcome to Paragon Campaign Dashboard! This app provides a suite of tools to help prepare and run your tabletop RPGs. Add new cards from the '+' menu.`,
+    content:
+      `Reference your TTRPG session prep with this powerful, customizable virtual GM screen. ` +
+      `Welcome to **Paragon Campaign Dashboard!** Add new cards from the '+' menu.`,
     playerViewPermission: PlayerViewPermission.Hidden,
   };
 }
