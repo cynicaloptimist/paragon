@@ -29,7 +29,11 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
       openCardIds: oldState.openCardIds.concat([cardId]),
       cardsById: {
         ...oldState.cardsById,
-        [cardId]: InitialCardState(cardId, cardType),
+        [cardId]: InitialCardState(
+          cardId,
+          cardType,
+          Object.values(oldState.cardsById).map((card) => card.title)
+        ),
       },
       layouts: union(oldState.layouts, [InitialLayout(action.payload.cardId)]),
     };

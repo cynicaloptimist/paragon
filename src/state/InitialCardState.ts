@@ -1,15 +1,35 @@
 import { CardState, PlayerViewPermission } from "./CardState";
 
-export function InitialCardState(cardId: string, type: string): CardState {
+const defaultCardTitlesByType: Record<string, string> = {
+  clock: "Clock",
+  "roll-table": "Random Table",
+  image: "Image",
+  dice: "Dice",
+  article: "Article",
+};
+
+export function InitialCardState(
+  cardId: string,
+  type: string,
+  existingCardTitles: string[]
+): CardState {
   const baseCard = {
     cardId,
     playerViewPermission: PlayerViewPermission.Hidden,
+    title: defaultCardTitlesByType[type],
   };
+
+  if (existingCardTitles.includes(baseCard.title)) {
+    let titleIndex = 2;
+    while (existingCardTitles.includes(baseCard.title + " " + titleIndex)) {
+      titleIndex++;
+    }
+    baseCard.title += " " + titleIndex;
+  }
 
   if (type === "clock") {
     return {
       ...baseCard,
-      title: "Clock",
       type,
       value: 0,
       max: 6,
@@ -19,7 +39,6 @@ export function InitialCardState(cardId: string, type: string): CardState {
   if (type === "roll-table") {
     return {
       ...baseCard,
-      title: "Random Table",
       type,
       lastRoll: null,
       entries: [
@@ -33,7 +52,6 @@ export function InitialCardState(cardId: string, type: string): CardState {
   if (type === "image") {
     return {
       ...baseCard,
-      title: "Image",
       type,
       imageUrl: "",
     };
@@ -42,7 +60,6 @@ export function InitialCardState(cardId: string, type: string): CardState {
   if (type === "dice") {
     return {
       ...baseCard,
-      title: "Dice",
       type,
       history: [],
     };
@@ -50,7 +67,6 @@ export function InitialCardState(cardId: string, type: string): CardState {
 
   return {
     ...baseCard,
-    title: "Article",
     type: "article",
     content: "",
   };
