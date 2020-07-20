@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useContext,
-  useRef,
-  useLayoutEffect,
-  useEffect,
-} from "react";
+import React, { useState, useContext, useRef, useEffect } from "react";
 import { RollTableCardState, RollTableEntry } from "../state/CardState";
 import { BaseCard } from "./BaseCard";
 import { Button, Box, TextArea } from "grommet";
