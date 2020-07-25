@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { BaseCard } from "./BaseCard";
-import { Button, TextArea, Markdown, Box } from "grommet";
+import { Button, TextArea, Markdown, Box, Text } from "grommet";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardActions } from "../actions/Actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -79,19 +79,21 @@ const CardLink = (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
   const { state, dispatch } = React.useContext(ReducerContext);
   const cardId = props.href || "";
   if (!state.cardsById[cardId]) {
-    return <a {...props} target="_blank" />;
+    return (
+      <a {...props} target="_blank">
+        {props.children}
+      </a>
+    );
   }
   return (
-    <a
-      href="#"
+    <Text
+      color="link"
+      style={{ textDecoration: "underline", cursor: "pointer" }}
       onClick={() => {
-        if (!props.href) {
-          return false;
-        }
         dispatch(CardActions.OpenCard({ cardId }));
       }}
     >
       {props.children}
-    </a>
+    </Text>
   );
 };
