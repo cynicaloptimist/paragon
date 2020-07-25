@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
-import GridLayout from "react-grid-layout";
+import { Responsive, WidthProvider } from "react-grid-layout";
+
 import { Actions, CardActions } from "../actions/Actions";
 import { ArticleCard } from "./ArticleCard";
 import { ReducerContext } from "../reducers/ReducerContext";
@@ -9,6 +10,9 @@ import { RollTableCard } from "./RollTableCard";
 import { ImageCard } from "./ImageCard";
 import { DiceCard } from "./DiceCard";
 import { PlayerViewContext } from "./PlayerViewContext";
+import { Box } from "grommet";
+
+const ResponsiveGridLayout = WidthProvider(Responsive);
 
 export function CardGrid() {
   const { state, dispatch } = useContext(ReducerContext);
@@ -25,30 +29,40 @@ export function CardGrid() {
   });
 
   return (
-    <GridLayout
-      cols={24}
-      rowHeight={30}
-      width={1200}
-      draggableHandle=".drag-handle"
-      style={{ flexGrow: 1 }}
-      layout={state.layouts}
-      isDraggable={canEdit}
-      isResizable={canEdit}
-      onLayoutChange={(newLayout) => dispatch(Actions.SetLayouts(newLayout))}
-      onResize={(_, __, layoutItem, placeholder) => {
-        if (layoutItem.h < 3) {
-          layoutItem.h = 3;
-          placeholder.h = 3;
-        }
-        if (layoutItem.w < 4) {
-          layoutItem.w = 4;
-          placeholder.w = 4;
-        }
-      }}
-      compactType={state.layoutCompaction === "compact" ? "vertical" : null}
-    >
-      {cards}
-    </GridLayout>
+    <Box fill>
+      <ResponsiveGridLayout
+        breakpoints={{
+          xxl: 2400,
+          xl: 1800,
+          lg: 1200,
+          md: 996,
+          sm: 768,
+          xs: 480,
+          xxs: 0,
+        }}
+        cols={{ xxl: 48, xl: 36, lg: 24, md: 20, sm: 12, xs: 8, xxs: 4 }}
+        rowHeight={30}
+        draggableHandle=".drag-handle"
+        style={{ flexGrow: 1 }}
+        layouts={{ xxl: state.layouts }}
+        isDraggable={canEdit}
+        isResizable={canEdit}
+        onLayoutChange={(newLayout) => dispatch(Actions.SetLayouts(newLayout))}
+        onResize={(_, __, layoutItem, placeholder) => {
+          if (layoutItem.h < 3) {
+            layoutItem.h = 3;
+            placeholder.h = 3;
+          }
+          if (layoutItem.w < 4) {
+            layoutItem.w = 4;
+            placeholder.w = 4;
+          }
+        }}
+        compactType={state.layoutCompaction === "compact" ? "vertical" : null}
+      >
+        {cards}
+      </ResponsiveGridLayout>
+    </Box>
   );
 }
 

@@ -25,11 +25,9 @@ export function GameMasterView() {
     <ReducerContext.Provider value={{ state, dispatch }}>
       <Grommet style={{ minHeight: "100%" }} theme={Theme}>
         <Box fill align="center">
-          <Box fill="vertical" width="1200px">
-            <TopBar />
-            <CardGrid />
-            {state.cardLibraryVisibility && <CardLibrary />}
-          </Box>
+          <TopBar />
+          <CardGrid />
+          {state.cardLibraryVisibility && <CardLibrary />}
         </Box>
       </Grommet>
     </ReducerContext.Provider>

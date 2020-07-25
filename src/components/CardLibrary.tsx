@@ -19,7 +19,7 @@ export function CardLibrary() {
     <Box
       background="background"
       elevation="large"
-      style={{ position: "fixed", width: "300px", height: "100%" }}
+      style={{ position: "fixed", left: 0, width: "300px", height: "100%" }}
     >
       <Header background="brand" pad="small">
         <Button

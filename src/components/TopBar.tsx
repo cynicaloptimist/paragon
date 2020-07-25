@@ -31,7 +31,7 @@ export const TopBar = () => {
   );
 
   return (
-    <Header background="brand" pad="small">
+    <Header background="brand" pad="small" fill="horizontal">
       <Button
         icon={<FontAwesomeIcon size="sm" icon={faBars} />}
         onClick={showCardLibrary}
