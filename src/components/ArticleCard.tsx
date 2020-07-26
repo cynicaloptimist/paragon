@@ -5,11 +5,12 @@ import { ReducerContext } from "../reducers/ReducerContext";
 import { CardActions } from "../actions/Actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faCheck } from "@fortawesome/free-solid-svg-icons";
-import { ArticleCardState } from "../state/CardState";
+import { ArticleCardState, CardState } from "../state/CardState";
 import { PlayerViewContext } from "./PlayerViewContext";
+import { CardsState } from "../state/AppState";
 
 export function ArticleCard(props: { card: ArticleCardState }) {
-  const { dispatch } = React.useContext(ReducerContext);
+  const { state, dispatch } = React.useContext(ReducerContext);
   const { card } = props;
 
   const [isContentEditable, setContentEditable] = React.useState(
@@ -44,10 +45,14 @@ export function ArticleCard(props: { card: ArticleCardState }) {
             setContent(changeEvent.target.value);
           }}
           onBlur={() => {
+            const updatedContent = ConvertDoubleBracketsToWikiLinks(
+              content,
+              state.cardsById
+            );
             dispatch(
               CardActions.SetCardContent({
                 cardId: card.cardId,
-                content,
+                content: updatedContent,
               })
             );
           }}
@@ -97,3 +102,18 @@ const CardLink = (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
     </Text>
   );
 };
+
+function ConvertDoubleBracketsToWikiLinks(
+  markdownString: string,
+  cards: CardsState
+): string {
+  return markdownString.replace(/\[\[([\w\d ]+)\]\]/g, (match, inner) => {
+    const matchedCard = Object.values(cards).find((card) =>
+      card.title.localeCompare(inner)
+    );
+    if (!matchedCard) {
+      return match;
+    }
+    return "[" + inner + "](" + matchedCard.cardId + ")";
+  });
+}
