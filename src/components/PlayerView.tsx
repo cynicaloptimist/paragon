@@ -54,10 +54,8 @@ export function PlayerView() {
       <PlayerViewContext.Provider value={{ playerViewId: playerViewId }}>
         <Grommet style={{ minHeight: "100%" }} theme={Theme}>
           <Box fill align="center">
-            <Box fill="vertical" width="1200px">
-              <PlayerViewTopBar />
-              <CardGrid />
-            </Box>
+            <PlayerViewTopBar />
+            <CardGrid />
           </Box>
         </Grommet>
       </PlayerViewContext.Provider>
