@@ -13,6 +13,8 @@ import { PlayerViewContext } from "./PlayerViewContext";
 import { Box } from "grommet";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
+const MIN_GRID_UNITS_CARD_HEIGHT = 3;
+const MIN_GRID_UNITS_CARD_WIDTH = 4;
 
 export function CardGrid() {
   const { state, dispatch } = useContext(ReducerContext);
@@ -49,13 +51,13 @@ export function CardGrid() {
         isResizable={canEdit}
         onLayoutChange={(newLayout) => dispatch(Actions.SetLayouts(newLayout))}
         onResize={(_, __, layoutItem, placeholder) => {
-          if (layoutItem.h < 3) {
-            layoutItem.h = 3;
-            placeholder.h = 3;
+          if (layoutItem.h < MIN_GRID_UNITS_CARD_HEIGHT) {
+            layoutItem.h = MIN_GRID_UNITS_CARD_HEIGHT;
+            placeholder.h = MIN_GRID_UNITS_CARD_HEIGHT;
           }
-          if (layoutItem.w < 4) {
-            layoutItem.w = 4;
-            placeholder.w = 4;
+          if (layoutItem.w < MIN_GRID_UNITS_CARD_WIDTH) {
+            layoutItem.w = MIN_GRID_UNITS_CARD_WIDTH;
+            placeholder.w = MIN_GRID_UNITS_CARD_WIDTH;
           }
         }}
         compactType={state.layoutCompaction === "compact" ? "vertical" : null}
