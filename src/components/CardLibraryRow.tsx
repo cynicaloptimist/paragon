@@ -20,7 +20,7 @@ export function CardLibraryRow(props: { card: CardState }) {
   );
 
   return (
-    <Box key={props.card.cardId} direction="row">
+    <Box flex={false} key={props.card.cardId} direction="row">
       <Button onClick={openCard} fill="horizontal">
         {props.card.title}
       </Button>

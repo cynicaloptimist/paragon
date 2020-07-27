@@ -1,11 +1,11 @@
 import React, { useContext, useCallback } from "react";
 import { ReducerContext } from "../reducers/ReducerContext";
-import { Box, Header, Button } from "grommet";
+import { Box, Header, Button, Heading } from "grommet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import values from "lodash/values";
 import { Actions } from "../actions/Actions";
 import { CardLibraryRow } from "./CardLibraryRow";
+import { CardState } from "../state/CardState";
 
 export function CardLibrary() {
   const { state, dispatch } = useContext(ReducerContext);
@@ -14,6 +14,30 @@ export function CardLibrary() {
     () => dispatch(Actions.SetCardLibraryVisibility({ visibility: false })),
     [dispatch]
   );
+
+  const cardsByType = Object.values(state.cardsById).reduce(
+    (hash: Record<string, CardState[]>, cardState) => {
+      if (hash[cardState.type] === undefined) {
+        hash[cardState.type] = [];
+      }
+
+      hash[cardState.type].push(cardState);
+
+      return hash;
+    },
+    {}
+  );
+
+  const headersAndCards = Object.keys(cardsByType).map((cardType) => {
+    return (
+      <Box flex={false}>
+        <Heading level={3} margin="xsmall">{cardType}</Heading>
+        {cardsByType[cardType].map((card) => (
+          <CardLibraryRow key={card.cardId} card={card} />
+        ))}
+      </Box>
+    );
+  });
 
   return (
     <Box
@@ -27,10 +51,8 @@ export function CardLibrary() {
           onClick={hideCardLibrary}
         />
       </Header>
-      <Box pad="xsmall">
-        {values(state.cardsById).map((card) => (
-          <CardLibraryRow key={card.cardId} card={card} />
-        ))}
+      <Box pad="xsmall" overflow={{ vertical: "auto" }}>
+        {headersAndCards}
       </Box>
     </Box>
   );
