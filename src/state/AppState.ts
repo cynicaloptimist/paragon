@@ -22,24 +22,27 @@ export const EmptyState = (): AppState => ({
   playerViewId: "",
 });
 
-export const GetInitialState = (): AppState => ({
-  openCardIds: ["welcome"],
-  cardsById: {
-    welcome: GetWelcomeCard(),
-  },
-  layouts: [
-    {
-      i: "welcome",
-      h: 8,
-      w: 8,
-      x: 2,
-      y: 0,
+export const GetInitialState = (): AppState => {
+  const welcomeCard = GetWelcomeCard();
+  return {
+    openCardIds: [welcomeCard.cardId],
+    cardsById: {
+      welcome: welcomeCard,
     },
-  ],
-  cardLibraryVisibility: false,
-  layoutCompaction: "free",
-  playerViewId: randomString(4),
-});
+    layouts: [
+      {
+        i: welcomeCard.cardId,
+        h: 8,
+        w: 8,
+        x: 2,
+        y: 0,
+      },
+    ],
+    cardLibraryVisibility: false,
+    layoutCompaction: "free",
+    playerViewId: randomString(4),
+  };
+};
 
 function GetWelcomeCard(): ArticleCardState {
   return {
