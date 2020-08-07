@@ -38,4 +38,9 @@ export const Theme: ThemeType = {
     },
     weight: 300,
   },
+  paragraph: {
+    "medium": {
+      "maxWidth": "none"
+    },
+  }
 };
