@@ -1,12 +1,5 @@
 import { CardState, PlayerViewPermission } from "./CardState";
-
-const defaultCardTitlesByType: Record<string, string> = {
-  clock: "Clock",
-  "roll-table": "Random Table",
-  image: "Image",
-  dice: "Dice",
-  article: "Article",
-};
+import { CardTypeFriendlyNames } from "./CardTypeFriendlyNames";
 
 export function InitialCardState(
   cardId: string,
@@ -16,7 +9,7 @@ export function InitialCardState(
   const baseCard = {
     cardId,
     playerViewPermission: PlayerViewPermission.Hidden,
-    title: defaultCardTitlesByType[type],
+    title: CardTypeFriendlyNames[type],
   };
 
   if (existingCardTitles.includes(baseCard.title)) {
