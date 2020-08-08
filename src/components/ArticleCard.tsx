@@ -5,7 +5,7 @@ import { ReducerContext } from "../reducers/ReducerContext";
 import { CardActions } from "../actions/Actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faCheck } from "@fortawesome/free-solid-svg-icons";
-import { ArticleCardState, CardState } from "../state/CardState";
+import { ArticleCardState } from "../state/CardState";
 import { PlayerViewContext } from "./PlayerViewContext";
 import { CardsState } from "../state/AppState";
 
