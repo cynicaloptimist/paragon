@@ -109,7 +109,7 @@ function ConvertDoubleBracketsToWikiLinks(
 ): string {
   return markdownString.replace(/\[\[([\w\d ]+)\]\]/g, (match, inner) => {
     const matchedCard = Object.values(cards).find((card) =>
-      card.title.localeCompare(inner)
+      card.title.localeCompare(inner) === 0
     );
     if (!matchedCard) {
       return match;
