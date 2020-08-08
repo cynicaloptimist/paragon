@@ -6,6 +6,7 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { Actions } from "../actions/Actions";
 import { CardLibraryRow } from "./CardLibraryRow";
 import { CardState } from "../state/CardState";
+import { CardTypeFriendlyNames } from "../state/CardTypeFriendlyNames";
 
 export function CardLibrary() {
   const { state, dispatch } = useContext(ReducerContext);
@@ -31,7 +32,9 @@ export function CardLibrary() {
   const headersAndCards = Object.keys(cardsByType).map((cardType) => {
     return (
       <Box flex={false}>
-        <Heading level={3} margin="xsmall">{cardType}</Heading>
+        <Heading level={3} margin="xsmall">
+          {CardTypeFriendlyNames[cardType]}
+        </Heading>
         {cardsByType[cardType].map((card) => (
           <CardLibraryRow key={card.cardId} card={card} />
         ))}
