@@ -2,7 +2,7 @@ import React, { useContext, useCallback, useState } from "react";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { Box, Header, Button, Heading, Text } from "grommet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faSort } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faSort, faFolder, faFolderOpen } from "@fortawesome/free-solid-svg-icons";
 import { Actions } from "../actions/Actions";
 import { CardLibraryRow } from "./CardLibraryRow";
 import { CardState } from "../state/CardState";
@@ -11,7 +11,10 @@ import { CardTypeFriendlyNames } from "../state/CardTypeFriendlyNames";
 type Grouping = {
   Name: string;
   GetGroupForCard: (cardState: CardState) => string;
-  GetSection: (groupName: string, cards: CardState[]) => JSX.Element;
+  GetSection: React.FunctionComponent<{
+    groupName: string;
+    cards: CardState[];
+  }>;
 };
 
 const Groupings: Grouping[] = [
@@ -19,13 +22,13 @@ const Groupings: Grouping[] = [
     Name: "Type",
     GetGroupForCard: (cardState: CardState) =>
       CardTypeFriendlyNames[cardState.type],
-    GetSection: (groupName: string, cards: CardState[]) => {
+    GetSection: (props: { groupName: string; cards: CardState[] }) => {
       return (
-        <Box flex={false} key={groupName}>
+        <Box flex={false} key={props.groupName}>
           <Heading level={3} margin="xsmall">
-            {groupName}
+            {props.groupName}
           </Heading>
-          {cards.map((card) => (
+          {props.cards.map((card) => (
             <CardLibraryRow key={card.cardId} card={card} />
           ))}
         </Box>
@@ -35,17 +38,43 @@ const Groupings: Grouping[] = [
   {
     Name: "Folder",
     GetGroupForCard: (cardState: CardState) => cardState.path ?? "",
-    GetSection: (groupName: string, cards: CardState[]) => {
-      return (
-        <Box flex={false} key={groupName}>
-          <Heading level={3} margin="xsmall">
-            {groupName}
-          </Heading>
-          {cards.map((card) => (
-            <CardLibraryRow key={card.cardId} card={card} />
-          ))}
-        </Box>
-      );
+    GetSection: (props: { groupName: string; cards: CardState[] }) => {
+      const [folderOpen, setFolderOpen] = useState(false);
+
+      if (props.groupName === "") {
+        return (
+          <Box flex={false} key={props.groupName}>
+            {props.cards.map((card) => (
+              <CardLibraryRow key={card.cardId} card={card} />
+            ))}
+          </Box>
+        );
+      }
+
+      if (!folderOpen) {
+        return (
+          <Box flex={false} key={props.groupName}>
+            <Button
+              icon={<FontAwesomeIcon icon={faFolder} />}
+              label={props.groupName}
+              onClick={() => setFolderOpen(true)}
+            />
+          </Box>
+        );
+      } else {
+        return (
+          <Box flex={false} key={props.groupName}>
+            <Button
+              icon={<FontAwesomeIcon icon={faFolderOpen} />}
+              label={props.groupName}
+              onClick={() => setFolderOpen(false)}
+            />
+            {props.cards.map((card) => (
+              <CardLibraryRow key={card.cardId} card={card} />
+            ))}
+          </Box>
+        );
+      }
     },
   },
 ];
@@ -77,7 +106,10 @@ export function CardLibrary() {
   const headersAndCards = Object.keys(cardsByGroup)
     .sort()
     .map((cardGroup) =>
-      selectedGrouping.GetSection(cardGroup, cardsByGroup[cardGroup])
+      React.createElement(selectedGrouping.GetSection, {
+        groupName: cardGroup,
+        cards: cardsByGroup[cardGroup],
+      })
     );
 
   return (
