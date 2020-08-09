@@ -28,6 +28,7 @@ const Groupings: Grouping[] = [
 export function CardLibrary() {
   const { state, dispatch } = useContext(ReducerContext);
   const [groupingIndex, setGroupingIndex] = useState(0);
+  const selectedGrouping = Groupings[groupingIndex];
 
   const hideCardLibrary = useCallback(
     () => dispatch(Actions.SetCardLibraryVisibility({ visibility: false })),
@@ -36,7 +37,7 @@ export function CardLibrary() {
 
   const cardsByGroup = Object.values(state.cardsById).reduce(
     (hash: Record<string, CardState[]>, cardState) => {
-      const cardGroup = Groupings[groupingIndex].GetGroupForCard(cardState);
+      const cardGroup = selectedGrouping.GetGroupForCard(cardState);
       if (hash[cardGroup] === undefined) {
         hash[cardGroup] = [];
       }
@@ -74,7 +75,7 @@ export function CardLibrary() {
           icon={<FontAwesomeIcon size="sm" icon={faBars} />}
           onClick={hideCardLibrary}
         />
-        <Text>Cards by {Groupings[groupingIndex].Name}</Text>
+        <Text>Cards by {selectedGrouping.Name}</Text>
         <Button
           icon={<FontAwesomeIcon size="sm" icon={faSort} />}
           onClick={() => {
