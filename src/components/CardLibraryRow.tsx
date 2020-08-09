@@ -33,7 +33,7 @@ export function CardLibraryRow(props: { card: CardState }) {
     return (
       <Box flex={false} key={props.card.cardId} direction="row">
         <TextInput
-          placeholder={props.card.path}
+          defaultValue={props.card.path}
           onChange={(changeEvent) => setPathInput(changeEvent.target.value)}
           onKeyDown={(keyEvent) => {
             if (keyEvent.key === "Enter") {
