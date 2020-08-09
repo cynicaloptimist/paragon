@@ -1,6 +1,6 @@
 import React, { useContext, useCallback, useState } from "react";
 import { ReducerContext } from "../reducers/ReducerContext";
-import { Box, Header, Button, Heading } from "grommet";
+import { Box, Header, Button, Heading, Text } from "grommet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faSort } from "@fortawesome/free-solid-svg-icons";
 import { Actions } from "../actions/Actions";
@@ -8,20 +8,26 @@ import { CardLibraryRow } from "./CardLibraryRow";
 import { CardState } from "../state/CardState";
 import { CardTypeFriendlyNames } from "../state/CardTypeFriendlyNames";
 
-enum Grouping {
-  ByType,
-  ByFolder,
-}
-
-const GroupingFunctions: Record<Grouping, (cardState: CardState) => string> = {
-  [Grouping.ByType]: (cardState: CardState) =>
-    CardTypeFriendlyNames[cardState.type],
-  [Grouping.ByFolder]: (cardState: CardState) => cardState.path ?? "",
+type Grouping = {
+  Name: string;
+  GetGroupForCard: (cardState: CardState) => string;
 };
+
+const Groupings: Grouping[] = [
+  {
+    Name: "Type",
+    GetGroupForCard: (cardState: CardState) =>
+      CardTypeFriendlyNames[cardState.type],
+  },
+  {
+    Name: "Folder",
+    GetGroupForCard: (cardState: CardState) => cardState.path ?? "",
+  },
+];
 
 export function CardLibrary() {
   const { state, dispatch } = useContext(ReducerContext);
-  const [grouping, setGrouping] = useState(Grouping.ByType);
+  const [groupingIndex, setGroupingIndex] = useState(0);
 
   const hideCardLibrary = useCallback(
     () => dispatch(Actions.SetCardLibraryVisibility({ visibility: false })),
@@ -30,7 +36,7 @@ export function CardLibrary() {
 
   const cardsByGroup = Object.values(state.cardsById).reduce(
     (hash: Record<string, CardState[]>, cardState) => {
-      const cardGroup = GroupingFunctions[grouping](cardState);
+      const cardGroup = Groupings[groupingIndex].GetGroupForCard(cardState);
       if (hash[cardGroup] === undefined) {
         hash[cardGroup] = [];
       }
@@ -68,12 +74,12 @@ export function CardLibrary() {
           icon={<FontAwesomeIcon size="sm" icon={faBars} />}
           onClick={hideCardLibrary}
         />
+        <Text>Cards by {Groupings[groupingIndex].Name}</Text>
         <Button
           icon={<FontAwesomeIcon size="sm" icon={faSort} />}
           onClick={() => {
-            const nextGrouping =
-              (grouping + 1) % (Object.keys(Grouping).length / 2);
-            setGrouping(nextGrouping);
+            const nextGrouping = (groupingIndex + 1) % Groupings.length;
+            setGroupingIndex(nextGrouping);
           }}
         />
       </Header>
