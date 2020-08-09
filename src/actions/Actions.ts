@@ -36,6 +36,10 @@ export const CardActions = {
     cardId: string;
     title: string;
   }>(),
+  SetCardPath: createAction("SetCardPath")<{
+    cardId: string;
+    path: string;
+  }>(),
   SetPlayerViewPermission: createAction("SetPlayerViewPermission")<{
     cardId: string;
     playerViewPermission: PlayerViewPermission;

@@ -29,6 +29,11 @@ export const CardsReducer = createReducer<CardsState, CardAction>({})
       title: action.payload.title,
     });
   })
+  .handleAction(CardActions.SetCardPath, (oldState: CardsState, action) => {
+    return mergeCardState(oldState, action, {
+      path: action.payload.path,
+    });
+  })
   .handleAction(
     CardActions.SetPlayerViewPermission,
     (oldState: CardsState, action) => {
