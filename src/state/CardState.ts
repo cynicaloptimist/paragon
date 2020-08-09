@@ -52,4 +52,5 @@ type BaseCardState = {
   cardId: string;
   title: string;
   playerViewPermission: PlayerViewPermission;
+  path?: string;
 };
