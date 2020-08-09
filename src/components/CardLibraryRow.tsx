@@ -21,13 +21,13 @@ export function CardLibraryRow(props: { card: CardState }) {
 
   const [editingPath, setEditingPath] = useState(false);
   const [pathInput, setPathInput] = useState("");
-  const saveAndClose = useCallback(() => {
+  const saveAndClose = () => {
     dispatch(
       CardActions.SetCardPath({ cardId: props.card.cardId, path: pathInput })
     );
     setEditingPath(false);
     setPathInput("");
-  }, [dispatch, props.card.cardId, pathInput, setPathInput, setEditingPath]);
+  };
 
   if (editingPath) {
     return (
