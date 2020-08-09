@@ -11,7 +11,7 @@ import { CardTypeFriendlyNames } from "../state/CardTypeFriendlyNames";
 type Grouping = {
   Name: string;
   GetGroupForCard: (cardState: CardState) => string;
-  GetHeading: (groupName: string) => JSX.Element;
+  GetSection: (groupName: string, cards: CardState[]) => JSX.Element;
 };
 
 const Groupings: Grouping[] = [
@@ -19,20 +19,34 @@ const Groupings: Grouping[] = [
     Name: "Type",
     GetGroupForCard: (cardState: CardState) =>
       CardTypeFriendlyNames[cardState.type],
-    GetHeading: (groupName: string) => (
-      <Heading level={3} margin="xsmall">
-        {groupName}
-      </Heading>
-    ),
+    GetSection: (groupName: string, cards: CardState[]) => {
+      return (
+        <Box flex={false} key={groupName}>
+          <Heading level={3} margin="xsmall">
+            {groupName}
+          </Heading>
+          {cards.map((card) => (
+            <CardLibraryRow key={card.cardId} card={card} />
+          ))}
+        </Box>
+      );
+    },
   },
   {
     Name: "Folder",
     GetGroupForCard: (cardState: CardState) => cardState.path ?? "",
-    GetHeading: (groupName: string) => (
-      <Heading level={3} margin="xsmall">
-        {groupName}
-      </Heading>
-    ),
+    GetSection: (groupName: string, cards: CardState[]) => {
+      return (
+        <Box flex={false} key={groupName}>
+          <Heading level={3} margin="xsmall">
+            {groupName}
+          </Heading>
+          {cards.map((card) => (
+            <CardLibraryRow key={card.cardId} card={card} />
+          ))}
+        </Box>
+      );
+    },
   },
 ];
 
@@ -62,16 +76,9 @@ export function CardLibrary() {
 
   const headersAndCards = Object.keys(cardsByGroup)
     .sort()
-    .map((cardGroup) => {
-      return (
-        <Box flex={false} key={cardGroup}>
-          {selectedGrouping.GetHeading(cardGroup)}
-          {cardsByGroup[cardGroup].map((card) => (
-            <CardLibraryRow key={card.cardId} card={card} />
-          ))}
-        </Box>
-      );
-    });
+    .map((cardGroup) =>
+      selectedGrouping.GetSection(cardGroup, cardsByGroup[cardGroup])
+    );
 
   return (
     <Box
