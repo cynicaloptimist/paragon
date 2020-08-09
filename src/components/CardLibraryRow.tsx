@@ -31,7 +31,7 @@ export function CardLibraryRow(props: { card: CardState }) {
 
   if (editingPath) {
     return (
-      <Box flex={false} key={props.card.cardId} direction="row">
+      <Box flex={false} direction="row">
         <TextInput
           defaultValue={props.card.path}
           onChange={(changeEvent) => setPathInput(changeEvent.target.value)}
@@ -52,7 +52,7 @@ export function CardLibraryRow(props: { card: CardState }) {
   }
 
   return (
-    <Box flex={false} key={props.card.cardId} direction="row">
+    <Box flex={false} direction="row">
       <Button onClick={openCard} fill="horizontal">
         {props.card.title}
       </Button>
