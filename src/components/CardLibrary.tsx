@@ -11,6 +11,7 @@ import { CardTypeFriendlyNames } from "../state/CardTypeFriendlyNames";
 type Grouping = {
   Name: string;
   GetGroupForCard: (cardState: CardState) => string;
+  GetHeading: (groupName: string) => JSX.Element;
 };
 
 const Groupings: Grouping[] = [
@@ -18,10 +19,20 @@ const Groupings: Grouping[] = [
     Name: "Type",
     GetGroupForCard: (cardState: CardState) =>
       CardTypeFriendlyNames[cardState.type],
+    GetHeading: (groupName: string) => (
+      <Heading level={3} margin="xsmall">
+        {groupName}
+      </Heading>
+    ),
   },
   {
     Name: "Folder",
     GetGroupForCard: (cardState: CardState) => cardState.path ?? "",
+    GetHeading: (groupName: string) => (
+      <Heading level={3} margin="xsmall">
+        {groupName}
+      </Heading>
+    ),
   },
 ];
 
@@ -54,9 +65,7 @@ export function CardLibrary() {
     .map((cardGroup) => {
       return (
         <Box flex={false} key={cardGroup}>
-          <Heading level={3} margin="xsmall">
-            {cardGroup}
-          </Heading>
+          {selectedGrouping.GetHeading(cardGroup)}
           {cardsByGroup[cardGroup].map((card) => (
             <CardLibraryRow key={card.cardId} card={card} />
           ))}
