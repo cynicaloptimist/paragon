@@ -40,6 +40,17 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
   }
 
   if (isActionOf(CardActions.OpenCard, action)) {
+    if (oldState.openCardIds.includes(action.payload.cardId)) {
+      return oldState;
+    }
+
+    if (oldState.layouts.some((layout) => layout.i === action.payload.cardId)) {
+      return {
+        ...oldState,
+        openCardIds: union(oldState.openCardIds, [action.payload.cardId]),
+      };
+    }
+
     return {
       ...oldState,
       openCardIds: union(oldState.openCardIds, [action.payload.cardId]),
