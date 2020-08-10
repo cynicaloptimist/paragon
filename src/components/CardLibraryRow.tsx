@@ -1,10 +1,10 @@
-import React, { useContext, useCallback, useState } from "react";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { Button, Box, TextInput } from "grommet";
-import { CardActions } from "../actions/Actions";
-import { CardState } from "../state/CardState";
+import { faCheck, faFolder, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faFolder, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { Box, Button, TextInput } from "grommet";
+import React, { useCallback, useContext, useState } from "react";
+import { CardActions } from "../actions/Actions";
+import { ReducerContext } from "../reducers/ReducerContext";
+import { CardState } from "../state/CardState";
 
 export function CardLibraryRow(props: { card: CardState }) {
   const { dispatch } = useContext(ReducerContext);

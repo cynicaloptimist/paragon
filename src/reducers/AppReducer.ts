@@ -1,11 +1,10 @@
-import { isActionOf } from "typesafe-actions";
 import { omit, union } from "lodash";
-
-import { RootAction, CardActions, Actions } from "../actions/Actions";
+import { isActionOf } from "typesafe-actions";
+import { Actions, CardActions, RootAction } from "../actions/Actions";
 import { AppState } from "../state/AppState";
-import { CardsReducer } from "./CardsReducer";
 import { InitialCardState } from "../state/InitialCardState";
 import { InitialLayout } from "../state/InitialLayout";
+import { CardsReducer } from "./CardsReducer";
 
 export function AppReducer(oldState: AppState, action: RootAction): AppState {
   if (isActionOf(Actions.SetCardLibraryVisibility, action)) {

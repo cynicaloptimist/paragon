@@ -1,17 +1,17 @@
-import React, { useContext, useCallback, useState } from "react";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { Box, Header, Button, Heading, Text } from "grommet";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
-  faSort,
   faFolder,
   faFolderOpen,
+  faSort
 } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Box, Button, Header, Heading, Text } from "grommet";
+import React, { useCallback, useContext, useState } from "react";
 import { Actions } from "../actions/Actions";
-import { CardLibraryRow } from "./CardLibraryRow";
+import { ReducerContext } from "../reducers/ReducerContext";
 import { CardState } from "../state/CardState";
 import { CardTypeFriendlyNames } from "../state/CardTypeFriendlyNames";
+import { CardLibraryRow } from "./CardLibraryRow";
 
 type Grouping = {
   Name: string;
