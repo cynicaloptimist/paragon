@@ -2,7 +2,12 @@ import React, { useContext, useCallback, useState } from "react";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { Box, Header, Button, Heading, Text } from "grommet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faSort, faFolder, faFolderOpen } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faSort,
+  faFolder,
+  faFolderOpen,
+} from "@fortawesome/free-solid-svg-icons";
 import { Actions } from "../actions/Actions";
 import { CardLibraryRow } from "./CardLibraryRow";
 import { CardState } from "../state/CardState";
@@ -109,6 +114,7 @@ export function CardLibrary() {
       React.createElement(selectedGrouping.GetSection, {
         groupName: cardGroup,
         cards: cardsByGroup[cardGroup],
+        key: cardGroup,
       })
     );
 
