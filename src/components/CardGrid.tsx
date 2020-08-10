@@ -11,6 +11,7 @@ import { ImageCard } from "./ImageCard";
 import { DiceCard } from "./DiceCard";
 import { PlayerViewContext } from "./PlayerViewContext";
 import { Box } from "grommet";
+import { uniqBy } from "lodash";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 const MIN_GRID_UNITS_CARD_HEIGHT = 3;
@@ -18,6 +19,7 @@ const MIN_GRID_UNITS_CARD_WIDTH = 4;
 
 export function CardGrid() {
   const { state, dispatch } = useContext(ReducerContext);
+  const dedupedLayouts = uniqBy(state.layouts, (l) => l.i);
   const canEdit = useContext(PlayerViewContext) === null;
 
   const cards = state.openCardIds.map((cardId) => {
@@ -46,7 +48,7 @@ export function CardGrid() {
         rowHeight={30}
         draggableHandle=".drag-handle"
         style={{ flexGrow: 1 }}
-        layouts={{ xxl: state.layouts }}
+        layouts={{ xxl: dedupedLayouts }}
         isDraggable={canEdit}
         isResizable={canEdit}
         onLayoutChange={(newLayout) => dispatch(Actions.SetLayouts(newLayout))}
