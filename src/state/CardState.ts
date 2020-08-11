@@ -46,6 +46,7 @@ export type DiceRoll = {
 export enum PlayerViewPermission {
   Hidden = "hidden",
   Visible = "visible",
+  Interact = "interact",
 }
 
 type BaseCardState = {

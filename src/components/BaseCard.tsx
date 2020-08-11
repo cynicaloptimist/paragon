@@ -1,14 +1,15 @@
-import React, { useContext, useRef } from "react";
-import { Box, Header, Button, TextInput, Heading, Footer } from "grommet";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faGripLines,
-  faTimes,
   faEye,
   faEyeSlash,
+  faGripLines,
+  faPencilAlt,
+  faTimes
 } from "@fortawesome/free-solid-svg-icons";
-import { ReducerContext } from "../reducers/ReducerContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Box, Button, Footer, Header, Heading, TextInput } from "grommet";
+import React, { useContext, useRef } from "react";
 import { CardActions } from "../actions/Actions";
+import { ReducerContext } from "../reducers/ReducerContext";
 import { CardState, PlayerViewPermission } from "../state/CardState";
 import { PlayerViewContext } from "./PlayerViewContext";
 
@@ -53,7 +54,10 @@ function CardHeader(props: { cardState: CardState }) {
     }
     setHeaderEditable(false);
   };
-  const canEdit = useContext(PlayerViewContext) === null;
+  const isGmView = useContext(PlayerViewContext) === null;
+  const canEdit =
+    isGmView ||
+    props.cardState.playerViewPermission === PlayerViewPermission.Interact;
 
   return (
     <Header pad="xsmall" background="brand" height="3.4rem">
@@ -75,7 +79,7 @@ function CardHeader(props: { cardState: CardState }) {
           <Box
             fill
             direction="row"
-            onDoubleClick={() => canEdit && setHeaderEditable(true)}
+            onDoubleClick={() => isGmView && setHeaderEditable(true)}
             align="center"
           >
             <Heading level={3} margin="none" truncate>
@@ -83,37 +87,8 @@ function CardHeader(props: { cardState: CardState }) {
             </Heading>
           </Box>
         )}
-        {canEdit &&
-          (props.cardState.playerViewPermission ===
-          PlayerViewPermission.Hidden ? (
-            <Button
-              icon={<FontAwesomeIcon icon={faEyeSlash} />}
-              color="text-fade"
-              hoverIndicator
-              onClick={() =>
-                dispatch(
-                  CardActions.SetPlayerViewPermission({
-                    cardId: props.cardState.cardId,
-                    playerViewPermission: PlayerViewPermission.Visible,
-                  })
-                )
-              }
-            />
-          ) : (
-            <Button
-              icon={<FontAwesomeIcon icon={faEye} />}
-              hoverIndicator
-              onClick={() =>
-                dispatch(
-                  CardActions.SetPlayerViewPermission({
-                    cardId: props.cardState.cardId,
-                    playerViewPermission: PlayerViewPermission.Hidden,
-                  })
-                )
-              }
-            />
-          ))}
-        {canEdit && (
+        {isGmView && <PlayerViewButton cardState={props.cardState} />}
+        {isGmView && (
           <Button
             icon={<FontAwesomeIcon icon={faTimes} />}
             onClick={() =>
@@ -125,5 +100,59 @@ function CardHeader(props: { cardState: CardState }) {
         )}
       </Box>
     </Header>
+  );
+}
+
+function PlayerViewButton(props: { cardState: CardState }) {
+  const { dispatch } = useContext(ReducerContext);
+
+  if (props.cardState.playerViewPermission === PlayerViewPermission.Visible) {
+    return (
+      <Button
+        icon={<FontAwesomeIcon icon={faEye} />}
+        hoverIndicator
+        onClick={() =>
+          dispatch(
+            CardActions.SetPlayerViewPermission({
+              cardId: props.cardState.cardId,
+              playerViewPermission: PlayerViewPermission.Interact,
+            })
+          )
+        }
+      />
+    );
+  }
+
+  if (props.cardState.playerViewPermission === PlayerViewPermission.Interact) {
+    return (
+      <Button
+        icon={<FontAwesomeIcon icon={faPencilAlt} />}
+        hoverIndicator
+        onClick={() =>
+          dispatch(
+            CardActions.SetPlayerViewPermission({
+              cardId: props.cardState.cardId,
+              playerViewPermission: PlayerViewPermission.Hidden,
+            })
+          )
+        }
+      />
+    );
+  }
+
+  return (
+    <Button
+      icon={<FontAwesomeIcon icon={faEyeSlash} />}
+      color="text-fade"
+      hoverIndicator
+      onClick={() =>
+        dispatch(
+          CardActions.SetPlayerViewPermission({
+            cardId: props.cardState.cardId,
+            playerViewPermission: PlayerViewPermission.Visible,
+          })
+        )
+      }
+    />
   );
 }
