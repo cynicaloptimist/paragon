@@ -1,15 +1,15 @@
-import React, { useContext, useCallback } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
-  faPlus,
+
   faEllipsisV,
-  faExternalLinkAlt,
+  faExternalLinkAlt, faPlus
 } from "@fortawesome/free-solid-svg-icons";
-import { Header, Button, Heading, Menu, Box, CheckBox, Text } from "grommet";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { CardActions, Actions } from "../actions/Actions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Box, Button, CheckBox, Header, Heading, Menu, Text } from "grommet";
+import React, { useCallback, useContext } from "react";
+import { Actions, CardActions } from "../actions/Actions";
 import { randomString } from "../randomString";
+import { ReducerContext } from "../reducers/ReducerContext";
 
 export const TopBar = () => {
   const addArticle = useDispatchAddCard("article");
@@ -73,11 +73,11 @@ export const TopBar = () => {
         items={[
           state.layoutCompaction === "free"
             ? {
-                label: <CheckBox label="Compact Cards" />,
+                label: <CheckBox label="Compact Card Layout" />,
                 onClick: () => setLayoutCompaction("compact"),
               }
             : {
-                label: <CheckBox label="Compact Cards" checked />,
+                label: <CheckBox label="Compact Card Layout" checked />,
                 onClick: () => setLayoutCompaction("free"),
               },
           {
