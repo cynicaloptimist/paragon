@@ -10,7 +10,6 @@ import { usePlayerView } from "./hooks/usePlayerView";
 import { useStorageBackedReducer } from "./hooks/useStorageBackedReducer";
 import { TopBar } from "./TopBar";
 
-
 export function GameMasterView() {
   const [state, dispatch] = useStorageBackedReducer(
     AppReducer,
@@ -18,7 +17,7 @@ export function GameMasterView() {
     "appState"
   );
 
-  usePlayerView(state);
+  usePlayerView(state, dispatch);
 
   return (
     <ReducerContext.Provider value={{ state, dispatch }}>

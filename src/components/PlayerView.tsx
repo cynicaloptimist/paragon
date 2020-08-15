@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from "react";
-
 import { database } from "firebase/app";
 import "firebase/database";
-
+import { Box, Grommet } from "grommet";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { RootAction } from "../actions/Actions";
 import { ReducerContext } from "../reducers/ReducerContext";
-import { Grommet, Box } from "grommet";
+import { AppState, EmptyState } from "../state/AppState";
 import { Theme } from "../Theme";
 import { CardGrid } from "./CardGrid";
-import { EmptyState, AppState } from "../state/AppState";
-import { useParams } from "react-router-dom";
+import { removeUndefinedNodesFromTree } from "./hooks/removeUndefinedNodesFromTree";
 import { PlayerViewContext } from "./PlayerViewContext";
 import { PlayerViewTopBar } from "./PlayerViewTopBar";
 
-function useRemoteState(playerViewId: string) {
+function useRemoteState(
+  playerViewId: string
+): [AppState, React.Dispatch<RootAction>] {
   const [state, setState] = useState(EmptyState());
   const [playerViewUserId, setPlayerViewUserId] = useState<string | null>(null);
 
@@ -42,15 +44,20 @@ function useRemoteState(playerViewId: string) {
     return () => dbRef.off();
   }, [playerViewUserId]);
 
-  return state;
+  const dispatch = (action: RootAction) => {
+    const cleanAction = removeUndefinedNodesFromTree(action);
+    database().ref(`pendingActions/${state.playerViewId}`).push(cleanAction);
+  };
+
+  return [state, dispatch];
 }
 
 export function PlayerView() {
   const { playerViewId } = useParams<{ playerViewId: string }>();
-  const state = useRemoteState(playerViewId);
+  const [state, dispatch] = useRemoteState(playerViewId);
 
   return (
-    <ReducerContext.Provider value={{ state, dispatch: () => {} }}>
+    <ReducerContext.Provider value={{ state, dispatch }}>
       <PlayerViewContext.Provider value={{ playerViewId: playerViewId }}>
         <Grommet style={{ minHeight: "100%" }} theme={Theme}>
           <Box fill align="center">

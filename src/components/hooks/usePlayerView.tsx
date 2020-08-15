@@ -1,27 +1,13 @@
 import { auth, database } from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
-import mapValues from "lodash/mapValues";
 import pickBy from "lodash/pickBy";
 import { useEffect, useRef, useState } from "react";
+import { isActionOf } from "typesafe-actions";
+import { Actions, RootAction } from "../../actions/Actions";
 import { AppState } from "../../state/AppState";
 import { PlayerViewPermission } from "../../state/CardState";
-
-function removeUndefinedNodesFromTree(object: any): any {
-  if (typeof object !== "object") {
-    return object;
-  }
-
-  if (Array.isArray(object)) {
-    return object.map(removeUndefinedNodesFromTree);
-  }
-
-  return mapValues(
-    pickBy(object, (value) => value !== undefined),
-    removeUndefinedNodesFromTree
-  );
-}
-
+import { removeUndefinedNodesFromTree } from "./removeUndefinedNodesFromTree";
 function omitClosedCardsFromState(fullState: AppState): AppState {
   const openCardIds = fullState.openCardIds.filter(
     (cardId) =>
@@ -40,7 +26,10 @@ function omitClosedCardsFromState(fullState: AppState): AppState {
   };
 }
 
-export function usePlayerView(state: AppState) {
+export function usePlayerView(
+  state: AppState,
+  dispatch: React.Dispatch<RootAction>
+) {
   const [userId, setUserId] = useState<string | null>(null);
   const previousState = useRef(state);
 
@@ -55,8 +44,18 @@ export function usePlayerView(state: AppState) {
         const dbRef = database().ref(`playerViews/${state.playerViewId}`);
         dbRef.set(user.uid);
       }
+
+      database()
+        .ref(`pendingActions/${state.playerViewId}`)
+        .on("child_added", (actionSnapshot) => {
+          const action: RootAction = actionSnapshot.val();
+          if (isActionOf(Actions.SetLayouts, action)) {
+            dispatch(action);
+          }
+          actionSnapshot.ref.remove();
+        });
     });
-  }, [state.playerViewId]);
+  }, [state.playerViewId, dispatch]);
 
   useEffect(() => {
     if (!userId) {
