@@ -15,6 +15,12 @@
         ".write": true,
         ".validate": "newData.isString()"
       }
+    },
+    "pendingActions": {
+      "$playerViewId": {
+        ".read": true,
+        ".write": true
+      }
     }
   }
 }
