@@ -1,16 +1,15 @@
+import { Box, Grommet } from "grommet";
 import React from "react";
-import "firebase/auth";
-
-import { TopBar } from "./TopBar";
 import { AppReducer } from "../reducers/AppReducer";
-import { GetInitialState } from "../state/AppState";
 import { ReducerContext } from "../reducers/ReducerContext";
-import { Grommet, Box } from "grommet";
-import { useStorageBackedReducer } from "./hooks/useStorageBackedReducer";
-import { CardGrid } from "./CardGrid";
+import { GetInitialState } from "../state/AppState";
 import { Theme } from "../Theme";
-import { useServerStateUpdates } from "./hooks/useServerStateUpdates";
+import { CardGrid } from "./CardGrid";
 import { CardLibrary } from "./CardLibrary";
+import { usePlayerView } from "./hooks/usePlayerView";
+import { useStorageBackedReducer } from "./hooks/useStorageBackedReducer";
+import { TopBar } from "./TopBar";
+
 
 export function GameMasterView() {
   const [state, dispatch] = useStorageBackedReducer(
@@ -19,7 +18,7 @@ export function GameMasterView() {
     "appState"
   );
 
-  useServerStateUpdates(state);
+  usePlayerView(state);
 
   return (
     <ReducerContext.Provider value={{ state, dispatch }}>

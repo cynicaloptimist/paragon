@@ -1,11 +1,10 @@
-import { useEffect, useState, useRef } from "react";
-import { AppState } from "../../state/AppState";
 import { auth, database } from "firebase/app";
-import "firebase/database";
 import "firebase/auth";
-
-import pickBy from "lodash/pickBy";
+import "firebase/database";
 import mapValues from "lodash/mapValues";
+import pickBy from "lodash/pickBy";
+import { useEffect, useRef, useState } from "react";
+import { AppState } from "../../state/AppState";
 import { PlayerViewPermission } from "../../state/CardState";
 
 function removeUndefinedNodesFromTree(object: any): any {
@@ -41,7 +40,7 @@ function omitClosedCardsFromState(fullState: AppState): AppState {
   };
 }
 
-export function useServerStateUpdates(state: AppState) {
+export function usePlayerView(state: AppState) {
   const [userId, setUserId] = useState<string | null>(null);
   const previousState = useRef(state);
 
