@@ -1,17 +1,16 @@
-import React, { useContext } from "react";
-import { Responsive, WidthProvider } from "react-grid-layout";
-
-import { Actions, CardActions } from "../actions/Actions";
-import { ArticleCard } from "./ArticleCard";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { CardState } from "../state/CardState";
-import { ClockCard } from "./ClockCard";
-import { RollTableCard } from "./RollTableCard";
-import { ImageCard } from "./ImageCard";
-import { DiceCard } from "./DiceCard";
-import { PlayerViewContext } from "./PlayerViewContext";
 import { Box } from "grommet";
 import { uniqBy } from "lodash";
+import React, { useContext } from "react";
+import { Layout, Responsive, WidthProvider } from "react-grid-layout";
+import { Actions, CardActions } from "../actions/Actions";
+import { ReducerContext } from "../reducers/ReducerContext";
+import { CardState, PlayerViewPermission } from "../state/CardState";
+import { ArticleCard } from "./ArticleCard";
+import { ClockCard } from "./ClockCard";
+import { DiceCard } from "./DiceCard";
+import { ImageCard } from "./ImageCard";
+import { PlayerViewContext } from "./PlayerViewContext";
+import { RollTableCard } from "./RollTableCard";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 const MIN_GRID_UNITS_CARD_HEIGHT = 3;
@@ -19,8 +18,19 @@ const MIN_GRID_UNITS_CARD_WIDTH = 4;
 
 export function CardGrid() {
   const { state, dispatch } = useContext(ReducerContext);
-  const dedupedLayouts = uniqBy(state.layouts, (l) => l.i);
-  const canEdit = useContext(PlayerViewContext) === null;
+  const isGmView = useContext(PlayerViewContext) === null;
+
+  const dedupedLayouts = uniqBy(state.layouts, (l) => l.i).map<Layout>((l) => {
+    const card = state.cardsById[l.i];
+    const canMoveCard =
+      isGmView || card.playerViewPermission === PlayerViewPermission.Interact;
+    const layout: Layout = {
+      ...l,
+      isDraggable: canMoveCard,
+      isResizable: canMoveCard,
+    };
+    return layout;
+  });
 
   const cards = state.openCardIds.map((cardId) => {
     const card = state.cardsById[cardId];
@@ -49,8 +59,6 @@ export function CardGrid() {
         draggableHandle=".drag-handle"
         style={{ flexGrow: 1 }}
         layouts={{ xxl: dedupedLayouts }}
-        isDraggable={canEdit}
-        isResizable={canEdit}
         onLayoutChange={(newLayout) => dispatch(Actions.SetLayouts(newLayout))}
         onResize={(_, __, layoutItem, placeholder) => {
           if (layoutItem.h < MIN_GRID_UNITS_CARD_HEIGHT) {
