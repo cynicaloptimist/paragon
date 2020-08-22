@@ -1,7 +1,7 @@
 import { faCheck, faFolder, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, TextInput } from "grommet";
-import React, { useCallback, useContext, useState } from "react";
+import { Box, Button, ButtonType, TextInput } from "grommet";
+import React, { useCallback, useContext, useRef, useState } from "react";
 import { CardActions } from "../actions/Actions";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardState } from "../state/CardState";
@@ -60,7 +60,46 @@ export function CardLibraryRow(props: { card: CardState }) {
         onClick={() => setEditingPath(true)}
         icon={<FontAwesomeIcon icon={faFolder} />}
       />
-      <Button onClick={deleteCard} icon={<FontAwesomeIcon icon={faTrash} />} />
+      <LongPressButton
+        onLongPress={deleteCard}
+        icon={<FontAwesomeIcon icon={faTrash} />}
+      />
     </Box>
+  );
+}
+
+function LongPressButton(
+  props: Omit<ButtonType, "onClick"> & {
+    timeout?: number;
+    onLongPress: () => void;
+  }
+) {
+  const [isPressed, setIsPressed] = useState(false);
+  const isPressedRef = useRef(isPressed);
+  isPressedRef.current = isPressed;
+
+  const press = useCallback(() => {
+    setIsPressed(true);
+    setTimeout(() => {
+      if (isPressedRef.current) {
+        props.onLongPress();
+      }
+    }, props.timeout ?? 1000);
+  }, [props, isPressedRef, setIsPressed]);
+
+  const unPress = useCallback(() => {
+    setIsPressed(false);
+  }, [setIsPressed]);
+
+  return (
+    <Button
+      {...props}
+      className={(props.className ?? "") + (isPressed ? " pressed" : "")}
+      onMouseDown={press}
+      onMouseUp={unPress}
+      onTouchStart={press}
+      onTouchEnd={unPress}
+      onTouchCancel={unPress}
+    />
   );
 }
