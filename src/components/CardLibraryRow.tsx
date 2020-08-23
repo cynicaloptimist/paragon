@@ -1,6 +1,13 @@
 import { faCheck, faFolder, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, ButtonType, TextInput } from "grommet";
+import {
+  Box,
+  Button,
+  ButtonType,
+  TextInput,
+  ThemeContext,
+  ThemeType
+} from "grommet";
 import React, { useCallback, useContext, useRef, useState } from "react";
 import { CardActions } from "../actions/Actions";
 import { ReducerContext } from "../reducers/ReducerContext";
@@ -14,10 +21,9 @@ export function CardLibraryRow(props: { card: CardState }) {
     [dispatch, props.card.cardId]
   );
 
-  const deleteCard = useCallback(
-    () => dispatch(CardActions.DeleteCard({ cardId: props.card.cardId })),
-    [dispatch, props.card.cardId]
-  );
+  const deleteCard = useCallback(() => {
+    dispatch(CardActions.DeleteCard({ cardId: props.card.cardId }));
+  }, [dispatch, props.card.cardId]);
 
   const [editingPath, setEditingPath] = useState(false);
   const [pathInput, setPathInput] = useState("");
@@ -74,6 +80,8 @@ function LongPressButton(
     onLongPress: () => void;
   }
 ) {
+  const { onLongPress, ...buttonProps } = props;
+
   const [isPressed, setIsPressed] = useState(false);
   const isPressedRef = useRef(isPressed);
   isPressedRef.current = isPressed;
@@ -82,24 +90,41 @@ function LongPressButton(
     setIsPressed(true);
     setTimeout(() => {
       if (isPressedRef.current) {
-        props.onLongPress();
+        onLongPress();
       }
-    }, props.timeout ?? 1000);
-  }, [props, isPressedRef, setIsPressed]);
+    }, props.timeout ?? 1500);
+  }, [onLongPress, isPressedRef, setIsPressed, props.timeout]);
 
   const unPress = useCallback(() => {
     setIsPressed(false);
   }, [setIsPressed]);
 
+  const theme: ThemeType = {
+    button: {
+      default: {
+        background: {
+          color: isPressed ? "status-warning" : "inherit",
+        },
+      },
+      transition: {
+        properties: ["background-color"],
+        duration: 1.5,
+        timing: "linear",
+      },
+    },
+  };
+
   return (
-    <Button
-      {...props}
-      className={(props.className ?? "") + (isPressed ? " pressed" : "")}
-      onMouseDown={press}
-      onMouseUp={unPress}
-      onTouchStart={press}
-      onTouchEnd={unPress}
-      onTouchCancel={unPress}
-    />
+    <ThemeContext.Extend value={theme}>
+      <Button
+        {...buttonProps}
+        onMouseDown={press}
+        onMouseUp={unPress}
+        onMouseLeave={unPress}
+        onTouchStart={press}
+        onTouchEnd={unPress}
+        onTouchCancel={unPress}
+      />
+    </ThemeContext.Extend>
   );
 }
