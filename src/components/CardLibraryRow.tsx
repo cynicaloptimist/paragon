@@ -109,7 +109,7 @@ function LongPressButton(
       transition: {
         properties: ["background-color"],
         duration: 1.5,
-        timing: "linear",
+        timing: "ease-out",
       },
     },
   };
