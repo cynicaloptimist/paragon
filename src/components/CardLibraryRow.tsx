@@ -4,6 +4,8 @@ import {
   Box,
   Button,
   ButtonType,
+  Meter,
+  Stack,
   TextInput,
   ThemeContext,
   ThemeType
@@ -74,6 +76,8 @@ export function CardLibraryRow(props: { card: CardState }) {
   );
 }
 
+const DRAW_INTERVAL = 30;
+
 function LongPressButton(
   props: Omit<ButtonType, "onClick"> & {
     timeout?: number;
@@ -81,29 +85,39 @@ function LongPressButton(
   }
 ) {
   const { onLongPress, ...buttonProps } = props;
+  const timeout = props.timeout || 1000;
 
-  const [isPressed, setIsPressed] = useState(false);
-  const isPressedRef = useRef(isPressed);
-  isPressedRef.current = isPressed;
+  const [pressLength, setPressLength] = useState(0);
+  const pressLengthRef = useRef(pressLength);
+  pressLengthRef.current = pressLength;
+
+  const interval = useRef<NodeJS.Timeout>();
 
   const press = useCallback(() => {
-    setIsPressed(true);
-    setTimeout(() => {
-      if (isPressedRef.current) {
-        onLongPress();
-      }
-    }, props.timeout ?? 1500);
-  }, [onLongPress, isPressedRef, setIsPressed, props.timeout]);
+    if (!interval.current) {
+      interval.current = setInterval(() => {
+        if (pressLengthRef.current > timeout) {
+          onLongPress();
+        } else {
+          setPressLength(pressLengthRef.current + DRAW_INTERVAL);
+        }
+      }, DRAW_INTERVAL);
+    }
+  }, [onLongPress, timeout]);
 
   const unPress = useCallback(() => {
-    setIsPressed(false);
-  }, [setIsPressed]);
+    if (interval.current) {
+      clearInterval(interval.current);
+      interval.current = undefined;
+    }
+    setPressLength(0);
+  }, [interval, setPressLength]);
 
   const theme: ThemeType = {
     button: {
       default: {
         background: {
-          color: isPressed ? "status-warning" : "inherit",
+          color: pressLength > 0 ? "status-warning" : "inherit",
         },
       },
       transition: {
@@ -116,15 +130,28 @@ function LongPressButton(
 
   return (
     <ThemeContext.Extend value={theme}>
-      <Button
-        {...buttonProps}
-        onMouseDown={press}
-        onMouseUp={unPress}
-        onMouseLeave={unPress}
-        onTouchStart={press}
-        onTouchEnd={unPress}
-        onTouchCancel={unPress}
-      />
+      <Stack anchor="center">
+        <Meter
+          type="circle"
+          max={timeout}
+          values={[
+            {
+              value: pressLength,
+            },
+          ]}
+          size="xsmall"
+          margin="none"
+        />
+        <Button
+          {...buttonProps}
+          onMouseDown={press}
+          onMouseUp={unPress}
+          onMouseLeave={unPress}
+          onTouchStart={press}
+          onTouchEnd={unPress}
+          onTouchCancel={unPress}
+        />
+      </Stack>
     </ThemeContext.Extend>
   );
 }
