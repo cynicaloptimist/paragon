@@ -1,15 +1,6 @@
 import { faCheck, faFolder, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  Box,
-  Button,
-  ButtonType,
-  Meter,
-  Stack,
-  TextInput,
-  ThemeContext,
-  ThemeType
-} from "grommet";
+import { Box, Button, ButtonType, Meter, Stack, TextInput } from "grommet";
 import React, { useCallback, useContext, useRef, useState } from "react";
 import { CardActions } from "../actions/Actions";
 import { ReducerContext } from "../reducers/ReducerContext";
@@ -113,45 +104,32 @@ function LongPressButton(
     setPressLength(0);
   }, [interval, setPressLength]);
 
-  const theme: ThemeType = {
-    button: {
-      default: {
-        background: {
-          color: pressLength > 0 ? "status-warning" : "inherit",
-        },
-      },
-      transition: {
-        properties: ["background-color"],
-        duration: 1.5,
-        timing: "ease-out",
-      },
-    },
-  };
-
   return (
-    <ThemeContext.Extend value={theme}>
-      <Stack anchor="center">
-        <Meter
-          type="circle"
-          max={timeout}
-          values={[
-            {
-              value: pressLength,
-            },
-          ]}
-          size="xsmall"
-          margin="none"
-        />
-        <Button
-          {...buttonProps}
-          onMouseDown={press}
-          onMouseUp={unPress}
-          onMouseLeave={unPress}
-          onTouchStart={press}
-          onTouchEnd={unPress}
-          onTouchCancel={unPress}
-        />
-      </Stack>
-    </ThemeContext.Extend>
+    <Stack anchor="center">
+      <Meter
+        type="circle"
+        max={timeout}
+        values={[
+          {
+            value: pressLength,
+            color: "status-warning",
+          },
+        ]}
+        size="xxsmall"
+        thickness="xsmall"
+        margin={{
+          top: "5px",
+        }}
+      />
+      <Button
+        {...buttonProps}
+        onMouseDown={press}
+        onMouseUp={unPress}
+        onMouseLeave={unPress}
+        onTouchStart={press}
+        onTouchEnd={unPress}
+        onTouchCancel={unPress}
+      />
+    </Stack>
   );
 }
