@@ -67,7 +67,7 @@ export function CardLibraryRow(props: { card: CardState }) {
   );
 }
 
-const DRAW_INTERVAL = 30;
+const DRAW_INTERVAL = 20;
 
 function LongPressButton(
   props: Omit<ButtonType, "onClick"> & {
