@@ -115,7 +115,9 @@ function PlayerViewButton(props: { cardState: CardState }) {
           dispatch(
             CardActions.SetPlayerViewPermission({
               cardId: props.cardState.cardId,
-              playerViewPermission: PlayerViewPermission.Interact,
+              playerViewPermission: process.env.REACT_APP_ENABLE_PLAYER_VIEW_EDITING
+                ? PlayerViewPermission.Interact
+                : PlayerViewPermission.Hidden,
             })
           )
         }
