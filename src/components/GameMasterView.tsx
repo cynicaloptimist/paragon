@@ -2,7 +2,7 @@ import { Box, Grommet } from "grommet";
 import React from "react";
 import { AppReducer } from "../reducers/AppReducer";
 import { ReducerContext } from "../reducers/ReducerContext";
-import { GetInitialState } from "../state/AppState";
+import { UpdateMissingOrLegacyAppState } from "../state/LegacyAppState";
 import { Theme } from "../Theme";
 import { CardGrid } from "./CardGrid";
 import { CardLibrary } from "./CardLibrary";
@@ -13,12 +13,7 @@ import { TopBar } from "./TopBar";
 export function GameMasterView() {
   const [state, dispatch] = useStorageBackedReducer(
     AppReducer,
-    (storedState) => {
-      return {
-        ...GetInitialState(),
-        ...storedState,
-      };
-    },
+    UpdateMissingOrLegacyAppState,
     "appState"
   );
 

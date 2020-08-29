@@ -2,7 +2,7 @@ import { Reducer, ReducerAction, ReducerState, useReducer } from "react";
 
 export function useStorageBackedReducer<R extends Reducer<any, any>>(
   reducer: R,
-  initializeState: (localState: Partial<ReducerState<R>>) => ReducerState<R>,
+  initializeState: (localState: object) => ReducerState<R>,
   storageKey: string
 ) {
   const reducerWithSave = (
