@@ -1,8 +1,8 @@
-import { Reducer, ReducerState, ReducerAction, useReducer } from "react";
+import { Reducer, ReducerAction, ReducerState, useReducer } from "react";
 
 export function useStorageBackedReducer<R extends Reducer<any, any>>(
   reducer: R,
-  initialState: ReducerState<R>,
+  initializeState: (localState: Partial<ReducerState<R>>) => ReducerState<R>,
   storageKey: string
 ) {
   const reducerWithSave = (
@@ -14,13 +14,9 @@ export function useStorageBackedReducer<R extends Reducer<any, any>>(
     return newState;
   };
 
-  const storedState = localStorage.getItem(storageKey);
-  if (storedState) {
-    initialState = {
-      ...initialState,
-      ...JSON.parse(storedState),
-    };
-  }
+  const storedStateJSON = localStorage.getItem(storageKey);
+  const storedState = storedStateJSON ? JSON.parse(storedStateJSON) : {};
+  const initialState = initializeState(storedState);
 
   return useReducer(reducerWithSave, initialState);
 }

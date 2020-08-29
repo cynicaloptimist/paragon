@@ -13,7 +13,12 @@ import { TopBar } from "./TopBar";
 export function GameMasterView() {
   const [state, dispatch] = useStorageBackedReducer(
     AppReducer,
-    GetInitialState(),
+    (storedState) => {
+      return {
+        ...GetInitialState(),
+        ...storedState,
+      };
+    },
     "appState"
   );
 
