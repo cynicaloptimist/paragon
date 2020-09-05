@@ -30,9 +30,11 @@ function GetWelcomeCard(): ArticleCardState {
     cardId: "welcome",
     type: "article",
     title: "Welcome",
-    content: `Reference your TTRPG session prep with this powerful, customizable virtual GM screen. ` +
+    content:
+      `Reference your TTRPG session prep with this powerful, customizable virtual GM screen. ` +
       `Welcome to **Paragon Campaign Dashboard!** Add new cards from the '+' menu. There are several [card types](${
-      GetCardTypesCard().cardId}) available.`,
+        GetCardTypesCard().cardId
+      }) available.`,
     playerViewPermission: PlayerViewPermission.Hidden,
   };
 }
@@ -50,7 +52,7 @@ function GetCardTypesCard(): ArticleCardState {
 
 **Image Cards** show an image. You can drag an image from another tab straight onto an image card.
 
-**Clock Cards** are inspired by the Clock mechanic of various PbtA games. They can be used for tracking progress toward a goal or event, for example.`,
+**Clock Cards** are inspired by the Clock mechanic of various [PbtA](https://en.wikipedia.org/wiki/Powered_by_the_Apocalypse) games. They can be used for tracking progress toward a goal or event, for example.`,
     playerViewPermission: PlayerViewPermission.Hidden,
   };
 }
