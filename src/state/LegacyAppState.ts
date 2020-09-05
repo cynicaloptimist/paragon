@@ -1,5 +1,6 @@
 import GridLayout from "react-grid-layout";
-import { AppState, CardsState, GetInitialState } from "./AppState";
+import { AppState, CardsState } from "./AppState";
+import { GetInitialState } from "./GetInitialState";
 
 export type LegacyAppState = {
   openCardIds: string[];
