@@ -79,7 +79,7 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
   if (isActionOf(Actions.SetLayouts, action)) {
     return {
       ...oldState,
-      layouts: [...oldState.layouts, ...action.payload],
+      layouts: [...oldState.layouts, ...(action.payload || [])],
     };
   }
 
