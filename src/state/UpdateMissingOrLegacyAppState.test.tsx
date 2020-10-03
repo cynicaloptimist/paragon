@@ -4,7 +4,7 @@ import {
   UpdateMissingOrLegacyAppState
 } from "./LegacyAppState";
 
-test("updates legacy stored state", () => {
+test("updates legacy empty state", () => {
   const storedState: LegacyAppState = {
     openCardIds: [],
     cardsById: {},
