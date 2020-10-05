@@ -77,9 +77,13 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
   }
 
   if (isActionOf(Actions.SetLayouts, action)) {
+    const updatedLayoutIds = action.payload.map((layout) => layout.i);
+    const nonUpdatedLayouts = oldState.layouts.filter(
+      (layout) => !updatedLayoutIds.includes(layout.i)
+    );
     return {
       ...oldState,
-      layouts: [...oldState.layouts, ...(action.payload || [])],
+      layouts: [...nonUpdatedLayouts, ...(action.payload || [])],
     };
   }
 
