@@ -50,6 +50,7 @@ export function usePlayerView(
         .on("child_added", (actionSnapshot) => {
           const action: RootAction = actionSnapshot.val();
           if (isActionOf(Actions.SetLayouts, action)) {
+            action.payload = action.payload || [];
             dispatch(action);
           }
           actionSnapshot.ref.remove();
