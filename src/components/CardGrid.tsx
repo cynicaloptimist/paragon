@@ -20,19 +20,30 @@ export function CardGrid() {
   const { state, dispatch } = useContext(ReducerContext);
   const isGmView = useContext(PlayerViewContext) === null;
 
-  const dedupedLayouts = uniqBy(state.layouts, (l) => l.i).map<Layout>((l) => {
-    const card = state.cardsById[l.i];
-    const canMoveCard =
-      isGmView || card.playerViewPermission === PlayerViewPermission.Interact;
-    const layout: Layout = {
-      ...l,
-      isDraggable: canMoveCard,
-      isResizable: canMoveCard,
-    };
-    return layout;
-  });
+  if (
+    state.activeDashboardId == null ||
+    !state.dashboardsById[state.activeDashboardId]
+  ) {
+    return null;
+  }
 
-  const cards = state.openCardIds.map((cardId) => {
+  const dashboard = state.dashboardsById[state.activeDashboardId];
+
+  const dedupedLayouts = uniqBy(dashboard.layouts, (l) => l.i).map<Layout>(
+    (l) => {
+      const card = state.cardsById[l.i];
+      const canMoveCard =
+        isGmView || card.playerViewPermission === PlayerViewPermission.Interact;
+      const layout: Layout = {
+        ...l,
+        isDraggable: canMoveCard,
+        isResizable: canMoveCard,
+      };
+      return layout;
+    }
+  );
+
+  const cards = dashboard.openCardIds.map((cardId) => {
     const card = state.cardsById[cardId];
     if (!card) {
       console.warn("Open card ID missing from state: " + cardId);
@@ -70,7 +81,9 @@ export function CardGrid() {
             placeholder.w = MIN_GRID_UNITS_CARD_WIDTH;
           }
         }}
-        compactType={state.layoutCompaction === "compact" ? "vertical" : null}
+        compactType={
+          dashboard.layoutCompaction === "compact" ? "vertical" : null
+        }
       >
         {cards}
       </ResponsiveGridLayout>

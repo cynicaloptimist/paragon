@@ -34,10 +34,7 @@ function useRemoteState(
     const dbRef = database().ref(`users/${playerViewUserId}/playerViewState`);
     dbRef.on("value", (appState) => {
       const networkAppState: Partial<AppState> = appState.val();
-      const completeAppState = {
-        ...EmptyState(),
-        ...networkAppState,
-      };
+      const completeAppState = restorePrunedEmptyArrays(networkAppState);
       setState(completeAppState);
     });
 
@@ -46,10 +43,26 @@ function useRemoteState(
 
   const dispatch = (action: RootAction) => {
     const cleanAction = removeUndefinedNodesFromTree(action);
-    database().ref(`pendingActions/${state.playerViewId}`).push(cleanAction);
+    database()
+      .ref(`pendingActions/${state.activeDashboardId}`)
+      .push(cleanAction);
   };
 
   return [state, dispatch];
+}
+
+function restorePrunedEmptyArrays(
+  networkAppState: Partial<AppState>
+): AppState {
+  for (const dashboard of Object.values(networkAppState.dashboardsById || {})) {
+    dashboard.layouts = dashboard.layouts || [];
+    dashboard.openCardIds = dashboard.openCardIds || [];
+  }
+
+  return {
+    ...EmptyState(),
+    ...networkAppState,
+  };
 }
 
 export function PlayerView() {

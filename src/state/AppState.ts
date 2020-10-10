@@ -2,21 +2,23 @@ import GridLayout from "react-grid-layout";
 import { CardState } from "./CardState";
 
 export type AppState = {
-  openCardIds: string[];
   cardsById: CardsState;
-  layouts: GridLayout.Layout[];
+  dashboardsById: Record<string, DashboardState>;
+  activeDashboardId: string | null;
   cardLibraryVisibility: boolean;
+};
+
+export type DashboardState = {
+  openCardIds: string[];
+  layouts: GridLayout.Layout[];
   layoutCompaction: "free" | "compact";
-  playerViewId: string;
 };
 
 export type CardsState = { [cardId: string]: CardState };
 
 export const EmptyState = (): AppState => ({
-  openCardIds: [],
   cardsById: {},
-  layouts: [],
+  dashboardsById: {},
+  activeDashboardId: null,
   cardLibraryVisibility: false,
-  layoutCompaction: "free",
-  playerViewId: "",
 });

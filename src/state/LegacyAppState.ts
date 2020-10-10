@@ -1,22 +1,50 @@
 import GridLayout from "react-grid-layout";
-import { AppState, CardsState } from "./AppState";
+import { randomString } from "../randomString";
+import { AppState, CardsState, DashboardState, EmptyState } from "./AppState";
 import { GetInitialState } from "./GetInitialState";
 
 export type LegacyAppState = {
-  openCardIds: string[];
+  //new
+  dashboardsById?: Record<string, DashboardState>;
+  activeDashboardId?: string | null;
+
+  //current
   cardsById: CardsState;
-  layouts: GridLayout.Layout[];
   cardLibraryVisibility: boolean;
-  layoutCompaction: "free" | "compact";
-  playerViewId: string;
+
+  //legacy
+  playerViewId?: string;
+  openCardIds?: string[];
+  layouts?: GridLayout.Layout[];
+  layoutCompaction?: "free" | "compact";
 };
 
 export function UpdateMissingOrLegacyAppState(
-  storedState: LegacyAppState | {}
+  storedState: LegacyAppState | null
 ): AppState {
-  const initialState = GetInitialState();
-  return {
-    ...initialState,
-    ...storedState,
-  };
+  if (!storedState) {
+    return GetInitialState();
+  }
+
+  const appState = EmptyState();
+
+  appState.cardsById = storedState.cardsById;
+  appState.cardLibraryVisibility = storedState.cardLibraryVisibility;
+
+  if (storedState.dashboardsById) {
+    appState.dashboardsById = storedState.dashboardsById;
+    appState.activeDashboardId = storedState.activeDashboardId || null;
+  } else {
+    const dashboardId = storedState.playerViewId || randomString();
+    appState.dashboardsById = {
+      [dashboardId]: {
+        openCardIds: storedState.openCardIds || [],
+        layouts: storedState.layouts || [],
+        layoutCompaction: storedState.layoutCompaction || "free",
+      },
+    };
+    appState.activeDashboardId = dashboardId;
+  }
+
+  return appState;
 }

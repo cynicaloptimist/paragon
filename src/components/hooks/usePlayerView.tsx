@@ -8,21 +8,36 @@ import { Actions, RootAction } from "../../actions/Actions";
 import { AppState } from "../../state/AppState";
 import { PlayerViewPermission } from "../../state/CardState";
 import { removeUndefinedNodesFromTree } from "./removeUndefinedNodesFromTree";
+
 function omitClosedCardsFromState(fullState: AppState): AppState {
-  const openCardIds = fullState.openCardIds.filter(
+  if (fullState.activeDashboardId == null) {
+    return {
+      ...fullState,
+      cardsById: {},
+    };
+  }
+
+  const dashboard = fullState.dashboardsById[fullState.activeDashboardId];
+  const visibleCardIds = dashboard.openCardIds.filter(
     (cardId) =>
       fullState.cardsById[cardId].playerViewPermission !==
       PlayerViewPermission.Hidden
   );
+
   return {
     ...fullState,
-    openCardIds,
     cardsById: pickBy(fullState.cardsById, (_, cardId) =>
-      openCardIds.some((openCardId) => openCardId === cardId)
+      visibleCardIds.some((visibleCardId) => visibleCardId === cardId)
     ),
-    layouts: fullState.layouts.filter((layout) =>
-      openCardIds.includes(layout.i)
-    ),
+    dashboardsById: {
+      [fullState.activeDashboardId]: {
+        ...dashboard,
+        openCardIds: visibleCardIds,
+        layouts: dashboard.layouts.filter((layout) =>
+          visibleCardIds.includes(layout.i)
+        ),
+      },
+    },
   };
 }
 
@@ -41,12 +56,12 @@ export function usePlayerView(
       if (user) {
         setUserId(user.uid);
         console.log(user.uid);
-        const dbRef = database().ref(`playerViews/${state.playerViewId}`);
+        const dbRef = database().ref(`playerViews/${state.activeDashboardId}`);
         dbRef.set(user.uid);
       }
 
       database()
-        .ref(`pendingActions/${state.playerViewId}`)
+        .ref(`pendingActions/${state.activeDashboardId}`)
         .on("child_added", (actionSnapshot) => {
           const action: RootAction = actionSnapshot.val();
           if (isActionOf(Actions.SetLayouts, action)) {
@@ -56,7 +71,7 @@ export function usePlayerView(
           actionSnapshot.ref.remove();
         });
     });
-  }, [state.playerViewId, dispatch]);
+  }, [state.activeDashboardId, dispatch]);
 
   useEffect(() => {
     if (!userId) {

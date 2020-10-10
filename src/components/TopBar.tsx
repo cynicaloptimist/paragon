@@ -1,8 +1,8 @@
 import {
   faBars,
-
   faEllipsisV,
-  faExternalLinkAlt, faPlus
+  faExternalLinkAlt,
+  faPlus
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, CheckBox, Header, Heading, Menu, Text } from "grommet";
@@ -29,6 +29,12 @@ export const TopBar = () => {
       dispatch(Actions.SetLayoutCompaction({ layoutCompaction: compaction })),
     [dispatch]
   );
+
+  if (state.activeDashboardId == null) {
+    return null;
+  }
+
+  const dashboard = state.dashboardsById[state.activeDashboardId];
 
   return (
     <Header background="brand" pad="small" fill="horizontal">
@@ -71,7 +77,7 @@ export const TopBar = () => {
         dropAlign={{ right: "right", top: "bottom" }}
         icon={<FontAwesomeIcon icon={faEllipsisV} />}
         items={[
-          state.layoutCompaction === "free"
+          dashboard.layoutCompaction === "free"
             ? {
                 label: <CheckBox label="Compact Card Layout" />,
                 onClick: () => setLayoutCompaction("compact"),
@@ -87,10 +93,11 @@ export const TopBar = () => {
                   icon={faExternalLinkAlt}
                   style={{ padding: "0 5px 1px" }}
                 />
-                {"Player View: " + state.playerViewId}
+                {"Player View: " + state.activeDashboardId}
               </Text>
             ),
-            onClick: () => window.open(`/p/${state.playerViewId}`, "_blank"),
+            onClick: () =>
+              window.open(`/p/${state.activeDashboardId}`, "_blank"),
           },
         ]}
       />

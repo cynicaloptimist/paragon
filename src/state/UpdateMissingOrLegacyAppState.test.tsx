@@ -1,4 +1,4 @@
-import { EmptyState } from "./AppState";
+import { AppState, EmptyState } from "./AppState";
 import {
   LegacyAppState,
   UpdateMissingOrLegacyAppState
@@ -11,9 +11,21 @@ test("updates legacy empty state", () => {
     layouts: [],
     cardLibraryVisibility: false,
     layoutCompaction: "free",
-    playerViewId: "",
+    playerViewId: "playerViewId",
   };
   const updatedState = UpdateMissingOrLegacyAppState(storedState);
 
-  expect(updatedState).toEqual(EmptyState());
+  const expectedState: AppState = {
+    ...EmptyState(),
+    activeDashboardId: "playerViewId",
+    dashboardsById: {
+      playerViewId: {
+        layoutCompaction: "free",
+        layouts: [],
+        openCardIds: [],
+      },
+    },
+  };
+
+  expect(updatedState).toEqual(expectedState);
 });

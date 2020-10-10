@@ -1,7 +1,8 @@
 import { omit, union } from "lodash";
 import { isActionOf } from "typesafe-actions";
 import { Actions, CardActions, RootAction } from "../actions/Actions";
-import { AppState } from "../state/AppState";
+import { AppState, DashboardState } from "../state/AppState";
+import { CardState } from "../state/CardState";
 import { InitialCardState } from "../state/InitialCardState";
 import { InitialLayout } from "../state/InitialLayout";
 import { CardsReducer } from "./CardsReducer";
@@ -14,6 +15,31 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     };
   }
 
+  if (oldState.activeDashboardId === null) {
+    return oldState;
+  }
+
+  const activeDashboard = oldState.dashboardsById[oldState.activeDashboardId];
+
+  return {
+    ...oldState,
+    cardsById: CardsReducer(oldState.cardsById, action),
+    dashboardsById: {
+      ...oldState.dashboardsById,
+      [oldState.activeDashboardId]: DashboardReducer(
+        activeDashboard,
+        oldState.cardsById,
+        action
+      ),
+    },
+  };
+}
+
+function DashboardReducer(
+  oldState: DashboardState,
+  cardsById: Record<string, CardState>,
+  action: RootAction
+) {
   if (isActionOf(Actions.SetLayoutCompaction, action)) {
     return {
       ...oldState,
@@ -27,11 +53,11 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
       ...oldState,
       openCardIds: oldState.openCardIds.concat([cardId]),
       cardsById: {
-        ...oldState.cardsById,
+        ...cardsById,
         [cardId]: InitialCardState(
           cardId,
           cardType,
-          Object.values(oldState.cardsById).map((card) => card.title)
+          Object.values(cardsById).map((card) => card.title)
         ),
       },
       layouts: union(oldState.layouts, [InitialLayout(action.payload.cardId)]),
@@ -72,7 +98,7 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
       openCardIds: oldState.openCardIds.filter(
         (openCardId) => openCardId !== action.payload.cardId
       ),
-      cardsById: omit(oldState.cardsById, action.payload.cardId),
+      cardsById: omit(cardsById, action.payload.cardId),
     };
   }
 
@@ -87,8 +113,5 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     };
   }
 
-  return {
-    ...oldState,
-    cardsById: CardsReducer(oldState.cardsById, action),
-  };
+  return oldState;
 }

@@ -5,24 +5,29 @@ import { ArticleCardState, PlayerViewPermission } from "./CardState";
 export const GetInitialState = (): AppState => {
   const welcomeCard = GetWelcomeCard();
   const cardTypesCard = GetCardTypesCard();
+  const firstDashboardId = randomString(4);
   return {
-    openCardIds: [welcomeCard.cardId],
     cardsById: {
       [welcomeCard.cardId]: welcomeCard,
       [cardTypesCard.cardId]: cardTypesCard,
     },
-    layouts: [
-      {
-        i: welcomeCard.cardId,
-        h: 8,
-        w: 8,
-        x: 2,
-        y: 0,
-      },
-    ],
     cardLibraryVisibility: false,
-    layoutCompaction: "free",
-    playerViewId: randomString(4),
+    activeDashboardId: firstDashboardId,
+    dashboardsById: {
+      [firstDashboardId]: {
+        openCardIds: [welcomeCard.cardId],
+        layouts: [
+          {
+            i: welcomeCard.cardId,
+            h: 8,
+            w: 8,
+            x: 2,
+            y: 0,
+          },
+        ],
+        layoutCompaction: "free",
+      },
+    },
   };
 };
 function GetWelcomeCard(): ArticleCardState {

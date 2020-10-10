@@ -1,5 +1,5 @@
 import { createReducer } from "typesafe-actions";
-import { CardActions, CardAction } from "../actions/Actions";
+import { CardAction, CardActions, RootAction } from "../actions/Actions";
 import { CardsState } from "../state/AppState";
 import { CardState, DiceCardState } from "../state/CardState";
 
@@ -18,7 +18,7 @@ function mergeCardState<T extends CardState>(
   };
 }
 
-export const CardsReducer = createReducer<CardsState, CardAction>({})
+export const CardsReducer = createReducer<CardsState, RootAction>({})
   .handleAction(CardActions.SetCardContent, (oldState: CardsState, action) => {
     return mergeCardState(oldState, action, {
       content: action.payload.content,
