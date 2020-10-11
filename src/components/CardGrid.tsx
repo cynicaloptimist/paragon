@@ -29,8 +29,9 @@ export function CardGrid() {
 
   const dashboard = state.dashboardsById[state.activeDashboardId];
 
-  const dedupedLayouts = uniqBy(dashboard.layouts, (l) => l.i).map<Layout>(
-    (l) => {
+  const dedupedLayouts = uniqBy(dashboard.layouts, (l) => l.i)
+    .filter((l) => dashboard.openCardIds.includes(l.i))
+    .map<Layout>((l) => {
       const card = state.cardsById[l.i];
       const canMoveCard =
         isGmView || card.playerViewPermission === PlayerViewPermission.Interact;
@@ -40,8 +41,7 @@ export function CardGrid() {
         isResizable: canMoveCard,
       };
       return layout;
-    }
-  );
+    });
 
   const cards = dashboard.openCardIds.map((cardId) => {
     const card = state.cardsById[cardId];
