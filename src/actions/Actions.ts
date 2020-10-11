@@ -11,6 +11,9 @@ export const Actions = {
     layoutCompaction: "free" | "compact";
   }>(),
   CreateDashboard: createAction("CreateDashboard")<{ dashboardId: string }>(),
+  ActivateDashboard: createAction("ActivateDashboard")<{
+    dashboardId: string;
+  }>(),
 };
 
 export const CardActions = {

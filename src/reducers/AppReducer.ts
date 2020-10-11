@@ -26,6 +26,13 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     };
   }
 
+  if (isActionOf(Actions.ActivateDashboard, action)) {
+    return {
+      ...oldState,
+      activeDashboardId: action.payload.dashboardId,
+    };
+  }
+
   if (oldState.activeDashboardId === null) {
     return oldState;
   }
