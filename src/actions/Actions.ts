@@ -1,6 +1,6 @@
 import GridLayout from "react-grid-layout";
-import { createAction, ActionType } from "typesafe-actions";
-import { RollTableEntry, PlayerViewPermission } from "../state/CardState";
+import { ActionType, createAction } from "typesafe-actions";
+import { PlayerViewPermission, RollTableEntry } from "../state/CardState";
 
 export const Actions = {
   SetLayouts: createAction("SetLayouts")<GridLayout.Layout[]>(),
@@ -10,6 +10,7 @@ export const Actions = {
   SetLayoutCompaction: createAction("SetLayoutCompaction")<{
     layoutCompaction: "free" | "compact";
   }>(),
+  CreateDashboard: createAction("CreateDashboard")<{ dashboardId: string }>(),
 };
 
 export const CardActions = {

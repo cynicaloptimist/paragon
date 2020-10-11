@@ -12,6 +12,20 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     };
   }
 
+  if (isActionOf(Actions.CreateDashboard, action)) {
+    return {
+      ...oldState,
+      dashboardsById: {
+        ...oldState.dashboardsById,
+        [action.payload.dashboardId]: {
+          layoutCompaction: "free",
+          openCardIds: [],
+          layouts: [],
+        },
+      },
+    };
+  }
+
   if (oldState.activeDashboardId === null) {
     return oldState;
   }
