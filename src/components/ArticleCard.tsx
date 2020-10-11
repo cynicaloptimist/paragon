@@ -1,13 +1,13 @@
-import React, { useContext } from "react";
-import { BaseCard } from "./BaseCard";
-import { Button, TextArea, Markdown, Box, Text } from "grommet";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { CardActions } from "../actions/Actions";
+import { faCheck, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faCheck } from "@fortawesome/free-solid-svg-icons";
-import { ArticleCardState } from "../state/CardState";
-import { PlayerViewContext } from "./PlayerViewContext";
+import { Box, Button, Markdown, Text, TextArea } from "grommet";
+import React, { useContext } from "react";
+import { CardActions } from "../actions/Actions";
+import { ReducerContext } from "../reducers/ReducerContext";
 import { CardsState } from "../state/AppState";
+import { ArticleCardState } from "../state/CardState";
+import { BaseCard } from "./BaseCard";
+import { PlayerViewContext } from "./PlayerViewContext";
 
 export function ArticleCard(props: { card: ArticleCardState }) {
   const { state, dispatch } = React.useContext(ReducerContext);
@@ -61,7 +61,7 @@ export function ArticleCard(props: { card: ArticleCardState }) {
         <Box
           fill
           pad="small"
-          onDoubleClick={() => setContentEditable(true)}
+          onDoubleClick={() => canEdit && setContentEditable(true)}
           overflow={{ vertical: "auto" }}
         >
           <Markdown
