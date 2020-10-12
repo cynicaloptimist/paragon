@@ -1,16 +1,13 @@
-import { omit, union } from "lodash";
+import { union } from "lodash";
 import { isActionOf } from "typesafe-actions";
 import { Actions, CardActions, RootAction } from "../actions/Actions";
 import { DashboardState } from "../state/AppState";
-import { CardState } from "../state/CardState";
-import { InitialCardState } from "../state/InitialCardState";
 import { InitialLayout } from "../state/InitialLayout";
 
 export function DashboardReducer(
   oldState: DashboardState,
-  cardsById: Record<string, CardState>,
   action: RootAction
-) {
+): DashboardState {
   if (isActionOf(Actions.SetLayoutCompaction, action)) {
     return {
       ...oldState,
@@ -19,18 +16,10 @@ export function DashboardReducer(
   }
 
   if (isActionOf(CardActions.AddCard, action)) {
-    const { cardType, cardId } = action.payload;
+    const { cardId } = action.payload;
     return {
       ...oldState,
       openCardIds: oldState.openCardIds.concat([cardId]),
-      cardsById: {
-        ...cardsById,
-        [cardId]: InitialCardState(
-          cardId,
-          cardType,
-          Object.values(cardsById).map((card) => card.title)
-        ),
-      },
       layouts: union(oldState.layouts, [InitialLayout(action.payload.cardId)]),
     };
   }
@@ -69,7 +58,6 @@ export function DashboardReducer(
       openCardIds: oldState.openCardIds.filter(
         (openCardId) => openCardId !== action.payload.cardId
       ),
-      cardsById: omit(cardsById, action.payload.cardId),
     };
   }
 

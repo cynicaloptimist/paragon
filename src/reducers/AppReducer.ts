@@ -1,6 +1,8 @@
+import { omit } from "lodash";
 import { isActionOf } from "typesafe-actions";
-import { Actions, RootAction } from "../actions/Actions";
+import { Actions, CardActions, RootAction } from "../actions/Actions";
 import { AppState } from "../state/AppState";
+import { InitialCardState } from "../state/InitialCardState";
 import { CardsReducer } from "./CardsReducer";
 import { DashboardReducer } from "./DashboardReducer";
 
@@ -39,16 +41,38 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
 
   const activeDashboard = oldState.dashboardsById[oldState.activeDashboardId];
 
+  const dashboardsById = {
+    ...oldState.dashboardsById,
+    [oldState.activeDashboardId]: DashboardReducer(activeDashboard, action),
+  };
+
+  if (isActionOf(CardActions.AddCard, action)) {
+    const cardId = action.payload.cardId;
+    return {
+      ...oldState,
+      cardsById: {
+        ...oldState.cardsById,
+        [cardId]: InitialCardState(
+          cardId,
+          action.payload.cardType,
+          Object.values(oldState.cardsById).map((card) => card.title)
+        ),
+      },
+      dashboardsById,
+    };
+  }
+
+  if (isActionOf(CardActions.DeleteCard, action)) {
+    return {
+      ...oldState,
+      cardsById: omit(oldState.cardsById, action.payload.cardId),
+      dashboardsById,
+    };
+  }
+
   return {
     ...oldState,
     cardsById: CardsReducer(oldState.cardsById, action),
-    dashboardsById: {
-      ...oldState.dashboardsById,
-      [oldState.activeDashboardId]: DashboardReducer(
-        activeDashboard,
-        oldState.cardsById,
-        action
-      ),
-    },
+    dashboardsById,
   };
 }
