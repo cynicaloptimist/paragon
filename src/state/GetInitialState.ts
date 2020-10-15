@@ -15,6 +15,7 @@ export const GetInitialState = (): AppState => {
     activeDashboardId: firstDashboardId,
     dashboardsById: {
       [firstDashboardId]: {
+        name: "Dashboard 1",
         openCardIds: [welcomeCard.cardId],
         layouts: [
           {

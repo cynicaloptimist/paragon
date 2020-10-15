@@ -38,6 +38,7 @@ export function UpdateMissingOrLegacyAppState(
     const dashboardId = storedState.playerViewId || randomString();
     appState.dashboardsById = {
       [dashboardId]: {
+        name: "Dashboard 1",
         openCardIds: storedState.openCardIds || [],
         layouts: storedState.layouts || [],
         layoutCompaction: storedState.layoutCompaction || "free",

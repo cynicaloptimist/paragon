@@ -1,7 +1,7 @@
 import { omit } from "lodash";
 import { isActionOf } from "typesafe-actions";
 import { Actions, CardActions, RootAction } from "../actions/Actions";
-import { AppState } from "../state/AppState";
+import { AppState, DashboardState } from "../state/AppState";
 import { InitialCardState } from "../state/InitialCardState";
 import { CardsReducer } from "./CardsReducer";
 import { DashboardReducer } from "./DashboardReducer";
@@ -15,11 +15,20 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
   }
 
   if (isActionOf(Actions.CreateDashboard, action)) {
+    let autoIndex = 0;
+    let autoName: string;
+    const doesNameCollide = (dashboard: DashboardState) => dashboard.name === autoName;
+    do {
+      autoIndex += 1;
+      autoName = "Dashboard " + autoIndex;
+    } while (Object.values(oldState.dashboardsById).some(doesNameCollide));
+
     return {
       ...oldState,
       dashboardsById: {
         ...oldState.dashboardsById,
         [action.payload.dashboardId]: {
+          name: autoName,
           layoutCompaction: "free",
           openCardIds: [],
           layouts: [],
