@@ -5,9 +5,9 @@ import { ReducerContext } from "../reducers/ReducerContext";
 import { UpdateMissingOrLegacyAppState } from "../state/LegacyAppState";
 import { Theme } from "../Theme";
 import { CardGrid } from "./CardGrid";
-import { CardLibrary } from "./CardLibrary";
 import { usePlayerView } from "./hooks/usePlayerView";
 import { useStorageBackedReducer } from "./hooks/useStorageBackedReducer";
+import { LibrarySidebar } from "./LibrarySidebar";
 import { TopBar } from "./TopBar";
 
 export function GameMasterView() {
@@ -25,7 +25,7 @@ export function GameMasterView() {
         <Box fill align="center">
           <TopBar />
           <CardGrid />
-          {state.cardLibraryVisibility && <CardLibrary />}
+          {state.cardLibraryVisibility && <LibrarySidebar />}
         </Box>
       </Grommet>
     </ReducerContext.Provider>

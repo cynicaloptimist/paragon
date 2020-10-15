@@ -5,7 +5,7 @@ import {
   faSort
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, Header, Heading, Text } from "grommet";
+import { Box, Button, Header, Heading } from "grommet";
 import React, { useCallback, useContext, useState } from "react";
 import { Actions } from "../actions/Actions";
 import { ReducerContext } from "../reducers/ReducerContext";
@@ -84,7 +84,7 @@ const Groupings: Grouping[] = [
   },
 ];
 
-export function CardLibrary() {
+export function LibrarySidebar() {
   const { state, dispatch } = useContext(ReducerContext);
   const [groupingIndex, setGroupingIndex] = useState(0);
   const selectedGrouping = Groupings[groupingIndex];
@@ -129,16 +129,20 @@ export function CardLibrary() {
           icon={<FontAwesomeIcon size="sm" icon={faBars} />}
           onClick={hideCardLibrary}
         />
-        <Text>Cards by {selectedGrouping.Name}</Text>
+        <Heading level={3} margin="none">
+          Cards
+        </Heading>
+        <Button />
+      </Header>
+      <Box pad="xsmall" overflow={{ vertical: "auto" }}>
         <Button
+          label={"By " + selectedGrouping.Name}
           icon={<FontAwesomeIcon size="sm" icon={faSort} />}
           onClick={() => {
             const nextGrouping = (groupingIndex + 1) % Groupings.length;
             setGroupingIndex(nextGrouping);
           }}
         />
-      </Header>
-      <Box pad="xsmall" overflow={{ vertical: "auto" }}>
         {headersAndCards}
       </Box>
     </Box>
