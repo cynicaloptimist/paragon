@@ -1,6 +1,6 @@
 import {
   faBars,
-
+  faColumns,
   faFolder,
   faFolderOpen,
   faSort
@@ -91,6 +91,17 @@ export function LibrarySidebar() {
     () => dispatch(Actions.SetCardLibraryVisibility({ visibility: false })),
     [dispatch]
   );
+  const [libraryMode, setLibraryMode] = useState<"dashboards" | "cards">(
+    "cards"
+  );
+
+  const toggleLibraryMode = useCallback(() => {
+    if (libraryMode === "dashboards") {
+      setLibraryMode("cards");
+    } else {
+      setLibraryMode("dashboards");
+    }
+  }, [libraryMode, setLibraryMode]);
 
   return (
     <Box
@@ -104,10 +115,36 @@ export function LibrarySidebar() {
           onClick={hideCardLibrary}
         />
         <Heading level={3} margin="none">
-          Cards
+          {libraryMode === "dashboards" ? "Dashboards" : "Cards"}
         </Heading>
+        <Button
+          icon={<FontAwesomeIcon size="sm" icon={faColumns} />}
+          onClick={toggleLibraryMode}
+        />
       </Header>
-      <CardLibrary />
+      {libraryMode === "dashboards" ? <DashboardLibrary /> : <CardLibrary />}
+    </Box>
+  );
+}
+
+function DashboardLibrary() {
+  const { state, dispatch } = useContext(ReducerContext);
+  return (
+    <Box pad="xsmall" overflow={{ vertical: "auto" }}>
+      {Object.keys(state.dashboardsById).map((dashboardId) => {
+        const dashboard = state.dashboardsById[dashboardId];
+        return (
+          <Box flex={false} direction="row">
+            <Button
+              onClick={() =>
+                dispatch(Actions.ActivateDashboard({ dashboardId }))
+              }
+              fill="horizontal"
+              label={dashboard.name}
+            />
+          </Box>
+        );
+      })}
     </Box>
   );
 }
