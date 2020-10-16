@@ -1,5 +1,6 @@
 import {
   faBars,
+
   faFolder,
   faFolderOpen,
   faSort
@@ -85,14 +86,36 @@ const Groupings: Grouping[] = [
 ];
 
 export function LibrarySidebar() {
-  const { state, dispatch } = useContext(ReducerContext);
-  const [groupingIndex, setGroupingIndex] = useState(0);
-  const selectedGrouping = Groupings[groupingIndex];
-
+  const { dispatch } = useContext(ReducerContext);
   const hideCardLibrary = useCallback(
     () => dispatch(Actions.SetCardLibraryVisibility({ visibility: false })),
     [dispatch]
   );
+
+  return (
+    <Box
+      background="background"
+      elevation="large"
+      style={{ position: "fixed", left: 0, width: "300px", height: "100%" }}
+    >
+      <Header background="brand" pad="small">
+        <Button
+          icon={<FontAwesomeIcon size="sm" icon={faBars} />}
+          onClick={hideCardLibrary}
+        />
+        <Heading level={3} margin="none">
+          Cards
+        </Heading>
+      </Header>
+      <CardLibrary />
+    </Box>
+  );
+}
+
+function CardLibrary() {
+  const { state } = useContext(ReducerContext);
+  const [groupingIndex, setGroupingIndex] = useState(0);
+  const selectedGrouping = Groupings[groupingIndex];
 
   const cardsByGroup = Object.values(state.cardsById).reduce(
     (hash: Record<string, CardState[]>, cardState) => {
@@ -119,32 +142,16 @@ export function LibrarySidebar() {
     );
 
   return (
-    <Box
-      background="background"
-      elevation="large"
-      style={{ position: "fixed", left: 0, width: "300px", height: "100%" }}
-    >
-      <Header background="brand" pad="small">
-        <Button
-          icon={<FontAwesomeIcon size="sm" icon={faBars} />}
-          onClick={hideCardLibrary}
-        />
-        <Heading level={3} margin="none">
-          Cards
-        </Heading>
-        <Button />
-      </Header>
-      <Box pad="xsmall" overflow={{ vertical: "auto" }}>
-        <Button
-          label={"By " + selectedGrouping.Name}
-          icon={<FontAwesomeIcon size="sm" icon={faSort} />}
-          onClick={() => {
-            const nextGrouping = (groupingIndex + 1) % Groupings.length;
-            setGroupingIndex(nextGrouping);
-          }}
-        />
-        {headersAndCards}
-      </Box>
+    <Box pad="xsmall" overflow={{ vertical: "auto" }}>
+      <Button
+        label={"By " + selectedGrouping.Name}
+        icon={<FontAwesomeIcon size="sm" icon={faSort} />}
+        onClick={() => {
+          const nextGrouping = (groupingIndex + 1) % Groupings.length;
+          setGroupingIndex(nextGrouping);
+        }}
+      />
+      {headersAndCards}
     </Box>
   );
 }
