@@ -13,8 +13,8 @@ import { DashboardLibrary } from "./DashboardLibrary";
 
 export function LibrarySidebar() {
   const { dispatch } = useContext(ReducerContext);
-  const hideCardLibrary = useCallback(
-    () => dispatch(Actions.SetCardLibraryVisibility({ visibility: false })),
+  const hideLibrary = useCallback(
+    () => dispatch(Actions.SetLibraryVisibility({ visibility: false })),
     [dispatch]
   );
   const [libraryMode, setLibraryMode] = useState<"dashboards" | "cards">(
@@ -38,7 +38,7 @@ export function LibrarySidebar() {
       <Header background="brand" pad="small">
         <Button
           icon={<FontAwesomeIcon size="sm" icon={faBars} />}
-          onClick={hideCardLibrary}
+          onClick={hideLibrary}
         />
         <Heading level={3} margin="none">
           {libraryMode === "dashboards" ? "Dashboards" : "Cards"}

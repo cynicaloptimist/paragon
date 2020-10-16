@@ -1,8 +1,8 @@
 import {
-  faBars,
-  faEllipsisV,
-  faExternalLinkAlt,
-  faPlus
+    faBars,
+    faEllipsisV,
+    faExternalLinkAlt,
+    faPlus
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, CheckBox, Header, Heading, Menu, Text } from "grommet";
@@ -20,7 +20,7 @@ export const TopBar = () => {
   const { state, dispatch } = useContext(ReducerContext);
 
   const showCardLibrary = useCallback(
-    () => dispatch(Actions.SetCardLibraryVisibility({ visibility: true })),
+    () => dispatch(Actions.SetLibraryVisibility({ visibility: true })),
     [dispatch]
   );
 
