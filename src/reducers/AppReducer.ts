@@ -17,7 +17,8 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
   if (isActionOf(Actions.CreateDashboard, action)) {
     let autoIndex = 0;
     let autoName: string;
-    const doesNameCollide = (dashboard: DashboardState) => dashboard.name === autoName;
+    const doesNameCollide = (dashboard: DashboardState) =>
+      dashboard.name === autoName;
     do {
       autoIndex += 1;
       autoName = "Dashboard " + autoIndex;
@@ -42,6 +43,26 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
       ...oldState,
       activeDashboardId: action.payload.dashboardId,
     };
+  }
+
+  if (isActionOf(Actions.DeleteDashboard, action)) {
+    const remainingDashboards = omit(
+      oldState.dashboardsById,
+      action.payload.dashboardId
+    );
+
+    if (oldState.activeDashboardId === action.payload.dashboardId) {
+      return {
+        ...oldState,
+        activeDashboardId: null,
+        dashboardsById: remainingDashboards,
+      };
+    } else {
+      return {
+        ...oldState,
+        dashboardsById: remainingDashboards,
+      };
+    }
   }
 
   if (oldState.activeDashboardId === null) {

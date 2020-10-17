@@ -1,8 +1,8 @@
 import {
-    faBars,
-    faEllipsisV,
-    faExternalLinkAlt,
-    faPlus
+  faBars,
+  faEllipsisV,
+  faExternalLinkAlt,
+  faPlus
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, CheckBox, Header, Heading, Menu, Text } from "grommet";
@@ -31,7 +31,19 @@ export const TopBar = () => {
   );
 
   if (state.activeDashboardId == null) {
-    return null;
+    return (
+      <Header background="brand" pad="small" fill="horizontal">
+        <Button
+          icon={<FontAwesomeIcon size="sm" icon={faBars} />}
+          onClick={showCardLibrary}
+        />
+        <Box fill="horizontal" direction="row" justify="center">
+          <Heading level={1} size="small" margin="xxsmall">
+            Paragon Campaign Dashboard
+          </Heading>
+        </Box>
+      </Header>
+    );
   }
 
   const dashboard = state.dashboardsById[state.activeDashboardId];
@@ -44,7 +56,7 @@ export const TopBar = () => {
       />
       <Box fill="horizontal" direction="row" justify="center">
         <Heading level={1} size="small" margin="xxsmall">
-          Paragon Campaign Dashboard
+          Paragon Campaign Dashboard - {dashboard.name}
         </Heading>
       </Box>
       <Menu

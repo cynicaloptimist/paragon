@@ -18,6 +18,15 @@ function omitClosedCardsFromState(fullState: AppState): AppState {
   }
 
   const dashboard = fullState.dashboardsById[fullState.activeDashboardId];
+
+  if (!dashboard) {
+    return {
+      ...fullState,
+      cardsById: {},
+      dashboardsById: {},
+    };
+  }
+
   const visibleCardIds = dashboard.openCardIds.filter(
     (cardId) =>
       fullState.cardsById[cardId].playerViewPermission !==

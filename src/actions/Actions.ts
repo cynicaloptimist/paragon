@@ -14,6 +14,9 @@ export const Actions = {
   ActivateDashboard: createAction("ActivateDashboard")<{
     dashboardId: string;
   }>(),
+  DeleteDashboard: createAction("DeleteDashboard")<{
+    dashboardId: string;
+  }>(),
 };
 
 export const CardActions = {

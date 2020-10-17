@@ -36,23 +36,23 @@ export function DashboardLibraryRow(props: {
 }) {
   const { dispatch } = useContext(ReducerContext);
 
-  const openCard = useCallback(
+  const openDashboard = useCallback(
     () =>
       dispatch(Actions.ActivateDashboard({ dashboardId: props.dashboardId })),
     [dispatch, props.dashboardId]
   );
 
-  const deleteCard = useCallback(() => {
-    dispatch(Actions.ActivateDashboard({ dashboardId: props.dashboardId }));
+  const deleteDashboard = useCallback(() => {
+    dispatch(Actions.DeleteDashboard({ dashboardId: props.dashboardId }));
   }, [dispatch, props.dashboardId]);
 
   return (
     <Box flex={false} direction="row">
-      <Button onClick={openCard} fill="horizontal">
+      <Button onClick={openDashboard} fill="horizontal">
         {props.dashboard.name}
       </Button>
       <LongPressButton
-        onLongPress={deleteCard}
+        onLongPress={deleteDashboard}
         icon={<FontAwesomeIcon icon={faTrash} />}
       />
     </Box>
