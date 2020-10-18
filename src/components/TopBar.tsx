@@ -8,10 +8,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, CheckBox, Header, Heading, Menu, Text } from "grommet";
 import React, { useCallback, useContext } from "react";
 import { Actions, CardActions } from "../actions/Actions";
-import cardStack from "../cards-regular.svg";
-import dashboardIcon from "../dm-screen-regular.svg";
 import { randomString } from "../randomString";
 import { ReducerContext } from "../reducers/ReducerContext";
+import { LibrarySidebarControls } from "./LibrarySidebarControls";
 
 export const TopBar = () => {
   const addArticle = useDispatchAddCard("article");
@@ -57,18 +56,7 @@ export const TopBar = () => {
 
   return (
     <Header background="brand" pad="small" fill="horizontal">
-      <Box direction="row">
-        <Button
-          margin="2px"
-          icon={<img src={cardStack} alt="Cards" height="22px" />}
-          onClick={showCardLibrary}
-        />
-        <Button
-          margin="2px"
-          icon={<img src={dashboardIcon} alt="Dashboards" height="22px" />}
-          onClick={showDashboardLibrary}
-        />
-      </Box>
+      <LibrarySidebarControls />
       <Box fill="horizontal" direction="row" justify="center">
         <Heading level={1} size="small" margin="xxsmall">
           Paragon Campaign Dashboard - {dashboard.name}
