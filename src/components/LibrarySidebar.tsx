@@ -1,15 +1,12 @@
-import {
-  faBars,
-  faColumns
-} from "@fortawesome/free-solid-svg-icons";
+import { faColumns } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, Header, Heading } from "grommet";
 import React, { useCallback, useContext, useState } from "react";
 import { Actions } from "../actions/Actions";
+import cardStack from "../cards-regular.svg";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardLibrary } from "./CardLibrary";
 import { DashboardLibrary } from "./DashboardLibrary";
-
 
 export function LibrarySidebar() {
   const { dispatch } = useContext(ReducerContext);
@@ -37,7 +34,7 @@ export function LibrarySidebar() {
     >
       <Header background="brand" pad="small">
         <Button
-          icon={<FontAwesomeIcon size="sm" icon={faBars} />}
+          icon={<img src={cardStack} alt="Cards" height="22px" />}
           onClick={hideLibrary}
         />
         <Heading level={3} margin="none">
