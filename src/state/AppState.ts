@@ -5,7 +5,7 @@ export type AppState = {
   cardsById: CardsState;
   dashboardsById: Record<string, DashboardState>;
   activeDashboardId: string | null;
-  cardLibraryVisibility: boolean;
+  librarySidebarMode: "hidden" | "cards" | "dashboards";
 };
 
 export type DashboardState = {
@@ -21,5 +21,5 @@ export const EmptyState = (): AppState => ({
   cardsById: {},
   dashboardsById: {},
   activeDashboardId: null,
-  cardLibraryVisibility: false,
+  librarySidebarMode: "hidden",
 });

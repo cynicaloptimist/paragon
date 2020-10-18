@@ -7,6 +7,7 @@ export type LegacyAppState = {
   //new
   dashboardsById?: Record<string, DashboardState>;
   activeDashboardId?: string | null;
+  librarySidebarMode?: "hidden" | "cards" | "dashboards";
 
   //current
   cardsById: CardsState;
@@ -29,7 +30,10 @@ export function UpdateMissingOrLegacyAppState(
   const appState = EmptyState();
 
   appState.cardsById = storedState.cardsById;
-  appState.cardLibraryVisibility = storedState.cardLibraryVisibility;
+  appState.librarySidebarMode =
+    storedState.librarySidebarMode ?? storedState.cardLibraryVisibility
+      ? "cards"
+      : "hidden";
 
   if (storedState.dashboardsById) {
     appState.dashboardsById = storedState.dashboardsById;

@@ -7,10 +7,10 @@ import { CardsReducer } from "./CardsReducer";
 import { DashboardReducer } from "./DashboardReducer";
 
 export function AppReducer(oldState: AppState, action: RootAction): AppState {
-  if (isActionOf(Actions.SetLibraryVisibility, action)) {
+  if (isActionOf(Actions.SetLibraryMode, action)) {
     return {
       ...oldState,
-      cardLibraryVisibility: action.payload.visibility,
+      librarySidebarMode: action.payload.libraryMode,
     };
   }
 

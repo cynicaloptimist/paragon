@@ -11,7 +11,7 @@ import { DashboardLibrary } from "./DashboardLibrary";
 export function LibrarySidebar() {
   const { dispatch } = useContext(ReducerContext);
   const hideLibrary = useCallback(
-    () => dispatch(Actions.SetLibraryVisibility({ visibility: false })),
+    () => dispatch(Actions.SetLibraryMode({ libraryMode: "hidden" })),
     [dispatch]
   );
   const [libraryMode, setLibraryMode] = useState<"dashboards" | "cards">(

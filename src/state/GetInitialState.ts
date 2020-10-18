@@ -11,7 +11,7 @@ export const GetInitialState = (): AppState => {
       [welcomeCard.cardId]: welcomeCard,
       [cardTypesCard.cardId]: cardTypesCard,
     },
-    cardLibraryVisibility: false,
+    librarySidebarMode: "hidden",
     activeDashboardId: firstDashboardId,
     dashboardsById: {
       [firstDashboardId]: {

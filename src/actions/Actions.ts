@@ -4,8 +4,8 @@ import { PlayerViewPermission, RollTableEntry } from "../state/CardState";
 
 export const Actions = {
   SetLayouts: createAction("SetLayouts")<GridLayout.Layout[]>(),
-  SetLibraryVisibility: createAction("SetCardLibraryVisibility")<{
-    visibility: boolean;
+  SetLibraryMode: createAction("SetLibraryMode")<{
+    libraryMode: "hidden" | "cards" | "dashboards";
   }>(),
   SetLayoutCompaction: createAction("SetLayoutCompaction")<{
     layoutCompaction: "free" | "compact";

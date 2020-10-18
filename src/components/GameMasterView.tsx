@@ -25,7 +25,7 @@ export function GameMasterView() {
         <Box fill align="center">
           <TopBar />
           <CardGrid />
-          {state.cardLibraryVisibility && <LibrarySidebar />}
+          {state.librarySidebarMode !== "hidden" && <LibrarySidebar />}
         </Box>
       </Grommet>
     </ReducerContext.Provider>

@@ -9,6 +9,7 @@ import { Box, Button, CheckBox, Header, Heading, Menu, Text } from "grommet";
 import React, { useCallback, useContext } from "react";
 import { Actions, CardActions } from "../actions/Actions";
 import cardStack from "../cards-regular.svg";
+import dashboardIcon from "../dm-screen-regular.svg";
 import { randomString } from "../randomString";
 import { ReducerContext } from "../reducers/ReducerContext";
 
@@ -21,7 +22,12 @@ export const TopBar = () => {
   const { state, dispatch } = useContext(ReducerContext);
 
   const showCardLibrary = useCallback(
-    () => dispatch(Actions.SetLibraryVisibility({ visibility: true })),
+    () => dispatch(Actions.SetLibraryMode({ libraryMode: "cards" })),
+    [dispatch]
+  );
+
+  const showDashboardLibrary = useCallback(
+    () => dispatch(Actions.SetLibraryMode({ libraryMode: "dashboards" })),
     [dispatch]
   );
 
@@ -56,6 +62,11 @@ export const TopBar = () => {
           margin="2px"
           icon={<img src={cardStack} alt="Cards" height="22px" />}
           onClick={showCardLibrary}
+        />
+        <Button
+          margin="2px"
+          icon={<img src={dashboardIcon} alt="Dashboards" height="22px" />}
+          onClick={showDashboardLibrary}
         />
       </Box>
       <Box fill="horizontal" direction="row" justify="center">
