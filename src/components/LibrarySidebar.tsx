@@ -1,30 +1,30 @@
-import { faColumns } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, Header, Heading } from "grommet";
-import React, { useCallback, useContext, useState } from "react";
+import React, { useCallback, useContext } from "react";
 import { Actions } from "../actions/Actions";
 import cardStack from "../cards-regular.svg";
+import dashboardIcon from "../dm-screen-regular.svg";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardLibrary } from "./CardLibrary";
 import { DashboardLibrary } from "./DashboardLibrary";
 
 export function LibrarySidebar() {
-  const { dispatch } = useContext(ReducerContext);
-  const hideLibrary = useCallback(
-    () => dispatch(Actions.SetLibraryMode({ libraryMode: "hidden" })),
-    [dispatch]
-  );
-  const [libraryMode, setLibraryMode] = useState<"dashboards" | "cards">(
-    "cards"
-  );
+  const { state, dispatch } = useContext(ReducerContext);
 
-  const toggleLibraryMode = useCallback(() => {
-    if (libraryMode === "dashboards") {
-      setLibraryMode("cards");
+  const toggleCardLibrary = useCallback(() => {
+    if (state.librarySidebarMode === "cards") {
+      dispatch(Actions.SetLibraryMode({ libraryMode: "hidden" }));
     } else {
-      setLibraryMode("dashboards");
+      dispatch(Actions.SetLibraryMode({ libraryMode: "cards" }));
     }
-  }, [libraryMode, setLibraryMode]);
+  }, [dispatch, state.librarySidebarMode]);
+
+  const toggleDashboardLibrary = useCallback(() => {
+    if (state.librarySidebarMode === "dashboards") {
+      dispatch(Actions.SetLibraryMode({ libraryMode: "hidden" }));
+    } else {
+      dispatch(Actions.SetLibraryMode({ libraryMode: "dashboards" }));
+    }
+  }, [dispatch, state.librarySidebarMode]);
 
   return (
     <Box
@@ -33,19 +33,27 @@ export function LibrarySidebar() {
       style={{ position: "fixed", left: 0, width: "300px", height: "100%" }}
     >
       <Header background="brand" pad="small">
-        <Button
-          icon={<img src={cardStack} alt="Cards" height="22px" />}
-          onClick={hideLibrary}
-        />
+        <Box direction="row">
+          <Button
+            margin="2px"
+            icon={<img src={cardStack} alt="Cards" height="22px" />}
+            onClick={toggleCardLibrary}
+          />
+          <Button
+            margin="2px"
+            icon={<img src={dashboardIcon} alt="Dashboards" height="22px" />}
+            onClick={toggleDashboardLibrary}
+          />
+        </Box>
         <Heading level={3} margin="none">
-          {libraryMode === "dashboards" ? "Dashboards" : "Cards"}
+          {state.librarySidebarMode === "dashboards" ? "Dashboards" : "Cards"}
         </Heading>
-        <Button
-          icon={<FontAwesomeIcon size="sm" icon={faColumns} />}
-          onClick={toggleLibraryMode}
-        />
       </Header>
-      {libraryMode === "dashboards" ? <DashboardLibrary /> : <CardLibrary />}
+      {state.librarySidebarMode === "dashboards" ? (
+        <DashboardLibrary />
+      ) : (
+        <CardLibrary />
+      )}
     </Box>
   );
 }
