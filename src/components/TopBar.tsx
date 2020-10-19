@@ -1,11 +1,10 @@
 import {
-  faBars,
   faEllipsisV,
   faExternalLinkAlt,
   faPlus
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, CheckBox, Header, Heading, Menu, Text } from "grommet";
+import { Box, CheckBox, Header, Heading, Menu, Text } from "grommet";
 import React, { useCallback, useContext } from "react";
 import { Actions, CardActions } from "../actions/Actions";
 import { randomString } from "../randomString";
@@ -20,16 +19,6 @@ export const TopBar = () => {
   const addImage = useDispatchAddCard("image");
   const { state, dispatch } = useContext(ReducerContext);
 
-  const showCardLibrary = useCallback(
-    () => dispatch(Actions.SetLibraryMode({ libraryMode: "cards" })),
-    [dispatch]
-  );
-
-  const showDashboardLibrary = useCallback(
-    () => dispatch(Actions.SetLibraryMode({ libraryMode: "dashboards" })),
-    [dispatch]
-  );
-
   const setLayoutCompaction = useCallback(
     (compaction: "free" | "compact") =>
       dispatch(Actions.SetLayoutCompaction({ layoutCompaction: compaction })),
@@ -39,10 +28,7 @@ export const TopBar = () => {
   if (state.activeDashboardId == null) {
     return (
       <Header background="brand" pad="small" fill="horizontal">
-        <Button
-          icon={<FontAwesomeIcon size="sm" icon={faBars} />}
-          onClick={showCardLibrary}
-        />
+        <LibrarySidebarControls />
         <Box fill="horizontal" direction="row" justify="center">
           <Heading level={1} size="small" margin="xxsmall">
             Paragon Campaign Dashboard
