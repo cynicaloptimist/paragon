@@ -23,3 +23,10 @@ export const EmptyState = (): AppState => ({
   activeDashboardId: null,
   librarySidebarMode: "hidden",
 });
+
+export function ActiveDashboardOf(state: AppState) {
+  if(!state.activeDashboardId) {
+    return null;
+  }
+  return state.dashboardsById[state.activeDashboardId];
+}

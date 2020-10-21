@@ -9,6 +9,8 @@ import React, { useCallback, useContext } from "react";
 import { Actions, CardActions } from "../actions/Actions";
 import { randomString } from "../randomString";
 import { ReducerContext } from "../reducers/ReducerContext";
+import { ActiveDashboardOf } from "../state/AppState";
+import { EditableText } from "./EditableText";
 import { LibrarySidebarControls } from "./LibrarySidebarControls";
 
 export const TopBar = () => {
@@ -43,9 +45,12 @@ export const TopBar = () => {
   return (
     <Header background="brand" pad="small" fill="horizontal">
       <LibrarySidebarControls />
-      <Box fill="horizontal" direction="row" justify="center">
+      <Box fill="horizontal" direction="row" justify="center" align="center">
         <Heading level={1} size="small" margin="xxsmall">
-          Paragon Campaign Dashboard - {dashboard.name}
+          Paragon Campaign Dashboard -
+        </Heading>
+        <Heading level={1} size="small" margin="xxsmall">
+          <DashboardNameWithEdit />
         </Heading>
       </Box>
       <Box direction="row">
@@ -114,4 +119,21 @@ function useDispatchAddCard(cardType: string) {
     const cardId = randomString();
     dispatch(CardActions.AddCard({ cardId, cardType }));
   }, [cardType, dispatch]);
+}
+
+function DashboardNameWithEdit() {
+  const { state, dispatch } = useContext(ReducerContext);
+  const dashboardName = ActiveDashboardOf(state)?.name || "";
+  return (
+    <EditableText
+      text={dashboardName}
+      trySubmit={(newName) => {
+        if (newName.length > 0) {
+          dispatch(Actions.RenameActiveDashboard({ newName }));
+          return true;
+        }
+        return false;
+      }}
+    />
+  );
 }

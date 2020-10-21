@@ -72,5 +72,12 @@ export function DashboardReducer(
     };
   }
 
+  if (isActionOf(Actions.RenameActiveDashboard, action)) {
+    return {
+      ...oldState,
+      name: action.payload.newName
+    };
+  }
+
   return oldState;
 }
