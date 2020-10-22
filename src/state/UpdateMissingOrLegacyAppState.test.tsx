@@ -20,6 +20,7 @@ test("updates legacy empty state", () => {
     activeDashboardId: "playerViewId",
     dashboardsById: {
       playerViewId: {
+        name: "Dashboard 1",
         layoutCompaction: "free",
         layouts: [],
         openCardIds: [],
