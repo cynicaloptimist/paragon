@@ -13,6 +13,8 @@ export function DashboardLibraryRow(props: {
 }) {
   const { state, dispatch } = useContext(ReducerContext);
 
+  const isActiveDashboard = state.activeDashboardId === props.dashboardId;
+
   const openDashboard = useCallback(
     () =>
       dispatch(Actions.ActivateDashboard({ dashboardId: props.dashboardId })),
@@ -25,7 +27,11 @@ export function DashboardLibraryRow(props: {
 
   return (
     <Box flex={false} direction="row">
-      <Button onClick={openDashboard} fill="horizontal">
+      <Button
+        onClick={openDashboard}
+        fill="horizontal"
+        style={{ fontWeight: isActiveDashboard ? "bold" : undefined }}
+      >
         {props.dashboard.name}
       </Button>
       <LongPressButton
