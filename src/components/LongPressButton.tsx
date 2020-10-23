@@ -49,10 +49,11 @@ export function LongPressButton(
             color: "status-warning",
           },
         ]}
-        size="xxsmall"
+        size="40px"
         thickness="xsmall"
         margin={{
-          top: "5px",
+          top: "3px",
+          bottom: "-3px",
         }}
       />
       <Button
