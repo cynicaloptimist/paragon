@@ -4,11 +4,15 @@ import { Box, Button, TextInput } from "grommet";
 import React, { useCallback, useContext, useState } from "react";
 import { CardActions } from "../actions/Actions";
 import { ReducerContext } from "../reducers/ReducerContext";
+import { ActiveDashboardOf } from "../state/AppState";
 import { CardState } from "../state/CardState";
 import { LongPressButton } from "./LongPressButton";
 
 export function CardLibraryRow(props: { card: CardState }) {
-  const { dispatch } = useContext(ReducerContext);
+  const { state, dispatch } = useContext(ReducerContext);
+
+  const isCardOpen =
+    ActiveDashboardOf(state)?.openCardIds.includes(props.card.cardId) || false;
 
   const openCard = useCallback(
     () => dispatch(CardActions.OpenCard({ cardId: props.card.cardId })),
@@ -52,8 +56,12 @@ export function CardLibraryRow(props: { card: CardState }) {
   }
 
   return (
-    <Box flex={false} direction="row">
-      <Button onClick={openCard} fill="horizontal">
+    <Box
+      flex={false}
+      direction="row"
+      border={{ color: isCardOpen ? "brand-2" : "transparent", size: "medium" }}
+    >
+      <Button onClick={openCard} fill="horizontal" margin="xsmall">
         {props.card.title}
       </Button>
       <Button

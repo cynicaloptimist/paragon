@@ -26,12 +26,15 @@ export function DashboardLibraryRow(props: {
   }, [dispatch, props.dashboardId]);
 
   return (
-    <Box flex={false} direction="row">
-      <Button
-        onClick={openDashboard}
-        fill="horizontal"
-        style={{ fontWeight: isActiveDashboard ? "bold" : undefined }}
-      >
+    <Box
+      flex={false}
+      direction="row"
+      border={{
+        color: isActiveDashboard ? "brand-2" : "transparent",
+        size: "medium",
+      }}
+    >
+      <Button onClick={openDashboard} fill="horizontal" margin="xsmall">
         {props.dashboard.name}
       </Button>
       <LongPressButton
