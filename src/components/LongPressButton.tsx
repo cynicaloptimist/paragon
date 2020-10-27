@@ -55,6 +55,7 @@ export function LongPressButton(
           top: "3px",
           bottom: "-3px",
         }}
+        background="transparent"
       />
       <Button
         {...buttonProps}

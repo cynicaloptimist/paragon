@@ -59,7 +59,9 @@ export function CardLibraryRow(props: { card: CardState }) {
     <Box
       flex={false}
       direction="row"
-      border={{ color: isCardOpen ? "brand-2" : "transparent", size: "medium" }}
+      background={{
+        color: isCardOpen ? "brand-2" : "transparent",
+      }}
     >
       <Button onClick={openCard} fill="horizontal" margin="xsmall">
         {props.card.title}

@@ -29,9 +29,8 @@ export function DashboardLibraryRow(props: {
     <Box
       flex={false}
       direction="row"
-      border={{
+      background={{
         color: isActiveDashboard ? "brand-2" : "transparent",
-        size: "medium",
       }}
     >
       <Button onClick={openDashboard} fill="horizontal" margin="xsmall">
