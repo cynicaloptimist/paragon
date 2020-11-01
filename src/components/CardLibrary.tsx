@@ -86,6 +86,26 @@ export function CardLibrary() {
   const { state } = useContext(ReducerContext);
   const [groupingIndex, setGroupingIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
+
+  if (searchTerm.length > 0) {
+    return (
+      <Box pad="xsmall" overflow={{ vertical: "auto" }}>
+        <TextInput
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        {Object.values(state.cardsById)
+          .filter((c) =>
+            c.title.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
+          )
+          .map((cardState) => {
+            return <CardLibraryRow key={cardState.cardId} card={cardState} />;
+          })}
+      </Box>
+    );
+  }
+
   const selectedGrouping = Groupings[groupingIndex];
 
   const cardsByGroup = Object.values(state.cardsById).reduce(
