@@ -18,6 +18,7 @@
     "@types/react-router-dom": "^5.1.5",
     "dice-typescript": "^1.6.1",
     "firebase": "^7.15.0",
+    "fuse.js": "^6.4.3",
     "grommet": "^2.14.0",
     "lodash": "^4.17.19",
     "polished": "^3.5.2",
