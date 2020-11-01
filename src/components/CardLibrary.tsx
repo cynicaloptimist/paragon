@@ -109,7 +109,7 @@ export function CardLibrary() {
   return (
     <Box pad="xsmall" overflow={{ vertical: "auto" }}>
       <Button
-        label={"By " + selectedGrouping.Name}
+        label={"Sorted by " + selectedGrouping.Name}
         icon={<FontAwesomeIcon size="sm" icon={faSort} />}
         onClick={() => {
           const nextGrouping = (groupingIndex + 1) % Groupings.length;
