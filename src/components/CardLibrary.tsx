@@ -6,7 +6,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Fuse from "fuse.js";
 import { Box, Button, Heading, TextInput } from "grommet";
-import React, { useContext, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardState } from "../state/CardState";
 import { CardTypeFriendlyNames } from "../state/CardTypeFriendlyNames";
@@ -87,10 +87,10 @@ export function CardLibrary() {
   const { state } = useContext(ReducerContext);
   const [groupingIndex, setGroupingIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
+  const cards = Object.values(state.cardsById);
+  const fuse = useMemo(() => new Fuse(cards, { keys: ["title"] }), [cards]);
 
   if (searchTerm.length > 0) {
-    const cards = Object.values(state.cardsById);
-    const fuse = new Fuse(cards, { keys: ["title"] });
     const searchResults = fuse.search(searchTerm);
     return (
       <Box pad="xsmall" overflow={{ vertical: "auto" }}>
