@@ -4,6 +4,7 @@ import {
   faSort
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Fuse from "fuse.js";
 import { Box, Button, Heading, TextInput } from "grommet";
 import React, { useContext, useState } from "react";
 import { ReducerContext } from "../reducers/ReducerContext";
@@ -88,6 +89,9 @@ export function CardLibrary() {
   const [searchTerm, setSearchTerm] = useState("");
 
   if (searchTerm.length > 0) {
+    const cards = Object.values(state.cardsById);
+    const fuse = new Fuse(cards, { keys: ["title"] });
+    const searchResults = fuse.search(searchTerm);
     return (
       <Box pad="xsmall" overflow={{ vertical: "auto" }}>
         <TextInput
@@ -95,13 +99,10 @@ export function CardLibrary() {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        {Object.values(state.cardsById)
-          .filter((c) =>
-            c.title.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
-          )
-          .map((cardState) => {
-            return <CardLibraryRow key={cardState.cardId} card={cardState} />;
-          })}
+        {searchResults.map((searchResult) => {
+          const cardState = searchResult.item;
+          return <CardLibraryRow key={cardState.cardId} card={cardState} />;
+        })}
       </Box>
     );
   }
