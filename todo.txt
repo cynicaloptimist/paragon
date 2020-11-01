@@ -1,0 +1,17 @@
+Create API key
+
+login button with url
+
+firebase function
+ -> call patreon api to get patron details
+ -> read entitled patreon tiers
+ -> write best patreon tier to a database entry for logged in user
+ -> redirect user to PCD
+
+database permissions
+ ->firebase hook: write user.tier
+ ->logged in user: read own user.tier
+ ->logged in user: write to account IF user.tier is enough
+
+firebase patron change webhook:
+ -> write best patreon tier to a database entry for webhook user
