@@ -56,39 +56,40 @@ function ConfigureClock(props: {
   setConfigurable: (configurable: boolean) => void;
 }) {
   const { dispatch } = React.useContext(ReducerContext);
+  const { card, setConfigurable } = props;
   const setCardValue = React.useCallback(
     (value: number) =>
       dispatch(
         CardActions.SetClockValue({
-          cardId: props.card.cardId,
+          cardId: card.cardId,
           value,
         })
       ),
-    [props.card.cardId, dispatch]
+    [card.cardId, dispatch]
   );
 
   const setCardMax = React.useCallback(
     (max: number) =>
       dispatch(
         CardActions.SetClockMax({
-          cardId: props.card.cardId,
+          cardId: card.cardId,
           max,
         })
       ),
-    [props.card.cardId, dispatch]
+    [card.cardId, dispatch]
   );
 
   const setCardDisplayType = React.useCallback(
     (displayType: "horizontal" | "radial") => {
       dispatch(
         CardActions.SetClockDisplayType({
-          cardId: props.card.cardId,
+          cardId: card.cardId,
           displayType,
         })
       );
-      props.setConfigurable(false);
+      setConfigurable(false);
     },
-    [props.card.cardId, dispatch]
+    [card.cardId, dispatch, setConfigurable]
   );
 
   return (
@@ -97,14 +98,14 @@ function ConfigureClock(props: {
         <FormField label="Current">
           <TextInput
             type="number"
-            defaultValue={props.card.value}
+            defaultValue={card.value}
             onBlur={(e) => setCardValue(parseInt(e.target.value))}
           />
         </FormField>
         <FormField label="Maximum">
           <TextInput
             type="number"
-            defaultValue={props.card.max}
+            defaultValue={card.max}
             onBlur={(e) => setCardMax(parseInt(e.target.value))}
           />
         </FormField>
@@ -112,12 +113,12 @@ function ConfigureClock(props: {
       <Box direction="row" align="center">
         <Button
           label="Horizontal"
-          active={props.card.displayType === "horizontal"}
+          active={card.displayType === "horizontal"}
           onClick={() => setCardDisplayType("horizontal")}
         />
         <Button
           label="Radial"
-          active={props.card.displayType === "radial"}
+          active={card.displayType === "radial"}
           onClick={() => setCardDisplayType("radial")}
         />
       </Box>
@@ -126,7 +127,7 @@ function ConfigureClock(props: {
 }
 
 function ClockFace(props: { card: ClockCardState }) {
-  const setCardValue = useSetCardValue(props);
+  const onClickSegment = useOnClickSegment(props);
   const [hoveredIndex, setHoveredIndex] = React.useState(-1);
 
   const theme: ThemeType = React.useContext(ThemeContext);
@@ -160,7 +161,7 @@ function ClockFace(props: { card: ClockCardState }) {
   return (
     <PieChart
       data={segments}
-      onClick={(e, index) => setCardValue(index + 1)}
+      onClick={(e, index) => onClickSegment(index)}
       onMouseOver={(e, index) => setHoveredIndex(index)}
       onMouseOut={() => setHoveredIndex(-1)}
       startAngle={-90}
@@ -171,7 +172,7 @@ function ClockFace(props: { card: ClockCardState }) {
 }
 
 function HorizontalClock(props: { card: ClockCardState }) {
-  const setCardValue = useSetCardValue(props);
+  const onClickSegment = useOnClickSegment(props);
 
   let segments = [];
   for (let i = 0; i < props.card.max; i++) {
@@ -182,7 +183,7 @@ function HorizontalClock(props: { card: ClockCardState }) {
         fill
         hoverIndicator={{ color: "brand-2" }}
         background={color}
-        onClick={() => setCardValue(i + 1)}
+        onClick={() => onClickSegment(i)}
       />
     );
   }
@@ -193,7 +194,7 @@ function HorizontalClock(props: { card: ClockCardState }) {
         margin="xsmall"
         fill="vertical"
         icon={<FontAwesomeIcon icon={faTimes} />}
-        onClick={() => setCardValue(0)}
+        onClick={() => onClickSegment(0)}
       />
       <Box direction="row" fill gap="xxsmall" justify="stretch">
         {segments}
@@ -202,17 +203,23 @@ function HorizontalClock(props: { card: ClockCardState }) {
   );
 }
 
-function useSetCardValue(props: { card: ClockCardState }) {
+function useOnClickSegment(props: { card: ClockCardState }) {
   const { dispatch } = React.useContext(ReducerContext);
-  const setCardValue = React.useCallback(
-    (value: number) =>
+  const segmentClickHandler = React.useCallback(
+    (clickedIndex: number) => {
+      let value = clickedIndex + 1;
+      if (props.card.value === 1 && value === 1) {
+        value = 0;
+      }
+
       dispatch(
         CardActions.SetClockValue({
           cardId: props.card.cardId,
           value,
         })
-      ),
-    [props.card.cardId, dispatch]
+      );
+    },
+    [props.card.cardId, props.card.value, dispatch]
   );
-  return setCardValue;
+  return segmentClickHandler;
 }
