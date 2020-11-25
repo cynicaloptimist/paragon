@@ -14,6 +14,7 @@ export type ClockCardState = BaseCardState & {
   type: "clock";
   max: number;
   value: number;
+  displayType?: "horizontal" | "radial";
 };
 
 export type RollTableCardState = BaseCardState & {

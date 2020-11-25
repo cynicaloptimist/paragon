@@ -52,6 +52,12 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
       max: action.payload.max,
     });
   })
+  .handleAction(CardActions.SetClockDisplayType, (oldState, action) => {
+    return mergeCardState(oldState, action, {
+      displayType: action.payload.displayType,
+    });
+  })
+  
   .handleAction(CardActions.SetRollTableEntries, (oldState, action) => {
     return mergeCardState(oldState, action, {
       entries: action.payload.entries,

@@ -38,6 +38,10 @@ export const CardActions = {
     cardId: string;
     value: number;
   }>(),
+  SetClockDisplayType: createAction("SetClockDisplayType")<{
+    cardId: string;
+    displayType: "horizontal" | "radial";
+  }>(),
   SetClockMax: createAction("SetClockMax")<{
     cardId: string;
     max: number;
