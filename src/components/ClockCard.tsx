@@ -78,6 +78,17 @@ function ConfigureClock(props: {
     [props.card.cardId, dispatch]
   );
 
+  const setCardDisplayType = React.useCallback(
+    (displayType: "horizontal" | "radial") =>
+      dispatch(
+        CardActions.SetClockDisplayType({
+          cardId: props.card.cardId,
+          displayType,
+        })
+      ),
+    [props.card.cardId, dispatch]
+  );
+
   return (
     <Box direction="column">
       <Box direction="row" align="center">
@@ -100,28 +111,12 @@ function ConfigureClock(props: {
         <Button
           label="Horizontal"
           active={props.card.displayType === "horizontal"}
-          onClick={() => {
-            dispatch(
-              CardActions.SetClockDisplayType({
-                cardId: props.card.cardId,
-                displayType: "horizontal",
-              })
-            );
-            props.setConfigurable(false);
-          }}
+          onClick={() => setCardDisplayType("horizontal")}
         />
         <Button
           label="Radial"
           active={props.card.displayType === "radial"}
-          onClick={() => {
-            dispatch(
-              CardActions.SetClockDisplayType({
-                cardId: props.card.cardId,
-                displayType: "radial",
-              })
-            );
-            props.setConfigurable(false);
-          }}
+          onClick={() => setCardDisplayType("radial")}
         />
       </Box>
     </Box>
