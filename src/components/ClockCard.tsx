@@ -125,6 +125,8 @@ function ConfigureClock(props: {
 
 function ClockFace(props: { card: ClockCardState }) {
   const setCardValue = useSetCardValue(props);
+  const [hoveredIndex, setHoveredIndex] = React.useState(-1);
+
   const theme: ThemeType = React.useContext(ThemeContext);
   const themeColor = normalizeColor(
     theme.global?.colors?.brand || "brand",
@@ -134,9 +136,20 @@ function ClockFace(props: { card: ClockCardState }) {
     theme.global?.colors?.["light-6"] || "light-6",
     theme
   );
+  const hoverColor = normalizeColor(
+    theme.global?.colors?.["brand-2"] || "brand-2",
+    theme
+  );
   let segments: PieChartData = [];
   for (let i = 0; i < props.card.max; i++) {
-    const color = i < props.card.value ? themeColor : offColor;
+    let color = offColor;
+    if (i < props.card.value) {
+      color = themeColor;
+    }
+    if (i === hoveredIndex) {
+      color = hoverColor;
+    }
+
     segments.push({
       color,
       value: 1,
@@ -146,6 +159,8 @@ function ClockFace(props: { card: ClockCardState }) {
     <PieChart
       data={segments}
       onClick={(e, index) => setCardValue(index + 1)}
+      onMouseOver={(e, index) => setHoveredIndex(index)}
+      onMouseOut={() => setHoveredIndex(-1)}
       startAngle={-90}
       segmentsShift={2}
       radius={48}
