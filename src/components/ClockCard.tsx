@@ -79,13 +79,15 @@ function ConfigureClock(props: {
   );
 
   const setCardDisplayType = React.useCallback(
-    (displayType: "horizontal" | "radial") =>
+    (displayType: "horizontal" | "radial") => {
       dispatch(
         CardActions.SetClockDisplayType({
           cardId: props.card.cardId,
           displayType,
         })
-      ),
+      );
+      props.setConfigurable(false);
+    },
     [props.card.cardId, dispatch]
   );
 
