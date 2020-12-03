@@ -1,3 +1,4 @@
+import * as admin from "firebase-admin";
 import * as functions from "firebase-functions";
 import * as Url from "url";
 
@@ -8,6 +9,8 @@ const { patreon_config } = functions.config();
 const patreonAPI = patreon.patreon;
 const patreonOAuth = patreon.oauth;
 const jsonApiURL = patreon.jsonApiURL;
+
+admin.initializeApp();
 
 const patreonOAuthClient = patreonOAuth(
   patreon_config.client_id,
@@ -25,6 +28,8 @@ export const patreon_login = functions.https.onRequest(
     }
 
     functions.logger.info("Patreon Login Redirect: ", request.query);
+
+    const userId = request.query.state;
 
     const oauthGrantCode = Url.parse(request.url, true).query.code;
     try {
@@ -46,6 +51,9 @@ export const patreon_login = functions.https.onRequest(
           .map((include: ApiListing) => include.id) || [];
 
       functions.logger.info("Entitled Tier Ids: ", entitledTiers);
+
+      const dbRef = admin.database().ref(`entitledTiers/${userId}`);
+      await dbRef.set(entitledTiers);
 
       response.sendStatus(200);
     } catch (err) {

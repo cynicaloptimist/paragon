@@ -1,9 +1,10 @@
-import { Box, Button, Header, Heading } from "grommet";
+import { Box, Header, Heading } from "grommet";
 import React, { useContext } from "react";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardLibrary } from "./CardLibrary";
 import { DashboardLibrary } from "./DashboardLibrary";
 import { LibrarySidebarControls } from "./LibrarySidebarControls";
+import { LoginButton } from "./LoginButton";
 
 export function LibrarySidebar() {
   const { state } = useContext(ReducerContext);
@@ -30,26 +31,4 @@ export function LibrarySidebar() {
   );
 }
 
-function LoginButton() {
-  const environment = process.env;
-  if (
-    !(
-      environment.REACT_APP_PATREON_CLIENT_ID &&
-      environment.REACT_APP_PATREON_LOGIN_REDIRECT_URI
-    )
-  ) {
-    return null;
-  }
-  const loginUrl = new URL("https://www.patreon.com/oauth2/authorize");
-  loginUrl.searchParams.append("response_type", "code");
-  loginUrl.searchParams.append(
-    "client_id",
-    environment.REACT_APP_PATREON_CLIENT_ID
-  );
-  loginUrl.searchParams.append(
-    "redirect_uri",
-    environment.REACT_APP_PATREON_LOGIN_REDIRECT_URI
-  );
 
-  return <Button label="Login" href={loginUrl.href} />;
-}
