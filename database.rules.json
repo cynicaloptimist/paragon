@@ -21,12 +21,6 @@
         ".read": true,
         ".write": true
       }
-    },
-    "entitledTiers": {
-      "$uid": {
-        ".read": "$uid === auth.uid",
-        ".write": false
-      }
     }
   }
 }

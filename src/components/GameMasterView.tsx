@@ -1,3 +1,4 @@
+import "firebase/auth";
 import { Box, Grommet } from "grommet";
 import React from "react";
 import { AppReducer } from "../reducers/AppReducer";
@@ -9,6 +10,7 @@ import { usePlayerView } from "./hooks/usePlayerView";
 import { useStorageBackedReducer } from "./hooks/useStorageBackedReducer";
 import { LibrarySidebar } from "./LibrarySidebar";
 import { TopBar } from "./TopBar";
+import { useSignIn } from "./useSignIn";
 
 export function GameMasterView() {
   const [state, dispatch] = useStorageBackedReducer(
@@ -17,6 +19,7 @@ export function GameMasterView() {
     "appState"
   );
 
+  useSignIn();
   usePlayerView(state, dispatch);
 
   return (

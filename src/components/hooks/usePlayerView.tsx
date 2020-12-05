@@ -58,9 +58,6 @@ export function usePlayerView(
   const previousState = useRef(state);
 
   useEffect(() => {
-    auth()
-      .signInAnonymously()
-      .catch((e) => console.log(e));
     auth().onAuthStateChanged((user) => {
       if (user) {
         setUserId(user.uid);

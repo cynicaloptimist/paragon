@@ -29,8 +29,6 @@ export const patreon_login = functions.https.onRequest(
 
     functions.logger.info("Patreon Login Redirect: ", request.query);
 
-    const userId = request.query.state;
-
     const oauthGrantCode = Url.parse(request.url, true).query.code;
     try {
       const tokensResponse = await patreonOAuthClient.getTokens(
@@ -45,6 +43,7 @@ export const patreon_login = functions.https.onRequest(
       const userIdentity = await patreonAPIClient(url);
       functions.logger.info("User: ", JSON.stringify(userIdentity.rawJson));
 
+      const patreonId = userIdentity.rawJson.data?.id;
       const entitledTiers =
         userIdentity.rawJson.included
           ?.filter((include: ApiListing) => include.type === "tier")
@@ -52,10 +51,16 @@ export const patreon_login = functions.https.onRequest(
 
       functions.logger.info("Entitled Tier Ids: ", entitledTiers);
 
-      const dbRef = admin.database().ref(`entitledTiers/${userId}`);
-      await dbRef.set(entitledTiers);
+      const authToken = await admin
+        .auth()
+        .createCustomToken(patreonId, { entitledTiers });
 
-      response.sendStatus(200);
+      const state = JSON.parse(request.query?.state?.toString() || "null");
+      const redirectUrl = new URL(state.finalRedirect);
+
+      redirectUrl.searchParams.append("authToken", authToken);
+
+      response.redirect(redirectUrl.toString());
     } catch (err) {
       functions.logger.error("error!", err);
       response.status(500).send(err);

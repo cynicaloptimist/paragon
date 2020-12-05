@@ -33,7 +33,10 @@ export function LoginButton() {
     "redirect_uri",
     environment.REACT_APP_PATREON_LOGIN_REDIRECT_URI
   );
-  loginUrl.searchParams.append("state", userId);
+  loginUrl.searchParams.append(
+    "state",
+    JSON.stringify({ finalRedirect: window.location.href })
+  );
 
   return <Button label="Login" href={loginUrl.href} />;
 }
