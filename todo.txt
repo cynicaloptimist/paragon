@@ -5,9 +5,10 @@ login button with url
 firebase function
  -> call patreon api to get patron details
  -> read entitled patreon tiers
- -> write best patreon tier to a database entry for logged in user
- -> redirect user to PCD
-
+ -> create custom firebase token for auth, including entitled tiers https://firebase.google.com/docs/auth/admin/create-custom-tokens
+ -> redirect user to PCD with custom token
+ -> PCD uses custom auth to log in https://firebase.google.com/docs/auth/web/custom-auth
+ 
 database permissions
  ->firebase hook: write user.tier
  ->logged in user: read own user.tier
