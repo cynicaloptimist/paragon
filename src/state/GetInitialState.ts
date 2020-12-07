@@ -1,5 +1,5 @@
 import { randomString } from "../randomString";
-import { AppState } from "./AppState";
+import { AppState, EmptyState } from "./AppState";
 import { ArticleCardState, PlayerViewPermission } from "./CardState";
 
 export const GetInitialState = (): AppState => {
@@ -7,11 +7,11 @@ export const GetInitialState = (): AppState => {
   const cardTypesCard = GetCardTypesCard();
   const firstDashboardId = randomString(4);
   return {
+    ...EmptyState(),
     cardsById: {
       [welcomeCard.cardId]: welcomeCard,
       [cardTypesCard.cardId]: cardTypesCard,
     },
-    librarySidebarMode: "hidden",
     activeDashboardId: firstDashboardId,
     dashboardsById: {
       [firstDashboardId]: {
