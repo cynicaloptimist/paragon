@@ -7,6 +7,10 @@ export function useLogin(dispatch: React.Dispatch<RootAction>) {
   const location = useLocation();
   const history = useHistory();
   useEffect(() => {
+    auth()
+      .signInAnonymously()
+      .catch((e) => console.log(e));
+
     const urlParams = new URLSearchParams(location.search);
 
     const authToken = urlParams.get("authToken");
@@ -27,10 +31,6 @@ export function useLogin(dispatch: React.Dispatch<RootAction>) {
 
       location.search = "";
       history.replace(location);
-    } else {
-      auth()
-        .signInAnonymously()
-        .catch((e) => console.log(e));
     }
   }, [location, history, dispatch]);
 }
