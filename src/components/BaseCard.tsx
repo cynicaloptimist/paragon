@@ -1,9 +1,9 @@
 import {
-    faEye,
-    faEyeSlash,
-    faGripLines,
-    faPencilAlt,
-    faTimes
+  faEye,
+  faEyeSlash,
+  faGripLines,
+  faPencilAlt,
+  faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, Footer, Header, Heading, TextInput } from "grommet";
@@ -104,7 +104,7 @@ function CardHeader(props: { cardState: CardState }) {
 }
 
 function PlayerViewButton(props: { cardState: CardState }) {
-  const { dispatch } = useContext(ReducerContext);
+  const { state, dispatch } = useContext(ReducerContext);
 
   if (props.cardState.playerViewPermission === PlayerViewPermission.Visible) {
     return (
@@ -115,7 +115,7 @@ function PlayerViewButton(props: { cardState: CardState }) {
           dispatch(
             CardActions.SetPlayerViewPermission({
               cardId: props.cardState.cardId,
-              playerViewPermission: process.env.REACT_APP_ENABLE_PLAYER_VIEW_EDITING
+              playerViewPermission: state.user.hasEpic
                 ? PlayerViewPermission.Interact
                 : PlayerViewPermission.Hidden,
             })
