@@ -10,6 +10,9 @@ const patreonAPI = patreon.patreon;
 const patreonOAuth = patreon.oauth;
 const jsonApiURL = patreon.jsonApiURL;
 
+const storageRewardIds = ["1322253", "1937132"];
+const epicRewardIds = ["1937132"];
+
 admin.initializeApp();
 
 const patreonOAuthClient = patreonOAuth(
@@ -44,16 +47,23 @@ export const patreon_login = functions.https.onRequest(
       functions.logger.info("User: ", JSON.stringify(userIdentity.rawJson));
 
       const patreonId = userIdentity.rawJson.data?.id;
-      const entitledTiers =
+      const entitledTiers: string[] =
         userIdentity.rawJson.included
           ?.filter((include: ApiListing) => include.type === "tier")
           .map((include: ApiListing) => include.id) || [];
 
       functions.logger.info("Entitled Tier Ids: ", entitledTiers);
 
+      const hasStorage = entitledTiers.some((entitledTier) =>
+        storageRewardIds.includes(entitledTier)
+      );
+      const hasEpic = entitledTiers.some((entitledTier) =>
+        epicRewardIds.includes(entitledTier)
+      );
+
       const authToken = await admin
         .auth()
-        .createCustomToken(patreonId, { entitledTiers });
+        .createCustomToken(patreonId, { hasStorage, hasEpic });
 
       const state = JSON.parse(request.query?.state?.toString() || "null");
       const redirectUrl = new URL(state.finalRedirect);
