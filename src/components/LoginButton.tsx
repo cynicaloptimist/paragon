@@ -1,28 +1,24 @@
-import { auth } from "firebase/app";
 import "firebase/auth";
-import { Button } from "grommet";
-import React, { useEffect, useState } from "react";
+import { Button, Text } from "grommet";
+import React, { useContext } from "react";
+import { ReducerContext } from "../reducers/ReducerContext";
 
-export function LoginButton() {
+export function Login() {
+  const { state } = useContext(ReducerContext);
   const environment = process.env;
-  const [userId, setUserId] = useState<string | null>(null);
-  useEffect(() => {
-    auth().onAuthStateChanged((user) => {
-      if (user) {
-        setUserId(user.uid);
-      }
-    });
-  }, []);
-
   if (
     !(
       environment.REACT_APP_PATREON_CLIENT_ID &&
-      environment.REACT_APP_PATREON_LOGIN_REDIRECT_URI &&
-      userId
+      environment.REACT_APP_PATREON_LOGIN_REDIRECT_URI
     )
   ) {
     return null;
   }
+
+  if (state.user.isLoggedIn) {
+    return <Text style={{ fontStyle: "italic" }}>Logged in with Patreon</Text>;
+  }
+
   const loginUrl = new URL("https://www.patreon.com/oauth2/authorize");
   loginUrl.searchParams.append("response_type", "code");
   loginUrl.searchParams.append(
@@ -38,5 +34,5 @@ export function LoginButton() {
     JSON.stringify({ finalRedirect: window.location.href })
   );
 
-  return <Button label="Login" href={loginUrl.href} />;
+  return <Button label="Login with Patreon" href={loginUrl.href} />;
 }

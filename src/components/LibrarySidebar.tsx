@@ -4,7 +4,7 @@ import { ReducerContext } from "../reducers/ReducerContext";
 import { CardLibrary } from "./CardLibrary";
 import { DashboardLibrary } from "./DashboardLibrary";
 import { LibrarySidebarControls } from "./LibrarySidebarControls";
-import { LoginButton } from "./LoginButton";
+import { Login } from "./LoginButton";
 
 export function LibrarySidebar() {
   const { state } = useContext(ReducerContext);
@@ -14,6 +14,7 @@ export function LibrarySidebar() {
       background="background"
       elevation="large"
       style={{ position: "fixed", left: 0, width: "300px", height: "100%" }}
+      alignContent="center"
     >
       <Header background="brand" pad="small">
         <LibrarySidebarControls />
@@ -21,14 +22,16 @@ export function LibrarySidebar() {
           {state.librarySidebarMode === "dashboards" ? "Dashboards" : "Cards"}
         </Heading>
       </Header>
-      {state.librarySidebarMode === "dashboards" ? (
-        <DashboardLibrary />
-      ) : (
-        <CardLibrary />
-      )}
-      <LoginButton />
+      <Box fill>
+        {state.librarySidebarMode === "dashboards" ? (
+          <DashboardLibrary />
+        ) : (
+          <CardLibrary />
+        )}
+      </Box>
+      <Box alignSelf="center" pad="small">
+        <Login />
+      </Box>
     </Box>
   );
 }
-
-
