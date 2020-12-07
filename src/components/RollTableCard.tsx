@@ -1,11 +1,11 @@
-import React, { useState, useContext, useRef, useEffect } from "react";
+import { faCheck, faDice, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Box, Button, TextArea } from "grommet";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { CardActions } from "../actions/CardActions";
+import { ReducerContext } from "../reducers/ReducerContext";
 import { RollTableCardState, RollTableEntry } from "../state/CardState";
 import { BaseCard } from "./BaseCard";
-import { Button, Box, TextArea } from "grommet";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faEdit, faDice } from "@fortawesome/free-solid-svg-icons";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { CardActions } from "../actions/Actions";
 
 export function RollTableCard(props: { card: RollTableCardState }) {
   const { dispatch } = useContext(ReducerContext);

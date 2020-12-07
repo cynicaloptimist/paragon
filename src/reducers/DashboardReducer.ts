@@ -1,6 +1,7 @@
 import { union } from "lodash";
 import { isActionOf } from "typesafe-actions";
-import { Actions, CardActions, RootAction } from "../actions/Actions";
+import { Actions, RootAction } from "../actions/Actions";
+import { CardActions } from "../actions/CardActions";
 import { DashboardState } from "../state/AppState";
 import { InitialLayout } from "../state/InitialLayout";
 

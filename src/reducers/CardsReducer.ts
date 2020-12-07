@@ -1,5 +1,6 @@
 import { createReducer } from "typesafe-actions";
-import { CardAction, CardActions, RootAction } from "../actions/Actions";
+import { RootAction } from "../actions/Actions";
+import { CardAction, CardActions } from "../actions/CardActions";
 import { CardsState } from "../state/AppState";
 import { CardState, DiceCardState } from "../state/CardState";
 
@@ -57,7 +58,7 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
       displayType: action.payload.displayType,
     });
   })
-  
+
   .handleAction(CardActions.SetRollTableEntries, (oldState, action) => {
     return mergeCardState(oldState, action, {
       entries: action.payload.entries,

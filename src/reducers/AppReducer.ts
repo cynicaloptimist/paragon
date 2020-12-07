@@ -1,6 +1,7 @@
 import { omit } from "lodash";
 import { isActionOf } from "typesafe-actions";
-import { Actions, CardActions, RootAction } from "../actions/Actions";
+import { Actions, RootAction } from "../actions/Actions";
+import { CardActions } from "../actions/CardActions";
 import { AppState, DashboardState } from "../state/AppState";
 import { InitialCardState } from "../state/InitialCardState";
 import { CardsReducer } from "./CardsReducer";

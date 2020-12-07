@@ -1,18 +1,18 @@
 import { faCheck, faEdit, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Box,
-  Button,
-  FormField,
-  TextInput,
-  ThemeContext,
-  ThemeType
+    Box,
+    Button,
+    FormField,
+    TextInput,
+    ThemeContext,
+    ThemeType
 } from "grommet";
 import { normalizeColor } from "grommet/utils";
 import * as React from "react";
 import { PieChart } from "react-minimal-pie-chart";
 import { Data as PieChartData } from "react-minimal-pie-chart/types/commonTypes";
-import { CardActions } from "../actions/Actions";
+import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { ClockCardState } from "../state/CardState";
 import { BaseCard } from "./BaseCard";

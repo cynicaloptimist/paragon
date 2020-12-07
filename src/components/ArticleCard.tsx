@@ -2,7 +2,7 @@ import { faCheck, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, Markdown, Text, TextArea } from "grommet";
 import React, { useContext } from "react";
-import { CardActions } from "../actions/Actions";
+import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardsState } from "../state/AppState";
 import { ArticleCardState } from "../state/CardState";

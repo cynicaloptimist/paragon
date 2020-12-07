@@ -1,14 +1,14 @@
 import {
-  faEye,
-  faEyeSlash,
-  faGripLines,
-  faPencilAlt,
-  faTimes
+    faEye,
+    faEyeSlash,
+    faGripLines,
+    faPencilAlt,
+    faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, Footer, Header, Heading, TextInput } from "grommet";
 import React, { useContext, useRef } from "react";
-import { CardActions } from "../actions/Actions";
+import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardState, PlayerViewPermission } from "../state/CardState";
 import { PlayerViewContext } from "./PlayerViewContext";

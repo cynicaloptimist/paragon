@@ -1,12 +1,13 @@
 import {
-  faEllipsisV,
-  faExternalLinkAlt,
-  faPlus
+    faEllipsisV,
+    faExternalLinkAlt,
+    faPlus
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, CheckBox, Header, Heading, Menu, Text } from "grommet";
 import React, { useCallback, useContext } from "react";
-import { Actions, CardActions } from "../actions/Actions";
+import { Actions } from "../actions/Actions";
+import { CardActions } from "../actions/CardActions";
 import { randomString } from "../randomString";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { ActiveDashboardOf } from "../state/AppState";

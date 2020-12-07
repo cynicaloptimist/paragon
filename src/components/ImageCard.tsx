@@ -1,6 +1,6 @@
 import { Box, Button, Image, TextInput } from "grommet";
 import React, { useContext, useState } from "react";
-import { CardActions } from "../actions/Actions";
+import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { ImageCardState } from "../state/CardState";
 import { BaseCard } from "./BaseCard";

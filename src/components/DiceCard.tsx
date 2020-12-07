@@ -1,20 +1,20 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { faArrowRight, faRedo } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dice } from "dice-typescript";
-
+import { Box, Button, Text, TextInput } from "grommet";
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useRef,
+    useState
+} from "react";
+import { CardActions } from "../actions/CardActions";
+import { ReducerContext } from "../reducers/ReducerContext";
 import { DiceCardState, DiceRoll } from "../state/CardState";
 import { BaseCard } from "./BaseCard";
-import { Button, Box, TextInput, Text } from "grommet";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { CardActions } from "../actions/Actions";
-import { faRedo, faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { PlayerViewContext } from "./PlayerViewContext";
+
 
 const dice = new Dice();
 
