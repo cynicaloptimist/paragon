@@ -19,7 +19,7 @@ export function GameMasterView() {
     "appState"
   );
 
-  useSignIn();
+  useSignIn(dispatch);
   usePlayerView(state, dispatch);
 
   return (

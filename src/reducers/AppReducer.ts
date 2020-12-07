@@ -8,6 +8,16 @@ import { CardsReducer } from "./CardsReducer";
 import { DashboardReducer } from "./DashboardReducer";
 
 export function AppReducer(oldState: AppState, action: RootAction): AppState {
+  if (isActionOf(Actions.SetUserClaims, action)) {
+    return {
+      ...oldState,
+      user: {
+        isLoggedIn: true,
+        hasStorage: action.payload.hasStorage,
+        hasEpic: action.payload.hasEpic,
+      },
+    };
+  }
   if (isActionOf(Actions.SetLibraryMode, action)) {
     return {
       ...oldState,

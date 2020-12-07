@@ -1,8 +1,9 @@
 import { auth } from "firebase/app";
 import { useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
+import { Actions, RootAction } from "../actions/Actions";
 
-export function useSignIn() {
+export function useSignIn(dispatch: React.Dispatch<RootAction>) {
   const location = useLocation();
   const history = useHistory();
   useEffect(() => {
@@ -15,7 +16,12 @@ export function useSignIn() {
         .signInWithCustomToken(authToken)
         .then(async () => {
           const token = await auth().currentUser?.getIdTokenResult(true);
-          console.log(JSON.stringify(token?.claims));
+          dispatch(
+            Actions.SetUserClaims({
+              hasStorage: token?.claims.hasStorage || false,
+              hasEpic: token?.claims.hasEpic || false,
+            })
+          );
         })
         .catch((e) => console.log(e));
 
@@ -26,5 +32,5 @@ export function useSignIn() {
         .signInAnonymously()
         .catch((e) => console.log(e));
     }
-  }, [location, history]);
+  }, [location, history, dispatch]);
 }
