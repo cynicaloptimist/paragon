@@ -37,10 +37,18 @@ export const Theme: ThemeType = {
       family: "'Vollkorn', serif",
     },
     weight: 300,
+    level: {
+      "2": {
+        small: {
+          size: "20px",
+          height: "26px",
+        },
+      },
+    },
   },
   paragraph: {
-    "medium": {
-      "maxWidth": "none"
+    medium: {
+      maxWidth: "none",
     },
-  }
+  },
 };

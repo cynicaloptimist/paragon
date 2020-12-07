@@ -1,7 +1,7 @@
 import {
-    faEllipsisV,
-    faExternalLinkAlt,
-    faPlus
+  faEllipsisV,
+  faExternalLinkAlt,
+  faPlus
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, CheckBox, Header, Heading, Menu, Text } from "grommet";
@@ -46,12 +46,12 @@ export const TopBar = () => {
   return (
     <Header background="brand" pad="small" fill="horizontal">
       <LibrarySidebarControls />
-      <Box fill="horizontal" direction="row" justify="center" align="center">
-        <Heading level={1} size="small" margin="xxsmall">
-          Paragon Campaign Dashboard -
-        </Heading>
-        <Heading level={1} size="small" margin="xxsmall">
+      <Box fill="horizontal" direction="column" justify="center" align="center">
+        <Heading level={1} size="small" margin="none">
           <DashboardNameWithEdit />
+        </Heading>
+        <Heading level={2} size="small" margin="none">
+          Paragon Campaign Dashboard
         </Heading>
       </Box>
       <Box direction="row">
