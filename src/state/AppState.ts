@@ -16,7 +16,7 @@ export type DashboardState = {
   layoutCompaction: "free" | "compact";
 };
 
-export type CardsState = { [cardId: string]: CardState };
+export type CardsState = Record<string, CardState>;
 
 export type UserState = {
   isLoggedIn: boolean;
