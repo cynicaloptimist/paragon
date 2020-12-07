@@ -1,6 +1,6 @@
 import GridLayout from "react-grid-layout";
 import { randomString } from "../randomString";
-import { AppState, CardsState, DashboardState, EmptyState } from "./AppState";
+import { AppState, CardsState, DashboardState, EmptyState, UserState } from "./AppState";
 import { GetInitialState } from "./GetInitialState";
 
 export type LegacyAppState = {
@@ -8,6 +8,7 @@ export type LegacyAppState = {
   dashboardsById?: Record<string, DashboardState>;
   activeDashboardId?: string | null;
   librarySidebarMode?: "hidden" | "cards" | "dashboards";
+  user?: UserState;
 
   //current
   cardsById: CardsState;

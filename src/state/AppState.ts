@@ -6,6 +6,7 @@ export type AppState = {
   dashboardsById: Record<string, DashboardState>;
   activeDashboardId: string | null;
   librarySidebarMode: "hidden" | "cards" | "dashboards";
+  user: UserState;
 };
 
 export type DashboardState = {
@@ -17,11 +18,22 @@ export type DashboardState = {
 
 export type CardsState = { [cardId: string]: CardState };
 
+export type UserState = {
+  isLoggedIn: boolean;
+  hasStorage: boolean;
+  hasEpic: boolean;
+}
+
 export const EmptyState = (): AppState => ({
   cardsById: {},
   dashboardsById: {},
   activeDashboardId: null,
   librarySidebarMode: "hidden",
+  user: {
+    isLoggedIn: false,
+    hasStorage: false,
+    hasEpic: false
+  }
 });
 
 export function ActiveDashboardOf(state: AppState) {
