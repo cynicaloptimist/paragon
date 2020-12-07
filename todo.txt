@@ -10,9 +10,8 @@ firebase function
  -> PCD uses custom auth to log in https://firebase.google.com/docs/auth/web/custom-auth
  
 database permissions
- ->firebase hook: write user.tier
- ->logged in user: read own user.tier
- ->logged in user: write to account IF user.tier is enough
+ ->read/write to account sync if hasStorage
+ ->read from pendingActions if hasEpic
 
 firebase patron change webhook:
- -> write best patreon tier to a database entry for webhook user
+ -> update custom auth token for user
