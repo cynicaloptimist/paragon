@@ -6,11 +6,11 @@ import { ReducerContext } from "../reducers/ReducerContext";
 import { UpdateMissingOrLegacyAppState } from "../state/LegacyAppState";
 import { Theme } from "../Theme";
 import { CardGrid } from "./CardGrid";
+import { useLogin } from "./hooks/useLogin";
 import { usePlayerView } from "./hooks/usePlayerView";
 import { useStorageBackedReducer } from "./hooks/useStorageBackedReducer";
 import { LibrarySidebar } from "./LibrarySidebar";
 import { TopBar } from "./TopBar";
-import { useSignIn } from "./useSignIn";
 
 export function GameMasterView() {
   const [state, dispatch] = useStorageBackedReducer(
@@ -19,7 +19,7 @@ export function GameMasterView() {
     "appState"
   );
 
-  useSignIn(dispatch);
+  useLogin(dispatch);
   usePlayerView(state, dispatch);
 
   return (

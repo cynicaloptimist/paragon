@@ -1,9 +1,9 @@
 import { auth } from "firebase/app";
 import { useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import { Actions, RootAction } from "../actions/Actions";
+import { Actions, RootAction } from "../../actions/Actions";
 
-export function useSignIn(dispatch: React.Dispatch<RootAction>) {
+export function useLogin(dispatch: React.Dispatch<RootAction>) {
   const location = useLocation();
   const history = useHistory();
   useEffect(() => {
