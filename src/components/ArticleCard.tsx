@@ -5,7 +5,7 @@ import React, { useContext } from "react";
 import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardsState } from "../state/AppState";
-import { ArticleCardState } from "../state/CardState";
+import { ArticleCardState, PlayerViewPermission } from "../state/CardState";
 import { BaseCard } from "./BaseCard";
 import { PlayerViewContext } from "./PlayerViewContext";
 
@@ -18,7 +18,9 @@ export function ArticleCard(props: { card: ArticleCardState }) {
   );
 
   const [content, setContent] = React.useState(card.content);
-  const canEdit = useContext(PlayerViewContext) === null;
+  const isGmView = useContext(PlayerViewContext) === null;
+  const canEdit =
+    isGmView || card.playerViewPermission === PlayerViewPermission.Interact;
 
   return (
     <BaseCard
@@ -108,8 +110,8 @@ function ConvertDoubleBracketsToWikiLinks(
   cards: CardsState
 ): string {
   return markdownString.replace(/\[\[([\w\d ]+)\]\]/g, (match, inner) => {
-    const matchedCard = Object.values(cards).find((card) =>
-      card.title.localeCompare(inner) === 0
+    const matchedCard = Object.values(cards).find(
+      (card) => card.title.localeCompare(inner) === 0
     );
     if (!matchedCard) {
       return match;

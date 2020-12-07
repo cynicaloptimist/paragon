@@ -5,6 +5,7 @@ import pickBy from "lodash/pickBy";
 import { useEffect, useRef, useState } from "react";
 import { isActionOf } from "typesafe-actions";
 import { Actions, RootAction } from "../../actions/Actions";
+import { CardActions } from "../../actions/CardActions";
 import { AppState } from "../../state/AppState";
 import { PlayerViewPermission } from "../../state/CardState";
 import { removeUndefinedNodesFromTree } from "./removeUndefinedNodesFromTree";
@@ -72,6 +73,9 @@ export function usePlayerView(
           const action: RootAction = actionSnapshot.val();
           if (isActionOf(Actions.SetLayouts, action)) {
             action.payload = action.payload || [];
+            dispatch(action);
+          }
+          if (isActionOf(CardActions.SetCardContent)) {
             dispatch(action);
           }
           actionSnapshot.ref.remove();

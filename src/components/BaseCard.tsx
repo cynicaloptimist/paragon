@@ -18,7 +18,11 @@ export function BaseCard(props: {
   cardState: CardState;
   children: React.ReactNode;
 }) {
-  const canEdit = useContext(PlayerViewContext) === null;
+  const isGmView = useContext(PlayerViewContext) === null;
+  const canEdit =
+    isGmView ||
+    props.cardState.playerViewPermission === PlayerViewPermission.Interact;
+
   const innerBoxRef = useRef<HTMLDivElement>(null);
 
   return (
