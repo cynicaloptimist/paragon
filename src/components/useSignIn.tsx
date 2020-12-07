@@ -13,6 +13,10 @@ export function useSignIn() {
     if (authToken) {
       auth()
         .signInWithCustomToken(authToken)
+        .then(async () => {
+          const token = await auth().currentUser?.getIdTokenResult(true);
+          console.log(JSON.stringify(token?.claims));
+        })
         .catch((e) => console.log(e));
 
       location.search = "";
