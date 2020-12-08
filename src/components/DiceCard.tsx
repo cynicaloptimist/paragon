@@ -3,18 +3,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dice } from "dice-typescript";
 import { Box, Button, Text, TextInput } from "grommet";
 import React, {
-    useCallback,
-    useContext,
-    useEffect,
-    useRef,
-    useState
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState
 } from "react";
 import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
-import { DiceCardState, DiceRoll } from "../state/CardState";
+import {
+  DiceCardState,
+  DiceRoll,
+  PlayerViewPermission
+} from "../state/CardState";
 import { BaseCard } from "./BaseCard";
 import { PlayerViewContext } from "./PlayerViewContext";
-
 
 const dice = new Dice();
 
@@ -22,7 +25,9 @@ export function DiceCard(props: { card: DiceCardState }) {
   const { dispatch } = useContext(ReducerContext);
   const { card } = props;
 
-  const canEdit = useContext(PlayerViewContext) === null;
+  const isGmView = useContext(PlayerViewContext) === null;
+  const canEdit =
+    isGmView || card.playerViewPermission === PlayerViewPermission.Interact;
 
   const rollDice = useCallback(
     (expression) => {

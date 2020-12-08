@@ -62,7 +62,6 @@ export function usePlayerView(
     auth().onAuthStateChanged((user) => {
       if (user) {
         setUserId(user.uid);
-        console.log(user.uid);
         const dbRef = database().ref(`playerViews/${state.activeDashboardId}`);
         dbRef.set(user.uid);
       }
@@ -72,10 +71,16 @@ export function usePlayerView(
         .on("child_added", (actionSnapshot) => {
           const action: RootAction = actionSnapshot.val();
           if (isActionOf(Actions.SetLayouts, action)) {
-            action.payload = action.payload || [];
-            dispatch(action);
+            if (action.payload) {
+              dispatch(action);
+            }
           }
-          if (isActionOf(CardActions.SetCardContent)) {
+          if (
+            isActionOf([
+              CardActions.SetCardContent,
+              CardActions.RollDiceExpression,
+            ])
+          ) {
             dispatch(action);
           }
           actionSnapshot.ref.remove();
@@ -91,8 +96,6 @@ export function usePlayerView(
     const playerViewState = omitClosedCardsFromState(
       removeUndefinedNodesFromTree(state)
     );
-
-    console.log(playerViewState);
 
     if (
       JSON.stringify(previousState.current) !== JSON.stringify(playerViewState)

@@ -1,5 +1,5 @@
 import { Box } from "grommet";
-import { uniqBy } from "lodash";
+import { isEqual, uniqBy } from "lodash";
 import React, { useContext } from "react";
 import { Layout, Responsive, WidthProvider } from "react-grid-layout";
 import { Actions } from "../actions/Actions";
@@ -71,7 +71,12 @@ export function CardGrid() {
         draggableHandle=".drag-handle"
         style={{ flexGrow: 1 }}
         layouts={{ xxl: dedupedLayouts }}
-        onLayoutChange={(newLayout) => dispatch(Actions.SetLayouts(newLayout))}
+        onLayoutChange={(newLayout) => {
+          if (!isEqual(dashboard.layouts, newLayout)) {
+            console.log("Firing SetLayouts");
+            dispatch(Actions.SetLayouts(newLayout));
+          }
+        }}
         onResize={(_, __, layoutItem, placeholder) => {
           if (layoutItem.h < MIN_GRID_UNITS_CARD_HEIGHT) {
             layoutItem.h = MIN_GRID_UNITS_CARD_HEIGHT;
