@@ -15,6 +15,7 @@ export function DashboardLibrary() {
         const dashboard = state.dashboardsById[dashboardId];
         return (
           <DashboardLibraryRow
+            key={dashboardId}
             dashboardId={dashboardId}
             dashboard={dashboard}
           />
