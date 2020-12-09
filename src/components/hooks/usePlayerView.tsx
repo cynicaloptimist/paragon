@@ -99,7 +99,7 @@ export function usePlayerView(
   }, [userId, state.activeDashboardId, dispatch]);
 
   useEffect(() => {
-    if (!userId) {
+    if (!userId || !state.activeDashboardId) {
       return;
     }
 
@@ -110,10 +110,10 @@ export function usePlayerView(
     if (
       JSON.stringify(previousState.current) !== JSON.stringify(playerViewState)
     ) {
-      const dbRef = database().ref(`users/${userId}`);
-      dbRef.set({
-        playerViewState,
-      });
+      const dbRef = database().ref(
+        `users/${userId}/playerViews/${state.activeDashboardId}`
+      );
+      dbRef.set(playerViewState);
       previousState.current = playerViewState;
     }
   }, [state, userId]);

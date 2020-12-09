@@ -31,7 +31,9 @@ function useRemoteState(
     if (!playerViewUserId) {
       return;
     }
-    const dbRef = database().ref(`users/${playerViewUserId}/playerViewState`);
+    const dbRef = database().ref(
+      `users/${playerViewUserId}/playerViews/${playerViewId}`
+    );
     dbRef.on("value", (appState) => {
       const networkAppState: Partial<AppState> = appState.val();
       const completeAppState = restorePrunedEmptyArrays(networkAppState);
@@ -39,7 +41,7 @@ function useRemoteState(
     });
 
     return () => dbRef.off();
-  }, [playerViewUserId]);
+  }, [playerViewId, playerViewUserId]);
 
   const dispatch = (action: RootAction) => {
     const cleanAction = removeUndefinedNodesFromTree(action);

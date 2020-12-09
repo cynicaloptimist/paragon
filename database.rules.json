@@ -6,6 +6,9 @@
         ".read": "$uid === auth.uid",
         "playerViewState": {
           ".read": true
+        },
+        "playerViews": {
+          ".read": true
         }
       }
     },
