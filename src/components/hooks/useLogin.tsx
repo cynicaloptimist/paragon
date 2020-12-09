@@ -7,18 +7,15 @@ export function useLogin(dispatch: React.Dispatch<RootAction>) {
   const location = useLocation();
   const history = useHistory();
   useEffect(() => {
-    auth()
-      .signInAnonymously()
-      .catch((e) => console.log(e));
+    const doAuthAsync = async () => {
+      try {
+        await auth().setPersistence(auth.Auth.Persistence.LOCAL);
+        const urlParams = new URLSearchParams(location.search);
 
-    const urlParams = new URLSearchParams(location.search);
+        const authToken = urlParams.get("authToken");
 
-    const authToken = urlParams.get("authToken");
-
-    if (authToken) {
-      auth()
-        .signInWithCustomToken(authToken)
-        .then(async () => {
+        if (authToken) {
+          await auth().signInWithCustomToken(authToken);
           const token = await auth().currentUser?.getIdTokenResult(true);
           dispatch(
             Actions.SetUserClaims({
@@ -26,11 +23,18 @@ export function useLogin(dispatch: React.Dispatch<RootAction>) {
               hasEpic: token?.claims.hasEpic || false,
             })
           );
-        })
-        .catch((e) => console.log(e));
 
-      location.search = "";
-      history.replace(location);
-    }
+          location.search = "";
+          history.replace(location);
+        } else {
+          if (!auth().currentUser) {
+            await auth().signInAnonymously();
+          }
+        }
+      } catch (e) {
+        console.warn(e);
+      }
+    };
+    doAuthAsync();
   }, [location, history, dispatch]);
 }
