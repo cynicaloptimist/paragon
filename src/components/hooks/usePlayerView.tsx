@@ -62,31 +62,41 @@ export function usePlayerView(
     auth().onAuthStateChanged((user) => {
       if (user) {
         setUserId(user.uid);
-        const dbRef = database().ref(`playerViews/${state.activeDashboardId}`);
-        dbRef.set(user.uid);
       }
-
-      database()
-        .ref(`pendingActions/${state.activeDashboardId}`)
-        .on("child_added", (actionSnapshot) => {
-          const action: RootAction = actionSnapshot.val();
-          if (isActionOf(Actions.SetLayouts, action)) {
-            if (action.payload) {
-              dispatch(action);
-            }
-          }
-          if (
-            isActionOf([
-              CardActions.SetCardContent,
-              CardActions.RollDiceExpression,
-            ])
-          ) {
-            dispatch(action);
-          }
-          actionSnapshot.ref.remove();
-        });
     });
-  }, [state.activeDashboardId, dispatch]);
+
+    if (!userId) {
+      return;
+    }
+
+    const dbRef = database().ref(`playerViews/${state.activeDashboardId}`);
+    dbRef.set(userId);
+
+    const pendingActionsRef = database().ref(
+      `pendingActions/${state.activeDashboardId}`
+    );
+
+    pendingActionsRef.on("child_added", (actionSnapshot) => {
+      const action: RootAction = actionSnapshot.val();
+      if (isActionOf(Actions.SetLayouts, action)) {
+        if (action.payload) {
+          dispatch(action);
+        }
+      }
+      if (
+        isActionOf([CardActions.SetCardContent, CardActions.RollDiceExpression])
+      ) {
+        dispatch(action);
+      }
+      actionSnapshot.ref.remove();
+    });
+
+    const cleanup = () => {
+      pendingActionsRef.off();
+    };
+
+    return cleanup;
+  }, [userId, state.activeDashboardId, dispatch]);
 
   useEffect(() => {
     if (!userId) {
