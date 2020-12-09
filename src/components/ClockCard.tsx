@@ -223,7 +223,7 @@ function useOnClickSegment(props: { card: ClockCardState }) {
         })
       );
     },
-    [props.card.cardId, props.card.value, dispatch]
+    [props.card.cardId, props.card.value, props.card.displayType, dispatch]
   );
   return segmentClickHandler;
 }
