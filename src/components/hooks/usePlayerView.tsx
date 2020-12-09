@@ -86,7 +86,19 @@ export function usePlayerView(
         }
       }
       if (
-        isActionOf([CardActions.SetCardContent, CardActions.RollDiceExpression])
+        isActionOf(
+          [
+            CardActions.SetCardContent,
+            CardActions.RollDiceExpression,
+            CardActions.SetImageUrl,
+            CardActions.SetRollTableLastRoll,
+            CardActions.SetRollTableEntries,
+            CardActions.SetClockValue,
+            CardActions.SetClockMax,
+            CardActions.SetClockDisplayType,
+          ],
+          action
+        )
       ) {
         dispatch(action);
       }

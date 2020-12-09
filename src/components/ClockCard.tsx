@@ -14,8 +14,9 @@ import { PieChart } from "react-minimal-pie-chart";
 import { Data as PieChartData } from "react-minimal-pie-chart/types/commonTypes";
 import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
-import { ClockCardState } from "../state/CardState";
+import { ClockCardState, PlayerViewPermission } from "../state/CardState";
 import { BaseCard } from "./BaseCard";
+import { PlayerViewContext } from "./PlayerViewContext";
 
 export function ClockCard(props: { card: ClockCardState }) {
   const [isConfigurable, setConfigurable] = React.useState(false);
@@ -129,6 +130,10 @@ function ConfigureClock(props: {
 function ClockFace(props: { card: ClockCardState }) {
   const onClickSegment = useOnClickSegment(props);
   const [hoveredIndex, setHoveredIndex] = React.useState(-1);
+  const isGmView = React.useContext(PlayerViewContext) === null;
+  const canEdit =
+    isGmView ||
+    props.card.playerViewPermission === PlayerViewPermission.Interact;
 
   const theme: ThemeType = React.useContext(ThemeContext);
   const themeColor = normalizeColor(
@@ -161,8 +166,8 @@ function ClockFace(props: { card: ClockCardState }) {
   return (
     <PieChart
       data={segments}
-      onClick={(e, index) => onClickSegment(index)}
-      onMouseOver={(e, index) => setHoveredIndex(index)}
+      onClick={canEdit ? (e, index) => onClickSegment(index) : undefined}
+      onMouseOver={canEdit ? (e, index) => setHoveredIndex(index) : undefined}
       onMouseOut={() => setHoveredIndex(-1)}
       startAngle={-90}
       segmentsShift={2}
@@ -172,8 +177,12 @@ function ClockFace(props: { card: ClockCardState }) {
 }
 
 function HorizontalClock(props: { card: ClockCardState }) {
-  const onClickSegment = useOnClickSegment(props);
+  const isGmView = React.useContext(PlayerViewContext) === null;
+  const canEdit =
+    isGmView ||
+    props.card.playerViewPermission === PlayerViewPermission.Interact;
 
+  const onClickSegment = useOnClickSegment(props);
   let segments = [];
   for (let i = 0; i < props.card.max; i++) {
     const color = i < props.card.value ? "brand" : "light-6";
@@ -181,21 +190,23 @@ function HorizontalClock(props: { card: ClockCardState }) {
       <Box
         key={i}
         fill
-        hoverIndicator={{ color: "brand-2" }}
+        hoverIndicator={canEdit && { color: "brand-2" }}
         background={color}
-        onClick={() => onClickSegment(i)}
+        onClick={canEdit ? () => onClickSegment(i) : undefined}
       />
     );
   }
   return (
     <Box direction="row" align="center" fill>
-      <Button
-        plain
-        margin="xsmall"
-        fill="vertical"
-        icon={<FontAwesomeIcon icon={faTimes} />}
-        onClick={() => onClickSegment(0)}
-      />
+      {canEdit && (
+        <Button
+          plain
+          margin="xsmall"
+          fill="vertical"
+          icon={<FontAwesomeIcon icon={faTimes} />}
+          onClick={() => onClickSegment(-1)}
+        />
+      )}
       <Box direction="row" fill gap="xxsmall" justify="stretch">
         {segments}
       </Box>
@@ -205,6 +216,7 @@ function HorizontalClock(props: { card: ClockCardState }) {
 
 function useOnClickSegment(props: { card: ClockCardState }) {
   const { dispatch } = React.useContext(ReducerContext);
+
   const segmentClickHandler = React.useCallback(
     (clickedIndex: number) => {
       let value = clickedIndex + 1;
