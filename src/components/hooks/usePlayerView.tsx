@@ -64,7 +64,7 @@ export function usePlayerView(
         setUserId(user.uid);
       }
     });
-  });
+  }, [setUserId]);
 
   useEffect(() => {
     if (!userId) {
