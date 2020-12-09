@@ -59,14 +59,16 @@ function CardHeader(props: { cardState: CardState }) {
     setHeaderEditable(false);
   };
   const isGmView = useContext(PlayerViewContext) === null;
-  const canEdit =
-    isGmView ||
-    props.cardState.playerViewPermission === PlayerViewPermission.Interact;
 
   return (
     <Header pad="xsmall" background="brand" height="3.4rem">
-      <Box fill className="drag-handle" direction="row" gap="xxsmall">
-        {canEdit && <Button icon={<FontAwesomeIcon icon={faGripLines} />} />}
+      <Box
+        fill
+        className={isGmView ? "drag-handle" : undefined}
+        direction="row"
+        gap="xxsmall"
+      >
+        {isGmView && <Button icon={<FontAwesomeIcon icon={faGripLines} />} />}
         {isHeaderEditable ? (
           <TextInput
             placeholder={props.cardState.title}

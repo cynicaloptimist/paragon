@@ -4,7 +4,7 @@ import "firebase/database";
 import pickBy from "lodash/pickBy";
 import { useEffect, useRef, useState } from "react";
 import { isActionOf } from "typesafe-actions";
-import { Actions, RootAction } from "../../actions/Actions";
+import { RootAction } from "../../actions/Actions";
 import { CardActions } from "../../actions/CardActions";
 import { AppState } from "../../state/AppState";
 import { PlayerViewPermission } from "../../state/CardState";
@@ -80,11 +80,6 @@ export function usePlayerView(
 
     pendingActionsRef.on("child_added", (actionSnapshot) => {
       const action: RootAction = actionSnapshot.val();
-      if (isActionOf(Actions.SetLayouts, action)) {
-        if (action.payload) {
-          dispatch(action);
-        }
-      }
       if (
         isActionOf(
           [

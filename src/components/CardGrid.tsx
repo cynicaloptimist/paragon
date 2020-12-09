@@ -5,7 +5,7 @@ import { Layout, Responsive, WidthProvider } from "react-grid-layout";
 import { Actions } from "../actions/Actions";
 import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
-import { CardState, PlayerViewPermission } from "../state/CardState";
+import { CardState } from "../state/CardState";
 import { ArticleCard } from "./ArticleCard";
 import { ClockCard } from "./ClockCard";
 import { DiceCard } from "./DiceCard";
@@ -33,9 +33,7 @@ export function CardGrid() {
   const dedupedLayouts = uniqBy(dashboard.layouts, (l) => l.i)
     .filter((l) => dashboard.openCardIds.includes(l.i))
     .map<Layout>((l) => {
-      const card = state.cardsById[l.i];
-      const canMoveCard =
-        isGmView || card.playerViewPermission === PlayerViewPermission.Interact;
+      const canMoveCard = isGmView;
       const layout: Layout = {
         ...l,
         isDraggable: canMoveCard,
@@ -72,8 +70,7 @@ export function CardGrid() {
         style={{ flexGrow: 1 }}
         layouts={{ xxl: dedupedLayouts }}
         onLayoutChange={(newLayout) => {
-          if (!isEqual(dashboard.layouts, newLayout)) {
-            console.log("Firing SetLayouts");
+          if (isGmView && !isEqual(dashboard.layouts, newLayout)) {
             dispatch(Actions.SetLayouts(newLayout));
           }
         }}
