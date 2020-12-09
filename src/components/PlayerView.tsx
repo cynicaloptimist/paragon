@@ -22,9 +22,12 @@ function useRemoteState(
     const idDbRef = database().ref(
       `playerViews/${playerViewId.toLocaleLowerCase()}`
     );
-    idDbRef.once("value", (id) => {
+
+    idDbRef.on("value", (id) => {
       setPlayerViewUserId(id.val());
     });
+
+    return () => idDbRef.off();
   }, [playerViewId]);
 
   useEffect(() => {
@@ -36,6 +39,9 @@ function useRemoteState(
     );
     dbRef.on("value", (appState) => {
       const networkAppState: Partial<AppState> = appState.val();
+      if (!networkAppState) {
+        return;
+      }
       const completeAppState = restorePrunedEmptyArrays(networkAppState);
       setState(completeAppState);
     });
