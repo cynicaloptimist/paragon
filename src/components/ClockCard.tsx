@@ -1,12 +1,12 @@
 import { faCheck, faEdit, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    Box,
-    Button,
-    FormField,
-    TextInput,
-    ThemeContext,
-    ThemeType
+  Box,
+  Button,
+  FormField,
+  TextInput,
+  ThemeContext,
+  ThemeType
 } from "grommet";
 import { normalizeColor } from "grommet/utils";
 import * as React from "react";
@@ -208,7 +208,11 @@ function useOnClickSegment(props: { card: ClockCardState }) {
   const segmentClickHandler = React.useCallback(
     (clickedIndex: number) => {
       let value = clickedIndex + 1;
-      if (props.card.value === 1 && value === 1) {
+      if (
+        props.card.displayType === "radial" &&
+        props.card.value === 1 &&
+        value === 1
+      ) {
         value = 0;
       }
 
