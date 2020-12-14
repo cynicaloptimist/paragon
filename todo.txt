@@ -15,3 +15,23 @@ database permissions
 
 firebase patron change webhook:
  -> update custom auth token for user
+
+
+account sync 
+
+-when we get a user ID,
+--get our full profile from the server
+--check local and server timestamps
+--diff our data with server data
+--if our data is newer,
+---write changed items to server
+---delete removed items from server
+--if server data is newer
+---write changed items to local
+---delete removed items from local
+--update timestamps on local and server
+
+-when a new state comes in,
+--diff our data with the previous state
+--write changes to server
+
