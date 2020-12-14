@@ -1,6 +1,12 @@
 import GridLayout from "react-grid-layout";
 import { randomString } from "../randomString";
-import { AppState, CardsState, DashboardState, EmptyState, UserState } from "./AppState";
+import {
+  AppState,
+  CardsState,
+  DashboardState,
+  EmptyState,
+  UserState
+} from "./AppState";
 import { GetInitialState } from "./GetInitialState";
 
 export type LegacyAppState = {
@@ -28,7 +34,10 @@ export function UpdateMissingOrLegacyAppState(
     return GetInitialState();
   }
 
-  const appState = EmptyState();
+  const appState: AppState = {
+    ...EmptyState(),
+    ...storedState,
+  };
 
   appState.cardsById = storedState.cardsById;
   appState.librarySidebarMode =
