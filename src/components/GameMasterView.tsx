@@ -6,6 +6,7 @@ import { ReducerContext } from "../reducers/ReducerContext";
 import { UpdateMissingOrLegacyAppState } from "../state/LegacyAppState";
 import { Theme } from "../Theme";
 import { CardGrid } from "./CardGrid";
+import { useAccountSync } from "./hooks/useAccountSync";
 import { useLogin } from "./hooks/useLogin";
 import { usePlayerView } from "./hooks/usePlayerView";
 import { useStorageBackedReducer } from "./hooks/useStorageBackedReducer";
@@ -21,6 +22,7 @@ export function GameMasterView() {
 
   useLogin(dispatch);
   usePlayerView(state, dispatch);
+  useAccountSync(state, dispatch);
 
   return (
     <ReducerContext.Provider value={{ state, dispatch }}>
