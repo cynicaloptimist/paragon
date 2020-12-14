@@ -1,5 +1,9 @@
 import { ActionType, createAction } from "typesafe-actions";
-import { PlayerViewPermission, RollTableEntry } from "../state/CardState";
+import {
+  CardState,
+  PlayerViewPermission,
+  RollTableEntry
+} from "../state/CardState";
 
 export const CardActions = {
   AddCard: createAction("AddCard")<{
@@ -9,6 +13,10 @@ export const CardActions = {
   OpenCard: createAction("OpenCard")<{ cardId: string }>(),
   CloseCard: createAction("CloseCard")<{ cardId: string }>(),
   DeleteCard: createAction("DeleteCard")<{ cardId: string }>(),
+  UpdateCardFromServer: createAction("UpdateCardFromServer")<{
+    cardId: string;
+    cardState: CardState;
+  }>(),
   SetCardContent: createAction("SetCardContent")<{
     cardId: string;
     content: string;

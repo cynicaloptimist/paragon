@@ -1,5 +1,6 @@
 import GridLayout from "react-grid-layout";
 import { ActionType, createAction } from "typesafe-actions";
+import { DashboardState } from "../state/AppState";
 import { CardAction } from "./CardActions";
 
 export const Actions = {
@@ -23,6 +24,10 @@ export const Actions = {
   }>(),
   RenameActiveDashboard: createAction("RenameActiveDashboard")<{
     newName: string;
+  }>(),
+  UpdateDashboardFromServer: createAction("UpdateDashboardFromServer")<{
+    dashboardId: string;
+    dashboardState: DashboardState;
   }>(),
 };
 
