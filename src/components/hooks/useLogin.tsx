@@ -1,4 +1,5 @@
 import { auth } from "firebase/app";
+import "firebase/auth";
 import { useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { Actions, RootAction } from "../../actions/Actions";
