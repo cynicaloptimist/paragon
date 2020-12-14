@@ -55,7 +55,7 @@ function useTwoWayDataSync(
 
       const serverProfile: ServerProfile = profileRef.val();
       if (
-        !serverProfile.lastUpdateTime ||
+        !serverProfile?.lastUpdateTime ||
         serverProfile.lastUpdateTime < localLastUpdateTime
       ) {
         writeFromLocalToServer(state, serverProfile, user.uid);
