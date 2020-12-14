@@ -3,7 +3,10 @@ import { ActionType, createAction } from "typesafe-actions";
 import { CardAction } from "./CardActions";
 
 export const Actions = {
-  SetUserClaims: createAction("SetUserClaims")<{hasStorage: boolean, hasEpic: boolean}>(),
+  SetUserClaims: createAction("SetUserClaims")<{
+    hasStorage: boolean;
+    hasEpic: boolean;
+  }>(),
   SetLayouts: createAction("SetLayouts")<GridLayout.Layout[]>(),
   SetLibraryMode: createAction("SetLibraryMode")<{
     libraryMode: "hidden" | "cards" | "dashboards";
