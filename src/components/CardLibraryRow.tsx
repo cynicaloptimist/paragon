@@ -12,7 +12,7 @@ export function CardLibraryRow(props: { card: CardState }) {
   const { state, dispatch } = useContext(ReducerContext);
 
   const isCardOpen =
-    ActiveDashboardOf(state)?.openCardIds.includes(props.card.cardId) || false;
+    ActiveDashboardOf(state)?.openCardIds?.includes(props.card.cardId) || false;
 
   const openCard = useCallback(
     () => dispatch(CardActions.OpenCard({ cardId: props.card.cardId })),

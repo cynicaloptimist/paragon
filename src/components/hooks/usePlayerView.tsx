@@ -28,11 +28,11 @@ function omitClosedCardsFromState(fullState: AppState): AppState {
     };
   }
 
-  const visibleCardIds = dashboard.openCardIds.filter(
+  const visibleCardIds = dashboard.openCardIds?.filter(
     (cardId) =>
       fullState.cardsById[cardId].playerViewPermission !==
       PlayerViewPermission.Hidden
-  );
+  ) || [];
 
   return {
     ...fullState,
@@ -43,7 +43,7 @@ function omitClosedCardsFromState(fullState: AppState): AppState {
       [fullState.activeDashboardId]: {
         ...dashboard,
         openCardIds: visibleCardIds,
-        layouts: dashboard.layouts.filter((layout) =>
+        layouts: dashboard.layouts?.filter((layout) =>
           visibleCardIds.includes(layout.i)
         ),
       },

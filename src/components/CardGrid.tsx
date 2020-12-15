@@ -31,7 +31,7 @@ export function CardGrid() {
   const dashboard = state.dashboardsById[state.activeDashboardId];
 
   const dedupedLayouts = uniqBy(dashboard.layouts, (l) => l.i)
-    .filter((l) => dashboard.openCardIds.includes(l.i))
+    .filter((l) => dashboard.openCardIds?.includes(l.i))
     .map<Layout>((l) => {
       const canMoveCard = isGmView;
       const layout: Layout = {
@@ -42,7 +42,7 @@ export function CardGrid() {
       return layout;
     });
 
-  const cards = dashboard.openCardIds.map((cardId) => {
+  const cards = dashboard.openCardIds?.map((cardId) => {
     const card = state.cardsById[cardId];
     if (!card) {
       console.warn("Open card ID missing from state: " + cardId);

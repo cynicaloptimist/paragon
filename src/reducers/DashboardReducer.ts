@@ -20,17 +20,19 @@ export function DashboardReducer(
     const { cardId } = action.payload;
     return {
       ...oldState,
-      openCardIds: oldState.openCardIds.concat([cardId]),
+      openCardIds: (oldState.openCardIds || []).concat([cardId]),
       layouts: union(oldState.layouts, [InitialLayout(action.payload.cardId)]),
     };
   }
 
   if (isActionOf(CardActions.OpenCard, action)) {
-    if (oldState.openCardIds.includes(action.payload.cardId)) {
+    if (oldState.openCardIds?.includes(action.payload.cardId)) {
       return oldState;
     }
 
-    if (oldState.layouts.some((layout) => layout.i === action.payload.cardId)) {
+    if (
+      oldState.layouts?.some((layout) => layout.i === action.payload.cardId)
+    ) {
       return {
         ...oldState,
         openCardIds: union(oldState.openCardIds, [action.payload.cardId]),
@@ -47,7 +49,7 @@ export function DashboardReducer(
   if (isActionOf(CardActions.CloseCard, action)) {
     return {
       ...oldState,
-      openCardIds: oldState.openCardIds.filter(
+      openCardIds: oldState.openCardIds?.filter(
         (cardId) => cardId !== action.payload.cardId
       ),
     };
@@ -56,7 +58,7 @@ export function DashboardReducer(
   if (isActionOf(CardActions.DeleteCard, action)) {
     return {
       ...oldState,
-      openCardIds: oldState.openCardIds.filter(
+      openCardIds: oldState.openCardIds?.filter(
         (openCardId) => openCardId !== action.payload.cardId
       ),
     };
@@ -64,9 +66,10 @@ export function DashboardReducer(
 
   if (isActionOf(Actions.SetLayouts, action)) {
     const updatedLayoutIds = action.payload.map((layout) => layout.i);
-    const nonUpdatedLayouts = oldState.layouts.filter(
-      (layout) => !updatedLayoutIds.includes(layout.i)
-    );
+    const nonUpdatedLayouts =
+      oldState.layouts?.filter(
+        (layout) => !updatedLayoutIds.includes(layout.i)
+      ) || [];
     return {
       ...oldState,
       layouts: [...nonUpdatedLayouts, ...(action.payload || [])],
@@ -76,7 +79,7 @@ export function DashboardReducer(
   if (isActionOf(Actions.RenameActiveDashboard, action)) {
     return {
       ...oldState,
-      name: action.payload.newName
+      name: action.payload.newName,
     };
   }
 

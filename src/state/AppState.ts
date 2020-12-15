@@ -11,8 +11,8 @@ export type AppState = {
 
 export type DashboardState = {
   name: string;
-  openCardIds: string[];
-  layouts: GridLayout.Layout[];
+  openCardIds?: string[];
+  layouts?: GridLayout.Layout[];
   layoutCompaction: "free" | "compact";
 };
 
