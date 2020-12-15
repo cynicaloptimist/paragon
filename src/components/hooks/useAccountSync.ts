@@ -9,6 +9,8 @@ import { AppState, DashboardState } from "../../state/AppState";
 import { CardState } from "../../state/CardState";
 import { removeUndefinedNodesFromTree } from "./removeUndefinedNodesFromTree";
 
+const environment = process.env;
+  
 type ServerProfile = {
   lastUpdateTime: number;
   cardsById: Record<string, CardState>;
@@ -19,8 +21,13 @@ export function useAccountSync(
   state: AppState,
   dispatch: React.Dispatch<RootAction>
 ) {
+  if(!environment.REACT_APP_ENABLE_ACCOUNT_SYNC) {
+    return;
+  }
+  /* eslint-disable react-hooks/rules-of-hooks */
   useTwoWayDataSync(state, dispatch);
   useUpdatesToServer(state, dispatch);
+  /* eslint-enable */
 }
 
 function useTwoWayDataSync(
