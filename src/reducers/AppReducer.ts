@@ -24,7 +24,13 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
       ...oldState,
       dashboardsById: {
         ...oldState.dashboardsById,
-        [action.payload.dashboardId]: action.payload.dashboardState,
+        [action.payload.dashboardId]: {
+          name: "",
+          openCardIds: [],
+          layouts: [],
+          layoutCompaction: "free",
+          ...action.payload.dashboardState,
+        },
       },
     };
   }
