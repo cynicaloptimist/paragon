@@ -128,7 +128,7 @@ function writeFromServerToLocal(
 
   for (const collection of collections) {
     //Add new and updated items
-    for (const itemId in state[collection]) {
+    for (const itemId in serverProfile[collection]) {
       if (
         !isEqual(state[collection][itemId], serverProfile[collection][itemId])
       ) {
