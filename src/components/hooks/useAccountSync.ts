@@ -10,7 +10,7 @@ import { CardState } from "../../state/CardState";
 import { removeUndefinedNodesFromTree } from "./removeUndefinedNodesFromTree";
 
 const environment = process.env;
-  
+
 type ServerProfile = {
   lastUpdateTime: number;
   cardsById: Record<string, CardState>;
@@ -21,18 +21,20 @@ export function useAccountSync(
   state: AppState,
   dispatch: React.Dispatch<RootAction>
 ) {
-  if(!environment.REACT_APP_ENABLE_ACCOUNT_SYNC) {
+  if (!environment.REACT_APP_ENABLE_ACCOUNT_SYNC) {
     return;
   }
   /* eslint-disable react-hooks/rules-of-hooks */
-  useTwoWayDataSync(state, dispatch);
-  useUpdatesToServer(state, dispatch);
+  const [didSync, setDidSync] = useState(false);
+  useTwoWayDataSync(state, dispatch, () => setDidSync(true));
+  useUpdatesToServer(state, dispatch, didSync);
   /* eslint-enable */
 }
 
 function useTwoWayDataSync(
   state: AppState,
-  dispatch: React.Dispatch<RootAction>
+  dispatch: React.Dispatch<RootAction>,
+  done: () => void
 ) {
   const authListener = useRef<Unsubscribe | null>(null);
   useEffect(() => {
@@ -72,9 +74,10 @@ function useTwoWayDataSync(
 
       const currentTime = Date.now();
       localStorage.setItem("localLastUpdateTime", currentTime.toString());
-      database().ref(`users/${user.uid}/lastUpdateTime`).set(currentTime);
+      await database().ref(`users/${user.uid}/lastUpdateTime`).set(currentTime);
+      done();
     });
-  }, [state, dispatch]);
+  }, [state, dispatch, done]);
 }
 
 type SyncedCollection = keyof ServerProfile & keyof AppState;
@@ -142,13 +145,14 @@ function writeFromServerToLocal(
 
 function useUpdatesToServer(
   state: AppState,
-  dispatch: React.Dispatch<RootAction>
+  dispatch: React.Dispatch<RootAction>,
+  didSync: boolean
 ) {
   const previousState = useRef(state);
 
   const userId = useUserId();
   useEffect(() => {
-    if (!userId || !state.user.hasStorage) {
+    if (!didSync || !userId || !state.user.hasStorage) {
       return;
     }
 
@@ -175,7 +179,7 @@ function useUpdatesToServer(
     }
 
     previousState.current = state;
-  }, [state, dispatch, userId]);
+  }, [state, dispatch, userId, didSync]);
 }
 
 export function useUserId() {
