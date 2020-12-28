@@ -11,6 +11,7 @@ import { ActiveDashboardOf } from "../state/AppState";
 import { EditableText } from "./EditableText";
 import { LibrarySidebarControls } from "./LibrarySidebarControls";
 import { NewCardMenu } from "./NewCardMenu";
+import { RollAllTablesButton } from "./RollAllTablesButton";
 
 export const TopBar = () => {
   const { state, dispatch } = useContext(ReducerContext);
@@ -49,6 +50,7 @@ export const TopBar = () => {
       </Box>
       <Box direction="row" flex="grow">
         <NewCardMenu />
+        <RollAllTablesButton />
         <Menu
           dropAlign={{ right: "right", top: "bottom" }}
           icon={<FontAwesomeIcon icon={faEllipsisV} />}

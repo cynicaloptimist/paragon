@@ -174,11 +174,11 @@ function GetWeight(diceRange: string) {
   }
 }
 
-function RandomInt(max: number) {
+export function RandomInt(max: number) {
   return Math.ceil(Math.random() * max);
 }
 
-function GetRollTableModel(
+export function GetRollTableModel(
   card: RollTableCardState,
   rollResult: number
 ): RollTableModel {
