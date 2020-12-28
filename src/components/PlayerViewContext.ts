@@ -1,5 +1,7 @@
 import { createContext } from "react";
-type PlayerViewContext = {
+
+type PlayerView = {
   playerViewId: string;
 };
-export const PlayerViewContext = createContext<null | PlayerViewContext>(null);
+
+export const PlayerViewContext = createContext<null | PlayerView>(null);
