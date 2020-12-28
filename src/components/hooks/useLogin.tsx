@@ -28,9 +28,11 @@ export function useLogin(dispatch: React.Dispatch<RootAction>) {
           location.search = "";
           history.replace(location);
         } else {
-          if (!auth().currentUser) {
-            await auth().signInAnonymously();
-          }
+          auth().onAuthStateChanged(() => {
+            if (!auth().currentUser) {
+              auth().signInAnonymously();
+            }
+          });
         }
       } catch (e) {
         console.warn(e);
