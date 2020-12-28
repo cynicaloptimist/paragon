@@ -27,7 +27,7 @@ export const Actions = {
   }>(),
   UpdateDashboardFromServer: createAction("UpdateDashboardFromServer")<{
     dashboardId: string;
-    dashboardState: DashboardState;
+    dashboardState: Partial<DashboardState>;
   }>(),
 };
 
