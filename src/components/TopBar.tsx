@@ -1,25 +1,18 @@
 import {
   faEllipsisV,
-  faExternalLinkAlt,
-  faPlus
+  faExternalLinkAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, CheckBox, Header, Heading, Menu, Text } from "grommet";
 import React, { useCallback, useContext } from "react";
 import { Actions } from "../actions/Actions";
-import { CardActions } from "../actions/CardActions";
-import { randomString } from "../randomString";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { ActiveDashboardOf } from "../state/AppState";
 import { EditableText } from "./EditableText";
 import { LibrarySidebarControls } from "./LibrarySidebarControls";
+import { NewCardMenu } from "./NewCardMenu";
 
 export const TopBar = () => {
-  const addArticle = useDispatchAddCard("article");
-  const addClock = useDispatchAddCard("clock");
-  const addRollTable = useDispatchAddCard("roll-table");
-  const addDice = useDispatchAddCard("dice");
-  const addImage = useDispatchAddCard("image");
   const { state, dispatch } = useContext(ReducerContext);
 
   const setLayoutCompaction = useCallback(
@@ -54,33 +47,8 @@ export const TopBar = () => {
           Paragon Campaign Dashboard
         </Heading>
       </Box>
-      <Box direction="row">
-        <Menu
-          dropAlign={{ right: "right", top: "bottom" }}
-          icon={<FontAwesomeIcon icon={faPlus} />}
-          items={[
-            {
-              label: "Article",
-              onClick: addArticle,
-            },
-            {
-              label: "Clock",
-              onClick: addClock,
-            },
-            {
-              label: "Rollable Table",
-              onClick: addRollTable,
-            },
-            {
-              label: "Dice",
-              onClick: addDice,
-            },
-            {
-              label: "Image",
-              onClick: addImage,
-            },
-          ]}
-        />
+      <Box direction="row" flex="grow">
+        <NewCardMenu />
         <Menu
           dropAlign={{ right: "right", top: "bottom" }}
           icon={<FontAwesomeIcon icon={faEllipsisV} />}
@@ -113,14 +81,6 @@ export const TopBar = () => {
     </Header>
   );
 };
-
-function useDispatchAddCard(cardType: string) {
-  const { dispatch } = useContext(ReducerContext);
-  return useCallback(() => {
-    const cardId = randomString();
-    dispatch(CardActions.AddCard({ cardId, cardType }));
-  }, [cardType, dispatch]);
-}
 
 function DashboardNameWithEdit() {
   const { state, dispatch } = useContext(ReducerContext);
