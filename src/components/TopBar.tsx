@@ -1,28 +1,19 @@
-import {
-  faEllipsisV,
-  faExternalLinkAlt
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, CheckBox, Header, Heading, Menu, Text } from "grommet";
-import React, { useCallback, useContext } from "react";
+import { Box, Header, Heading } from "grommet";
+import React, { useContext } from "react";
 import { Actions } from "../actions/Actions";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { ActiveDashboardOf } from "../state/AppState";
+import { DashboardMenu } from "./DashboardMenu";
 import { EditableText } from "./EditableText";
 import { LibrarySidebarControls } from "./LibrarySidebarControls";
 import { NewCardMenu } from "./NewCardMenu";
 import { RollAllTablesButton } from "./RollAllTablesButton";
 
 export const TopBar = () => {
-  const { state, dispatch } = useContext(ReducerContext);
+  const { state } = useContext(ReducerContext);
 
-  const setLayoutCompaction = useCallback(
-    (compaction: "free" | "compact") =>
-      dispatch(Actions.SetLayoutCompaction({ layoutCompaction: compaction })),
-    [dispatch]
-  );
-
-  if (state.activeDashboardId == null) {
+  const dashboard = ActiveDashboardOf(state);
+  if (dashboard == null) {
     return (
       <Header background="brand" pad="small" fill="horizontal">
         <LibrarySidebarControls />
@@ -34,8 +25,6 @@ export const TopBar = () => {
       </Header>
     );
   }
-
-  const dashboard = state.dashboardsById[state.activeDashboardId];
 
   return (
     <Header background="brand" pad="small" fill="horizontal">
@@ -51,34 +40,7 @@ export const TopBar = () => {
       <Box direction="row" flex="grow">
         <NewCardMenu />
         <RollAllTablesButton />
-        <Menu
-          dropAlign={{ right: "right", top: "bottom" }}
-          icon={<FontAwesomeIcon icon={faEllipsisV} />}
-          items={[
-            dashboard.layoutCompaction === "free"
-              ? {
-                  label: <CheckBox label="Compact Card Layout" />,
-                  onClick: () => setLayoutCompaction("compact"),
-                }
-              : {
-                  label: <CheckBox label="Compact Card Layout" checked />,
-                  onClick: () => setLayoutCompaction("free"),
-                },
-            {
-              label: (
-                <Text>
-                  <FontAwesomeIcon
-                    icon={faExternalLinkAlt}
-                    style={{ padding: "0 5px 1px" }}
-                  />
-                  {"Player View: " + state.activeDashboardId}
-                </Text>
-              ),
-              onClick: () =>
-                window.open(`/p/${state.activeDashboardId}`, "_blank"),
-            },
-          ]}
-        />
+        <DashboardMenu dashboard={dashboard} />
       </Box>
     </Header>
   );
