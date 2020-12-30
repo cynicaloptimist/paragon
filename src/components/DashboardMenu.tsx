@@ -8,6 +8,7 @@ import React, { useCallback, useContext } from "react";
 import { Actions } from "../actions/Actions";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { DashboardState } from "../state/AppState";
+import { ShareDashboard } from "./ShareDashboard";
 
 export function DashboardMenu(props: { dashboard: DashboardState }) {
   const { state, dispatch } = useContext(ReducerContext);
@@ -43,6 +44,22 @@ export function DashboardMenu(props: { dashboard: DashboardState }) {
             </Text>
           ),
           onClick: () => window.open(`/p/${state.activeDashboardId}`, "_blank"),
+        },
+        {
+          label: (
+            <Text>
+              <FontAwesomeIcon
+                icon={faExternalLinkAlt}
+                style={{ padding: "0 5px 1px" }}
+              />
+              Share Dashboard
+            </Text>
+          ),
+          onClick: async () => {
+            if (await ShareDashboard(state)) {
+              window.open(`/d/${state.activeDashboardId}`, "_blank");
+            }
+          },
         },
       ]}
     />

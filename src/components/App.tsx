@@ -1,12 +1,13 @@
+import React from "react";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "../App.css";
-
-import React from "react";
-import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
-
+import { DashboardView } from "./DashboardView";
 import { GameMasterView } from "./GameMasterView";
 import { PlayerView } from "./PlayerView";
+
+
 
 const App = () => {
   return (
@@ -14,6 +15,9 @@ const App = () => {
       <Switch>
         <Route path="/p/:playerViewId">
           <PlayerView />
+        </Route>
+        <Route path="/d/:dashboardId">
+          <DashboardView />
         </Route>
         <Route path="/">
           <GameMasterView />
