@@ -64,8 +64,7 @@ function RollTable(props: { rollTableModel: RollTableModel }) {
       block: "center",
     });
 
-    // Chrome doesn't respect the smooth scroll on Player View for some reason,
-    // so as a workaround we scroll directly after a beat if it failed to scroll.
+    // Workaround for chromium bug https://bugs.chromium.org/p/chromium/issues/detail?id=833617
     setTimeout(() => {
       if (rolledElement.current?.scrollTop === scrollTop) {
         rolledElement.current.scrollIntoView({ block: "center" });
