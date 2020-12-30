@@ -7,7 +7,7 @@ import { ReducerContext } from "../reducers/ReducerContext";
 import { AppState } from "../state/AppState";
 import { Theme } from "../Theme";
 import { CardGrid } from "./CardGrid";
-import { PlayerViewTopBar } from "./PlayerViewTopBar";
+import { DashboardViewTopBar } from "./DashboardViewTopBar";
 import { restorePrunedEmptyArrays } from "./restorePrunedEmptyArrays";
 
 function useStateFromSharedDashboard(dashboardId: string) {
@@ -38,7 +38,7 @@ export function DashboardView() {
     return (
       <Grommet style={{ minHeight: "100%" }} theme={Theme}>
         <Box fill align="center">
-          <PlayerViewTopBar />
+          <DashboardViewTopBar />
         </Box>
       </Grommet>
     );
@@ -54,7 +54,7 @@ export function DashboardViewWithState(props: { loadedState: AppState }) {
     <ReducerContext.Provider value={{ state, dispatch }}>
       <Grommet style={{ minHeight: "100%" }} theme={Theme}>
         <Box fill align="center">
-          <PlayerViewTopBar />
+          <DashboardViewTopBar />
           <CardGrid />
         </Box>
       </Grommet>
