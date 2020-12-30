@@ -2,6 +2,7 @@ import { Box, Header, Heading } from "grommet";
 import React, { useContext } from "react";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { ActiveDashboardOf } from "../state/AppState";
+import { CopyDashboardButton } from "./CopyDashboardButton";
 import { RollAllTablesButton } from "./RollAllTablesButton";
 
 export const DashboardViewTopBar = () => {
@@ -18,6 +19,7 @@ export const DashboardViewTopBar = () => {
       </Box>
       <Box direction="row" flex="grow">
         <RollAllTablesButton />
+        <CopyDashboardButton />
       </Box>
     </Header>
   );
