@@ -19,6 +19,12 @@
         ".validate": "newData.isString()"
       }
     },
+    "shared": {
+      "$dashboardId": {
+        ".read": true,
+        ".write": true
+      }
+    },
     "pendingActions": {
       "$playerViewId": {
         ".read": true,
