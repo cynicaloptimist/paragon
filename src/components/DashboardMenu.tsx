@@ -25,11 +25,11 @@ export function DashboardMenu(props: { dashboard: DashboardState }) {
       items={[
         props.dashboard.layoutCompaction === "free"
           ? {
-              label: <CheckBox label="Compact Card Layout" />,
+              label: <CheckBox label="Auto-Compact Cards" />,
               onClick: () => setLayoutCompaction("compact"),
             }
           : {
-              label: <CheckBox label="Compact Card Layout" checked />,
+              label: <CheckBox label="Auto-Compact Cards" checked />,
               onClick: () => setLayoutCompaction("free"),
             },
         {
