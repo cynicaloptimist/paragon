@@ -22,6 +22,7 @@ export function LongPressButton(
     if (!interval.current) {
       interval.current = setInterval(() => {
         if (pressLengthRef.current > timeout) {
+          setPressLength(0);
           onLongPress();
         } else {
           setPressLength(pressLengthRef.current + DRAW_INTERVAL);
