@@ -9,6 +9,7 @@ import { Theme } from "../Theme";
 import { CardGrid } from "./CardGrid";
 import { DashboardViewTopBar } from "./DashboardViewTopBar";
 import { restorePrunedEmptyArrays } from "./restorePrunedEmptyArrays";
+import { ViewType, ViewTypeContext } from "./ViewTypeContext";
 
 function useStateFromSharedDashboard(dashboardId: string) {
   const [state, setState] = useState<AppState | null>(null);
@@ -52,12 +53,14 @@ export function DashboardViewWithState(props: { loadedState: AppState }) {
 
   return (
     <ReducerContext.Provider value={{ state, dispatch }}>
-      <Grommet style={{ minHeight: "100%" }} theme={Theme}>
-        <Box fill align="center">
-          <DashboardViewTopBar />
-          <CardGrid />
-        </Box>
-      </Grommet>
+      <ViewTypeContext.Provider value={ViewType.Dashboard}>
+        <Grommet style={{ minHeight: "100%" }} theme={Theme}>
+          <Box fill align="center">
+            <DashboardViewTopBar />
+            <CardGrid />
+          </Box>
+        </Grommet>
+      </ViewTypeContext.Provider>
     </ReducerContext.Provider>
   );
 }

@@ -25,9 +25,10 @@ export function DiceCard(props: { card: DiceCardState }) {
   const { dispatch } = useContext(ReducerContext);
   const { card } = props;
 
-  const isGmView = useContext(ViewTypeContext) === ViewType.GameMaster;
+  const viewType = useContext(ViewTypeContext);
   const canEdit =
-    isGmView || card.playerViewPermission === PlayerViewPermission.Interact;
+    viewType !== ViewType.Player ||
+    card.playerViewPermission === PlayerViewPermission.Interact;
 
   const rollDice = useCallback(
     (expression) => {

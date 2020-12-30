@@ -18,9 +18,9 @@ export function BaseCard(props: {
   cardState: CardState;
   children: React.ReactNode;
 }) {
-  const isGmView = useContext(ViewTypeContext) === ViewType.GameMaster;
+  const viewType = useContext(ViewTypeContext);
   const canEdit =
-    isGmView ||
+    viewType !== ViewType.Player ||
     props.cardState.playerViewPermission === PlayerViewPermission.Interact;
 
   const innerBoxRef = useRef<HTMLDivElement>(null);
@@ -58,17 +58,21 @@ function CardHeader(props: { cardState: CardState }) {
     }
     setHeaderEditable(false);
   };
-  const isGmView = useContext(ViewTypeContext) === ViewType.GameMaster;
+  const viewType = useContext(ViewTypeContext);
+  const isGmView = viewType === ViewType.GameMaster;
+  const isDashboardView = viewType === ViewType.Dashboard;
 
   return (
     <Header pad="xsmall" background="brand" height="3.4rem">
       <Box
         fill
-        className={isGmView ? "drag-handle" : undefined}
+        className={isGmView || isDashboardView ? "drag-handle" : undefined}
         direction="row"
         gap="xxsmall"
       >
-        {isGmView && <Button icon={<FontAwesomeIcon icon={faGripLines} />} />}
+        {(isGmView || isDashboardView) && (
+          <Button icon={<FontAwesomeIcon icon={faGripLines} />} />
+        )}
         {isHeaderEditable ? (
           <TextInput
             placeholder={props.cardState.title}
@@ -85,7 +89,9 @@ function CardHeader(props: { cardState: CardState }) {
           <Box
             fill
             direction="row"
-            onDoubleClick={() => isGmView && setHeaderEditable(true)}
+            onDoubleClick={() =>
+              (isGmView || isDashboardView) && setHeaderEditable(true)
+            }
             align="center"
           >
             <Heading level={3} margin="none" truncate>
@@ -94,7 +100,7 @@ function CardHeader(props: { cardState: CardState }) {
           </Box>
         )}
         {isGmView && <PlayerViewButton cardState={props.cardState} />}
-        {isGmView && (
+        {(isGmView || isDashboardView) && (
           <Button
             icon={<FontAwesomeIcon icon={faTimes} />}
             onClick={() =>

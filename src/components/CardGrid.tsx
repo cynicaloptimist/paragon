@@ -19,7 +19,7 @@ const MIN_GRID_UNITS_CARD_WIDTH = 4;
 
 export function CardGrid() {
   const { state, dispatch } = useContext(ReducerContext);
-  const isGmView = useContext(ViewTypeContext) === ViewType.GameMaster;
+  const canMoveCards = useContext(ViewTypeContext) !== ViewType.Player;
 
   if (
     state.activeDashboardId == null ||
@@ -33,11 +33,10 @@ export function CardGrid() {
   const dedupedLayouts = uniqBy(dashboard.layouts, (l) => l.i)
     .filter((l) => dashboard.openCardIds?.includes(l.i))
     .map<Layout>((l) => {
-      const canMoveCard = isGmView;
       const layout: Layout = {
         ...l,
-        isDraggable: canMoveCard,
-        isResizable: canMoveCard,
+        isDraggable: canMoveCards,
+        isResizable: canMoveCards,
       };
       return layout;
     });
@@ -70,7 +69,7 @@ export function CardGrid() {
         style={{ flexGrow: 1 }}
         layouts={{ xxl: dedupedLayouts }}
         onLayoutChange={(newLayout) => {
-          if (isGmView && !isEqual(dashboard.layouts, newLayout)) {
+          if (canMoveCards && !isEqual(dashboard.layouts, newLayout)) {
             dispatch(Actions.SetLayouts(newLayout));
           }
         }}

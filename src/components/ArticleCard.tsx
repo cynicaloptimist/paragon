@@ -18,9 +18,10 @@ export function ArticleCard(props: { card: ArticleCardState }) {
   );
 
   const [content, setContent] = React.useState(card.content);
-  const isGmView = useContext(ViewTypeContext) === ViewType.GameMaster;
+  const viewType = useContext(ViewTypeContext);
   const canEdit =
-    isGmView || card.playerViewPermission === PlayerViewPermission.Interact;
+    viewType !== ViewType.Player ||
+    card.playerViewPermission === PlayerViewPermission.Interact;
 
   return (
     <BaseCard

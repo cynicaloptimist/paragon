@@ -130,9 +130,9 @@ function ConfigureClock(props: {
 function ClockFace(props: { card: ClockCardState }) {
   const onClickSegment = useOnClickSegment(props);
   const [hoveredIndex, setHoveredIndex] = React.useState(-1);
-  const isGmView = React.useContext(ViewTypeContext) === ViewType.GameMaster;
+  const viewType = React.useContext(ViewTypeContext);
   const canEdit =
-    isGmView ||
+    viewType !== ViewType.Player ||
     props.card.playerViewPermission === PlayerViewPermission.Interact;
 
   const theme: ThemeType = React.useContext(ThemeContext);
@@ -177,9 +177,9 @@ function ClockFace(props: { card: ClockCardState }) {
 }
 
 function HorizontalClock(props: { card: ClockCardState }) {
-  const isGmView = React.useContext(ViewTypeContext) === ViewType.GameMaster;
+  const viewType = React.useContext(ViewTypeContext);
   const canEdit =
-    isGmView ||
+    viewType !== ViewType.Player ||
     props.card.playerViewPermission === PlayerViewPermission.Interact;
 
   const onClickSegment = useOnClickSegment(props);
