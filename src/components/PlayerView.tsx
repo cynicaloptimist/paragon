@@ -11,6 +11,7 @@ import { CardGrid } from "./CardGrid";
 import { removeUndefinedNodesFromTree } from "./hooks/removeUndefinedNodesFromTree";
 import { PlayerViewContext } from "./PlayerViewContext";
 import { PlayerViewTopBar } from "./PlayerViewTopBar";
+import { restorePrunedEmptyArrays } from "./restorePrunedEmptyArrays";
 
 function useRemoteState(
   playerViewId: string
@@ -57,20 +58,6 @@ function useRemoteState(
   };
 
   return [state, dispatch];
-}
-
-function restorePrunedEmptyArrays(
-  networkAppState: Partial<AppState>
-): AppState {
-  for (const dashboard of Object.values(networkAppState.dashboardsById || {})) {
-    dashboard.layouts = dashboard.layouts || [];
-    dashboard.openCardIds = dashboard.openCardIds || [];
-  }
-
-  return {
-    ...EmptyState(),
-    ...networkAppState,
-  };
 }
 
 export function PlayerView() {
