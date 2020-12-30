@@ -11,14 +11,14 @@ import React, { useContext, useRef } from "react";
 import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardState, PlayerViewPermission } from "../state/CardState";
-import { PlayerViewContext } from "./PlayerViewContext";
+import { ViewType, ViewTypeContext } from "./ViewTypeContext";
 
 export function BaseCard(props: {
   commands: React.ReactNode;
   cardState: CardState;
   children: React.ReactNode;
 }) {
-  const isGmView = useContext(PlayerViewContext) === null;
+  const isGmView = useContext(ViewTypeContext) === ViewType.GameMaster;
   const canEdit =
     isGmView ||
     props.cardState.playerViewPermission === PlayerViewPermission.Interact;
@@ -58,7 +58,7 @@ function CardHeader(props: { cardState: CardState }) {
     }
     setHeaderEditable(false);
   };
-  const isGmView = useContext(PlayerViewContext) === null;
+  const isGmView = useContext(ViewTypeContext) === ViewType.GameMaster;
 
   return (
     <Header pad="xsmall" background="brand" height="3.4rem">

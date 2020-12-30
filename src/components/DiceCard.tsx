@@ -17,7 +17,7 @@ import {
   PlayerViewPermission
 } from "../state/CardState";
 import { BaseCard } from "./BaseCard";
-import { PlayerViewContext } from "./PlayerViewContext";
+import { ViewType, ViewTypeContext } from "./ViewTypeContext";
 
 const dice = new Dice();
 
@@ -25,7 +25,7 @@ export function DiceCard(props: { card: DiceCardState }) {
   const { dispatch } = useContext(ReducerContext);
   const { card } = props;
 
-  const isGmView = useContext(PlayerViewContext) === null;
+  const isGmView = useContext(ViewTypeContext) === ViewType.GameMaster;
   const canEdit =
     isGmView || card.playerViewPermission === PlayerViewPermission.Interact;
 

@@ -16,7 +16,7 @@ import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { ClockCardState, PlayerViewPermission } from "../state/CardState";
 import { BaseCard } from "./BaseCard";
-import { PlayerViewContext } from "./PlayerViewContext";
+import { ViewType, ViewTypeContext } from "./ViewTypeContext";
 
 export function ClockCard(props: { card: ClockCardState }) {
   const [isConfigurable, setConfigurable] = React.useState(false);
@@ -130,7 +130,7 @@ function ConfigureClock(props: {
 function ClockFace(props: { card: ClockCardState }) {
   const onClickSegment = useOnClickSegment(props);
   const [hoveredIndex, setHoveredIndex] = React.useState(-1);
-  const isGmView = React.useContext(PlayerViewContext) === null;
+  const isGmView = React.useContext(ViewTypeContext) === ViewType.GameMaster;
   const canEdit =
     isGmView ||
     props.card.playerViewPermission === PlayerViewPermission.Interact;
@@ -177,7 +177,7 @@ function ClockFace(props: { card: ClockCardState }) {
 }
 
 function HorizontalClock(props: { card: ClockCardState }) {
-  const isGmView = React.useContext(PlayerViewContext) === null;
+  const isGmView = React.useContext(ViewTypeContext) === ViewType.GameMaster;
   const canEdit =
     isGmView ||
     props.card.playerViewPermission === PlayerViewPermission.Interact;

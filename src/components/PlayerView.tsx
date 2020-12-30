@@ -9,9 +9,9 @@ import { AppState, EmptyState } from "../state/AppState";
 import { Theme } from "../Theme";
 import { CardGrid } from "./CardGrid";
 import { removeUndefinedNodesFromTree } from "./hooks/removeUndefinedNodesFromTree";
-import { PlayerViewContext } from "./PlayerViewContext";
 import { PlayerViewTopBar } from "./PlayerViewTopBar";
 import { restorePrunedEmptyArrays } from "./restorePrunedEmptyArrays";
+import { ViewType, ViewTypeContext } from "./ViewTypeContext";
 
 function useRemoteState(
   playerViewId: string
@@ -66,14 +66,14 @@ export function PlayerView() {
 
   return (
     <ReducerContext.Provider value={{ state, dispatch }}>
-      <PlayerViewContext.Provider value={{ playerViewId: playerViewId }}>
+      <ViewTypeContext.Provider value={ViewType.Player}>
         <Grommet style={{ minHeight: "100%" }} theme={Theme}>
           <Box fill align="center">
             <PlayerViewTopBar />
             <CardGrid />
           </Box>
         </Grommet>
-      </PlayerViewContext.Provider>
+      </ViewTypeContext.Provider>
     </ReducerContext.Provider>
   );
 }

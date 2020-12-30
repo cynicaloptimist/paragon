@@ -10,8 +10,8 @@ import { ArticleCard } from "./ArticleCard";
 import { ClockCard } from "./ClockCard";
 import { DiceCard } from "./DiceCard";
 import { ImageCard } from "./ImageCard";
-import { PlayerViewContext } from "./PlayerViewContext";
 import { RollTableCard } from "./RollTableCard";
+import { ViewType, ViewTypeContext } from "./ViewTypeContext";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 const MIN_GRID_UNITS_CARD_HEIGHT = 3;
@@ -19,7 +19,7 @@ const MIN_GRID_UNITS_CARD_WIDTH = 4;
 
 export function CardGrid() {
   const { state, dispatch } = useContext(ReducerContext);
-  const isGmView = useContext(PlayerViewContext) === null;
+  const isGmView = useContext(ViewTypeContext) === ViewType.GameMaster;
 
   if (
     state.activeDashboardId == null ||

@@ -7,7 +7,7 @@ import { ReducerContext } from "../reducers/ReducerContext";
 import { CardsState } from "../state/AppState";
 import { ArticleCardState, PlayerViewPermission } from "../state/CardState";
 import { BaseCard } from "./BaseCard";
-import { PlayerViewContext } from "./PlayerViewContext";
+import { ViewType, ViewTypeContext } from "./ViewTypeContext";
 
 export function ArticleCard(props: { card: ArticleCardState }) {
   const { state, dispatch } = React.useContext(ReducerContext);
@@ -18,7 +18,7 @@ export function ArticleCard(props: { card: ArticleCardState }) {
   );
 
   const [content, setContent] = React.useState(card.content);
-  const isGmView = useContext(PlayerViewContext) === null;
+  const isGmView = useContext(ViewTypeContext) === ViewType.GameMaster;
   const canEdit =
     isGmView || card.playerViewPermission === PlayerViewPermission.Interact;
 
