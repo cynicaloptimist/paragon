@@ -1,14 +1,6 @@
 import { faCheck, faEdit, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  Box,
-  Button,
-  FormField,
-  TextInput,
-  ThemeContext,
-  ThemeType
-} from "grommet";
-import { normalizeColor } from "grommet/utils";
+import { Box, Button, FormField, TextInput } from "grommet";
 import * as React from "react";
 import { PieChart } from "react-minimal-pie-chart";
 import { Data as PieChartData } from "react-minimal-pie-chart/types/commonTypes";
@@ -16,6 +8,7 @@ import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { ClockCardState, PlayerViewPermission } from "../state/CardState";
 import { BaseCard } from "./BaseCard";
+import { useThemeColor } from "./hooks/useThemeColor";
 import { ViewType, ViewTypeContext } from "./ViewTypeContext";
 
 export function ClockCard(props: { card: ClockCardState }) {
@@ -38,11 +31,7 @@ export function ClockCard(props: { card: ClockCardState }) {
         <Button
           aria-label="toggle-edit-mode"
           onClick={() => setConfigurable(!isConfigurable)}
-          icon={
-            <FontAwesomeIcon
-              icon={isConfigurable ? faCheck : faEdit}
-            />
-          }
+          icon={<FontAwesomeIcon icon={isConfigurable ? faCheck : faEdit} />}
         />
       }
     >
@@ -134,24 +123,15 @@ function ClockFace(props: { card: ClockCardState }) {
     viewType !== ViewType.Player ||
     props.card.playerViewPermission === PlayerViewPermission.Interact;
 
-  const theme: ThemeType = React.useContext(ThemeContext);
-  const themeColor = normalizeColor(
-    theme.global?.colors?.brand || "brand",
-    theme
-  );
-  const offColor = normalizeColor(
-    theme.global?.colors?.["light-6"] || "light-6",
-    theme
-  );
-  const hoverColor = normalizeColor(
-    theme.global?.colors?.["brand-2"] || "brand-2",
-    theme
-  );
+  const brandColor = useThemeColor("brand");
+  const offColor = useThemeColor("light-6");
+  const hoverColor = useThemeColor("brand-2");
+
   let segments: PieChartData = [];
   for (let i = 0; i < props.card.max; i++) {
     let color = offColor;
     if (i < props.card.value) {
-      color = themeColor;
+      color = brandColor;
     }
     if (i === hoveredIndex) {
       color = hoverColor;
