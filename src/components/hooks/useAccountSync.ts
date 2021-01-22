@@ -162,13 +162,17 @@ function useUpdatesToServer(
       const allItemIds = union(Object.keys(items), Object.keys(previousItems));
 
       for (const itemId of allItemIds) {
-        if (!isEqual(items[itemId], previousItems[itemId])) {
-          if (items[itemId]) {
+        const newItemPruned = removeUndefinedNodesFromTree(items[itemId]);
+        const previousItemPruned = removeUndefinedNodesFromTree(
+          previousItems[itemId]
+        );
+
+        if (!isEqual(newItemPruned, previousItemPruned)) {
+          if (newItemPruned) {
             console.log(`Updating item ${itemId} on server`);
-            const cleanTree = removeUndefinedNodesFromTree(items[itemId]);
             database()
               .ref(`users/${userId}/${collection}/${itemId}`)
-              .set(cleanTree);
+              .set(newItemPruned);
           } else {
             console.log(`Deleting item ${itemId} on server`);
 
