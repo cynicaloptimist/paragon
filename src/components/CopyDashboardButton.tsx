@@ -15,29 +15,29 @@ export function CopyDashboardButton() {
     <Button
       icon={<FontAwesomeIcon icon={faCopy} />}
       label="Copy this Dashboard"
-      onClick={() => {
-        if (!state.activeDashboardId) {
-          return;
-        }
-        const storedStateJSON = localStorage.getItem("appState");
-        const storedState = storedStateJSON
-          ? JSON.parse(storedStateJSON)
-          : null;
-
-        const mergedState: AppState = merge(GetInitialState(), storedState);
-
-        const newDashboardId = randomString();
-        mergedState.activeDashboardId = newDashboardId;
-        mergedState.dashboardsById[newDashboardId] =
-          state.dashboardsById[state.activeDashboardId];
-        mergedState.cardsById = {
-          ...mergedState.cardsById,
-          ...state.cardsById,
-        };
-
-        localStorage.setItem("appState", JSON.stringify(mergedState));
-        window.location.href = "../../";
-      }}
+      onClick={() => SaveStateToLocalStorageAndRedirect(state)}
     />
   );
+}
+
+function SaveStateToLocalStorageAndRedirect(state: AppState) {
+  if (!state.activeDashboardId) {
+    return;
+  }
+  const storedStateJSON = localStorage.getItem("appState");
+  const storedState = storedStateJSON ? JSON.parse(storedStateJSON) : null;
+
+  const mergedState: AppState = merge(GetInitialState(), storedState);
+
+  const newDashboardId = randomString();
+  mergedState.activeDashboardId = newDashboardId;
+  mergedState.dashboardsById[newDashboardId] =
+    state.dashboardsById[state.activeDashboardId];
+  mergedState.cardsById = {
+    ...mergedState.cardsById,
+    ...state.cardsById,
+  };
+
+  localStorage.setItem("appState", JSON.stringify(mergedState));
+  window.location.href = "../../";
 }
