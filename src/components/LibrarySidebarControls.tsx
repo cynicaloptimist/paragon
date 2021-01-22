@@ -5,7 +5,6 @@ import cardStack from "../cards-regular.svg";
 import dashboardIcon from "../dm-screen-regular.svg";
 import { ReducerContext } from "../reducers/ReducerContext";
 
-
 export function LibrarySidebarControls() {
   const { state, dispatch } = useContext(ReducerContext);
 
@@ -26,15 +25,15 @@ export function LibrarySidebarControls() {
   }, [dispatch, state.librarySidebarMode]);
 
   return (
-    <Box direction="row">
+    <Box direction="row" gap="small">
       <Button
-        margin="2px"
         icon={<img src={cardStack} alt="Cards" height="22px" />}
-        onClick={toggleCardLibrary} />
+        onClick={toggleCardLibrary}
+      />
       <Button
-        margin="2px"
         icon={<img src={dashboardIcon} alt="Dashboards" height="22px" />}
-        onClick={toggleDashboardLibrary} />
+        onClick={toggleDashboardLibrary}
+      />
     </Box>
   );
 }

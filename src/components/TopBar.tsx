@@ -37,7 +37,7 @@ export const TopBar = () => {
           Paragon Campaign Dashboard
         </Heading>
       </Box>
-      <Box direction="row" flex="grow">
+      <Box direction="row" flex="grow" gap="small">
         <NewCardMenu />
         <RollAllTablesButton />
         <DashboardMenu dashboard={dashboard} />
