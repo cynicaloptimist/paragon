@@ -27,7 +27,7 @@ export function DashboardLibrary() {
         }
         fill="horizontal"
         label="New Dashboard"
-        icon={<FontAwesomeIcon size="sm" icon={faPlus} />}
+        icon={<FontAwesomeIcon icon={faPlus} />}
       />
     </Box>
   );

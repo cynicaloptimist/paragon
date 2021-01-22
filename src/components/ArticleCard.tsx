@@ -32,7 +32,6 @@ export function ArticleCard(props: { card: ArticleCardState }) {
           onClick={() => canEdit && setContentEditable(!isContentEditable)}
           icon={
             <FontAwesomeIcon
-              size="xs"
               icon={isContentEditable ? faCheck : faEdit}
             />
           }

@@ -123,7 +123,6 @@ function DiceRollRow(props: {
           {props.roll.expression}
           <FontAwesomeIcon
             icon={faArrowRight}
-            size="xs"
             style={{ padding: "0 5px 1px" }}
           />
           {props.roll.result}

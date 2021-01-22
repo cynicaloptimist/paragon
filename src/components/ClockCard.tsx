@@ -40,7 +40,6 @@ export function ClockCard(props: { card: ClockCardState }) {
           onClick={() => setConfigurable(!isConfigurable)}
           icon={
             <FontAwesomeIcon
-              size="xs"
               icon={isConfigurable ? faCheck : faEdit}
             />
           }

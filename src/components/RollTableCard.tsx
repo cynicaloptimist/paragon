@@ -28,14 +28,13 @@ export function RollTableCard(props: { card: RollTableCardState }) {
                 })
               )
             }
-            icon={<FontAwesomeIcon size="xs" icon={faDice} />}
+            icon={<FontAwesomeIcon icon={faDice} />}
           />
           <Button
             aria-label="toggle-edit-mode"
             onClick={() => setConfigurable(!isConfigurable)}
             icon={
               <FontAwesomeIcon
-                size="xs"
                 icon={isConfigurable ? faCheck : faEdit}
               />
             }
