@@ -14,6 +14,7 @@ import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardState, PlayerViewPermission } from "../state/CardState";
 import { useThemeColor } from "./hooks/useThemeColor";
+import { useToast } from "./hooks/useToast";
 import { ViewType, ViewTypeContext } from "./ViewTypeContext";
 
 export function BaseCard(props: {
@@ -22,6 +23,7 @@ export function BaseCard(props: {
   children: React.ReactNode;
 }) {
   const viewType = useContext(ViewTypeContext);
+  const [toast, popToast] = useToast(5000);
   const canEdit =
     viewType !== ViewType.Player ||
     props.cardState.playerViewPermission === PlayerViewPermission.Interact;
@@ -30,23 +32,30 @@ export function BaseCard(props: {
 
   return (
     <Box fill elevation="medium">
-      <CardHeader cardState={props.cardState} />
+      <CardHeader popToast={popToast} cardState={props.cardState} />
       <Box ref={innerBoxRef} flex pad="xxsmall">
         {props.children}
       </Box>
       <Footer
         background="brand"
-        justify="end"
+        justify="stretch"
         pad={{ right: "small" }}
         overflow={{ horizontal: "auto" }}
       >
+        <Box flex="grow" pad={{ horizontal: "small" }}>
+          {toast}
+        </Box>
+        <Box fill />
         {canEdit && props.commands}
       </Footer>
     </Box>
   );
 }
 
-function CardHeader(props: { cardState: CardState }) {
+function CardHeader(props: {
+  cardState: CardState;
+  popToast: (toast: string) => void;
+}) {
   const { dispatch } = React.useContext(ReducerContext);
   const [isHeaderEditable, setHeaderEditable] = React.useState<boolean>(false);
   const [headerInput, setHeaderInput] = React.useState<string>("");
@@ -102,7 +111,12 @@ function CardHeader(props: { cardState: CardState }) {
             </Heading>
           </Box>
         )}
-        {isGmView && <PlayerViewButton cardState={props.cardState} />}
+        {isGmView && (
+          <PlayerViewButton
+            cardState={props.cardState}
+            popToast={props.popToast}
+          />
+        )}
         {(isGmView || isDashboardView) && (
           <Button
             icon={<FontAwesomeIcon icon={faTimes} />}
@@ -132,7 +146,10 @@ function PlayerViewIcon(props: { topLayer: IconDefinition }) {
   );
 }
 
-function PlayerViewButton(props: { cardState: CardState }) {
+function PlayerViewButton(props: {
+  cardState: CardState;
+  popToast: (message: string) => void;
+}) {
   const { state, dispatch } = useContext(ReducerContext);
 
   if (props.cardState.playerViewPermission === PlayerViewPermission.Visible) {
@@ -140,16 +157,23 @@ function PlayerViewButton(props: { cardState: CardState }) {
       <Button
         icon={<PlayerViewIcon topLayer={faEye} />}
         hoverIndicator
-        onClick={() =>
+        onClick={() => {
+          const permission = state.user.hasEpic
+            ? PlayerViewPermission.Interact
+            : PlayerViewPermission.Hidden;
           dispatch(
             CardActions.SetPlayerViewPermission({
               cardId: props.cardState.cardId,
-              playerViewPermission: state.user.hasEpic
-                ? PlayerViewPermission.Interact
-                : PlayerViewPermission.Hidden,
+              playerViewPermission: permission,
             })
-          )
-        }
+          );
+          if (permission === PlayerViewPermission.Interact) {
+            props.popToast("Interactable in Player View");
+          }
+          if (permission === PlayerViewPermission.Hidden) {
+            props.popToast("Hidden from Player View");
+          }
+        }}
       />
     );
   }
@@ -159,14 +183,15 @@ function PlayerViewButton(props: { cardState: CardState }) {
       <Button
         icon={<PlayerViewIcon topLayer={faPencilAlt} />}
         hoverIndicator
-        onClick={() =>
+        onClick={() => {
           dispatch(
             CardActions.SetPlayerViewPermission({
               cardId: props.cardState.cardId,
               playerViewPermission: PlayerViewPermission.Hidden,
             })
-          )
-        }
+          );
+          props.popToast("Hidden from Player View");
+        }}
       />
     );
   }
@@ -176,14 +201,15 @@ function PlayerViewButton(props: { cardState: CardState }) {
       icon={<PlayerViewIcon topLayer={faEyeSlash} />}
       color="text-fade"
       hoverIndicator
-      onClick={() =>
+      onClick={() => {
         dispatch(
           CardActions.SetPlayerViewPermission({
             cardId: props.cardState.cardId,
             playerViewPermission: PlayerViewPermission.Visible,
           })
-        )
-      }
+        );
+        props.popToast("Revealed in Player View");
+      }}
     />
   );
 }
