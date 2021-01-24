@@ -42,9 +42,15 @@ export function BaseCard(props: {
         pad={{ right: "small" }}
         overflow={{ horizontal: "auto" }}
       >
-        <Box flex="grow" pad={{ horizontal: "small" }}>
-          {toast}
-        </Box>
+        {toast && (
+          <Box
+            flex="grow"
+            pad={{ horizontal: "small" }}
+            animation={{ type: "fadeIn", duration: 500 }}
+          >
+            {toast}
+          </Box>
+        )}
         <Box fill />
         {canEdit && props.commands}
       </Footer>
