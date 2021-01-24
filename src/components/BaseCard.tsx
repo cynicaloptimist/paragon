@@ -3,7 +3,9 @@ import {
   faEyeSlash,
   faGripLines,
   faPencilAlt,
-  faTimes
+  faTimes,
+  faUserFriends,
+  IconDefinition
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, Footer, Header, Heading, TextInput } from "grommet";
@@ -11,6 +13,7 @@ import React, { useContext, useRef } from "react";
 import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardState, PlayerViewPermission } from "../state/CardState";
+import { useThemeColor } from "./hooks/useThemeColor";
 import { ViewType, ViewTypeContext } from "./ViewTypeContext";
 
 export function BaseCard(props: {
@@ -115,13 +118,27 @@ function CardHeader(props: { cardState: CardState }) {
   );
 }
 
+function PlayerViewIcon(props: { topLayer: IconDefinition }) {
+  const textColor = useThemeColor("text");
+  return (
+    <span className="fa-layers fa-fw">
+      <FontAwesomeIcon icon={props.topLayer} transform="grow-4 up-2 left-4" />
+      <FontAwesomeIcon
+        icon={faUserFriends}
+        transform="right-8 down-7 shrink-5 flip-h"
+        color={textColor}
+      />
+    </span>
+  );
+}
+
 function PlayerViewButton(props: { cardState: CardState }) {
   const { state, dispatch } = useContext(ReducerContext);
 
   if (props.cardState.playerViewPermission === PlayerViewPermission.Visible) {
     return (
       <Button
-        icon={<FontAwesomeIcon icon={faEye} />}
+        icon={<PlayerViewIcon topLayer={faEye} />}
         hoverIndicator
         onClick={() =>
           dispatch(
@@ -140,7 +157,7 @@ function PlayerViewButton(props: { cardState: CardState }) {
   if (props.cardState.playerViewPermission === PlayerViewPermission.Interact) {
     return (
       <Button
-        icon={<FontAwesomeIcon icon={faPencilAlt} />}
+        icon={<PlayerViewIcon topLayer={faPencilAlt} />}
         hoverIndicator
         onClick={() =>
           dispatch(
@@ -156,7 +173,7 @@ function PlayerViewButton(props: { cardState: CardState }) {
 
   return (
     <Button
-      icon={<FontAwesomeIcon icon={faEyeSlash} />}
+      icon={<PlayerViewIcon topLayer={faEyeSlash} />}
       color="text-fade"
       hoverIndicator
       onClick={() =>
