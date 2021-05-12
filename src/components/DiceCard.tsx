@@ -92,6 +92,7 @@ export function DiceCard(props: { card: DiceCardState }) {
             if (e.key === "Enter" && diceInput.length > 0) {
               rollDice(diceInput);
               setDiceInput("");
+              setLookback(0);
             }
             if (e.key === "ArrowUp" && lookback < card.history.length) {
               setDiceInput(
