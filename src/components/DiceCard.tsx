@@ -75,6 +75,7 @@ export function DiceCard(props: { card: DiceCardState }) {
           {quickDie("d10")}
           {quickDie("d12")}
           {quickDie("d20")}
+          {quickDie("d100")}
         </>
       }
     >
