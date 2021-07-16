@@ -12,7 +12,11 @@ export function RollTableCard(props: { card: RollTableCardState }) {
   const { card } = props;
 
   const [isConfigurable, setConfigurable] = useState(false);
-  const rollTableModel = GetRollTableModel(card, card.lastRoll || 0);
+  const lastRoll =
+    card.rollHistory.length > 0
+      ? card.rollHistory[card.rollHistory.length - 1]
+      : 0;
+  const rollTableModel = GetRollTableModel(card, lastRoll);
 
   return (
     <BaseCard
@@ -33,11 +37,7 @@ export function RollTableCard(props: { card: RollTableCardState }) {
           <Button
             aria-label="toggle-edit-mode"
             onClick={() => setConfigurable(!isConfigurable)}
-            icon={
-              <FontAwesomeIcon
-                icon={isConfigurable ? faCheck : faEdit}
-              />
-            }
+            icon={<FontAwesomeIcon icon={isConfigurable ? faCheck : faEdit} />}
           />
         </>
       }

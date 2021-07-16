@@ -2,7 +2,11 @@ import { createReducer } from "typesafe-actions";
 import { RootAction } from "../actions/Actions";
 import { CardAction, CardActions } from "../actions/CardActions";
 import { CardsState } from "../state/AppState";
-import { CardState, DiceCardState } from "../state/CardState";
+import {
+  CardState,
+  DiceCardState,
+  RollTableCardState
+} from "../state/CardState";
 
 function mergeCardState<T extends CardState>(
   oldState: CardsState,
@@ -65,8 +69,10 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
     });
   })
   .handleAction(CardActions.SetRollTableLastRoll, (oldState, action) => {
+    const oldCard = oldState[action.payload.cardId] as RollTableCardState;
+
     return mergeCardState(oldState, action, {
-      lastRoll: action.payload.rollResult,
+      rollHistory: [...(oldCard.rollHistory || []), action.payload.rollResult],
     });
   })
   .handleAction(CardActions.SetImageUrl, (oldState, action) => {

@@ -100,7 +100,7 @@ function getComponentForCard(card: CardState) {
   if (card.type === "clock") {
     return <ClockCard card={card} />;
   }
-  if (card.type === "roll-table") {
+  if (card.type === "roll-table-h") {
     return <RollTableCard card={card} />;
   }
   if (card.type === "image") {

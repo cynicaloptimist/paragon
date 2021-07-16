@@ -18,9 +18,9 @@ export type ClockCardState = BaseCardState & {
 };
 
 export type RollTableCardState = BaseCardState & {
-  type: "roll-table";
+  type: "roll-table-h";
   entries: RollTableEntry[];
-  lastRoll: number | null;
+  rollHistory: number [];
 };
 
 export type RollTableEntry = {

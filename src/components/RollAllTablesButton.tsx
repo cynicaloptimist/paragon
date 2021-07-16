@@ -12,7 +12,7 @@ export function RollAllTablesButton() {
   const { state, dispatch } = useContext(ReducerContext);
   const dashboard = ActiveDashboardOf(state);
   const openCards = dashboard?.openCardIds?.map((id) => state.cardsById[id]);
-  const isRollTableCard = (card: CardState): card is RollTableCardState => card.type === "roll-table";
+  const isRollTableCard = (card: CardState): card is RollTableCardState => card.type === "roll-table-h";
   const tableCards: RollTableCardState[] = openCards?.filter(isRollTableCard) || [];
   if (tableCards?.length < 2) {
     return null;

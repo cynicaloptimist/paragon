@@ -1,9 +1,9 @@
 import { ActionType, createAction } from "typesafe-actions";
 import {
-  CardState,
   PlayerViewPermission,
   RollTableEntry
 } from "../state/CardState";
+import { LegacyCardState } from "../state/LegacyCardState";
 
 export const CardActions = {
   AddCard: createAction("AddCard")<{
@@ -15,7 +15,7 @@ export const CardActions = {
   DeleteCard: createAction("DeleteCard")<{ cardId: string }>(),
   UpdateCardFromServer: createAction("UpdateCardFromServer")<{
     cardId: string;
-    cardState: CardState;
+    cardState: LegacyCardState;
   }>(),
   SetCardContent: createAction("SetCardContent")<{
     cardId: string;

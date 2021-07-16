@@ -4,6 +4,7 @@ import { Actions, RootAction } from "../actions/Actions";
 import { CardActions } from "../actions/CardActions";
 import { AppState, DashboardState } from "../state/AppState";
 import { InitialCardState } from "../state/InitialCardState";
+import { UpdateCardState as UpdateLegacyCardState } from "../state/LegacyCardState";
 import { CardsReducer } from "./CardsReducer";
 import { DashboardReducer } from "./DashboardReducer";
 
@@ -40,7 +41,9 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
       ...oldState,
       cardsById: {
         ...oldState.cardsById,
-        [action.payload.cardId]: action.payload.cardState,
+        [action.payload.cardId]: UpdateLegacyCardState(
+          action.payload.cardState
+        ),
       },
     };
   }

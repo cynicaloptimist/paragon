@@ -29,11 +29,11 @@ export function InitialCardState(
     };
   }
 
-  if (type === "roll-table") {
+  if (type === "roll-table-h") {
     return {
       ...baseCard,
       type,
-      lastRoll: null,
+      rollHistory: [],
       entries: [
         { weight: 3, content: "Miss" },
         { weight: 2, content: "Partial" },

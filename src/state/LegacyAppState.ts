@@ -8,6 +8,7 @@ import {
   UserState
 } from "./AppState";
 import { GetInitialState } from "./GetInitialState";
+import { LegacyCardState, UpdateCardState } from "./LegacyCardState";
 
 export type LegacyAppState = {
   //new
@@ -17,7 +18,7 @@ export type LegacyAppState = {
   user?: UserState;
 
   //current
-  cardsById: CardsState;
+  cardsById: LegacyCardsState;
   cardLibraryVisibility: boolean;
 
   //legacy
@@ -27,6 +28,8 @@ export type LegacyAppState = {
   layoutCompaction?: "free" | "compact";
 };
 
+type LegacyCardsState = Record<string, LegacyCardState>;
+
 export function UpdateMissingOrLegacyAppState(
   storedState: LegacyAppState | null
 ): AppState {
@@ -34,12 +37,18 @@ export function UpdateMissingOrLegacyAppState(
     return GetInitialState();
   }
 
+  const convertedCards: CardsState = {};
+
+  for (const cardId of Object.keys(storedState.cardsById)) {
+    convertedCards[cardId] = UpdateCardState(storedState.cardsById[cardId]);
+  }
+
   const appState: AppState = {
     ...EmptyState(),
     ...storedState,
+    cardsById: convertedCards,
   };
 
-  appState.cardsById = storedState.cardsById;
   appState.librarySidebarMode =
     storedState.librarySidebarMode ?? storedState.cardLibraryVisibility
       ? "cards"

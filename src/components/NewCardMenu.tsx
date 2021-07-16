@@ -9,7 +9,7 @@ import { ReducerContext } from "../reducers/ReducerContext";
 export function NewCardMenu() {
   const addArticle = useDispatchAddCard("article");
   const addClock = useDispatchAddCard("clock");
-  const addRollTable = useDispatchAddCard("roll-table");
+  const addRollTable = useDispatchAddCard("roll-table-h");
   const addDice = useDispatchAddCard("dice");
   const addImage = useDispatchAddCard("image");
 
