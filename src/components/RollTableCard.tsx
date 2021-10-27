@@ -11,7 +11,7 @@ export function RollTableCard(props: { card: RollTableCardState }) {
   const { dispatch } = useContext(ReducerContext);
   const { card } = props;
 
-  const [isConfigurable, setConfigurable] = useState(false);
+  const [currentView, setCurrentView] = useState("table");
   const lastRoll =
     card.rollHistory.length > 0
       ? card.rollHistory[card.rollHistory.length - 1]
@@ -36,17 +36,22 @@ export function RollTableCard(props: { card: RollTableCardState }) {
           />
           <Button
             aria-label="toggle-edit-mode"
-            onClick={() => setConfigurable(!isConfigurable)}
-            icon={<FontAwesomeIcon icon={isConfigurable ? faCheck : faEdit} />}
+            onClick={() =>
+              setCurrentView(currentView === "edit" ? "table" : "edit")
+            }
+            icon={
+              <FontAwesomeIcon
+                icon={currentView === "edit" ? faCheck : faEdit}
+              />
+            }
           />
         </>
       }
     >
-      {isConfigurable ? (
+      {currentView === "edit" && (
         <RollTableConfiguration rollTableModel={rollTableModel} />
-      ) : (
-        <RollTable rollTableModel={rollTableModel} />
       )}
+      {currentView === "table" && <RollTable rollTableModel={rollTableModel} />}
     </BaseCard>
   );
 }
