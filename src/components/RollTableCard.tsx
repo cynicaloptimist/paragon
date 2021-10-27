@@ -1,4 +1,9 @@
-import { faCheck, faDice, faEdit } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheck,
+  faDice,
+  faEdit,
+  faHistory
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, TextArea } from "grommet";
 import React, { useContext, useEffect, useRef, useState } from "react";
@@ -23,6 +28,16 @@ export function RollTableCard(props: { card: RollTableCardState }) {
       cardState={card}
       commands={
         <>
+          <Button
+            onClick={() =>
+              setCurrentView(currentView === "history" ? "table" : "history")
+            }
+            icon={
+              <FontAwesomeIcon
+                icon={currentView === "history" ? faCheck : faHistory}
+              />
+            }
+          />
           <Button
             onClick={() =>
               dispatch(
@@ -52,6 +67,12 @@ export function RollTableCard(props: { card: RollTableCardState }) {
         <RollTableConfiguration rollTableModel={rollTableModel} />
       )}
       {currentView === "table" && <RollTable rollTableModel={rollTableModel} />}
+      {currentView === "history" && (
+        <RollTableHistory
+          rollTableModel={rollTableModel}
+          rollHistory={card.rollHistory}
+        />
+      )}
     </BaseCard>
   );
 }
@@ -179,6 +200,56 @@ function GetWeight(diceRange: string) {
 
 export function RandomInt(max: number) {
   return Math.ceil(Math.random() * max);
+}
+
+function RollTableHistory(props: {
+  rollTableModel: RollTableModel;
+  rollHistory: number[];
+}) {
+  const scrollBottom = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    scrollBottom.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+    });
+  }, [props.rollHistory]);
+
+  return (
+    <Box>
+      <Box
+        direction="row"
+        flex="grow"
+        pad={{ vertical: "xsmall" }}
+        style={{ fontWeight: "bold", borderBottom: "1px solid" }}
+      >
+        <Box width="xsmall" align="center">
+          Rolled
+        </Box>
+        <Box>Result History</Box>
+      </Box>
+      <Box overflow="auto">
+        {props.rollHistory.map((roll, index) => {
+          return (
+            <Box
+              key={index}
+              direction="row"
+              flex="grow"
+              background={
+                index === props.rollHistory.length - 1 ? "brand-2" : ""
+              }
+            >
+              <Box flex={false} width="xsmall" align="center">
+                {roll}
+              </Box>
+              <Box>{props.rollTableModel.entries[roll - 1].content}</Box>
+            </Box>
+          );
+        })}
+        <Box ref={scrollBottom} />
+      </Box>
+    </Box>
+  );
 }
 
 export function GetRollTableModel(
