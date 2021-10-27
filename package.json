@@ -27,6 +27,7 @@
     "react-minimal-pie-chart": "^8.1.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.1",
+    "rich-markdown-editor": "^11.18.12",
     "styled-components": "^5.1.0",
     "typesafe-actions": "^5.1.0",
     "typescript": "^4.0.5"
