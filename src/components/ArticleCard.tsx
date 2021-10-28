@@ -13,20 +13,13 @@ import { useThemeColor } from "./hooks/useThemeColor";
 import { ViewType, ViewTypeContext } from "./ViewTypeContext";
 
 export function ArticleCard(props: { card: ArticleCardState }) {
-  const { state, dispatch } = React.useContext(ReducerContext);
   const { card } = props;
 
   const [isContentEditable, setContentEditable] = React.useState(
     card.content.length === 0
   );
 
-  const [content, setContent] = React.useState(card.content);
   const viewType = useContext(ViewTypeContext);
-  const themeColors = {
-    primary: useThemeColor("brand"),
-    secondary: useThemeColor("brand-2"),
-    text: useThemeColor("text"),
-  };
 
   const canEdit =
     viewType !== ViewType.Player ||
@@ -44,32 +37,7 @@ export function ArticleCard(props: { card: ArticleCardState }) {
       }
     >
       {isContentEditable ? (
-        <Editor
-          autoFocus
-          defaultValue={card.content}
-          onChange={(getValue) => {
-            setContent(getValue());
-          }}
-          onBlur={() => {
-            const updatedContent = ConvertDoubleBracketsToWikiLinks(
-              content,
-              state.cardsById
-            );
-            dispatch(
-              CardActions.SetCardContent({
-                cardId: card.cardId,
-                content: updatedContent,
-              })
-            );
-          }}
-          disableExtensions={["container_notice", "highlight"]}
-          theme={{
-            ...light,
-            toolbarBackground: themeColors.primary,
-            toolbarHoverBackground: themeColors.primary,
-            toolbarItem: themeColors.text,
-          }}
-        />
+        <ArticleEditor card={card} />
       ) : (
         <Box
           fill
@@ -115,6 +83,45 @@ const CardLink = (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
     </Text>
   );
 };
+
+function ArticleEditor(props: { card: ArticleCardState }) {
+  const { state, dispatch } = React.useContext(ReducerContext);
+  const [content, setContent] = React.useState(props.card.content);
+  const themeColors = {
+    primary: useThemeColor("brand"),
+    secondary: useThemeColor("brand-2"),
+    text: useThemeColor("text"),
+  };
+
+  return (
+    <Editor
+      autoFocus
+      defaultValue={props.card.content}
+      onChange={(getValue) => {
+        setContent(getValue());
+      }}
+      onBlur={() => {
+        const updatedContent = ConvertDoubleBracketsToWikiLinks(
+          content,
+          state.cardsById
+        );
+        dispatch(
+          CardActions.SetCardContent({
+            cardId: props.card.cardId,
+            content: updatedContent,
+          })
+        );
+      }}
+      disableExtensions={["container_notice", "highlight"]}
+      theme={{
+        ...light,
+        toolbarBackground: themeColors.primary,
+        toolbarHoverBackground: themeColors.primary,
+        toolbarItem: themeColors.text,
+      }}
+    />
+  );
+}
 
 function ConvertDoubleBracketsToWikiLinks(
   markdownString: string,
