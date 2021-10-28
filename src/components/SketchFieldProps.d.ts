@@ -36,4 +36,6 @@ export type SketchFieldProps = {
     className?: string
     // Style options to pass to container div of canvas
     style?: {}
+    // ref to the canvas element
+    ref: React.MutableRefObject<null>
 }
