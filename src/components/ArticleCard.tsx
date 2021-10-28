@@ -168,6 +168,7 @@ function ArticleEditor(props: {
       <Editor
         autoFocus
         defaultValue={props.card.content}
+        placeholder=""
         onChange={(getValue) => {
           setContent(getValue());
         }}
