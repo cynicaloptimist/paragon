@@ -5,7 +5,15 @@ import {
   faFont
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, Markdown, Text, TextArea } from "grommet";
+import {
+  Box,
+  Button,
+  Markdown,
+  Text,
+  TextArea,
+  ThemeContext,
+  ThemeType
+} from "grommet";
 import React, { useContext } from "react";
 import Editor from "rich-markdown-editor";
 import light from "rich-markdown-editor/dist/styles/theme";
@@ -119,7 +127,9 @@ function ArticleEditor(props: {
     primary: useThemeColor("brand"),
     secondary: useThemeColor("brand-2"),
     text: useThemeColor("text"),
+    background: useThemeColor("background"),
   };
+  const theme: ThemeType = React.useContext(ThemeContext);
 
   const saveCardContent = () => {
     const updatedContent = ConvertDoubleBracketsToWikiLinks(
@@ -161,6 +171,12 @@ function ArticleEditor(props: {
           toolbarBackground: themeColors.primary,
           toolbarHoverBackground: themeColors.primary,
           toolbarItem: themeColors.text,
+          background: themeColors.background,
+          codeBackground: themeColors.background,
+        }}
+        style={{
+          margin: theme.global?.edgeSize?.small || "6",
+          font: theme.global?.font?.family || "inherit",
         }}
       />
     );
