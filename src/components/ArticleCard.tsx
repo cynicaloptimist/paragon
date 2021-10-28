@@ -1,12 +1,15 @@
 import { faCheck, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, Markdown, Text, TextArea } from "grommet";
+import { Box, Button, Markdown, Text } from "grommet";
 import React, { useContext } from "react";
+import Editor from "rich-markdown-editor";
+import light from "rich-markdown-editor/dist/styles/theme";
 import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardsState } from "../state/AppState";
 import { ArticleCardState, PlayerViewPermission } from "../state/CardState";
 import { BaseCard } from "./BaseCard";
+import { useThemeColor } from "./hooks/useThemeColor";
 import { ViewType, ViewTypeContext } from "./ViewTypeContext";
 
 export function ArticleCard(props: { card: ArticleCardState }) {
@@ -19,6 +22,12 @@ export function ArticleCard(props: { card: ArticleCardState }) {
 
   const [content, setContent] = React.useState(card.content);
   const viewType = useContext(ViewTypeContext);
+  const themeColors = {
+    primary: useThemeColor("brand"),
+    secondary: useThemeColor("brand-2"),
+    text: useThemeColor("text"),
+  };
+
   const canEdit =
     viewType !== ViewType.Player ||
     card.playerViewPermission === PlayerViewPermission.Interact;
@@ -30,21 +39,16 @@ export function ArticleCard(props: { card: ArticleCardState }) {
         <Button
           aria-label="toggle-edit-mode"
           onClick={() => canEdit && setContentEditable(!isContentEditable)}
-          icon={
-            <FontAwesomeIcon
-              icon={isContentEditable ? faCheck : faEdit}
-            />
-          }
+          icon={<FontAwesomeIcon icon={isContentEditable ? faCheck : faEdit} />}
         />
       }
     >
       {isContentEditable ? (
-        <TextArea
-          fill
+        <Editor
           autoFocus
           defaultValue={card.content}
-          onChange={(changeEvent) => {
-            setContent(changeEvent.target.value);
+          onChange={(getValue) => {
+            setContent(getValue());
           }}
           onBlur={() => {
             const updatedContent = ConvertDoubleBracketsToWikiLinks(
@@ -57,6 +61,13 @@ export function ArticleCard(props: { card: ArticleCardState }) {
                 content: updatedContent,
               })
             );
+          }}
+          disableExtensions={["container_notice", "highlight"]}
+          theme={{
+            ...light,
+            toolbarBackground: themeColors.primary,
+            toolbarHoverBackground: themeColors.primary,
+            toolbarItem: themeColors.text,
           }}
         />
       ) : (
