@@ -4,8 +4,15 @@ import { Button } from "grommet";
 import React, { useState } from "react";
 import { DrawingCardState } from "../state/CardState";
 import { BaseCard } from "./BaseCard";
+import { SketchFieldProps } from "./SketchFieldProps";
 
-const { SketchField, Tools } = require("react-sketch2");
+const {
+  Tools,
+  SketchField,
+}: {
+  Tools: Record<string, string>;
+  SketchField: React.FC<SketchFieldProps>;
+} = require("react-sketch2");
 
 export function DrawingCard(props: { card: DrawingCardState }) {
   const [tool, setTool] = useState(Tools.Pencil);
