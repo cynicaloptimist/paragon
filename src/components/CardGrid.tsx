@@ -9,6 +9,7 @@ import { CardState } from "../state/CardState";
 import { ArticleCard } from "./ArticleCard";
 import { ClockCard } from "./ClockCard";
 import { DiceCard } from "./DiceCard";
+import { DrawingCard } from "./DrawingCard";
 import { ImageCard } from "./ImageCard";
 import { RollTableCard } from "./RollTableCard";
 import { ViewType, ViewTypeContext } from "./ViewTypeContext";
@@ -108,5 +109,8 @@ function getComponentForCard(card: CardState) {
   }
   if (card.type === "dice") {
     return <DiceCard card={card} />;
+  }
+  if (card.type === "drawing") {
+    return <DrawingCard card={card} />;
   }
 }

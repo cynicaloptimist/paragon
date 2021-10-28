@@ -3,7 +3,8 @@ export type CardState =
   | ClockCardState
   | RollTableCardState
   | ImageCardState
-  | DiceCardState;
+  | DiceCardState
+  | DrawingCardState;
 
 export type ArticleCardState = BaseCardState & {
   type: "article";
@@ -20,7 +21,7 @@ export type ClockCardState = BaseCardState & {
 export type RollTableCardState = BaseCardState & {
   type: "roll-table-h";
   entries: RollTableEntry[];
-  rollHistory: number [];
+  rollHistory: number[];
 };
 
 export type RollTableEntry = {
@@ -42,6 +43,10 @@ export type DiceRoll = {
   expression: string;
   result: string;
   total: number;
+};
+
+export type DrawingCardState = BaseCardState & {
+  type: "drawing";
 };
 
 export enum PlayerViewPermission {

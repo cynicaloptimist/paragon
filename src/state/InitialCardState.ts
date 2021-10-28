@@ -58,6 +58,13 @@ export function InitialCardState(
     };
   }
 
+  if (type === "drawing") {
+    return {
+      ...baseCard,
+      type,
+    };
+  }
+
   return {
     ...baseCard,
     type: "article",

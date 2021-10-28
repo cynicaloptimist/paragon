@@ -12,6 +12,7 @@ export function NewCardMenu() {
   const addRollTable = useDispatchAddCard("roll-table-h");
   const addDice = useDispatchAddCard("dice");
   const addImage = useDispatchAddCard("image");
+  const addDrawing = useDispatchAddCard("drawing");
 
   return (
     <Menu
@@ -38,6 +39,10 @@ export function NewCardMenu() {
         {
           label: "Image",
           onClick: addImage,
+        },
+        {
+          label: "Drawing",
+          onClick: addDrawing,
         },
       ]}
     />
