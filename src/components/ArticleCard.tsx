@@ -1,6 +1,11 @@
-import { faCheck, faEdit } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheck,
+  faCode,
+  faEdit,
+  faFont
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, Markdown, Text } from "grommet";
+import { Box, Button, Markdown, Text, TextArea } from "grommet";
 import React, { useContext } from "react";
 import Editor from "rich-markdown-editor";
 import light from "rich-markdown-editor/dist/styles/theme";
@@ -18,6 +23,8 @@ export function ArticleCard(props: { card: ArticleCardState }) {
   const [isContentEditable, setContentEditable] = React.useState(
     card.content.length === 0
   );
+  const [isMarkdownEditorActive, setMarkdownEditorActive] =
+    React.useState(false);
 
   const viewType = useContext(ViewTypeContext);
 
@@ -29,15 +36,33 @@ export function ArticleCard(props: { card: ArticleCardState }) {
     <BaseCard
       cardState={card}
       commands={
-        <Button
-          aria-label="toggle-edit-mode"
-          onClick={() => canEdit && setContentEditable(!isContentEditable)}
-          icon={<FontAwesomeIcon icon={isContentEditable ? faCheck : faEdit} />}
-        />
+        <>
+          {isContentEditable && (
+            <Button
+              aria-label="toggle-markdown-editing"
+              onClick={() => setMarkdownEditorActive(!isMarkdownEditorActive)}
+              icon={
+                <FontAwesomeIcon
+                  icon={isMarkdownEditorActive ? faFont : faCode}
+                />
+              }
+            />
+          )}
+          <Button
+            aria-label="toggle-edit-mode"
+            onClick={() => canEdit && setContentEditable(!isContentEditable)}
+            icon={
+              <FontAwesomeIcon icon={isContentEditable ? faCheck : faEdit} />
+            }
+          />
+        </>
       }
     >
       {isContentEditable ? (
-        <ArticleEditor card={card} />
+        <ArticleEditor
+          card={card}
+          isMarkdownEditorActive={isMarkdownEditorActive}
+        />
       ) : (
         <Box
           fill
@@ -84,7 +109,10 @@ const CardLink = (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
   );
 };
 
-function ArticleEditor(props: { card: ArticleCardState }) {
+function ArticleEditor(props: {
+  card: ArticleCardState;
+  isMarkdownEditorActive: boolean;
+}) {
   const { state, dispatch } = React.useContext(ReducerContext);
   const [content, setContent] = React.useState(props.card.content);
   const themeColors = {
@@ -93,34 +121,50 @@ function ArticleEditor(props: { card: ArticleCardState }) {
     text: useThemeColor("text"),
   };
 
-  return (
-    <Editor
-      autoFocus
-      defaultValue={props.card.content}
-      onChange={(getValue) => {
-        setContent(getValue());
-      }}
-      onBlur={() => {
-        const updatedContent = ConvertDoubleBracketsToWikiLinks(
-          content,
-          state.cardsById
-        );
-        dispatch(
-          CardActions.SetCardContent({
-            cardId: props.card.cardId,
-            content: updatedContent,
-          })
-        );
-      }}
-      disableExtensions={["container_notice", "highlight"]}
-      theme={{
-        ...light,
-        toolbarBackground: themeColors.primary,
-        toolbarHoverBackground: themeColors.primary,
-        toolbarItem: themeColors.text,
-      }}
-    />
-  );
+  const saveCardContent = () => {
+    const updatedContent = ConvertDoubleBracketsToWikiLinks(
+      content,
+      state.cardsById
+    );
+    dispatch(
+      CardActions.SetCardContent({
+        cardId: props.card.cardId,
+        content: updatedContent,
+      })
+    );
+  };
+
+  if (props.isMarkdownEditorActive) {
+    return (
+      <TextArea
+        fill
+        autoFocus
+        defaultValue={props.card.content}
+        onChange={(changeEvent) => {
+          setContent(changeEvent.target.value);
+        }}
+        onBlur={saveCardContent}
+      />
+    );
+  } else {
+    return (
+      <Editor
+        autoFocus
+        defaultValue={props.card.content}
+        onChange={(getValue) => {
+          setContent(getValue());
+        }}
+        onBlur={saveCardContent}
+        disableExtensions={["container_notice", "highlight"]}
+        theme={{
+          ...light,
+          toolbarBackground: themeColors.primary,
+          toolbarHoverBackground: themeColors.primary,
+          toolbarItem: themeColors.text,
+        }}
+      />
+    );
+  }
 }
 
 function ConvertDoubleBracketsToWikiLinks(
