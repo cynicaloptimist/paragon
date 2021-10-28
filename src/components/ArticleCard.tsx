@@ -28,9 +28,6 @@ import { ViewType, ViewTypeContext } from "./ViewTypeContext";
 export function ArticleCard(props: { card: ArticleCardState }) {
   const { card } = props;
 
-  const [isContentEditable, setContentEditable] = React.useState(
-    card.content.length === 0
-  );
   const [isMarkdownEditorActive, setMarkdownEditorActive] =
     React.useState(false);
 
@@ -40,12 +37,16 @@ export function ArticleCard(props: { card: ArticleCardState }) {
     viewType !== ViewType.Player ||
     card.playerViewPermission === PlayerViewPermission.Interact;
 
+  const [isContentEditable, setContentEditable] = React.useState(
+    canEdit && card.content.length === 0
+  );
+
   return (
     <BaseCard
       cardState={card}
       commands={
         <>
-          {isContentEditable && (
+          {canEdit && isContentEditable && (
             <Button
               aria-label="toggle-markdown-editing"
               onClick={() => setMarkdownEditorActive(!isMarkdownEditorActive)}
@@ -179,6 +180,7 @@ function ArticleEditor(props: {
           toolbarItem: themeColors.text,
           background: themeColors.background,
           codeBackground: themeColors.background,
+          blockToolbarBackground: themeColors.background,
         }}
         style={{
           font: theme.global?.font?.family || "inherit",
