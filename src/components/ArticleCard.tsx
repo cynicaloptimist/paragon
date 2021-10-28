@@ -86,7 +86,7 @@ export function ArticleCard(props: { card: ArticleCardState }) {
               },
             }}
           >
-            {card.content}
+            {card.content.replace(/\\\n/g, "\n")}
           </Markdown>
         </Box>
       )}
