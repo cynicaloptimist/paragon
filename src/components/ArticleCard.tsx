@@ -67,10 +67,16 @@ export function ArticleCard(props: { card: ArticleCardState }) {
       }
     >
       {isContentEditable ? (
-        <ArticleEditor
-          card={card}
-          isMarkdownEditorActive={isMarkdownEditorActive}
-        />
+        <Box
+          fill
+          pad={{ horizontal: "medium" }}
+          overflow={{ vertical: "auto" }}
+        >
+          <ArticleEditor
+            card={card}
+            isMarkdownEditorActive={isMarkdownEditorActive}
+          />
+        </Box>
       ) : (
         <Box
           fill
@@ -175,7 +181,6 @@ function ArticleEditor(props: {
           codeBackground: themeColors.background,
         }}
         style={{
-          margin: theme.global?.edgeSize?.small || "6",
           font: theme.global?.font?.family || "inherit",
         }}
       />
