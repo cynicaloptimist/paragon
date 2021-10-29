@@ -1,5 +1,9 @@
-import { faMousePointer, faPen } from "@fortawesome/free-solid-svg-icons";
-import { faSquare } from "@fortawesome/free-regular-svg-icons";
+import {
+  faHighlighter,
+  faMousePointer,
+  faPen,
+} from "@fortawesome/free-solid-svg-icons";
+import { faCircle, faSquare } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button } from "grommet";
 import _ from "lodash";
@@ -73,6 +77,7 @@ export function DrawingCard(props: { card: DrawingCardState }) {
     },
     { name: Tools.Pencil, icon: faPen },
     { name: Tools.Rectangle, icon: faSquare },
+    { name: Tools.Circle, icon: faCircle },
   ];
 
   return (
