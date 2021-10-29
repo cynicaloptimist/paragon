@@ -38,6 +38,30 @@ export type SketchFieldProps = {
   style?: {};
   // ref to the canvas element
   ref: React.MutableRefObject<null>;
+  // event object added
+  onObjectAdded?: (event: any) => void;
+  // event object modified
+  onObjectModified?: (event: any) => void;
+  // event object removed
+  onObjectRemoved?: (event: any) => void;
+  // event mouse down
+  onMouseDown?: (event: any) => void;
+  // event mouse move
+  onMouseMove?: (event: any) => void;
+  // event mouse up
+  onMouseUp?: (event: any) => void;
+  // event mouse out
+  onMouseOut?: (event: any) => void;
+  // event object move
+  onObjectMoving?: (event: any) => void;
+  // event object scale
+  onObjectScaling?: (event: any) => void;
+  // event object rotating
+  onObjectRotating?: (event: any) => void;
 };
 
-export type SketchModel = {};
+export type SketchModel = {
+  background: string;
+  objects: any[];
+  version: string;
+};
