@@ -67,6 +67,7 @@ export function DrawingCard(props: { card: DrawingCardState }) {
       }
     }
 
+    // The sketch objects must be stringified to preserve null values in Firebase.
     const newSketchJSON: SketchModelJSON = {
       ...sketchModel,
       objectJSONs: sketchModel.objects.map((object: any) =>
