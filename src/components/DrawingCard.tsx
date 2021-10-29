@@ -1,8 +1,5 @@
-import {
-  faMousePointer,
-  faPen,
-  faSquare,
-} from "@fortawesome/free-solid-svg-icons";
+import { faMousePointer, faPen } from "@fortawesome/free-solid-svg-icons";
+import { faSquare } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button } from "grommet";
 import _ from "lodash";
