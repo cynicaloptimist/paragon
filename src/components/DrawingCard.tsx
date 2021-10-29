@@ -42,12 +42,12 @@ export function DrawingCard(props: { card: DrawingCardState }) {
       return;
     }
 
-    const sketchModel: SketchModel = sketch.current.toJSON();
+    const newSketchModel: SketchModel = sketch.current.toJSON();
 
     // The sketch objects must be stringified to preserve null values in Firebase.
     const newSketchJSON: SketchModelJSON = {
-      ...sketchModel,
-      objectJSONs: sketchModel.objects.map((object: any) =>
+      ...newSketchModel,
+      objectJSONs: newSketchModel.objects.map((object: any) =>
         JSON.stringify(object)
       ),
     };
