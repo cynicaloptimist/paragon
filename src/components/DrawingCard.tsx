@@ -1,8 +1,4 @@
-import {
-  faHighlighter,
-  faMousePointer,
-  faPen,
-} from "@fortawesome/free-solid-svg-icons";
+import { faMousePointer, faPen } from "@fortawesome/free-solid-svg-icons";
 import { faCircle, faSquare } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button } from "grommet";
@@ -87,6 +83,7 @@ export function DrawingCard(props: { card: DrawingCardState }) {
         <>
           {tools.map((tool) => (
             <Button
+              key={tool.name}
               onClick={() => setActiveTool(tool.name)}
               icon={<FontAwesomeIcon icon={tool.icon} />}
               active={activeTool === tool.name}
