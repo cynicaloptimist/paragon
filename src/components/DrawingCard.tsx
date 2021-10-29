@@ -32,40 +32,12 @@ export function DrawingCard(props: { card: DrawingCardState }) {
     viewType !== ViewType.Player ||
     props.card.playerViewPermission === PlayerViewPermission.Interact;
 
-  const onSketchChange = (checkOperation?: string) => {
+  const onSketchChange = () => {
     if (!sketch.current) {
       return;
     }
 
     const sketchModel: SketchModel = sketch.current.toJSON();
-
-    if (props.card.sketchModel) {
-      const previousSketchModel: SketchModel = {
-        ...props.card.sketchModel,
-        objects: props.card.sketchModel.objectJSONs.map((object) =>
-          JSON.parse(object)
-        ),
-      };
-      const previousObjectCount = previousSketchModel.objects?.length || 0;
-      if (
-        checkOperation === "added" &&
-        sketchModel.objects.length <= previousObjectCount
-      ) {
-        return;
-      }
-      if (
-        checkOperation === "removed" &&
-        sketchModel.objects.length >= previousObjectCount
-      ) {
-        return;
-      }
-      if (
-        checkOperation === "modified" &&
-        sketchModel.objects.length !== previousObjectCount
-      ) {
-        return;
-      }
-    }
 
     // The sketch objects must be stringified to preserve null values in Firebase.
     const newSketchJSON: SketchModelJSON = {
@@ -87,7 +59,7 @@ export function DrawingCard(props: { card: DrawingCardState }) {
 
   const sketchModel = {
     ...props.card.sketchModel,
-    objects: props.card.sketchModel?.objectJSONs.map(
+    objects: (props.card.sketchModel?.objectJSONs || []).map(
       (object) => JSON.parse(object) || []
     ),
   };
@@ -115,16 +87,14 @@ export function DrawingCard(props: { card: DrawingCardState }) {
         onKeyDown={(keyEvent) => {
           if (keyEvent.key === "Delete") {
             sketch.current?.removeSelected();
-            onSketchChange();
           }
+          onSketchChange();
         }}
+        onMouseUp={() => setImmediate(() => onSketchChange())}
       >
         <SketchField
           tool={canEdit ? tool : Tools.Pan}
           value={sketchModel}
-          onObjectAdded={() => onSketchChange("added")}
-          onObjectModified={() => onSketchChange("modified")}
-          onObjectRemoved={() => onSketchChange("removed")}
           ref={sketch}
         />
       </Box>
