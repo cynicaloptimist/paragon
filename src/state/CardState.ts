@@ -47,6 +47,7 @@ export type DiceRoll = {
 
 export type DrawingCardState = BaseCardState & {
   type: "drawing";
+  sketchJSON?: string;
 };
 
 export enum PlayerViewPermission {

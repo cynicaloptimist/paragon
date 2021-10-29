@@ -1,8 +1,5 @@
 import { ActionType, createAction } from "typesafe-actions";
-import {
-  PlayerViewPermission,
-  RollTableEntry
-} from "../state/CardState";
+import { PlayerViewPermission, RollTableEntry } from "../state/CardState";
 import { LegacyCardState } from "../state/LegacyCardState";
 
 export const CardActions = {
@@ -62,6 +59,10 @@ export const CardActions = {
     expression: string;
     result: string;
     total: number;
+  }>(),
+  SetSketchJSON: createAction("SetSketchJSON")<{
+    cardId: string;
+    sketchJSON: string;
   }>(),
 };
 

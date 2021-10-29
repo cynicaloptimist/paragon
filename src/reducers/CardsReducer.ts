@@ -5,7 +5,7 @@ import { CardsState } from "../state/AppState";
 import {
   CardState,
   DiceCardState,
-  RollTableCardState
+  RollTableCardState,
 } from "../state/CardState";
 
 function mergeCardState<T extends CardState>(
@@ -85,5 +85,10 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
     const { cardId, ...historyItem } = action.payload;
     return mergeCardState(oldState, action, {
       history: oldCard.history.concat([historyItem]),
+    });
+  })
+  .handleAction(CardActions.SetSketchJSON, (oldState, action) => {
+    return mergeCardState(oldState, action, {
+      sketchJSON: action.payload.sketchJSON,
     });
   });
