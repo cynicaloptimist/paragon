@@ -1,6 +1,6 @@
 import { faMousePointer, faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button } from "grommet";
+import { Box, Button } from "grommet";
 import React, { useRef, useState } from "react";
 import { DrawingCardState } from "../state/CardState";
 import { BaseCard } from "./BaseCard";
@@ -16,7 +16,7 @@ const {
 
 export function DrawingCard(props: { card: DrawingCardState }) {
   const [tool, setTool] = useState(Tools.Pencil);
-  const sketch = useRef(null);
+  const sketch = useRef<any>(null);
   return (
     <BaseCard
       cardState={props.card}
@@ -35,11 +35,21 @@ export function DrawingCard(props: { card: DrawingCardState }) {
         </>
       }
     >
-      <SketchField
-        tool={tool}
-        onChange={(e: any) => console.log(sketch.current)}
-        ref={sketch}
-      />
+      <Box
+        tabIndex={0}
+        onKeyDown={(keyEvent) => {
+          if (keyEvent.key === "Delete") {
+            console.log("delete");
+            sketch.current?.removeSelected();
+          }
+        }}
+      >
+        <SketchField
+          tool={tool}
+          onChange={(e: any) => console.log(sketch.current)}
+          ref={sketch}
+        />
+      </Box>
     </BaseCard>
   );
 }
