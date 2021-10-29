@@ -26,7 +26,7 @@ const {
 
 export function DrawingCard(props: { card: DrawingCardState }) {
   const { dispatch } = React.useContext(ReducerContext);
-  const [tool, setTool] = useState<string>(Tools.Pencil);
+  const [activeTool, setActiveTool] = useState<string>(Tools.Pencil);
   const sketch = useRef<any>(null);
   const viewType = useContext(ViewTypeContext);
 
@@ -66,26 +66,27 @@ export function DrawingCard(props: { card: DrawingCardState }) {
     ),
   };
 
+  const tools = [
+    {
+      name: Tools.Select,
+      icon: faMousePointer,
+    },
+    { name: Tools.Pencil, icon: faPen },
+    { name: Tools.Rectangle, icon: faSquare },
+  ];
+
   return (
     <BaseCard
       cardState={props.card}
       commands={
         <>
-          <Button
-            onClick={() => setTool(Tools.Select)}
-            icon={<FontAwesomeIcon icon={faMousePointer} />}
-            active={tool === Tools.Select}
-          />
-          <Button
-            onClick={() => setTool(Tools.Pencil)}
-            icon={<FontAwesomeIcon icon={faPen} />}
-            active={tool === Tools.Pencil}
-          />
-          <Button
-            onClick={() => setTool(Tools.Rectangle)}
-            icon={<FontAwesomeIcon icon={faSquare} />}
-            active={tool === Tools.Rectangle}
-          />
+          {tools.map((tool) => (
+            <Button
+              onClick={() => setActiveTool(tool.name)}
+              icon={<FontAwesomeIcon icon={tool.icon} />}
+              active={activeTool === tool.name}
+            />
+          ))}
         </>
       }
     >
@@ -100,7 +101,7 @@ export function DrawingCard(props: { card: DrawingCardState }) {
         onMouseUp={() => setImmediate(() => onSketchChange())}
       >
         <SketchField
-          tool={canEdit ? tool : Tools.Pan}
+          tool={canEdit ? activeTool : Tools.Pan}
           value={sketchModel}
           ref={sketch}
         />
