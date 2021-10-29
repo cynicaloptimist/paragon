@@ -65,3 +65,9 @@ export type SketchModel = {
   objects: any[];
   version: string;
 };
+
+export type SketchModelJSON = {
+  background: string;
+  objectJSONs: string[];
+  version: string;
+};

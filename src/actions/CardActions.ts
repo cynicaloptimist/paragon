@@ -1,4 +1,5 @@
 import { ActionType, createAction } from "typesafe-actions";
+import { SketchModelJSON } from "../components/SketchFieldProps";
 import { PlayerViewPermission, RollTableEntry } from "../state/CardState";
 import { LegacyCardState } from "../state/LegacyCardState";
 
@@ -60,9 +61,9 @@ export const CardActions = {
     result: string;
     total: number;
   }>(),
-  SetSketchJSON: createAction("SetSketchJSON")<{
+  SetSketchModel: createAction("SetSketchJSON")<{
     cardId: string;
-    sketchJSON: string;
+    sketchJSON: SketchModelJSON;
   }>(),
 };
 

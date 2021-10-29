@@ -87,8 +87,8 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
       history: oldCard.history.concat([historyItem]),
     });
   })
-  .handleAction(CardActions.SetSketchJSON, (oldState, action) => {
+  .handleAction(CardActions.SetSketchModel, (oldState, action) => {
     return mergeCardState(oldState, action, {
-      sketchJSON: action.payload.sketchJSON,
+      sketchModel: action.payload.sketchJSON,
     });
   });

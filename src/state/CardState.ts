@@ -1,3 +1,5 @@
+import { SketchModelJSON } from "../components/SketchFieldProps";
+
 export type CardState =
   | ArticleCardState
   | ClockCardState
@@ -47,7 +49,7 @@ export type DiceRoll = {
 
 export type DrawingCardState = BaseCardState & {
   type: "drawing";
-  sketchJSON?: string;
+  sketchModel?: SketchModelJSON;
 };
 
 export enum PlayerViewPermission {

@@ -7,7 +7,11 @@ import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { DrawingCardState } from "../state/CardState";
 import { BaseCard } from "./BaseCard";
-import { SketchFieldProps, SketchModel } from "./SketchFieldProps";
+import {
+  SketchFieldProps,
+  SketchModel,
+  SketchModelJSON,
+} from "./SketchFieldProps";
 
 const {
   Tools,
@@ -27,12 +31,15 @@ export function DrawingCard(props: { card: DrawingCardState }) {
       return;
     }
 
-    const sketchModel = sketch.current.toJSON();
+    const sketchModel: SketchModel = sketch.current.toJSON();
 
-    if (props.card.sketchJSON) {
-      const previousSketchModel = JSON.parse(
-        props.card.sketchJSON
-      ) as SketchModel;
+    if (props.card.sketchModel) {
+      const previousSketchModel: SketchModel = {
+        ...props.card.sketchModel,
+        objects: props.card.sketchModel.objectJSONs.map((object) =>
+          JSON.parse(object)
+        ),
+      };
       const previousObjectCount = previousSketchModel.objects?.length || 0;
       if (
         checkOperation === "added" &&
@@ -54,10 +61,16 @@ export function DrawingCard(props: { card: DrawingCardState }) {
       }
     }
 
-    const newSketchJSON = JSON.stringify(sketchModel);
-    if (!_.isEqual(newSketchJSON, props.card.sketchJSON)) {
+    const newSketchJSON: SketchModelJSON = {
+      ...sketchModel,
+      objectJSONs: sketchModel.objects.map((object: any) =>
+        JSON.stringify(object)
+      ),
+    };
+
+    if (!_.isEqual(newSketchJSON, props.card.sketchModel)) {
       dispatch(
-        CardActions.SetSketchJSON({
+        CardActions.SetSketchModel({
           cardId: props.card.cardId,
           sketchJSON: newSketchJSON,
         })
@@ -65,7 +78,12 @@ export function DrawingCard(props: { card: DrawingCardState }) {
     }
   };
 
-  const sketchModel = JSON.parse(props.card.sketchJSON || "{}");
+  const sketchModel = {
+    ...props.card.sketchModel,
+    objects: props.card.sketchModel?.objectJSONs.map(
+      (object) => JSON.parse(object) || []
+    ),
+  };
 
   return (
     <BaseCard
