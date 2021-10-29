@@ -1,4 +1,8 @@
-import { faMousePointer, faPen } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMousePointer,
+  faPen,
+  faSquare,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button } from "grommet";
 import _ from "lodash";
@@ -11,6 +15,7 @@ import {
   SketchFieldProps,
   SketchModel,
   SketchModelJSON,
+  ToolsEnum,
 } from "./SketchFieldProps";
 import { ViewTypeContext, ViewType } from "./ViewTypeContext";
 
@@ -18,13 +23,13 @@ const {
   Tools,
   SketchField,
 }: {
-  Tools: Record<string, string>;
+  Tools: ToolsEnum;
   SketchField: React.FC<SketchFieldProps>;
 } = require("react-sketch2");
 
 export function DrawingCard(props: { card: DrawingCardState }) {
   const { dispatch } = React.useContext(ReducerContext);
-  const [tool, setTool] = useState(Tools.Pencil);
+  const [tool, setTool] = useState<string>(Tools.Pencil);
   const sketch = useRef<any>(null);
   const viewType = useContext(ViewTypeContext);
 
@@ -78,6 +83,11 @@ export function DrawingCard(props: { card: DrawingCardState }) {
             onClick={() => setTool(Tools.Pencil)}
             icon={<FontAwesomeIcon icon={faPen} />}
             active={tool === Tools.Pencil}
+          />
+          <Button
+            onClick={() => setTool(Tools.Rectangle)}
+            icon={<FontAwesomeIcon icon={faSquare} />}
+            active={tool === Tools.Rectangle}
           />
         </>
       }
