@@ -2,16 +2,17 @@ import { faMousePointer, faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button } from "grommet";
 import _ from "lodash";
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
-import { DrawingCardState } from "../state/CardState";
+import { DrawingCardState, PlayerViewPermission } from "../state/CardState";
 import { BaseCard } from "./BaseCard";
 import {
   SketchFieldProps,
   SketchModel,
   SketchModelJSON,
 } from "./SketchFieldProps";
+import { ViewTypeContext, ViewType } from "./ViewTypeContext";
 
 const {
   Tools,
@@ -25,6 +26,11 @@ export function DrawingCard(props: { card: DrawingCardState }) {
   const { dispatch } = React.useContext(ReducerContext);
   const [tool, setTool] = useState(Tools.Pencil);
   const sketch = useRef<any>(null);
+  const viewType = useContext(ViewTypeContext);
+
+  const canEdit =
+    viewType !== ViewType.Player ||
+    props.card.playerViewPermission === PlayerViewPermission.Interact;
 
   const onSketchChange = (checkOperation?: string) => {
     if (!sketch.current) {
@@ -113,7 +119,7 @@ export function DrawingCard(props: { card: DrawingCardState }) {
         }}
       >
         <SketchField
-          tool={tool}
+          tool={canEdit ? tool : Tools.Pan}
           value={sketchModel}
           onObjectAdded={() => onSketchChange("added")}
           onObjectModified={() => onSketchChange("modified")}
