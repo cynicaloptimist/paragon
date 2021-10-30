@@ -14,6 +14,8 @@ import { ImageCard } from "./ImageCard";
 import { RollTableCard } from "./RollTableCard";
 import { ViewType, ViewTypeContext } from "./ViewTypeContext";
 
+type Size = { height: number; width: number };
+
 const ResponsiveGridLayout = WidthProvider(Responsive);
 const MIN_GRID_UNITS_CARD_HEIGHT = 3;
 const MIN_GRID_UNITS_CARD_WIDTH = 4;
@@ -49,7 +51,8 @@ export function CardGrid() {
       dispatch(CardActions.CloseCard({ cardId }));
       return <div key={cardId}></div>;
     }
-    return <div key={cardId}>{getComponentForCard(card)}</div>;
+
+    return <GridItem key={cardId} card={card} />;
   });
 
   return (
@@ -94,7 +97,36 @@ export function CardGrid() {
   );
 }
 
-function getComponentForCard(card: CardState) {
+//This component was added to access the `style` prop that RGL injects.
+function GridItem(props: {
+  card: CardState;
+  style?: CSSProperties;
+  children?: React.ReactChild[];
+}) {
+  const outerSize: Size = {
+    height: CSSToNumber(props.style?.height),
+    width: CSSToNumber(props.style?.width),
+  };
+
+  return (
+    <div {...props}>
+      {getComponentForCard(props.card, outerSize) || null}
+      {props.children?.slice(1)}
+    </div>
+  );
+}
+
+function CSSToNumber(item: number | string | undefined) {
+  if (!item) {
+    return 0;
+  }
+  if (typeof item === "number") {
+    return item;
+  }
+  return parseInt(item);
+}
+
+function getComponentForCard(card: CardState, outerSize: Size) {
   if (card.type === "article") {
     return <ArticleCard card={card} />;
   }
