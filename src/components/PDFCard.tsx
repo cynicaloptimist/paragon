@@ -1,6 +1,11 @@
-import { faArrowsAltH, faArrowsAltV } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowsAltH,
+  faArrowsAltV,
+  faChevronLeft,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button } from "grommet";
+import { Box, Button, TextInput } from "grommet";
 import React, { useState } from "react";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 import { CardState } from "../state/CardState";
@@ -20,6 +25,23 @@ export function PDFCard(props: { card: CardState; outerSize: Size }) {
       cardState={props.card}
       commands={
         <>
+          <Button
+            icon={<FontAwesomeIcon icon={faChevronLeft} />}
+            onClick={() => setPageNumber(pageNumber - 1)}
+          />
+          <Box style={{ width: "100px" }}>
+            <TextInput
+              type="number"
+              value={pageNumber}
+              onChange={(changeEvent) =>
+                setPageNumber(parseInt(changeEvent.target.value))
+              }
+            />
+          </Box>
+          <Button
+            icon={<FontAwesomeIcon icon={faChevronRight} />}
+            onClick={() => setPageNumber(pageNumber + 1)}
+          />
           <Button
             icon={<FontAwesomeIcon icon={faArrowsAltV} />}
             onClick={() => setFitType("height")}
