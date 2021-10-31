@@ -1,15 +1,14 @@
-import { Button, ButtonType, Meter, Stack } from "grommet";
+import { Button, Meter, Stack } from "grommet";
 import React, { useCallback, useRef, useState } from "react";
 
 const DRAW_INTERVAL = 20;
 
-export function LongPressButton(
-  props: Omit<ButtonType, "onClick"> & {
-    timeout?: number;
-    onLongPress: () => void;
-  }
-) {
-  const { onLongPress, ...buttonProps } = props;
+export function LongPressButton(props: {
+  onLongPress: () => void;
+  icon: JSX.Element;
+  timeout?: number;
+}) {
+  const { onLongPress } = props;
   const timeout = props.timeout || 1000;
 
   const [pressLength, setPressLength] = useState(0);
@@ -59,7 +58,7 @@ export function LongPressButton(
         background="transparent"
       />
       <Button
-        {...buttonProps}
+        {...props}
         onMouseDown={press}
         onMouseUp={unPress}
         onMouseLeave={unPress}
