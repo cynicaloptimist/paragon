@@ -1,57 +1,31 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu } from "grommet";
-import React, { useCallback, useContext } from "react";
+import React, { useContext } from "react";
 import { CardActions } from "../actions/CardActions";
 import { randomString } from "../randomString";
 import { ReducerContext } from "../reducers/ReducerContext";
+import { CardTypeFriendlyNames } from "../state/CardTypeFriendlyNames";
 
 export function NewCardMenu() {
-  const addArticle = useDispatchAddCard("article");
-  const addClock = useDispatchAddCard("clock");
-  const addRollTable = useDispatchAddCard("roll-table-h");
-  const addDice = useDispatchAddCard("dice");
-  const addImage = useDispatchAddCard("image");
-  const addDrawing = useDispatchAddCard("drawing");
+  const { dispatch } = useContext(ReducerContext);
+
+  const menuItems = Object.keys(CardTypeFriendlyNames).map((cardType) => {
+    return {
+      label: CardTypeFriendlyNames[cardType],
+      onClick: () => {
+        const cardId = randomString();
+        dispatch(CardActions.AddCard({ cardId, cardType }));
+      },
+    };
+  });
 
   return (
     <Menu
       dropAlign={{ right: "right", top: "bottom" }}
       icon={<FontAwesomeIcon icon={faPlus} />}
       label="New Card"
-      items={[
-        {
-          label: "Article",
-          onClick: addArticle,
-        },
-        {
-          label: "Clock",
-          onClick: addClock,
-        },
-        {
-          label: "Rollable Table",
-          onClick: addRollTable,
-        },
-        {
-          label: "Dice",
-          onClick: addDice,
-        },
-        {
-          label: "Image",
-          onClick: addImage,
-        },
-        {
-          label: "Drawing",
-          onClick: addDrawing,
-        },
-      ]}
+      items={menuItems}
     />
   );
-}
-function useDispatchAddCard(cardType: string) {
-  const { dispatch } = useContext(ReducerContext);
-  return useCallback(() => {
-    const cardId = randomString();
-    dispatch(CardActions.AddCard({ cardId, cardType }));
-  }, [cardType, dispatch]);
 }
