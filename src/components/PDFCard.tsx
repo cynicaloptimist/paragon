@@ -1,8 +1,10 @@
 import {
   faArrowsAltH,
   faArrowsAltV,
-  faChevronLeft,
-  faChevronRight,
+  faCaretLeft,
+  faCaretRight,
+  faStepBackward,
+  faStepForward,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, TextInput } from "grommet";
@@ -36,7 +38,11 @@ export function PDFCard(props: { card: CardState; outerSize: Size }) {
       commands={
         <>
           <Button
-            icon={<FontAwesomeIcon icon={faChevronLeft} />}
+            icon={<FontAwesomeIcon icon={faStepBackward} />}
+            onClick={() => setPageNumberBounded(1)}
+          />
+          <Button
+            icon={<FontAwesomeIcon icon={faCaretLeft} />}
             onClick={() => setPageNumberBounded(pageNumber - 1)}
           />
           <Box style={{ width: "100px" }}>
@@ -52,8 +58,12 @@ export function PDFCard(props: { card: CardState; outerSize: Size }) {
             />
           </Box>
           <Button
-            icon={<FontAwesomeIcon icon={faChevronRight} />}
+            icon={<FontAwesomeIcon icon={faCaretRight} />}
             onClick={() => setPageNumberBounded(pageNumber + 1)}
+          />
+          <Button
+            icon={<FontAwesomeIcon icon={faStepForward} />}
+            onClick={() => setPageNumberBounded(pageCount)}
           />
           <Button
             icon={<FontAwesomeIcon icon={faArrowsAltV} />}
