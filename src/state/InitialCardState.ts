@@ -65,6 +65,15 @@ export function InitialCardState(
     };
   }
 
+  if (type === "pdf") {
+    return {
+      ...baseCard,
+      type,
+      pdfUrl: "",
+      currentPage: 1,
+    };
+  }
+
   return {
     ...baseCard,
     type: "article",

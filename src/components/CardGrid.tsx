@@ -1,6 +1,6 @@
 import { Box } from "grommet";
 import { isEqual, uniqBy } from "lodash";
-import React, { useContext } from "react";
+import React, { CSSProperties, useContext } from "react";
 import { Layout, Responsive, WidthProvider } from "react-grid-layout";
 import { Actions } from "../actions/Actions";
 import { CardActions } from "../actions/CardActions";
@@ -11,6 +11,7 @@ import { ClockCard } from "./ClockCard";
 import { DiceCard } from "./DiceCard";
 import { DrawingCard } from "./DrawingCard";
 import { ImageCard } from "./ImageCard";
+import { PDFCard } from "./PDFCard";
 import { RollTableCard } from "./RollTableCard";
 import { ViewType, ViewTypeContext } from "./ViewTypeContext";
 
@@ -144,5 +145,8 @@ function getComponentForCard(card: CardState, outerSize: Size) {
   }
   if (card.type === "drawing") {
     return <DrawingCard card={card} />;
+  }
+  if (card.type === "pdf") {
+    return <PDFCard card={card} outerSize={outerSize} />;
   }
 }

@@ -5,4 +5,5 @@ export const CardTypeFriendlyNames: Record<string, string> = {
   dice: "Dice",
   article: "Article",
   drawing: "Drawing",
+  pdf: "PDF",
 };

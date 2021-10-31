@@ -6,7 +6,8 @@ export type CardState =
   | RollTableCardState
   | ImageCardState
   | DiceCardState
-  | DrawingCardState;
+  | DrawingCardState
+  | PDFCardState;
 
 export type ArticleCardState = BaseCardState & {
   type: "article";
@@ -50,6 +51,12 @@ export type DiceRoll = {
 export type DrawingCardState = BaseCardState & {
   type: "drawing";
   sketchModel?: SketchModelJSON;
+};
+
+export type PDFCardState = BaseCardState & {
+  type: "pdf";
+  pdfUrl: string;
+  currentPage: number;
 };
 
 export enum PlayerViewPermission {
