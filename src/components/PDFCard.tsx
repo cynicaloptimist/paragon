@@ -33,6 +33,7 @@ export function PDFCard(props: { card: CardState; outerSize: Size }) {
             <TextInput
               type="number"
               value={pageNumber}
+              className="no-spinner"
               onChange={(changeEvent) =>
                 setPageNumber(parseInt(changeEvent.target.value))
               }
