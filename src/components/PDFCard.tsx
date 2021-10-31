@@ -6,6 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, TextInput } from "grommet";
+import _ from "lodash";
 import React, { useState } from "react";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 import { CardState } from "../state/CardState";
@@ -19,6 +20,16 @@ type Size = {
 export function PDFCard(props: { card: CardState; outerSize: Size }) {
   const [fitType, setFitType] = useState("width");
   const [pageNumber, setPageNumber] = useState(1);
+  const [pageCount, setPageCount] = useState(1);
+  const setPageNumberBounded = (pageNumber: number) => {
+    if (pageNumber < 1) {
+      setPageNumber(1);
+    } else if (pageNumber > pageCount) {
+      setPageNumber(pageCount);
+    } else {
+      setPageNumber(pageNumber);
+    }
+  };
 
   return (
     <BaseCard
@@ -27,7 +38,7 @@ export function PDFCard(props: { card: CardState; outerSize: Size }) {
         <>
           <Button
             icon={<FontAwesomeIcon icon={faChevronLeft} />}
-            onClick={() => setPageNumber(pageNumber - 1)}
+            onClick={() => setPageNumberBounded(pageNumber - 1)}
           />
           <Box style={{ width: "100px" }}>
             <TextInput
@@ -36,13 +47,14 @@ export function PDFCard(props: { card: CardState; outerSize: Size }) {
               className="no-spinner"
               style={{ textAlign: "center" }}
               onChange={(changeEvent) =>
-                setPageNumber(parseInt(changeEvent.target.value))
+                setPageNumberBounded(parseInt(changeEvent.target.value))
               }
+              onFocus={(focusEvent) => focusEvent.target.select()}
             />
           </Box>
           <Button
             icon={<FontAwesomeIcon icon={faChevronRight} />}
-            onClick={() => setPageNumber(pageNumber + 1)}
+            onClick={() => setPageNumberBounded(pageNumber + 1)}
           />
           <Button
             icon={<FontAwesomeIcon icon={faArrowsAltV} />}
@@ -58,9 +70,14 @@ export function PDFCard(props: { card: CardState; outerSize: Size }) {
       }
     >
       <Box overflow="auto" alignContent="center">
-        <Document file="sample.pdf">
+        <Document
+          file="sample.pdf"
+          onLoadSuccess={(document) => {
+            setPageCount(document.numPages);
+          }}
+        >
           <Page
-            pageNumber={pageNumber}
+            pageNumber={isNaN(pageNumber) ? 1 : pageNumber}
             width={fitType === "width" ? props.outerSize.width - 40 : undefined}
             height={
               fitType === "height" ? props.outerSize.height - 110 : undefined
