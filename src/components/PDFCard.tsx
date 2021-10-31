@@ -34,6 +34,7 @@ export function PDFCard(props: { card: CardState; outerSize: Size }) {
               type="number"
               value={pageNumber}
               className="no-spinner"
+              style={{ textAlign: "center" }}
               onChange={(changeEvent) =>
                 setPageNumber(parseInt(changeEvent.target.value))
               }
