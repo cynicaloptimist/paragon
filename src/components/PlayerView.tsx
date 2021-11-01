@@ -1,4 +1,4 @@
-import { database } from "firebase/app";
+import { getDatabase, off, onValue, push, ref } from "firebase/database";
 import "firebase/database";
 import { Box, Grommet } from "grommet";
 import React, { useEffect, useState } from "react";
@@ -12,6 +12,7 @@ import { removeUndefinedNodesFromTree } from "./hooks/removeUndefinedNodesFromTr
 import { PlayerViewTopBar } from "./PlayerViewTopBar";
 import { restorePrunedEmptyArrays } from "./restorePrunedEmptyArrays";
 import { ViewType, ViewTypeContext } from "./ViewTypeContext";
+import { app } from "..";
 
 function useRemoteState(
   playerViewId: string
@@ -20,25 +21,29 @@ function useRemoteState(
   const [playerViewUserId, setPlayerViewUserId] = useState<string | null>(null);
 
   useEffect(() => {
-    const idDbRef = database().ref(
+    const database = getDatabase(app);
+    const idDbRef = ref(
+      database,
       `playerViews/${playerViewId.toLocaleLowerCase()}`
     );
 
-    idDbRef.on("value", (id) => {
+    onValue(idDbRef, (id) => {
       setPlayerViewUserId(id.val());
     });
 
-    return () => idDbRef.off();
+    return () => off(idDbRef);
   }, [playerViewId]);
 
   useEffect(() => {
     if (!playerViewUserId) {
       return;
     }
-    const dbRef = database().ref(
+    const database = getDatabase(app);
+    const dbRef = ref(
+      database,
       `users/${playerViewUserId}/playerViews/${playerViewId}`
     );
-    dbRef.on("value", (appState) => {
+    onValue(dbRef, (appState) => {
       const networkAppState: Partial<AppState> = appState.val();
       if (!networkAppState) {
         return;
@@ -47,14 +52,14 @@ function useRemoteState(
       setState(completeAppState);
     });
 
-    return () => dbRef.off();
+    return () => off(dbRef);
   }, [playerViewId, playerViewUserId]);
 
   const dispatch = (action: RootAction) => {
     const cleanAction = removeUndefinedNodesFromTree(action);
-    database()
-      .ref(`pendingActions/${state.activeDashboardId}`)
-      .push(cleanAction);
+    const database = getDatabase(app);
+    const dbRef = ref(database, `pendingActions/${state.activeDashboardId}`);
+    push(dbRef, cleanAction);
   };
 
   return [state, dispatch];

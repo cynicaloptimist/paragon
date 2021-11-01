@@ -4,14 +4,16 @@ import "./index.css";
 import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
 
-import { initializeApp, analytics } from "firebase/app";
+import { initializeApp } from "firebase/app";
+import { getAnalytics, logEvent } from "@firebase/analytics";
 import "firebase/analytics";
 import { firebaseConfig } from "./firebaseConfig";
 
 import { PreventDefaultWindowDragDropEvents } from "./PreventDefaultWindowDragDropEvents";
 
-initializeApp(firebaseConfig);
-analytics().logEvent("screen_view", {
+export const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+logEvent(analytics, "page_view", {
   app_name: "Paragon Campaign Dashboard",
   screen_name: "index",
 });

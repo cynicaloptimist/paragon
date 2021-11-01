@@ -1,6 +1,6 @@
-import { database } from "firebase";
+import { getDatabase, off, onValue, ref } from "firebase/database";
 import { Box, Grommet } from "grommet";
-import React, { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AppReducer } from "../reducers/AppReducer";
 import { ReducerContext } from "../reducers/ReducerContext";
@@ -15,17 +15,20 @@ function useStateFromSharedDashboard(dashboardId: string) {
   const [state, setState] = useState<AppState | null>(null);
 
   useEffect(() => {
-    const dbRef = database().ref(`shared/${dashboardId}`);
-    dbRef.once("value", (appState) => {
+    const database = getDatabase();
+    const dbRef = ref(database, `shared/${dashboardId}`);
+
+    onValue(dbRef, (appState) => {
       const networkAppState: Partial<AppState> = appState.val();
       if (!networkAppState) {
         return;
       }
+      off(dbRef);
       const completeAppState = restorePrunedEmptyArrays(networkAppState);
       setState(completeAppState);
     });
 
-    return () => dbRef.off();
+    return () => off(dbRef);
   }, [dashboardId]);
 
   return state;

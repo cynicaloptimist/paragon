@@ -1,8 +1,10 @@
-import { auth, database, Unsubscribe } from "firebase/app";
 import "firebase/auth";
+import { getAuth, onAuthStateChanged, Unsubscribe } from "firebase/auth";
 import "firebase/database";
+import { getDatabase, off, onValue, ref, remove, set } from "firebase/database";
 import { isEqual, union } from "lodash";
 import { useEffect, useRef, useState } from "react";
+import { app } from "../..";
 import { Actions, RootAction } from "../../actions/Actions";
 import { CardActions } from "../../actions/CardActions";
 import { AppState, DashboardState } from "../../state/AppState";
@@ -41,8 +43,8 @@ function useTwoWayDataSync(
     if (authListener.current) {
       return;
     }
-
-    authListener.current = auth().onAuthStateChanged(async (user) => {
+    const auth = getAuth(app);
+    authListener.current = onAuthStateChanged(auth, async (user) => {
       if (!user) {
         return;
       }
@@ -58,24 +60,27 @@ function useTwoWayDataSync(
         return;
       }
 
-      const profileRef = await database()
-        .ref(`users/${user.uid}/`)
-        .once("value");
+      const database = getDatabase(app);
+      const dbRef = ref(database, `users/${user.uid}`);
 
-      const serverProfile: ServerProfile = profileRef.val();
-      if (
-        !serverProfile?.lastUpdateTime ||
-        serverProfile.lastUpdateTime < localLastUpdateTime
-      ) {
-        writeFromLocalToServer(state, serverProfile, user.uid);
-      } else {
-        writeFromServerToLocal(state, dispatch, serverProfile);
-      }
+      onValue(dbRef, async (profileRef) => {
+        off(dbRef);
+        const serverProfile: ServerProfile = profileRef.val();
+        if (
+          !serverProfile?.lastUpdateTime ||
+          serverProfile.lastUpdateTime < localLastUpdateTime
+        ) {
+          writeFromLocalToServer(state, serverProfile, user.uid);
+        } else {
+          writeFromServerToLocal(state, dispatch, serverProfile);
+        }
 
-      const currentTime = Date.now();
-      localStorage.setItem("localLastUpdateTime", currentTime.toString());
-      await database().ref(`users/${user.uid}/lastUpdateTime`).set(currentTime);
-      done();
+        const currentTime = Date.now();
+        localStorage.setItem("localLastUpdateTime", currentTime.toString());
+        const updateTimeRef = ref(database, `users/${user.uid}/lastUpdateTime`);
+        await set(updateTimeRef, currentTime);
+        done();
+      });
     });
   }, [state, dispatch, done]);
 }
@@ -114,9 +119,12 @@ function writeFromLocalToServer(
         const cleanTree = removeUndefinedNodesFromTree(
           state[collection][itemId]
         );
-        database()
-          .ref(`users/${userId}/${collection}/${itemId}`)
-          .set(cleanTree);
+        const database = getDatabase(app);
+        const itemRef = ref(
+          database,
+          `users/${userId}/${collection}/${itemId}`
+        );
+        set(itemRef, cleanTree);
       }
     }
   }
@@ -168,15 +176,18 @@ function useUpdatesToServer(
         );
 
         if (!isEqual(newItemPruned, previousItemPruned)) {
+          const database = getDatabase(app);
+          const itemRef = ref(
+            database,
+            `users/${userId}/${collection}/${itemId}`
+          );
+
           if (newItemPruned) {
             console.log(`Updating item ${itemId} on server`);
-            database()
-              .ref(`users/${userId}/${collection}/${itemId}`)
-              .set(newItemPruned);
+            set(itemRef, newItemPruned);
           } else {
             console.log(`Deleting item ${itemId} on server`);
-
-            database().ref(`users/${userId}/${collection}/${itemId}`).remove();
+            remove(itemRef);
           }
         }
       }
@@ -190,7 +201,8 @@ export function useUserId() {
   const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
-    auth().onAuthStateChanged(async (user) => {
+    const auth = getAuth(app);
+    onAuthStateChanged(auth, async (user) => {
       if (!user) {
         return;
       }

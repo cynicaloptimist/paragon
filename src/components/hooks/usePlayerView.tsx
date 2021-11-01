@@ -1,9 +1,18 @@
-import { auth, database } from "firebase/app";
 import "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import "firebase/database";
+import {
+  getDatabase,
+  off,
+  onChildAdded,
+  ref,
+  remove,
+  set,
+} from "firebase/database";
 import pickBy from "lodash/pickBy";
 import { useEffect, useRef, useState } from "react";
 import { isActionOf } from "typesafe-actions";
+import { app } from "../..";
 import { RootAction } from "../../actions/Actions";
 import { CardActions } from "../../actions/CardActions";
 import { AppState } from "../../state/AppState";
@@ -28,11 +37,12 @@ function omitClosedCardsFromState(fullState: AppState): AppState {
     };
   }
 
-  const visibleCardIds = dashboard.openCardIds?.filter(
-    (cardId) =>
-      fullState.cardsById[cardId].playerViewPermission !==
-      PlayerViewPermission.Hidden
-  ) || [];
+  const visibleCardIds =
+    dashboard.openCardIds?.filter(
+      (cardId) =>
+        fullState.cardsById[cardId].playerViewPermission !==
+        PlayerViewPermission.Hidden
+    ) || [];
 
   return {
     ...fullState,
@@ -59,7 +69,8 @@ export function usePlayerView(
   const previousState = useRef(state);
 
   useEffect(() => {
-    auth().onAuthStateChanged((user) => {
+    const auth = getAuth(app);
+    onAuthStateChanged(auth, (user) => {
       if (user) {
         setUserId(user.uid);
       }
@@ -71,14 +82,16 @@ export function usePlayerView(
       return;
     }
 
-    const dbRef = database().ref(`playerViews/${state.activeDashboardId}`);
-    dbRef.set(userId);
+    const database = getDatabase(app);
+    const dbRef = ref(database, `playerViews/${state.activeDashboardId}`);
+    set(dbRef, userId);
 
-    const pendingActionsRef = database().ref(
+    const pendingActionsRef = ref(
+      database,
       `pendingActions/${state.activeDashboardId}`
     );
 
-    pendingActionsRef.on("child_added", (actionSnapshot) => {
+    onChildAdded(pendingActionsRef, (actionSnapshot) => {
       const action: RootAction = actionSnapshot.val();
       if (
         isActionOf(
@@ -97,14 +110,10 @@ export function usePlayerView(
       ) {
         dispatch(action);
       }
-      actionSnapshot.ref.remove();
+      remove(actionSnapshot.ref);
     });
 
-    const cleanup = () => {
-      pendingActionsRef.off();
-    };
-
-    return cleanup;
+    return () => off(pendingActionsRef);
   }, [userId, state.activeDashboardId, dispatch]);
 
   useEffect(() => {
@@ -119,10 +128,12 @@ export function usePlayerView(
     if (
       JSON.stringify(previousState.current) !== JSON.stringify(playerViewState)
     ) {
-      const dbRef = database().ref(
+      const database = getDatabase(app);
+      const dbRef = ref(
+        database,
         `users/${userId}/playerViews/${state.activeDashboardId}`
       );
-      dbRef.set(playerViewState);
+      set(dbRef, playerViewState);
       previousState.current = playerViewState;
     }
   }, [state, userId]);
