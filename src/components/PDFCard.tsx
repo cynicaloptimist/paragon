@@ -1,27 +1,94 @@
 import {
+  ref,
+  getStorage,
+  uploadBytes,
+  getDownloadURL,
+} from "@firebase/storage";
+import {
   faArrowsAltH,
   faArrowsAltV,
   faCaretLeft,
   faCaretRight,
   faStepBackward,
   faStepForward,
+  faUpload,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, TextInput } from "grommet";
-import React, { useState } from "react";
+import { Box, Button, TextInput, Text, Card } from "grommet";
+import { useContext, useState } from "react";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
-import { CardState } from "../state/CardState";
+import { app } from "..";
+import { CardActions } from "../actions/CardActions";
+import { ReducerContext } from "../reducers/ReducerContext";
+import { PDFCardState, PlayerViewPermission } from "../state/CardState";
 import { BaseCard } from "./BaseCard";
+import { useUserId } from "./hooks/useAccountSync";
+import { ViewType, ViewTypeContext } from "./ViewTypeContext";
 
 type Size = {
   width: number;
   height: number;
 };
 
-export function PDFCard(props: { card: CardState; outerSize: Size }) {
+function GetUserUpload() {
+  return new Promise<File>((resolve, reject) => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".pdf";
+    input.onchange = (e: any) => {
+      if (e.target?.files?.length > 0) {
+        resolve(e.target.files[0] as File);
+      } else {
+        reject();
+      }
+    };
+    input.click();
+  });
+}
+
+async function UploadUserFileToStorageAndGetURL(userId: string) {
+  const file = await GetUserUpload();
+  const storage = getStorage(app);
+  const fileRef = ref(storage, `users/${userId}/pdfs/${file.name}`);
+  await uploadBytes(fileRef, file);
+  return getDownloadURL(fileRef);
+}
+
+export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
   const [fitType, setFitType] = useState("width");
   const [pageNumber, setPageNumber] = useState(1);
   const [pageCount, setPageCount] = useState(1);
+  const { dispatch } = useContext(ReducerContext);
+  const userId = useUserId();
+  const viewType = useContext(ViewTypeContext);
+  const canEdit =
+    viewType !== ViewType.Player ||
+    props.card.playerViewPermission === PlayerViewPermission.Interact;
+
+  if (props.card.pdfUrl === "") {
+    if (!canEdit) {
+      return <Text>No PDF Uploaded.</Text>;
+    }
+
+    if (!userId) {
+      return <Text>Please log in to upload a PDF.</Text>;
+    }
+
+    return (
+      <BaseCard cardState={props.card} commands={null}>
+        <Button
+          onClick={async () => {
+            const pdfURL = await UploadUserFileToStorageAndGetURL(userId);
+            dispatch(
+              CardActions.SetPDFURL({ cardId: props.card.cardId, pdfURL })
+            );
+          }}
+          icon={<FontAwesomeIcon icon={faUpload} />}
+        />
+      </BaseCard>
+    );
+  }
+
   const setPageNumberBounded = (pageNumber: number) => {
     if (pageNumber < 1) {
       setPageNumber(1);
@@ -80,7 +147,7 @@ export function PDFCard(props: { card: CardState; outerSize: Size }) {
     >
       <Box overflow="auto" alignContent="center">
         <Document
-          file="sample.pdf"
+          file={props.card.pdfUrl}
           onLoadSuccess={(document) => {
             setPageCount(document.numPages);
           }}

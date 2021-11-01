@@ -1,5 +1,4 @@
 import "firebase/auth";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import "firebase/database";
 import {
   getDatabase,
@@ -10,7 +9,7 @@ import {
   set,
 } from "firebase/database";
 import pickBy from "lodash/pickBy";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { isActionOf } from "typesafe-actions";
 import { app } from "../..";
 import { RootAction } from "../../actions/Actions";

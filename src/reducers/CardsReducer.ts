@@ -91,4 +91,9 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
     return mergeCardState(oldState, action, {
       sketchModel: action.payload.sketchJSON,
     });
+  })
+  .handleAction(CardActions.SetPDFURL, (oldState, action) => {
+    return mergeCardState(oldState, action, {
+      pdfUrl: action.payload.pdfURL,
+    });
   });
