@@ -8,7 +8,7 @@ export function LongPressButton(props: {
   icon: JSX.Element;
   timeout?: number;
 }) {
-  const { onLongPress } = props;
+  const { onLongPress, ...otherProps } = props;
   const timeout = props.timeout || 1000;
 
   const [pressLength, setPressLength] = useState(0);
@@ -58,7 +58,7 @@ export function LongPressButton(props: {
         background="transparent"
       />
       <Button
-        {...props}
+        {...otherProps}
         onMouseDown={press}
         onMouseUp={unPress}
         onMouseLeave={unPress}
