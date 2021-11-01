@@ -18,6 +18,7 @@ import { CardActions } from "../../actions/CardActions";
 import { AppState } from "../../state/AppState";
 import { PlayerViewPermission } from "../../state/CardState";
 import { removeUndefinedNodesFromTree } from "./removeUndefinedNodesFromTree";
+import { useUserId } from "./useAccountSync";
 
 function omitClosedCardsFromState(fullState: AppState): AppState {
   if (fullState.activeDashboardId == null) {
@@ -65,17 +66,9 @@ export function usePlayerView(
   state: AppState,
   dispatch: React.Dispatch<RootAction>
 ) {
-  const [userId, setUserId] = useState<string | null>(null);
   const previousState = useRef(state);
 
-  useEffect(() => {
-    const auth = getAuth(app);
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUserId(user.uid);
-      }
-    });
-  }, [setUserId]);
+  const userId = useUserId();
 
   useEffect(() => {
     if (!userId) {
