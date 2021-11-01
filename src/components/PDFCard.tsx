@@ -14,7 +14,7 @@ import {
   faUpload,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, TextInput, Text, Card } from "grommet";
+import { Box, Button, TextInput, Text } from "grommet";
 import { useContext, useState } from "react";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 import { app } from "..";
