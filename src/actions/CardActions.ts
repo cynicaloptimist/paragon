@@ -69,6 +69,10 @@ export const CardActions = {
     cardId: string;
     pdfURL: string;
   }>(),
+  SetPDFPage: createAction("SetPDFPage")<{
+    cardId: string;
+    page: number;
+  }>(),
 };
 
 export type CardAction = ActionType<typeof CardActions>;

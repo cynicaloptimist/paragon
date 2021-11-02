@@ -96,4 +96,9 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
     return mergeCardState(oldState, action, {
       pdfUrl: action.payload.pdfURL,
     });
+  })
+  .handleAction(CardActions.SetPDFPage, (oldState, action) => {
+    return mergeCardState(oldState, action, {
+      currentPage: action.payload.page,
+    });
   });

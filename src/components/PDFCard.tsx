@@ -56,7 +56,6 @@ async function UploadUserFileToStorageAndGetURL(userId: string) {
 
 export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
   const [fitType, setFitType] = useState("width");
-  const [pageNumber, setPageNumber] = useState(1);
   const [pageCount, setPageCount] = useState(1);
   const { dispatch } = useContext(ReducerContext);
   const userId = useUserId();
@@ -83,6 +82,7 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
               CardActions.SetPDFURL({ cardId: props.card.cardId, pdfURL })
             );
           }}
+          label="Upload PDF"
           icon={<FontAwesomeIcon icon={faUpload} />}
         />
       </BaseCard>
@@ -91,11 +91,15 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
 
   const setPageNumberBounded = (pageNumber: number) => {
     if (pageNumber < 1) {
-      setPageNumber(1);
+      dispatch(CardActions.SetPDFPage({ cardId: props.card.cardId, page: 1 }));
     } else if (pageNumber > pageCount) {
-      setPageNumber(pageCount);
+      dispatch(
+        CardActions.SetPDFPage({ cardId: props.card.cardId, page: pageCount })
+      );
     } else {
-      setPageNumber(pageNumber);
+      dispatch(
+        CardActions.SetPDFPage({ cardId: props.card.cardId, page: pageNumber })
+      );
     }
   };
 
@@ -110,12 +114,12 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
           />
           <Button
             icon={<FontAwesomeIcon icon={faCaretLeft} />}
-            onClick={() => setPageNumberBounded(pageNumber - 1)}
+            onClick={() => setPageNumberBounded(props.card.currentPage - 1)}
           />
           <Box style={{ width: "100px" }}>
             <TextInput
               type="number"
-              value={pageNumber}
+              value={props.card.currentPage}
               className="no-spinner"
               style={{ textAlign: "center" }}
               onChange={(changeEvent) =>
@@ -126,7 +130,7 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
           </Box>
           <Button
             icon={<FontAwesomeIcon icon={faCaretRight} />}
-            onClick={() => setPageNumberBounded(pageNumber + 1)}
+            onClick={() => setPageNumberBounded(props.card.currentPage + 1)}
           />
           <Button
             icon={<FontAwesomeIcon icon={faStepForward} />}
@@ -153,7 +157,9 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
           }}
         >
           <Page
-            pageNumber={isNaN(pageNumber) ? 1 : pageNumber}
+            pageNumber={
+              isNaN(props.card.currentPage) ? 1 : props.card.currentPage
+            }
             width={fitType === "width" ? props.outerSize.width - 40 : undefined}
             height={
               fitType === "height" ? props.outerSize.height - 110 : undefined
