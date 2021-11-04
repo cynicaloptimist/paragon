@@ -57,7 +57,7 @@ async function UploadUserFileToStorageAndGetURL(userId: string) {
 export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
   const [fitType, setFitType] = useState("width");
   const [pageCount, setPageCount] = useState(1);
-  const { dispatch } = useContext(ReducerContext);
+  const { state, dispatch } = useContext(ReducerContext);
   const userId = useUserId();
   const viewType = useContext(ViewTypeContext);
   const canEdit =
@@ -69,8 +69,8 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
       return <Text>No PDF Uploaded.</Text>;
     }
 
-    if (!userId) {
-      return <Text>Please log in to upload a PDF.</Text>;
+    if (!(userId && state.user.hasStorage)) {
+      return <Text>Storage not available. Please log in to upload a PDF.</Text>;
     }
 
     return (
