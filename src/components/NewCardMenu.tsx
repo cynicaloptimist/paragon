@@ -8,9 +8,15 @@ import { ReducerContext } from "../reducers/ReducerContext";
 import { CardTypeFriendlyNames } from "../state/CardTypeFriendlyNames";
 
 export function NewCardMenu() {
-  const { dispatch } = useContext(ReducerContext);
+  const { state, dispatch } = useContext(ReducerContext);
 
-  const availableCardTypes = Object.keys(CardTypeFriendlyNames);
+  const availableCardTypes = Object.keys(CardTypeFriendlyNames).filter(
+    (cardType) => {
+      if (cardType === "pdf") {
+        return state.user.hasStorage;
+      }
+    }
+  );
 
   const menuItems = availableCardTypes.map((cardType) => {
     return {
