@@ -10,7 +10,9 @@ import { CardTypeFriendlyNames } from "../state/CardTypeFriendlyNames";
 export function NewCardMenu() {
   const { dispatch } = useContext(ReducerContext);
 
-  const menuItems = Object.keys(CardTypeFriendlyNames).map((cardType) => {
+  const availableCardTypes = Object.keys(CardTypeFriendlyNames);
+
+  const menuItems = availableCardTypes.map((cardType) => {
     return {
       label: CardTypeFriendlyNames[cardType],
       onClick: () => {
