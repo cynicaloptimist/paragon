@@ -15,6 +15,8 @@ export function NewCardMenu() {
       if (cardType === "pdf") {
         return state.user.hasStorage;
       }
+
+      return true;
     }
   );
 
