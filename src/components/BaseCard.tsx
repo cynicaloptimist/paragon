@@ -5,7 +5,7 @@ import {
   faPencilAlt,
   faTimes,
   faUserFriends,
-  IconDefinition
+  IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, Footer, Header, Heading, TextInput } from "grommet";
@@ -31,7 +31,7 @@ export function BaseCard(props: {
   const innerBoxRef = useRef<HTMLDivElement>(null);
 
   return (
-    <Box fill elevation="medium">
+    <Box fill elevation="medium" background="background">
       <CardHeader popToast={popToast} cardState={props.cardState} />
       <Box ref={innerBoxRef} flex pad="xxsmall">
         {props.children}
