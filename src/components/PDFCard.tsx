@@ -164,6 +164,7 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
             height={
               fitType === "height" ? props.outerSize.height - 110 : undefined
             }
+            renderAnnotationLayer={false}
           />
         </Document>
       </Box>
