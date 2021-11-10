@@ -19,9 +19,9 @@ export type LegacyAppState = {
 
   //current
   cardsById: LegacyCardsState;
-  cardLibraryVisibility: boolean;
-
+  
   //legacy
+  cardLibraryVisibility?: boolean;
   playerViewId?: string;
   openCardIds?: string[];
   layouts?: GridLayout.Layout[];
