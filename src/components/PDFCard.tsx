@@ -46,8 +46,7 @@ function GetUserUpload() {
   });
 }
 
-async function UploadUserFileToStorageAndGetURL(userId: string) {
-  const file = await GetUserUpload();
+async function UploadUserFileToStorageAndGetURL(file: File, userId: string) {
   const storage = getStorage(app);
   const fileRef = ref(storage, `users/${userId}/pdfs/${file.name}`);
   await uploadBytes(fileRef, file);
@@ -77,7 +76,16 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
       <BaseCard cardState={props.card} commands={null}>
         <Button
           onClick={async () => {
-            const pdfURL = await UploadUserFileToStorageAndGetURL(userId);
+            const file = await GetUserUpload();
+            const pdfURL = await UploadUserFileToStorageAndGetURL(file, userId);
+            if (props.card.pdfUrl === "") {
+              dispatch(
+                CardActions.SetCardTitle({
+                  cardId: props.card.cardId,
+                  title: file.name,
+                })
+              );
+            }
             dispatch(
               CardActions.SetPDFURL({ cardId: props.card.cardId, pdfURL })
             );
