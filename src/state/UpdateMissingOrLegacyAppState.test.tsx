@@ -22,6 +22,39 @@ test("updates legacy empty state", () => {
       playerViewId: {
         name: "Dashboard 1",
         layoutCompaction: "free",
+        layoutPushCards: "none",
+        layouts: [],
+        openCardIds: [],
+      },
+    },
+  };
+
+  expect(updatedState).toMatchObject(expectedState);
+});
+
+test("updates legacy dashboard state", () => {
+  const storedState: LegacyAppState = {
+    ...EmptyState(),
+    activeDashboardId: "playerViewId",
+    dashboardsById: {
+      playerViewId: {
+        name: "Dashboard 1",
+        layoutCompaction: "free",
+        layouts: [],
+        openCardIds: [],
+      },
+    },
+  };
+  const updatedState = UpdateMissingOrLegacyAppState(storedState);
+
+  const expectedState: AppState = {
+    ...EmptyState(),
+    activeDashboardId: "playerViewId",
+    dashboardsById: {
+      playerViewId: {
+        name: "Dashboard 1",
+        layoutCompaction: "free",
+        layoutPushCards: "none",
         layouts: [],
         openCardIds: [],
       },

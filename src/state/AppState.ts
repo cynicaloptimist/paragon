@@ -14,6 +14,7 @@ export type DashboardState = {
   openCardIds?: string[];
   layouts?: GridLayout.Layout[];
   layoutCompaction: "free" | "compact";
+  layoutPushCards: "none" | "preventcollision";
 };
 
 export type CardsState = Record<string, CardState>;
