@@ -15,6 +15,9 @@ export const Actions = {
   SetLayoutCompaction: createAction("SetLayoutCompaction")<{
     layoutCompaction: "free" | "compact";
   }>(),
+  SetLayoutPushCards: createAction("SetLayoutPushCards")<{
+    layoutPushCards: "none" | "preventcollision";
+  }>(),
   CreateDashboard: createAction("CreateDashboard")<{ dashboardId: string }>(),
   ActivateDashboard: createAction("ActivateDashboard")<{
     dashboardId: string;

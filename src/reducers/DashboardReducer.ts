@@ -16,6 +16,13 @@ export function DashboardReducer(
     };
   }
 
+  if (isActionOf(Actions.SetLayoutPushCards, action)) {
+    return {
+      ...oldState,
+      layoutPushCards: action.payload.layoutPushCards,
+    };
+  }
+
   if (isActionOf(CardActions.AddCard, action)) {
     const { cardId } = action.payload;
     return {

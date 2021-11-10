@@ -1,6 +1,6 @@
 import {
   faEllipsisV,
-  faExternalLinkAlt
+  faExternalLinkAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CheckBox, Menu, Text } from "grommet";
@@ -19,6 +19,12 @@ export function DashboardMenu(props: { dashboard: DashboardState }) {
     [dispatch]
   );
 
+  const setLayoutPushCards = useCallback(
+    (pushCards: "none" | "preventcollision") =>
+      dispatch(Actions.SetLayoutPushCards({ layoutPushCards: pushCards })),
+    [dispatch]
+  );
+
   return (
     <Menu
       dropAlign={{ right: "right", top: "bottom" }}
@@ -32,6 +38,15 @@ export function DashboardMenu(props: { dashboard: DashboardState }) {
           : {
               label: <CheckBox label="Auto-Compact Cards" checked />,
               onClick: () => setLayoutCompaction("free"),
+            },
+        props.dashboard.layoutPushCards === "preventcollision"
+          ? {
+              label: <CheckBox label="Push Cards" />,
+              onClick: () => setLayoutPushCards("none"),
+            }
+          : {
+              label: <CheckBox label="Push Cards" checked />,
+              onClick: () => setLayoutPushCards("preventcollision"),
             },
         {
           label: (

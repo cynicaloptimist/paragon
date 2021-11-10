@@ -91,6 +91,7 @@ export function CardGrid() {
         compactType={
           dashboard.layoutCompaction === "compact" ? "vertical" : null
         }
+        preventCollision={dashboard.layoutPushCards === "preventcollision"}
       >
         {cards}
       </ResponsiveGridLayout>
