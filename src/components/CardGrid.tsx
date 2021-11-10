@@ -100,23 +100,28 @@ export function CardGrid() {
 }
 
 //This component was added to access the `style` prop that RGL injects.
-function GridItem(props: {
-  card: CardState;
-  style?: CSSProperties;
-  children?: React.ReactChild[];
-}) {
-  const outerSize: Size = {
-    height: CSSToNumber(props.style?.height),
-    width: CSSToNumber(props.style?.width),
-  };
+const GridItem = React.forwardRef(
+  (
+    props: {
+      card: CardState;
+      style?: CSSProperties;
+      children?: React.ReactChild[];
+    },
+    ref: React.Ref<HTMLDivElement>
+  ) => {
+    const outerSize: Size = {
+      height: CSSToNumber(props.style?.height),
+      width: CSSToNumber(props.style?.width),
+    };
 
-  return (
-    <div {...props}>
-      {getComponentForCard(props.card, outerSize) || null}
-      {props.children?.slice(1)}
-    </div>
-  );
-}
+    return (
+      <div ref={ref} {...props}>
+        {getComponentForCard(props.card, outerSize) || null}
+        {props.children?.slice(1)}
+      </div>
+    );
+  }
+);
 
 function CSSToNumber(item: number | string | undefined) {
   if (!item) {
