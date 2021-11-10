@@ -28,5 +28,5 @@ test("updates legacy empty state", () => {
     },
   };
 
-  expect(updatedState).toEqual(expectedState);
+  expect(updatedState).toMatchObject(expectedState);
 });
