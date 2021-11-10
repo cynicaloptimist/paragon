@@ -30,6 +30,7 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
           openCardIds: [],
           layouts: [],
           layoutCompaction: "free",
+          layoutPushCards: "none",
           ...action.payload.dashboardState,
         },
       },
@@ -72,6 +73,7 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
         [action.payload.dashboardId]: {
           name: autoName,
           layoutCompaction: "free",
+          layoutPushCards: "none",
           openCardIds: [],
           layouts: [],
         },

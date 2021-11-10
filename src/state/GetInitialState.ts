@@ -27,6 +27,7 @@ export const GetInitialState = (): AppState => {
           },
         ],
         layoutCompaction: "free",
+        layoutPushCards: "none",
       },
     },
   };
