@@ -22,7 +22,7 @@ export type UserState = {
   isLoggedIn: boolean;
   hasStorage: boolean;
   hasEpic: boolean;
-}
+};
 
 export const EmptyState = (): AppState => ({
   cardsById: {},
@@ -32,12 +32,12 @@ export const EmptyState = (): AppState => ({
   user: {
     isLoggedIn: false,
     hasStorage: false,
-    hasEpic: false
-  }
+    hasEpic: false,
+  },
 });
 
 export function ActiveDashboardOf(state: AppState) {
-  if(!state.activeDashboardId) {
+  if (!state.activeDashboardId) {
     return null;
   }
   return state.dashboardsById[state.activeDashboardId];
