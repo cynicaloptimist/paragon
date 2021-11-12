@@ -61,6 +61,20 @@ export function CardGrid() {
     return <GridItem key={cardId} card={card} />;
   });
 
+  const updateLayout = (newLayout: Layout[]) => {
+    if (
+      canMoveCards &&
+      !_.isEqual(dashboard.layoutsBySize[currentBreakpoint], newLayout)
+    ) {
+      dispatch(
+        Actions.SetLayouts({
+          gridSize: currentBreakpoint,
+          layouts: newLayout,
+        })
+      );
+    }
+  };
+
   return (
     <Box fill>
       <ResponsiveGridLayout
@@ -79,19 +93,8 @@ export function CardGrid() {
         draggableHandle=".drag-handle"
         style={{ flexGrow: 1 }}
         layouts={dedupedLayouts}
-        onLayoutChange={(newLayout) => {
-          if (
-            canMoveCards &&
-            !_.isEqual(dashboard.layoutsBySize[currentBreakpoint], newLayout)
-          ) {
-            dispatch(
-              Actions.SetLayouts({
-                gridSize: currentBreakpoint,
-                layouts: newLayout,
-              })
-            );
-          }
-        }}
+        onDragStop={updateLayout}
+        onResizeStop={updateLayout}
         onBreakpointChange={(newBreakpoint) => {
           const currentLayouts = dedupedLayouts[currentBreakpoint];
           setCurrentBreakpoint(newBreakpoint);
