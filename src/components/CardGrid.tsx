@@ -59,6 +59,7 @@ export function CardGrid() {
   return (
     <Box fill>
       <ResponsiveGridLayout
+        measureBeforeMount
         breakpoints={{
           xxl: 2400,
           xl: 1800,
