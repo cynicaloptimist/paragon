@@ -24,12 +24,18 @@ export type LegacyAppState = {
   layoutCompaction?: "free" | "compact";
 };
 
-type LegacyDashboardState = {
+export type LegacyDashboardState = {
+  //new
+  layoutPushCards?: "none" | "preventcollision";
+  layoutsBySize?: GridLayout.Layouts;
+
+  //current
   name: string;
   openCardIds?: string[];
-  layouts?: GridLayout.Layout[];
   layoutCompaction: "free" | "compact";
-  layoutPushCards?: "none" | "preventcollision";
+
+  //legacy
+  layouts?: GridLayout.Layout[];
 };
 
 type LegacyCardsState = Record<string, LegacyCardState>;
@@ -65,6 +71,9 @@ export function UpdateMissingOrLegacyAppState(
         return {
           ...legacyDashboard,
           layoutPushCards: legacyDashboard.layoutPushCards ?? "none",
+          layoutsBySize: legacyDashboard.layoutsBySize ?? {
+            xxl: legacyDashboard.layouts || [],
+          },
         };
       }
     );
@@ -75,7 +84,7 @@ export function UpdateMissingOrLegacyAppState(
       [dashboardId]: {
         name: "Dashboard 1",
         openCardIds: storedState.openCardIds || [],
-        layouts: storedState.layouts || [],
+        layoutsBySize: { xxl: storedState.layouts || [] },
         layoutCompaction: storedState.layoutCompaction || "free",
         layoutPushCards: "none",
       },

@@ -8,7 +8,10 @@ export const Actions = {
     hasStorage: boolean;
     hasEpic: boolean;
   }>(),
-  SetLayouts: createAction("SetLayouts")<GridLayout.Layout[]>(),
+  SetLayouts: createAction("SetLayouts")<{
+    gridSize: string;
+    layouts: GridLayout.Layout[];
+  }>(),
   SetLibraryMode: createAction("SetLibraryMode")<{
     libraryMode: "hidden" | "cards" | "dashboards";
   }>(),

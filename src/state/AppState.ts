@@ -12,7 +12,7 @@ export type AppState = {
 export type DashboardState = {
   name: string;
   openCardIds?: string[];
-  layouts?: GridLayout.Layout[];
+  layoutsBySize: GridLayout.Layouts;
   layoutCompaction: "free" | "compact";
   layoutPushCards: "none" | "preventcollision";
 };

@@ -4,6 +4,7 @@ import { Actions, RootAction } from "../actions/Actions";
 import { CardActions } from "../actions/CardActions";
 import { AppState, DashboardState } from "../state/AppState";
 import { InitialCardState } from "../state/InitialCardState";
+import { LegacyDashboardState } from "../state/LegacyAppState";
 import { UpdateCardState as UpdateLegacyCardState } from "../state/LegacyCardState";
 import { CardsReducer } from "./CardsReducer";
 import { DashboardReducer } from "./DashboardReducer";
@@ -28,7 +29,11 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
         [action.payload.dashboardId]: {
           name: "",
           openCardIds: [],
-          layouts: [],
+          layoutsBySize: action.payload.dashboardState.layoutsBySize || {
+            xxl:
+              (action.payload.dashboardState as LegacyDashboardState).layouts ||
+              [],
+          },
           layoutCompaction: "free",
           layoutPushCards: "none",
           ...action.payload.dashboardState,
@@ -75,7 +80,7 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
           layoutCompaction: "free",
           layoutPushCards: "none",
           openCardIds: [],
-          layouts: [],
+          layoutsBySize: { xxl: [] },
         },
       },
     };

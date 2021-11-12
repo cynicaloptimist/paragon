@@ -1,4 +1,4 @@
-import { union } from "lodash";
+import _, { union } from "lodash";
 import { isActionOf } from "typesafe-actions";
 import { Actions, RootAction } from "../actions/Actions";
 import { CardActions } from "../actions/CardActions";
@@ -28,18 +28,25 @@ export function DashboardReducer(
     return {
       ...oldState,
       openCardIds: (oldState.openCardIds || []).concat([cardId]),
-      layouts: union(oldState.layouts, [InitialLayout(action.payload.cardId)]),
+      layoutsBySize: _.mapValues(oldState.layoutsBySize, (layout) => {
+        return _.union(layout, [InitialLayout(cardId)]);
+      }),
     };
   }
 
   if (isActionOf(CardActions.OpenCard, action)) {
-    if (oldState.openCardIds?.includes(action.payload.cardId)) {
+    const cardIsAlreadyOpen = oldState.openCardIds?.includes(
+      action.payload.cardId
+    );
+    if (cardIsAlreadyOpen) {
       return oldState;
     }
 
-    if (
-      oldState.layouts?.some((layout) => layout.i === action.payload.cardId)
-    ) {
+    const cardAlreadyHasLayout = Object.values(oldState.layoutsBySize).some(
+      (layouts) => layouts.some((layout) => layout.i === action.payload.cardId)
+    );
+
+    if (cardAlreadyHasLayout) {
       return {
         ...oldState,
         openCardIds: union(oldState.openCardIds, [action.payload.cardId]),
@@ -49,7 +56,9 @@ export function DashboardReducer(
     return {
       ...oldState,
       openCardIds: union(oldState.openCardIds, [action.payload.cardId]),
-      layouts: union(oldState.layouts, [InitialLayout(action.payload.cardId)]),
+      layoutsBySize: _.mapValues(oldState.layoutsBySize, (layouts) => {
+        return union(layouts, [InitialLayout(action.payload.cardId)]);
+      }),
     };
   }
 
@@ -72,14 +81,21 @@ export function DashboardReducer(
   }
 
   if (isActionOf(Actions.SetLayouts, action)) {
-    const updatedLayoutIds = action.payload.map((layout) => layout.i);
-    const nonUpdatedLayouts =
-      oldState.layouts?.filter(
-        (layout) => !updatedLayoutIds.includes(layout.i)
-      ) || [];
+    const updatedLayoutIds = action.payload.layouts.map((layout) => layout.i);
+    const activeLayout = oldState.layoutsBySize[action.payload.gridSize] || [];
+    const nonUpdatedLayouts = activeLayout.filter(
+      (layout) => !updatedLayoutIds.includes(layout.i)
+    );
+
     return {
       ...oldState,
-      layouts: [...nonUpdatedLayouts, ...(action.payload || [])],
+      layoutsBySize: {
+        ...oldState.layoutsBySize,
+        [action.payload.gridSize]: [
+          ...nonUpdatedLayouts,
+          ...(action.payload.layouts || []),
+        ],
+      },
     };
   }
 

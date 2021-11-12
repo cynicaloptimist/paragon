@@ -1,7 +1,7 @@
 import { AppState, EmptyState } from "./AppState";
 import {
   LegacyAppState,
-  UpdateMissingOrLegacyAppState
+  UpdateMissingOrLegacyAppState,
 } from "./LegacyAppState";
 
 test("updates legacy empty state", () => {
@@ -23,7 +23,7 @@ test("updates legacy empty state", () => {
         name: "Dashboard 1",
         layoutCompaction: "free",
         layoutPushCards: "none",
-        layouts: [],
+        layoutsBySize: { xxl: [] },
         openCardIds: [],
       },
     },
@@ -40,7 +40,7 @@ test("updates legacy dashboard state", () => {
       playerViewId: {
         name: "Dashboard 1",
         layoutCompaction: "free",
-        layouts: [],
+        layouts: [{ i: "cardId", x: 4, y: 4, w: 5, h: 5 }],
         openCardIds: [],
       },
     },
@@ -55,7 +55,7 @@ test("updates legacy dashboard state", () => {
         name: "Dashboard 1",
         layoutCompaction: "free",
         layoutPushCards: "none",
-        layouts: [],
+        layoutsBySize: { xxl: [{ i: "cardId", x: 4, y: 4, w: 5, h: 5 }] },
         openCardIds: [],
       },
     },

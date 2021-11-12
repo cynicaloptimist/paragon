@@ -17,15 +17,17 @@ export const GetInitialState = (): AppState => {
       [firstDashboardId]: {
         name: "Dashboard 1",
         openCardIds: [welcomeCard.cardId],
-        layouts: [
-          {
-            i: welcomeCard.cardId,
-            h: 8,
-            w: 8,
-            x: 2,
-            y: 0,
-          },
-        ],
+        layoutsBySize: {
+          xxl: [
+            {
+              i: welcomeCard.cardId,
+              h: 8,
+              w: 8,
+              x: 2,
+              y: 0,
+            },
+          ],
+        },
         layoutCompaction: "free",
         layoutPushCards: "none",
       },

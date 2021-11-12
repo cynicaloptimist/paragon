@@ -1,6 +1,7 @@
+import _ from "lodash";
 import { Box } from "grommet";
-import { isEqual, uniqBy } from "lodash";
 import React, { CSSProperties, useContext } from "react";
+
 import { Layout, Responsive, WidthProvider } from "react-grid-layout";
 import { Actions } from "../actions/Actions";
 import { CardActions } from "../actions/CardActions";
@@ -24,6 +25,8 @@ const MIN_GRID_UNITS_CARD_WIDTH = 4;
 export function CardGrid() {
   const { state, dispatch } = useContext(ReducerContext);
   const canMoveCards = useContext(ViewTypeContext) !== ViewType.Player;
+  const [currentBreakpoint, setCurrentBreakpoint] =
+    React.useState<string>("xxl");
 
   if (
     state.activeDashboardId == null ||
@@ -34,16 +37,18 @@ export function CardGrid() {
 
   const dashboard = state.dashboardsById[state.activeDashboardId];
 
-  const dedupedLayouts = uniqBy(dashboard.layouts, (l) => l.i)
-    .filter((l) => dashboard.openCardIds?.includes(l.i))
-    .map<Layout>((l) => {
-      const layout: Layout = {
-        ...l,
-        isDraggable: canMoveCards,
-        isResizable: canMoveCards,
-      };
-      return layout;
-    });
+  const dedupedLayouts = _.mapValues(dashboard.layoutsBySize, (layout) => {
+    return _.uniqBy(layout, (l) => l.i)
+      .filter((l) => dashboard.openCardIds?.includes(l.i))
+      .map<Layout>((l) => {
+        const layout: Layout = {
+          ...l,
+          isDraggable: canMoveCards,
+          isResizable: canMoveCards,
+        };
+        return layout;
+      });
+  });
 
   const cards = dashboard.openCardIds?.map((cardId) => {
     const card = state.cardsById[cardId];
@@ -73,11 +78,22 @@ export function CardGrid() {
         rowHeight={30}
         draggableHandle=".drag-handle"
         style={{ flexGrow: 1 }}
-        layouts={{ xxl: dedupedLayouts }}
+        layouts={dedupedLayouts}
         onLayoutChange={(newLayout) => {
-          if (canMoveCards && !isEqual(dashboard.layouts, newLayout)) {
-            dispatch(Actions.SetLayouts(newLayout));
+          if (
+            canMoveCards &&
+            !_.isEqual(dashboard.layoutsBySize[currentBreakpoint], newLayout)
+          ) {
+            dispatch(
+              Actions.SetLayouts({
+                gridSize: currentBreakpoint,
+                layouts: newLayout,
+              })
+            );
           }
+        }}
+        onBreakpointChange={(newBreakpoint) => {
+          setCurrentBreakpoint(newBreakpoint);
         }}
         onResize={(_, __, layoutItem, placeholder) => {
           if (layoutItem.h < MIN_GRID_UNITS_CARD_HEIGHT) {

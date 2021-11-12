@@ -8,6 +8,7 @@ import {
   remove,
   set,
 } from "firebase/database";
+import _ from "lodash";
 import pickBy from "lodash/pickBy";
 import { useEffect, useRef } from "react";
 import { isActionOf } from "typesafe-actions";
@@ -53,9 +54,9 @@ function omitClosedCardsFromState(fullState: AppState): AppState {
       [fullState.activeDashboardId]: {
         ...dashboard,
         openCardIds: visibleCardIds,
-        layouts: dashboard.layouts?.filter((layout) =>
-          visibleCardIds.includes(layout.i)
-        ),
+        layoutsBySize: _.mapValues(dashboard.layoutsBySize, (layout) => {
+          return layout.filter((layout) => visibleCardIds.includes(layout.i));
+        }),
       },
     },
   };
