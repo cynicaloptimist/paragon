@@ -93,7 +93,14 @@ export function CardGrid() {
           }
         }}
         onBreakpointChange={(newBreakpoint) => {
+          const currentLayouts = dedupedLayouts[currentBreakpoint];
           setCurrentBreakpoint(newBreakpoint);
+          if (!dedupedLayouts[newBreakpoint]) {
+            Actions.SetLayouts({
+              gridSize: newBreakpoint,
+              layouts: currentLayouts,
+            });
+          }
         }}
         onResize={(_, __, layoutItem, placeholder) => {
           if (layoutItem.h < MIN_GRID_UNITS_CARD_HEIGHT) {
