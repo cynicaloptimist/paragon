@@ -1,4 +1,4 @@
-import { Box, Header, Heading } from "grommet";
+import { Box, BoxProps, Header, Heading } from "grommet";
 import React, { useContext } from "react";
 import { Actions } from "../actions/Actions";
 import { ReducerContext } from "../reducers/ReducerContext";
@@ -13,9 +13,16 @@ export const TopBar = () => {
   const { state } = useContext(ReducerContext);
 
   const dashboard = ActiveDashboardOf(state);
+  const headerProps: BoxProps = {
+    background: "brand",
+    pad: "small",
+    fill: "horizontal",
+    height: "xsmall",
+  };
+
   if (dashboard == null) {
     return (
-      <Header background="brand" pad="small" fill="horizontal">
+      <Header {...headerProps}>
         <LibrarySidebarControls />
         <Box fill="horizontal" direction="row" justify="center">
           <Heading level={1} size="small" margin="xxsmall">
@@ -27,7 +34,7 @@ export const TopBar = () => {
   }
 
   return (
-    <Header background="brand" pad="small" fill="horizontal" height="xsmall">
+    <Header {...headerProps}>
       <LibrarySidebarControls />
       <Box fill="horizontal" direction="column" justify="center" align="center">
         <Heading level={1} size="small" margin="none">
