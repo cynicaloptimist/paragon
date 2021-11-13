@@ -33,7 +33,12 @@ export function DashboardLibraryRow(props: {
         color: isActiveDashboard ? "brand-2" : "transparent",
       }}
     >
-      <Button onClick={openDashboard} fill="horizontal" margin="xsmall">
+      <Button
+        onClick={openDashboard}
+        fill="horizontal"
+        margin="xsmall"
+        style={{ overflowX: "hidden" }}
+      >
         {props.dashboard.name}
       </Button>
       <LongPressButton
