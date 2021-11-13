@@ -16,7 +16,7 @@ export function LibrarySidebar() {
       style={{ position: "fixed", left: 0, width: "300px", height: "100%" }}
       alignContent="center"
     >
-      <Header background="brand" pad="small">
+      <Header background="brand" pad="small" height="xsmall">
         <LibrarySidebarControls />
         <Heading level={3} margin="none">
           {state.librarySidebarMode === "dashboards" ? "Dashboards" : "Cards"}

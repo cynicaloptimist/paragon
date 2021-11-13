@@ -27,7 +27,7 @@ export const TopBar = () => {
   }
 
   return (
-    <Header background="brand" pad="small" fill="horizontal">
+    <Header background="brand" pad="small" fill="horizontal" height="xsmall">
       <LibrarySidebarControls />
       <Box fill="horizontal" direction="column" justify="center" align="center">
         <Heading level={1} size="small" margin="none">
