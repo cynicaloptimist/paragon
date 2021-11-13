@@ -177,7 +177,7 @@ function getComponentForCard(card: CardState, outerSize: Size) {
     return <DiceCard card={card} />;
   }
   if (card.type === "drawing") {
-    return <DrawingCard card={card} />;
+    return <DrawingCard card={card} outerSize={outerSize} />;
   }
   if (card.type === "pdf") {
     return <PDFCard card={card} outerSize={outerSize} />;

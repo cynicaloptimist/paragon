@@ -16,6 +16,8 @@ import {
 } from "./SketchFieldProps";
 import { ViewTypeContext, ViewType } from "./ViewTypeContext";
 
+type Size = { height: number; width: number };
+
 const {
   Tools,
   SketchField,
@@ -24,7 +26,10 @@ const {
   SketchField: React.FC<SketchFieldProps>;
 } = require("react-sketch2");
 
-export function DrawingCard(props: { card: DrawingCardState }) {
+export function DrawingCard(props: {
+  card: DrawingCardState;
+  outerSize: Size;
+}) {
   const { dispatch } = React.useContext(ReducerContext);
   const [activeTool, setActiveTool] = useState<string>(Tools.Pencil);
   const sketch = useRef<any>(null);
@@ -106,6 +111,8 @@ export function DrawingCard(props: { card: DrawingCardState }) {
           tool={canEdit ? activeTool : Tools.Pan}
           value={sketchModel}
           ref={sketch}
+          width={props.outerSize.width - 40}
+          height={props.outerSize.height - 110}
         />
       </Box>
     </BaseCard>
