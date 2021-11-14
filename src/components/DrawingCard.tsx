@@ -32,8 +32,21 @@ export function DrawingCard(props: {
 }) {
   const { dispatch } = React.useContext(ReducerContext);
   const [activeTool, setActiveTool] = useState<string>(Tools.Pencil);
+  const boxRef = React.useRef<HTMLDivElement>(null);
+  const [innerSize, setInnerSize] = React.useState<Size>({
+    height: 0,
+    width: 0,
+  });
   const sketch = useRef<any>(null);
   const viewType = useContext(ViewTypeContext);
+
+  React.useEffect(() => {
+    if (!boxRef.current) {
+      return;
+    }
+    const box = boxRef.current;
+    setInnerSize(box.getBoundingClientRect());
+  }, [boxRef, props.outerSize]);
 
   const canEdit =
     viewType !== ViewType.Player ||
@@ -98,6 +111,8 @@ export function DrawingCard(props: {
       }
     >
       <Box
+        fill
+        ref={boxRef}
         tabIndex={0}
         onKeyDown={(keyEvent) => {
           if (keyEvent.key === "Delete") {
@@ -111,8 +126,8 @@ export function DrawingCard(props: {
           tool={canEdit ? activeTool : Tools.Pan}
           value={sketchModel}
           ref={sketch}
-          width={props.outerSize.width - 40}
-          height={props.outerSize.height - 110}
+          width={innerSize.width}
+          height={innerSize.height}
         />
       </Box>
     </BaseCard>
