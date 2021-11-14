@@ -21,6 +21,7 @@ export function BaseCard(props: {
   commands: React.ReactNode;
   cardState: CardState;
   children: React.ReactNode;
+  centerRow?: boolean;
 }) {
   const viewType = useContext(ViewTypeContext);
   const [toast, popToast] = useToast(5000);
@@ -33,7 +34,13 @@ export function BaseCard(props: {
   return (
     <Box fill elevation="medium" background="background">
       <CardHeader popToast={popToast} cardState={props.cardState} />
-      <Box ref={innerBoxRef} flex pad="xxsmall">
+      <Box
+        ref={innerBoxRef}
+        flex
+        pad="xxsmall"
+        direction={props.centerRow ? "row" : undefined}
+        justify={props.centerRow ? "center" : undefined}
+      >
         {props.children}
       </Box>
       <Footer

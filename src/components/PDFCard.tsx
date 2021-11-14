@@ -113,6 +113,7 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
 
   return (
     <BaseCard
+      centerRow
       cardState={props.card}
       commands={
         <>
