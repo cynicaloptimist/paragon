@@ -9,6 +9,7 @@ import {
   faArrowsAltV,
   faCaretLeft,
   faCaretRight,
+  faList,
   faStepBackward,
   faStepForward,
   faUpload,
@@ -16,7 +17,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, TextInput, Text } from "grommet";
 import { useContext, useState } from "react";
-import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
+import { Document, Outline, Page } from "react-pdf/dist/esm/entry.webpack";
 import { app } from "..";
 import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
@@ -56,6 +57,7 @@ async function UploadUserFileToStorageAndGetURL(file: File, userId: string) {
 export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
   const [fitType, setFitType] = useState("width");
   const [pageCount, setPageCount] = useState(1);
+  const [outlineVisible, setOutlineVisible] = useState(false);
   const { state, dispatch } = useContext(ReducerContext);
   const userId = useUserId();
   const viewType = useContext(ViewTypeContext);
@@ -113,10 +115,15 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
 
   return (
     <BaseCard
-      centerRow
+      centerRow={!outlineVisible}
       cardState={props.card}
       commands={
         <>
+          <Button
+            icon={<FontAwesomeIcon icon={faList} />}
+            onClick={() => setOutlineVisible(!outlineVisible)}
+            active={outlineVisible}
+          />
           <Button
             icon={<FontAwesomeIcon icon={faStepBackward} />}
             onClick={() => setPageNumberBounded(1)}
@@ -165,16 +172,28 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
             setPageCount(document.numPages);
           }}
         >
-          <Page
-            pageNumber={
-              isNaN(props.card.currentPage) ? 1 : props.card.currentPage
-            }
-            width={fitType === "width" ? props.outerSize.width - 40 : undefined}
-            height={
-              fitType === "height" ? props.outerSize.height - 110 : undefined
-            }
-            renderAnnotationLayer={false}
-          />
+          {outlineVisible ? (
+            <Outline
+              key={props.card.pdfUrl}
+              onItemClick={(item) => {
+                setPageNumberBounded(parseInt(item.pageNumber));
+                setOutlineVisible(false);
+              }}
+            />
+          ) : (
+            <Page
+              pageNumber={
+                isNaN(props.card.currentPage) ? 1 : props.card.currentPage
+              }
+              width={
+                fitType === "width" ? props.outerSize.width - 40 : undefined
+              }
+              height={
+                fitType === "height" ? props.outerSize.height - 110 : undefined
+              }
+              renderAnnotationLayer={false}
+            />
+          )}
         </Document>
       </Box>
     </BaseCard>
