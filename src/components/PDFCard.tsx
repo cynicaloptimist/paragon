@@ -58,8 +58,7 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
   const [fitType, setFitType] = useState("width");
   const [pageCount, setPageCount] = useState(1);
   const [outlineVisible, setOutlineVisible] = useState(false);
-  const { state, dispatch } = useContext(ReducerContext);
-  const userId = useUserId();
+  const { dispatch } = useContext(ReducerContext);
   const viewType = useContext(ViewTypeContext);
   const canEdit =
     viewType !== ViewType.Player ||
@@ -70,33 +69,7 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
       return <Text>No PDF Uploaded.</Text>;
     }
 
-    if (!(userId && state.user.hasStorage)) {
-      return <Text>Storage not available. Please log in to upload a PDF.</Text>;
-    }
-
-    return (
-      <BaseCard cardState={props.card} commands={null}>
-        <Button
-          onClick={async () => {
-            const file = await GetUserUpload();
-            const pdfURL = await UploadUserFileToStorageAndGetURL(file, userId);
-            if (props.card.pdfUrl === "") {
-              dispatch(
-                CardActions.SetCardTitle({
-                  cardId: props.card.cardId,
-                  title: file.name,
-                })
-              );
-            }
-            dispatch(
-              CardActions.SetPDFURL({ cardId: props.card.cardId, pdfURL })
-            );
-          }}
-          label="Upload PDF"
-          icon={<FontAwesomeIcon icon={faUpload} />}
-        />
-      </BaseCard>
-    );
+    return <PDFUpload card={props.card} />;
   }
 
   const setPageNumberBounded = (pageNumber: number) => {
@@ -196,6 +169,39 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
           )}
         </Document>
       </Box>
+    </BaseCard>
+  );
+}
+
+function PDFUpload(props: { card: PDFCardState }) {
+  const { state, dispatch } = useContext(ReducerContext);
+  const userId = useUserId();
+
+  if (!(userId && state.user.hasStorage)) {
+    return <Text>Storage not available. Please log in to upload a PDF.</Text>;
+  }
+
+  return (
+    <BaseCard cardState={props.card} commands={null}>
+      <Button
+        onClick={async () => {
+          const file = await GetUserUpload();
+          const pdfURL = await UploadUserFileToStorageAndGetURL(file, userId);
+          if (props.card.pdfUrl === "") {
+            dispatch(
+              CardActions.SetCardTitle({
+                cardId: props.card.cardId,
+                title: file.name,
+              })
+            );
+          }
+          dispatch(
+            CardActions.SetPDFURL({ cardId: props.card.cardId, pdfURL })
+          );
+        }}
+        label="Upload PDF"
+        icon={<FontAwesomeIcon icon={faUpload} />}
+      />
     </BaseCard>
   );
 }
