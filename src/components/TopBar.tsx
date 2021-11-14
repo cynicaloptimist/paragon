@@ -36,15 +36,27 @@ export const TopBar = () => {
   return (
     <Header {...headerProps}>
       <LibrarySidebarControls />
-      <Box fill="horizontal" direction="column" justify="center" align="center">
+      <Box
+        flex
+        overflow="hidden"
+        fill="horizontal"
+        direction="column"
+        justify="center"
+        align="center"
+      >
         <Heading level={1} size="small" margin="none">
           <DashboardNameWithEdit />
         </Heading>
-        <Heading level={2} size="small" margin="none">
+        <Heading
+          level={2}
+          size="small"
+          margin="none"
+          style={{ whiteSpace: "nowrap" }}
+        >
           Paragon Campaign Dashboard
         </Heading>
       </Box>
-      <Box direction="row" flex="grow" gap="small">
+      <Box direction="row" gap="small">
         <NewCardMenu />
         <RollAllTablesButton />
         <DashboardMenu dashboard={dashboard} />

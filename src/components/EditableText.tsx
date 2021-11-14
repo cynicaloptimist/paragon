@@ -14,7 +14,14 @@ export function EditableText(props: {
   };
 
   if (!isEditing) {
-    return <span onDoubleClick={() => setEditing(true)}>{props.text}</span>;
+    return (
+      <span
+        style={{ whiteSpace: "nowrap" }}
+        onDoubleClick={() => setEditing(true)}
+      >
+        {props.text}
+      </span>
+    );
   } else {
     return (
       <TextInput
