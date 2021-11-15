@@ -219,58 +219,57 @@ function PDFUpload(props: { card: PDFCardState }) {
     );
   }
 
+  const uploadedFilesList = uploadedFiles && (
+    <List
+      style={{ overflowY: "auto" }}
+      primaryKey="name"
+      data={uploadedFiles}
+      onClickItem={(event: { item?: FileNameAndURL; index?: number }) => {
+        if (!event.item) {
+          return;
+        }
+        setCardPDF(props.card, dispatch, event.item.name, event.item.url);
+      }}
+    />
+  );
+
   return (
     <BaseCard cardState={props.card} commands={null}>
-      {uploadedFiles ? (
-        <List
-          style={{ overflowY: "auto" }}
-          primaryKey="name"
-          data={uploadedFiles}
-          onClickItem={(event: { item?: FileNameAndURL; index?: number }) => {
-            dispatch(
-              CardActions.SetPDFPage({
-                cardId: props.card.cardId,
-                page: 1,
-              })
-            );
-            dispatch(
-              CardActions.SetPDFURL({
-                cardId: props.card.cardId,
-                pdfURL: event.item?.url || "",
-              })
-            );
-          }}
-        />
-      ) : (
-        <Paragraph>Loading...</Paragraph>
-      )}
+      {uploadedFilesList || <Paragraph>Loading...</Paragraph>}
       <Button
         onClick={async () => {
           const file = await GetUserUpload();
           const pdfURL = await UploadUserFileToStorageAndGetURL(file, userId);
-          if (props.card.pdfUrl === "") {
-            dispatch(
-              CardActions.SetCardTitle({
-                cardId: props.card.cardId,
-                title: file.name,
-              })
-            );
-          }
-
-          dispatch(
-            CardActions.SetPDFPage({
-              cardId: props.card.cardId,
-              page: 1,
-            })
-          );
-
-          dispatch(
-            CardActions.SetPDFURL({ cardId: props.card.cardId, pdfURL })
-          );
+          setCardPDF(props.card, dispatch, file.name, pdfURL);
         }}
         label="Upload PDF"
         icon={<FontAwesomeIcon icon={faUpload} />}
       />
     </BaseCard>
   );
+}
+
+function setCardPDF(
+  card: PDFCardState,
+  dispatch: React.Dispatch<any>,
+  fileName: string,
+  pdfURL: string
+) {
+  if (card.pdfUrl === "") {
+    dispatch(
+      CardActions.SetCardTitle({
+        cardId: card.cardId,
+        title: fileName,
+      })
+    );
+  }
+
+  dispatch(
+    CardActions.SetPDFPage({
+      cardId: card.cardId,
+      page: 1,
+    })
+  );
+
+  dispatch(CardActions.SetPDFURL({ cardId: card.cardId, pdfURL }));
 }
