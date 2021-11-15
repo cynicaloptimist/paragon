@@ -1,6 +1,7 @@
 import {
   ref,
   getStorage,
+  listAll,
   uploadBytes,
   getDownloadURL,
 } from "@firebase/storage";
@@ -15,8 +16,8 @@ import {
   faUpload,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, TextInput, Text } from "grommet";
-import { useContext, useState } from "react";
+import { Box, Button, TextInput, Paragraph, List } from "grommet";
+import { useContext, useEffect, useState } from "react";
 import { Document, Outline, Page } from "react-pdf/dist/esm/entry.webpack";
 import { app } from "..";
 import { CardActions } from "../actions/CardActions";
@@ -54,6 +55,26 @@ async function UploadUserFileToStorageAndGetURL(file: File, userId: string) {
   return getDownloadURL(fileRef);
 }
 
+type FileNameAndURL = {
+  name: string;
+  url: string;
+};
+
+async function GetCurrentUserUploads(userId: string) {
+  const storage = getStorage(app);
+  const filesRef = ref(storage, `users/${userId}/pdfs`);
+  const files = await listAll(filesRef);
+  const fileUrls: FileNameAndURL[] = await Promise.all(
+    files.items.map(async (file) => {
+      return {
+        name: file.name,
+        url: await getDownloadURL(file),
+      };
+    })
+  );
+  return fileUrls;
+}
+
 export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
   const [fitType, setFitType] = useState("width");
   const [pageCount, setPageCount] = useState(1);
@@ -66,7 +87,7 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
 
   if (props.card.pdfUrl === "") {
     if (!canEdit) {
-      return <Text>No PDF Uploaded.</Text>;
+      return <Paragraph>No PDF Uploaded.</Paragraph>;
     }
 
     return <PDFUpload card={props.card} />;
@@ -176,13 +197,53 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
 function PDFUpload(props: { card: PDFCardState }) {
   const { state, dispatch } = useContext(ReducerContext);
   const userId = useUserId();
+  const [uploadedFiles, setUploadedFiles] = useState<FileNameAndURL[] | null>(
+    null
+  );
+
+  useEffect(() => {
+    if (!(userId && state.user.hasStorage)) {
+      return;
+    }
+    GetCurrentUserUploads(userId).then((files) => {
+      setUploadedFiles(files);
+    });
+    return;
+  }, [userId, state.user.hasStorage]);
 
   if (!(userId && state.user.hasStorage)) {
-    return <Text>Storage not available. Please log in to upload a PDF.</Text>;
+    return (
+      <Paragraph>
+        Storage not available. Please log in to upload a PDF.
+      </Paragraph>
+    );
   }
 
   return (
     <BaseCard cardState={props.card} commands={null}>
+      {uploadedFiles ? (
+        <List
+          style={{ overflowY: "auto" }}
+          primaryKey="name"
+          data={uploadedFiles}
+          onClickItem={(event: { item?: FileNameAndURL; index?: number }) => {
+            dispatch(
+              CardActions.SetPDFPage({
+                cardId: props.card.cardId,
+                page: 1,
+              })
+            );
+            dispatch(
+              CardActions.SetPDFURL({
+                cardId: props.card.cardId,
+                pdfURL: event.item?.url || "",
+              })
+            );
+          }}
+        />
+      ) : (
+        <Paragraph>Loading...</Paragraph>
+      )}
       <Button
         onClick={async () => {
           const file = await GetUserUpload();
@@ -195,6 +256,14 @@ function PDFUpload(props: { card: PDFCardState }) {
               })
             );
           }
+
+          dispatch(
+            CardActions.SetPDFPage({
+              cardId: props.card.cardId,
+              page: 1,
+            })
+          );
+
           dispatch(
             CardActions.SetPDFURL({ cardId: props.card.cardId, pdfURL })
           );
