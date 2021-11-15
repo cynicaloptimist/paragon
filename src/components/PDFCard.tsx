@@ -16,7 +16,7 @@ import {
   faUpload,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, TextInput, Paragraph, List } from "grommet";
+import { Box, Button, TextInput, Paragraph, List, FileInput } from "grommet";
 import { useContext, useEffect, useState } from "react";
 import { Document, Outline, Page } from "react-pdf/dist/esm/entry.webpack";
 import { app } from "..";
@@ -32,21 +32,10 @@ type Size = {
   height: number;
 };
 
-function GetUserUpload() {
-  return new Promise<File>((resolve, reject) => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = ".pdf";
-    input.onchange = (e: any) => {
-      if (e.target?.files?.length > 0) {
-        resolve(e.target.files[0] as File);
-      } else {
-        reject();
-      }
-    };
-    input.click();
-  });
-}
+type FileNameAndURL = {
+  name: string;
+  url: string;
+};
 
 async function UploadUserFileToStorageAndGetURL(file: File, userId: string) {
   const storage = getStorage(app);
@@ -54,11 +43,6 @@ async function UploadUserFileToStorageAndGetURL(file: File, userId: string) {
   await uploadBytes(fileRef, file);
   return getDownloadURL(fileRef);
 }
-
-type FileNameAndURL = {
-  name: string;
-  url: string;
-};
 
 async function GetCurrentUserUploads(userId: string) {
   const storage = getStorage(app);
@@ -236,14 +220,17 @@ function PDFUpload(props: { card: PDFCardState }) {
   return (
     <BaseCard cardState={props.card} commands={null}>
       {uploadedFilesList || <Paragraph>Loading...</Paragraph>}
-      <Button
-        onClick={async () => {
-          const file = await GetUserUpload();
+      <FileInput
+        onChange={async (event) => {
+          const files = event.target.files;
+          if (!files) {
+            return;
+          }
+          const file = files[0];
           const pdfURL = await UploadUserFileToStorageAndGetURL(file, userId);
           setCardPDF(props.card, dispatch, file.name, pdfURL);
         }}
-        label="Upload PDF"
-        icon={<FontAwesomeIcon icon={faUpload} />}
+        accept=".pdf"
       />
     </BaseCard>
   );
