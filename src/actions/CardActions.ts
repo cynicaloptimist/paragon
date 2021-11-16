@@ -65,8 +65,9 @@ export const CardActions = {
     cardId: string;
     sketchJSON: SketchModelJSON;
   }>(),
-  SetPDFURL: createAction("SetPDFURL")<{
+  SetPDF: createAction("SetPDF")<{
     cardId: string;
+    pdfTitle: string;
     pdfURL: string;
   }>(),
   SetPDFPage: createAction("SetPDFPage")<{

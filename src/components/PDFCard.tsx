@@ -156,21 +156,7 @@ function setCardPDF(
   fileName: string,
   pdfURL: string
 ) {
-  if (card.pdfUrl === "") {
-    dispatch(
-      CardActions.SetCardTitle({
-        cardId: card.cardId,
-        title: fileName,
-      })
-    );
-  }
-
   dispatch(
-    CardActions.SetPDFPage({
-      cardId: card.cardId,
-      page: 1,
-    })
+    CardActions.SetPDF({ cardId: card.cardId, pdfURL, pdfTitle: fileName })
   );
-
-  dispatch(CardActions.SetPDFURL({ cardId: card.cardId, pdfURL }));
 }

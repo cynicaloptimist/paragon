@@ -5,6 +5,7 @@ import { CardsState } from "../state/AppState";
 import {
   CardState,
   DiceCardState,
+  PDFCardState,
   RollTableCardState,
 } from "../state/CardState";
 
@@ -92,9 +93,13 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
       sketchModel: action.payload.sketchJSON,
     });
   })
-  .handleAction(CardActions.SetPDFURL, (oldState, action) => {
-    return mergeCardState(oldState, action, {
+  .handleAction(CardActions.SetPDF, (oldState, action) => {
+    return mergeCardState<PDFCardState>(oldState, action, {
       pdfUrl: action.payload.pdfURL,
+      currentPage: 1,
+      title: oldState.pdfUrl
+        ? action.payload.pdfTitle
+        : oldState[action.payload.cardId].title,
     });
   })
   .handleAction(CardActions.SetPDFPage, (oldState, action) => {
