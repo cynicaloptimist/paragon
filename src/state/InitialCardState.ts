@@ -74,6 +74,14 @@ export function InitialCardState(
     };
   }
 
+  if (type === "ledger") {
+    return {
+      ...baseCard,
+      type,
+      entries: [],
+    };
+  }
+
   return {
     ...baseCard,
     type: "article",
