@@ -13,7 +13,6 @@ import {
   faList,
   faStepBackward,
   faStepForward,
-  faUpload,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, TextInput, Paragraph, List, FileInput } from "grommet";
@@ -22,7 +21,11 @@ import { Document, Outline, Page } from "react-pdf/dist/esm/entry.webpack";
 import { app } from "..";
 import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
-import { PDFCardState, PlayerViewPermission } from "../state/CardState";
+import {
+  CardState,
+  PDFCardState,
+  PlayerViewPermission,
+} from "../state/CardState";
 import { BaseCard } from "./BaseCard";
 import { useUserId } from "./hooks/useAccountSync";
 import { ViewType, ViewTypeContext } from "./ViewTypeContext";
@@ -37,16 +40,20 @@ type FileNameAndURL = {
   url: string;
 };
 
-async function UploadUserFileToStorageAndGetURL(file: File, userId: string) {
+async function UploadUserFileToStorageAndGetURL(
+  file: File,
+  userId: string,
+  fileType: string
+) {
   const storage = getStorage(app);
-  const fileRef = ref(storage, `users/${userId}/pdfs/${file.name}`);
+  const fileRef = ref(storage, `users/${userId}/${fileType}s/${file.name}`);
   await uploadBytes(fileRef, file);
   return getDownloadURL(fileRef);
 }
 
-async function GetCurrentUserUploads(userId: string) {
+async function GetCurrentUserUploads(userId: string, fileType: string) {
   const storage = getStorage(app);
-  const filesRef = ref(storage, `users/${userId}/pdfs`);
+  const filesRef = ref(storage, `users/${userId}/${fileType}s`);
   const files = await listAll(filesRef);
   const fileUrls: FileNameAndURL[] = await Promise.all(
     files.items.map(async (file) => {
@@ -74,7 +81,15 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
       return <Paragraph>No PDF Uploaded.</Paragraph>;
     }
 
-    return <PDFUpload card={props.card} />;
+    return (
+      <FileUpload
+        card={props.card}
+        onFileSelect={(file) => {
+          setCardPDF(props.card, dispatch, file.name, file.url);
+        }}
+        fileType="pdf"
+      />
+    );
   }
 
   const setPageNumberBounded = (pageNumber: number) => {
@@ -178,8 +193,12 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
   );
 }
 
-function PDFUpload(props: { card: PDFCardState }) {
-  const { state, dispatch } = useContext(ReducerContext);
+function FileUpload(props: {
+  card: CardState;
+  onFileSelect: (file: FileNameAndURL) => void;
+  fileType: string;
+}) {
+  const { state } = useContext(ReducerContext);
   const userId = useUserId();
   const [uploadedFiles, setUploadedFiles] = useState<FileNameAndURL[] | null>(
     null
@@ -189,7 +208,7 @@ function PDFUpload(props: { card: PDFCardState }) {
     if (!(userId && state.user.hasStorage)) {
       return;
     }
-    GetCurrentUserUploads(userId).then((files) => {
+    GetCurrentUserUploads(userId, props.fileType).then((files) => {
       setUploadedFiles(files);
     });
     return;
@@ -198,7 +217,7 @@ function PDFUpload(props: { card: PDFCardState }) {
   if (!(userId && state.user.hasStorage)) {
     return (
       <Paragraph>
-        Storage not available. Please log in to upload a PDF.
+        Storage not available. Please log in to upload a file.
       </Paragraph>
     );
   }
@@ -212,7 +231,7 @@ function PDFUpload(props: { card: PDFCardState }) {
         if (!event.item) {
           return;
         }
-        setCardPDF(props.card, dispatch, event.item.name, event.item.url);
+        props.onFileSelect(event.item);
       }}
     />
   );
@@ -227,10 +246,17 @@ function PDFUpload(props: { card: PDFCardState }) {
             return;
           }
           const file = files[0];
-          const pdfURL = await UploadUserFileToStorageAndGetURL(file, userId);
-          setCardPDF(props.card, dispatch, file.name, pdfURL);
+          const fileUrl = await UploadUserFileToStorageAndGetURL(
+            file,
+            userId,
+            props.fileType
+          );
+          props.onFileSelect({
+            name: file.name,
+            url: fileUrl,
+          });
         }}
-        accept=".pdf"
+        accept={`.${props.fileType}`}
       />
     </BaseCard>
   );
