@@ -15,6 +15,7 @@ import { ImageCard } from "./ImageCard";
 import { PDFCard } from "./PDFCard";
 import { RollTableCard } from "./RollTableCard";
 import { ViewType, ViewTypeContext } from "./ViewTypeContext";
+import { ActiveDashboardOf, VisibleCardsOf } from "../state/AppState";
 
 type Size = { height: number; width: number };
 
@@ -28,14 +29,11 @@ export function CardGrid() {
   const [currentBreakpoint, setCurrentBreakpoint] =
     React.useState<string>("xxl");
 
-  if (
-    state.activeDashboardId == null ||
-    !state.dashboardsById[state.activeDashboardId]
-  ) {
+  const dashboard = ActiveDashboardOf(state);
+
+  if (!dashboard) {
     return null;
   }
-
-  const dashboard = state.dashboardsById[state.activeDashboardId];
 
   const dedupedLayouts = _.mapValues(dashboard.layoutsBySize, (layout) => {
     return _.uniqBy(layout, (l) => l.i)
@@ -50,15 +48,9 @@ export function CardGrid() {
       });
   });
 
-  const cards = dashboard.openCardIds?.map((cardId) => {
-    const card = state.cardsById[cardId];
-    if (!card) {
-      console.warn("Open card ID missing from state: " + cardId);
-      dispatch(CardActions.CloseCard({ cardId }));
-      return <div key={cardId}></div>;
-    }
-
-    return <GridItem key={cardId} card={card} />;
+  const cards = VisibleCardsOf(state);
+  const gridItems = cards.map((card) => {
+    return <GridItem key={card.cardId} card={card} />;
   });
 
   const updateLayout = (newLayout: Layout[]) => {
@@ -120,7 +112,7 @@ export function CardGrid() {
         }
         preventCollision={dashboard.layoutPushCards === "preventcollision"}
       >
-        {cards}
+        {gridItems}
       </ResponsiveGridLayout>
     </Box>
   );

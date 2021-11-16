@@ -4,16 +4,17 @@ import { Button } from "grommet";
 import React, { useContext } from "react";
 import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
-import { ActiveDashboardOf } from "../state/AppState";
+import { VisibleCardsOf } from "../state/AppState";
 import { CardState, RollTableCardState } from "../state/CardState";
 import { GetRollTableModel, RandomInt } from "./RollTableCard";
 
 export function RollAllTablesButton() {
   const { state, dispatch } = useContext(ReducerContext);
-  const dashboard = ActiveDashboardOf(state);
-  const openCards = dashboard?.openCardIds?.map((id) => state.cardsById[id]);
-  const isRollTableCard = (card: CardState): card is RollTableCardState => card.type === "roll-table-h";
-  const tableCards: RollTableCardState[] = openCards?.filter(isRollTableCard) || [];
+  const openCards = VisibleCardsOf(state);
+  const isRollTableCard = (card: CardState): card is RollTableCardState =>
+    card.type === "roll-table-h";
+  const tableCards: RollTableCardState[] =
+    openCards.filter(isRollTableCard) || [];
   if (tableCards?.length < 2) {
     return null;
   }
@@ -30,6 +31,7 @@ export function RollAllTablesButton() {
             })
           );
         }
-      }} />
+      }}
+    />
   );
 }

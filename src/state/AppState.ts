@@ -43,3 +43,13 @@ export function ActiveDashboardOf(state: AppState) {
   }
   return state.dashboardsById[state.activeDashboardId];
 }
+
+export function VisibleCardsOf(state: AppState) {
+  const activeDashboard = ActiveDashboardOf(state);
+  if (!activeDashboard) {
+    return [];
+  }
+  const openCards =
+    activeDashboard.openCardIds?.map((id) => state.cardsById[id]) || [];
+  return openCards.filter((card) => card);
+}
