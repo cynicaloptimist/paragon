@@ -212,7 +212,7 @@ function FileUpload(props: {
       setUploadedFiles(files);
     });
     return;
-  }, [userId, state.user.hasStorage]);
+  }, [userId, state.user.hasStorage, props.fileType]);
 
   if (!(userId && state.user.hasStorage)) {
     return (
