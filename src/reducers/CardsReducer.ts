@@ -5,6 +5,7 @@ import { CardsState } from "../state/AppState";
 import {
   CardState,
   DiceCardState,
+  LedgerCardState,
   PDFCardState,
   RollTableCardState,
 } from "../state/CardState";
@@ -105,5 +106,17 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
   .handleAction(CardActions.SetPDFPage, (oldState, action) => {
     return mergeCardState(oldState, action, {
       currentPage: action.payload.page,
+    });
+  })
+  .handleAction(CardActions.AddLedgerEntry, (oldState, action) => {
+    const oldCard = oldState[action.payload.cardId] as LedgerCardState;
+    return mergeCardState(oldState, action, {
+      entries: [
+        ...oldCard.entries,
+        {
+          changeAmount: action.payload.changeAmount,
+          comment: action.payload.comment,
+        },
+      ],
     });
   });

@@ -74,6 +74,11 @@ export const CardActions = {
     cardId: string;
     page: number;
   }>(),
+  AddLedgerEntry: createAction("AddLedgerEntry")<{
+    cardId: string;
+    changeAmount: number;
+    comment: string;
+  }>(),
 };
 
 export type CardAction = ActionType<typeof CardActions>;
