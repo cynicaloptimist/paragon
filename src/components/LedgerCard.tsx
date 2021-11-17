@@ -1,4 +1,4 @@
-import { Box, List, Paragraph, Text, TextInput } from "grommet";
+import { Box, List, Text, TextInput } from "grommet";
 import _ from "lodash";
 import { useContext, useEffect, useRef } from "react";
 import { CardActions } from "../actions/CardActions";
@@ -29,25 +29,29 @@ export function LedgerCard(props: { card: LedgerCardState }) {
 
   const valueTotal = _.sum(card.entries.map((e) => e.changeAmount));
 
-  const submitOnEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const submitLedgerEntry = () => {
     const commentInput = commentInputRef.current;
     const amountInput = amountInputRef.current;
     if (!(amountInput && commentInput)) {
       return;
     }
+    const amount = parseInt(amountInput.value);
+    if (!isNaN(amount)) {
+      dispatch(
+        CardActions.AddLedgerEntry({
+          cardId: card.cardId,
+          comment: commentInput.value,
+          changeAmount: amount,
+        })
+      );
+      amountInput.value = "";
+      commentInput.value = "";
+    }
+  };
+
+  const submitOnEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      const amount = parseInt(amountInput.value);
-      if (!isNaN(amount)) {
-        dispatch(
-          CardActions.AddLedgerEntry({
-            cardId: card.cardId,
-            comment: commentInput.value,
-            changeAmount: amount,
-          })
-        );
-        amountInput.value = "";
-        commentInput.value = "";
-      }
+      submitLedgerEntry();
     }
   };
 
