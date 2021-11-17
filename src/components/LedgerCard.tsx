@@ -78,14 +78,17 @@ export function LedgerCard(props: { card: LedgerCardState }) {
         <Box direction="row" gap="small">
           <TextInput
             type="text"
+            placeholder="Comment"
             ref={commentInputRef}
             onKeyDown={submitOnEnter}
           />
-          <TextInput
-            type="number"
-            ref={amountInputRef}
-            onKeyDown={submitOnEnter}
-          />
+          <Box style={{ width: "6em" }}>
+            <TextInput
+              type="number"
+              ref={amountInputRef}
+              onKeyDown={submitOnEnter}
+            />
+          </Box>
         </Box>
       )}
     </BaseCard>
