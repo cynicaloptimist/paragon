@@ -15,7 +15,11 @@ import { isActionOf } from "typesafe-actions";
 import { app } from "../..";
 import { RootAction } from "../../actions/Actions";
 import { CardActions } from "../../actions/CardActions";
-import { AppState } from "../../state/AppState";
+import {
+  ActiveDashboardOf,
+  AppState,
+  VisibleCardsOf,
+} from "../../state/AppState";
 import { PlayerViewPermission } from "../../state/CardState";
 import { removeUndefinedNodesFromTree } from "./removeUndefinedNodesFromTree";
 import { useUserId } from "./useAccountSync";
@@ -28,7 +32,7 @@ function omitClosedCardsFromState(fullState: AppState): AppState {
     };
   }
 
-  const dashboard = fullState.dashboardsById[fullState.activeDashboardId];
+  const dashboard = ActiveDashboardOf(fullState);
 
   if (!dashboard) {
     return {
@@ -38,17 +42,17 @@ function omitClosedCardsFromState(fullState: AppState): AppState {
     };
   }
 
-  const visibleCardIds =
-    dashboard.openCardIds?.filter(
-      (cardId) =>
-        fullState.cardsById[cardId].playerViewPermission !==
-        PlayerViewPermission.Hidden
+  const visibleCards =
+    VisibleCardsOf(fullState).filter(
+      (card) => card.playerViewPermission !== PlayerViewPermission.Hidden
     ) || [];
+
+  const visibleCardIds = visibleCards.map((card) => card.cardId);
 
   return {
     ...fullState,
     cardsById: pickBy(fullState.cardsById, (_, cardId) =>
-      visibleCardIds.some((visibleCardId) => visibleCardId === cardId)
+      visibleCards.some((card) => card.cardId === cardId)
     ),
     dashboardsById: {
       [fullState.activeDashboardId]: {
