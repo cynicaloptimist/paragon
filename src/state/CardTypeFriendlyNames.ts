@@ -6,4 +6,5 @@ export const CardTypeFriendlyNames: Record<string, string> = {
   article: "Article",
   drawing: "Drawing",
   pdf: "PDF",
+  ledger: "Ledger",
 };

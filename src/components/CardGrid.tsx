@@ -4,7 +4,6 @@ import React, { CSSProperties, useContext } from "react";
 
 import { Layout, Responsive, WidthProvider } from "react-grid-layout";
 import { Actions } from "../actions/Actions";
-import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardState } from "../state/CardState";
 import { ArticleCard } from "./ArticleCard";
@@ -16,6 +15,7 @@ import { PDFCard } from "./PDFCard";
 import { RollTableCard } from "./RollTableCard";
 import { ViewType, ViewTypeContext } from "./ViewTypeContext";
 import { ActiveDashboardOf, VisibleCardsOf } from "../state/AppState";
+import { LedgerCard } from "./LedgerCard";
 
 type Size = { height: number; width: number };
 
@@ -173,5 +173,8 @@ function getComponentForCard(card: CardState, outerSize: Size) {
   }
   if (card.type === "pdf") {
     return <PDFCard card={card} outerSize={outerSize} />;
+  }
+  if (card.type === "ledger") {
+    return <LedgerCard card={card} />;
   }
 }
