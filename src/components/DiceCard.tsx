@@ -7,14 +7,14 @@ import React, {
   useContext,
   useEffect,
   useRef,
-  useState
+  useState,
 } from "react";
 import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
 import {
   DiceCardState,
   DiceRoll,
-  PlayerViewPermission
+  PlayerViewPermission,
 } from "../state/CardState";
 import { BaseCard } from "./BaseCard";
 import { ViewType, ViewTypeContext } from "./ViewTypeContext";
@@ -60,7 +60,7 @@ export function DiceCard(props: { card: DiceCardState }) {
     });
   }, [card.history]);
 
-  const [diceInput, setDiceInput] = useState("");
+  const diceInputRef = useRef<HTMLInputElement>(null);
   const [lookback, setLookback] = useState(0);
 
   return (
@@ -87,24 +87,27 @@ export function DiceCard(props: { card: DiceCardState }) {
       </Box>
       {canEdit && (
         <TextInput
-          value={diceInput}
-          onChange={(e) => setDiceInput(e.target.value)}
+          ref={diceInputRef}
           onKeyDown={(e) => {
-            if (e.key === "Enter" && diceInput.length > 0) {
-              rollDice(diceInput);
-              setDiceInput("");
+            if (!diceInputRef.current) {
+              return;
+            }
+            const input = diceInputRef.current;
+            if (e.key === "Enter" && input.value.length > 0) {
+              rollDice(input.value);
+              input.value = "";
               setLookback(0);
             }
             if (e.key === "ArrowUp" && lookback < card.history.length) {
-              setDiceInput(
-                card.history[card.history.length - (lookback + 1)].expression
-              );
+              input.value =
+                card.history[card.history.length - (lookback + 1)].expression;
+
               setLookback(lookback + 1);
             }
             if (e.key === "ArrowDown" && lookback - 1 > 0) {
-              setDiceInput(
-                card.history[card.history.length - (lookback - 1)].expression
-              );
+              input.value =
+                card.history[card.history.length - (lookback - 1)].expression;
+
               setLookback(lookback - 1);
             }
           }}
