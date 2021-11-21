@@ -79,6 +79,10 @@ export const CardActions = {
     changeAmount: number;
     comment: string;
   }>(),
+  RemoveLedgerEntry: createAction("RemoveLedgerEntry")<{
+    cardId: string;
+    ledgerEntryIndex: number;
+  }>(),
 };
 
 export type CardAction = ActionType<typeof CardActions>;

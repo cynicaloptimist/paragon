@@ -119,4 +119,12 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
         },
       ],
     });
+  })
+  .handleAction(CardActions.RemoveLedgerEntry, (oldState, action) => {
+    const oldCard = oldState[action.payload.cardId] as LedgerCardState;
+    return mergeCardState(oldState, action, {
+      entries: oldCard.entries.filter(
+        (_, index) => index !== action.payload.ledgerEntryIndex
+      ),
+    });
   });
