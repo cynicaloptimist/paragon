@@ -1,14 +1,14 @@
 import { useEffect, useRef } from "react";
 
 export function useScrollTo(entries: any[]) {
-  const scrollBottom = useRef<HTMLDivElement>(null);
+  const scrollTargetRef = useRef<HTMLDivElement>(null);
   const didInitialRenderScroll = useRef(false);
 
   useEffect(() => {
-    const scrollTo = scrollBottom.current;
-    if (scrollTo) {
+    const scrollTarget = scrollTargetRef.current;
+    if (scrollTarget) {
       setImmediate(() => {
-        scrollTo.scrollIntoView({
+        scrollTarget.scrollIntoView({
           behavior: didInitialRenderScroll.current ? "smooth" : "auto",
           block: "nearest",
         });
@@ -17,5 +17,5 @@ export function useScrollTo(entries: any[]) {
     }
   }, [entries]);
 
-  return scrollBottom;
+  return scrollTargetRef;
 }
