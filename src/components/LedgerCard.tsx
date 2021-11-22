@@ -1,8 +1,8 @@
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, List, TextInput } from "grommet";
+import { Box, TextInput } from "grommet";
 import _ from "lodash";
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useRef } from "react";
 import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
 import {
@@ -13,6 +13,7 @@ import {
 import { BaseCard } from "./BaseCard";
 import { useThemeColor } from "./hooks/useThemeColor";
 import { LongPressButton } from "./LongPressButton";
+import { useScrollTo } from "./hooks/useScrollTo";
 import { ViewType, ViewTypeContext } from "./ViewTypeContext";
 
 export function LedgerCard(props: { card: LedgerCardState }) {
@@ -24,18 +25,11 @@ export function LedgerCard(props: { card: LedgerCardState }) {
     viewType !== ViewType.Player ||
     card.playerViewPermission === PlayerViewPermission.Interact;
 
-  const scrollBottom = useRef<HTMLDivElement>(null);
+  const scrollBottom = useScrollTo(card.entries);
   const amountInputRef = useRef<HTMLInputElement>(null);
   const commentInputRef = useRef<HTMLInputElement>(null);
 
   const buttonColor = useThemeColor("light-6");
-
-  useEffect(() => {
-    scrollBottom.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest",
-    });
-  }, [card.entries]);
 
   const valueTotal = _.sum(card.entries.map((e) => e.changeAmount));
 
@@ -72,30 +66,34 @@ export function LedgerCard(props: { card: LedgerCardState }) {
         overflow={{ vertical: "auto", horizontal: "hidden" }}
         justify="start"
       >
-        <List data={card.entries} pad="xxsmall">
-          {(entry: LedgerEntry, index: number) => {
+        <ul style={{ listStyle: "none" }}>
+          {card.entries.map((entry: LedgerEntry, index: number) => {
             return (
-              <Box direction="row" align="center" justify="between" flex>
-                <Box flex fill pad="xsmall">
-                  {entry.comment}
+              <li key={index}>
+                <Box direction="row" align="center" justify="between" flex>
+                  <Box flex fill pad="xsmall">
+                    {entry.comment}
+                  </Box>
+                  <Box>{entry.changeAmount}</Box>
+                  <LongPressButton
+                    key={index}
+                    icon={
+                      <FontAwesomeIcon color={buttonColor} icon={faTimes} />
+                    }
+                    onLongPress={() => {
+                      dispatch(
+                        CardActions.RemoveLedgerEntry({
+                          cardId: card.cardId,
+                          ledgerEntryIndex: index,
+                        })
+                      );
+                    }}
+                  />
                 </Box>
-                <Box>{entry.changeAmount}</Box>
-                <LongPressButton
-                  key={index}
-                  icon={<FontAwesomeIcon color={buttonColor} icon={faTimes} />}
-                  onLongPress={() => {
-                    dispatch(
-                      CardActions.RemoveLedgerEntry({
-                        cardId: card.cardId,
-                        ledgerEntryIndex: index,
-                      })
-                    );
-                  }}
-                />
-              </Box>
+              </li>
             );
-          }}
-        </List>
+          })}
+        </ul>
         <div ref={scrollBottom} />
       </Box>
 

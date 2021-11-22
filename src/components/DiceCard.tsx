@@ -2,13 +2,7 @@ import { faArrowRight, faRedo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dice } from "dice-typescript";
 import { Box, Button, Text, TextInput } from "grommet";
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useContext, useRef, useState } from "react";
 import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
 import {
@@ -17,6 +11,7 @@ import {
   PlayerViewPermission,
 } from "../state/CardState";
 import { BaseCard } from "./BaseCard";
+import { useScrollTo } from "./hooks/useScrollTo";
 import { ViewType, ViewTypeContext } from "./ViewTypeContext";
 
 const dice = new Dice();
@@ -51,14 +46,7 @@ export function DiceCard(props: { card: DiceCardState }) {
     </Button>
   );
 
-  const scrollBottom = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    scrollBottom.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest",
-    });
-  }, [card.history]);
+  const scrollBottom = useScrollTo(card.history);
 
   const diceInputRef = useRef<HTMLInputElement>(null);
   const [lookback, setLookback] = useState(0);
