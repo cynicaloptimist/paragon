@@ -17,19 +17,6 @@ export function LongPressButton(props: {
 
   const interval = useRef<NodeJS.Timeout>();
 
-  const press = useCallback(() => {
-    if (!interval.current) {
-      interval.current = setInterval(() => {
-        if (pressLengthRef.current > timeout) {
-          setPressLength(0);
-          onLongPress();
-        } else {
-          setPressLength(pressLengthRef.current + DRAW_INTERVAL);
-        }
-      }, DRAW_INTERVAL);
-    }
-  }, [onLongPress, timeout]);
-
   const unPress = useCallback(() => {
     if (interval.current) {
       clearInterval(interval.current);
@@ -37,6 +24,20 @@ export function LongPressButton(props: {
     }
     setPressLength(0);
   }, [interval, setPressLength]);
+
+  const press = useCallback(() => {
+    if (!interval.current) {
+      interval.current = setInterval(() => {
+        if (pressLengthRef.current > timeout) {
+          setPressLength(0);
+          unPress();
+          onLongPress();
+        } else {
+          setPressLength(pressLengthRef.current + DRAW_INTERVAL);
+        }
+      }, DRAW_INTERVAL);
+    }
+  }, [onLongPress, timeout, unPress]);
 
   return (
     <Stack anchor="center">
