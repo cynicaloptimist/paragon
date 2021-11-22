@@ -1,4 +1,5 @@
 import {
+  faArrowsAlt,
   faCircle as faCircleSolid,
   faMousePointer,
   faPen,
@@ -93,6 +94,7 @@ export function DrawingCard(props: {
   };
 
   const tools = [
+    { name: Tools.Pan, icon: faArrowsAlt },
     {
       name: Tools.Select,
       icon: faMousePointer,
