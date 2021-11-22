@@ -2,7 +2,7 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, List, TextInput } from "grommet";
 import _ from "lodash";
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
 import {
@@ -66,7 +66,14 @@ export function LedgerCard(props: { card: LedgerCardState }) {
       >
         <List data={card.entries} pad="xxsmall" show={card.entries.length - 1}>
           {(entry: LedgerEntry, index: number) => {
-            return <LedgerEntryRow card={card} entry={entry} index={index} />;
+            return (
+              <LedgerEntryRow
+                key={index + JSON.stringify(entry)}
+                card={card}
+                entry={entry}
+                index={index}
+              />
+            );
           }}
         </List>
         <div ref={scrollBottom} />
@@ -96,6 +103,8 @@ export function LedgerCard(props: { card: LedgerCardState }) {
   );
 }
 
+const animationDuration = 500;
+
 function LedgerEntryRow(props: {
   card: LedgerCardState;
   entry: LedgerEntry;
@@ -103,10 +112,24 @@ function LedgerEntryRow(props: {
 }) {
   const { card, entry, index } = props;
   const { dispatch } = useContext(ReducerContext);
+  const [isDeleting, setDeleting] = useState(false);
   const buttonColor = useThemeColor("light-6");
 
   return (
-    <Box direction="row" align="center" justify="between" flex>
+    <Box
+      direction="row"
+      align="center"
+      justify="between"
+      flex
+      animation={
+        isDeleting
+          ? {
+              type: "fadeOut",
+              duration: animationDuration,
+            }
+          : undefined
+      }
+    >
       <Box flex fill pad="xsmall">
         {entry.comment}
       </Box>
@@ -115,12 +138,16 @@ function LedgerEntryRow(props: {
         key={index}
         icon={<FontAwesomeIcon color={buttonColor} icon={faTimes} />}
         onLongPress={() => {
-          dispatch(
-            CardActions.RemoveLedgerEntry({
-              cardId: card.cardId,
-              ledgerEntryIndex: index,
-            })
-          );
+          setDeleting(true);
+          setTimeout(() => {
+            setDeleting(false);
+            dispatch(
+              CardActions.RemoveLedgerEntry({
+                cardId: card.cardId,
+                ledgerEntryIndex: index,
+              })
+            );
+          }, animationDuration);
         }}
       />
     </Box>
