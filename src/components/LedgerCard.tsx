@@ -1,6 +1,6 @@
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, TextInput } from "grommet";
+import { Box, List, TextInput } from "grommet";
 import _ from "lodash";
 import { useContext, useRef } from "react";
 import { CardActions } from "../actions/CardActions";
@@ -66,8 +66,8 @@ export function LedgerCard(props: { card: LedgerCardState }) {
         overflow={{ vertical: "auto", horizontal: "hidden" }}
         justify="start"
       >
-        <ul style={{ listStyle: "none" }}>
-          {card.entries.map((entry: LedgerEntry, index: number) => {
+        <List data={card.entries} pad="xxsmall" show={card.entries.length - 1}>
+          {(entry: LedgerEntry, index: number) => {
             return (
               <li key={index}>
                 <Box direction="row" align="center" justify="between" flex>
@@ -92,8 +92,8 @@ export function LedgerCard(props: { card: LedgerCardState }) {
                 </Box>
               </li>
             );
-          })}
-        </ul>
+          }}
+        </List>
         <div ref={scrollBottom} />
       </Box>
 
