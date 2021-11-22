@@ -3,6 +3,7 @@ import {
   faCircle as faCircleSolid,
   faMousePointer,
   faPen,
+  faTint,
 } from "@fortawesome/free-solid-svg-icons";
 import { faCircle, faSquare } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -174,7 +175,7 @@ function ColorPickerButton(props: {
         active={isOpen}
         key="colorPicker"
         onClick={() => setIsOpen(!isOpen)}
-        icon={<FontAwesomeIcon color={props.color} icon={faCircleSolid} />}
+        icon={<FontAwesomeIcon color={props.color} icon={faTint} />}
       />
     </>
   );
