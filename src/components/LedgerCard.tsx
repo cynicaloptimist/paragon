@@ -29,8 +29,6 @@ export function LedgerCard(props: { card: LedgerCardState }) {
   const amountInputRef = useRef<HTMLInputElement>(null);
   const commentInputRef = useRef<HTMLInputElement>(null);
 
-  const buttonColor = useThemeColor("light-6");
-
   const valueTotal = _.sum(card.entries.map((e) => e.changeAmount));
 
   const submitLedgerEntry = () => {
@@ -68,26 +66,7 @@ export function LedgerCard(props: { card: LedgerCardState }) {
       >
         <List data={card.entries} pad="xxsmall" show={card.entries.length - 1}>
           {(entry: LedgerEntry, index: number) => {
-            return (
-              <Box direction="row" align="center" justify="between" flex>
-                <Box flex fill pad="xsmall">
-                  {entry.comment}
-                </Box>
-                <Box>{entry.changeAmount}</Box>
-                <LongPressButton
-                  key={index}
-                  icon={<FontAwesomeIcon color={buttonColor} icon={faTimes} />}
-                  onLongPress={() => {
-                    dispatch(
-                      CardActions.RemoveLedgerEntry({
-                        cardId: card.cardId,
-                        ledgerEntryIndex: index,
-                      })
-                    );
-                  }}
-                />
-              </Box>
-            );
+            return <LedgerEntryRow card={card} entry={entry} index={index} />;
           }}
         </List>
         <div ref={scrollBottom} />
@@ -114,5 +93,36 @@ export function LedgerCard(props: { card: LedgerCardState }) {
         </Box>
       )}
     </BaseCard>
+  );
+}
+
+function LedgerEntryRow(props: {
+  card: LedgerCardState;
+  entry: LedgerEntry;
+  index: number;
+}) {
+  const { card, entry, index } = props;
+  const { dispatch } = useContext(ReducerContext);
+  const buttonColor = useThemeColor("light-6");
+
+  return (
+    <Box direction="row" align="center" justify="between" flex>
+      <Box flex fill pad="xsmall">
+        {entry.comment}
+      </Box>
+      <Box>{entry.changeAmount}</Box>
+      <LongPressButton
+        key={index}
+        icon={<FontAwesomeIcon color={buttonColor} icon={faTimes} />}
+        onLongPress={() => {
+          dispatch(
+            CardActions.RemoveLedgerEntry({
+              cardId: card.cardId,
+              ledgerEntryIndex: index,
+            })
+          );
+        }}
+      />
+    </Box>
   );
 }
