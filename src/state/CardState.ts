@@ -63,6 +63,8 @@ export type PDFCardState = BaseCardState & {
 export type LedgerCardState = BaseCardState & {
   type: "ledger";
   entries: LedgerEntry[];
+  units: string;
+  isDecreasing: boolean;
 };
 
 export type LedgerEntry = {

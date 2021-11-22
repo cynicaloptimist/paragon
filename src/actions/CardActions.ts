@@ -83,6 +83,14 @@ export const CardActions = {
     cardId: string;
     ledgerEntryIndex: number;
   }>(),
+  SetLedgerUnits: createAction("SetLedgerUnits")<{
+    cardId: string;
+    units: string;
+  }>(),
+  SetLedgerDecreasing: createAction("SetLedgerDecreasing")<{
+    cardId: string;
+    isDecreasing: boolean;
+  }>(),
 };
 
 export type CardAction = ActionType<typeof CardActions>;

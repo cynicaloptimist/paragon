@@ -127,4 +127,14 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
         (_, index) => index !== action.payload.ledgerEntryIndex
       ),
     });
+  })
+  .handleAction(CardActions.SetLedgerUnits, (oldState, action) => {
+    return mergeCardState(oldState, action, {
+      units: action.payload.units,
+    });
+  })
+  .handleAction(CardActions.SetLedgerDecreasing, (oldState, action) => {
+    return mergeCardState(oldState, action, {
+      isDecreasing: action.payload.isDecreasing,
+    });
   });

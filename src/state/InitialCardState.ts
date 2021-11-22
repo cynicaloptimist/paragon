@@ -79,6 +79,8 @@ export function InitialCardState(
       ...baseCard,
       type,
       entries: [],
+      units: "",
+      isDecreasing: false,
     };
   }
 
