@@ -69,28 +69,24 @@ export function LedgerCard(props: { card: LedgerCardState }) {
         <List data={card.entries} pad="xxsmall" show={card.entries.length - 1}>
           {(entry: LedgerEntry, index: number) => {
             return (
-              <li key={index}>
-                <Box direction="row" align="center" justify="between" flex>
-                  <Box flex fill pad="xsmall">
-                    {entry.comment}
-                  </Box>
-                  <Box>{entry.changeAmount}</Box>
-                  <LongPressButton
-                    key={index}
-                    icon={
-                      <FontAwesomeIcon color={buttonColor} icon={faTimes} />
-                    }
-                    onLongPress={() => {
-                      dispatch(
-                        CardActions.RemoveLedgerEntry({
-                          cardId: card.cardId,
-                          ledgerEntryIndex: index,
-                        })
-                      );
-                    }}
-                  />
+              <Box direction="row" align="center" justify="between" flex>
+                <Box flex fill pad="xsmall">
+                  {entry.comment}
                 </Box>
-              </li>
+                <Box>{entry.changeAmount}</Box>
+                <LongPressButton
+                  key={index}
+                  icon={<FontAwesomeIcon color={buttonColor} icon={faTimes} />}
+                  onLongPress={() => {
+                    dispatch(
+                      CardActions.RemoveLedgerEntry({
+                        cardId: card.cardId,
+                        ledgerEntryIndex: index,
+                      })
+                    );
+                  }}
+                />
+              </Box>
             );
           }}
         </List>
