@@ -157,6 +157,7 @@ function ColorPickerButton(props: {
         <Drop
           target={buttonRef.current}
           align={{ bottom: "top", right: "right" }}
+          onClickOutside={() => setIsOpen(false)}
         >
           <SketchPicker
             color={props.color}
