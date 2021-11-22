@@ -1,6 +1,5 @@
 import {
   faArrowsAlt,
-  faCircle as faCircleSolid,
   faMousePointer,
   faPen,
   faTint,
