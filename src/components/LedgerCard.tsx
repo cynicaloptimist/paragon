@@ -1,6 +1,6 @@
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faCog, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, List, TextInput } from "grommet";
+import { Box, Button, FormField, List, TextInput } from "grommet";
 import _ from "lodash";
 import { useContext, useRef, useState } from "react";
 import { CardActions } from "../actions/CardActions";
@@ -24,6 +24,8 @@ export function LedgerCard(props: { card: LedgerCardState }) {
   const canEdit =
     viewType !== ViewType.Player ||
     card.playerViewPermission === PlayerViewPermission.Interact;
+
+  const [isEditing, setEditing] = useState(false);
 
   const scrollBottom = useScrollTo(card.entries);
   const amountInputRef = useRef<HTMLInputElement>(null);
@@ -57,8 +59,50 @@ export function LedgerCard(props: { card: LedgerCardState }) {
     }
   };
 
+  if (isEditing) {
+    return (
+      <BaseCard
+        cardState={card}
+        commands={
+          <>
+            <Button
+              active
+              onClick={() => setEditing(false)}
+              icon={<FontAwesomeIcon icon={faCog} />}
+            />
+          </>
+        }
+      >
+        <FormField label="Units">
+          <TextInput
+            placeholder="e.g. money, experience points"
+            value={card.units}
+            onChange={(changeEvent) => {
+              dispatch(
+                CardActions.SetLedgerUnits({
+                  cardId: card.cardId,
+                  units: changeEvent.target.value,
+                })
+              );
+            }}
+          />
+        </FormField>
+      </BaseCard>
+    );
+  }
+
   return (
-    <BaseCard cardState={card} commands={<></>}>
+    <BaseCard
+      cardState={card}
+      commands={
+        <>
+          <Button
+            onClick={() => setEditing(true)}
+            icon={<FontAwesomeIcon icon={faCog} />}
+          />
+        </>
+      }
+    >
       <Box
         flex
         overflow={{ vertical: "auto", horizontal: "hidden" }}
@@ -80,7 +124,7 @@ export function LedgerCard(props: { card: LedgerCardState }) {
       </Box>
 
       <Box direction="row" justify="end" pad="small">
-        Total: {valueTotal}
+        Total: {valueTotal} {card.units}
       </Box>
       {canEdit && (
         <Box direction="row" gap="small">
