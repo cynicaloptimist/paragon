@@ -59,9 +59,15 @@ function GetCardTypesCard(): ArticleCardState {
 
 **Dice Cards** provide a space to roll and record die rolls using the familiar [Roll20 style](https://wiki.roll20.net/Dice_Reference#Roll20_Dice_Specification) dice specification.
 
-**Image Cards** show an image. You can drag an image from another tab straight onto an image card.
+**Clock Cards** are inspired by the Clock mechanic of various [PbtA](https://en.wikipedia.org/wiki/Powered_by_the_Apocalypse) games. They can be used for tracking progress toward a goal or event, for example.
 
-**Clock Cards** are inspired by the Clock mechanic of various [PbtA](https://en.wikipedia.org/wiki/Powered_by_the_Apocalypse) games. They can be used for tracking progress toward a goal or event, for example.`,
+**Ledger Cards** help keep track of values that change over time. Try using them for experience points, currency, treasure, encumbrance, et cetera.
+
+**Drawing Cards** provide some simple drawing tools. You can create freehand lines and shapes and move them around.
+
+**Image Cards** show an image. You can drag an image from another tab straight onto an image card.
+`,
+
     playerViewPermission: PlayerViewPermission.Hidden,
   };
 }
