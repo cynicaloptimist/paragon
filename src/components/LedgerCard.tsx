@@ -1,6 +1,18 @@
-import { faCog, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCog,
+  faInfoCircle,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, FormField, List, TextInput } from "grommet";
+import {
+  Box,
+  Button,
+  CheckBox,
+  FormField,
+  List,
+  TextInput,
+  Tip,
+} from "grommet";
 import _ from "lodash";
 import { useContext, useRef, useState } from "react";
 import { CardActions } from "../actions/CardActions";
@@ -41,11 +53,12 @@ export function LedgerCard(props: { card: LedgerCardState }) {
     }
     const amount = parseInt(amountInput.value);
     if (!isNaN(amount)) {
+      const multiplier = card.isDecreasing ? -1 : 1;
       dispatch(
         CardActions.AddLedgerEntry({
           cardId: card.cardId,
           comment: commentInput.value,
-          changeAmount: amount,
+          changeAmount: amount * multiplier,
         })
       );
       amountInput.value = "";
@@ -87,6 +100,24 @@ export function LedgerCard(props: { card: LedgerCardState }) {
             }}
           />
         </FormField>
+        <Box direction="row" align="center">
+          <CheckBox
+            label="New entries decrease total"
+            checked={card.isDecreasing}
+            toggle
+            onChange={(changeEvent) => {
+              dispatch(
+                CardActions.SetLedgerDecreasing({
+                  cardId: card.cardId,
+                  isDecreasing: changeEvent.target.checked,
+                })
+              );
+            }}
+          />
+          <Tip content="Use this for ledgers that generally decrease, like hit points.">
+            <Button icon={<FontAwesomeIcon icon={faInfoCircle} />} />
+          </Tip>
+        </Box>
       </BaseCard>
     );
   }

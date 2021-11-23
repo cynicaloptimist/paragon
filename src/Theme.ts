@@ -24,6 +24,7 @@ export const Theme: ThemeType = {
         light: "#A3C4BC",
       },
       background: "#F1F7EE",
+      "background-contrast": "#E8F2E3",
     },
     font: {
       family: "'Roboto', sans-serif",
