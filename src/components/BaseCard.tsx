@@ -146,14 +146,12 @@ function CardHeader(props: {
 }
 
 function PlayerViewIcon(props: { topLayer: IconDefinition }) {
-  const textColor = useThemeColor("text");
   return (
     <span className="fa-layers fa-fw">
       <FontAwesomeIcon icon={props.topLayer} transform="grow-4 up-2 left-4" />
       <FontAwesomeIcon
         icon={faUserFriends}
         transform="right-8 down-7 shrink-5 flip-h"
-        color={textColor}
       />
     </span>
   );
@@ -212,7 +210,6 @@ function PlayerViewButton(props: {
   return (
     <Button
       icon={<PlayerViewIcon topLayer={faEyeSlash} />}
-      color="text-fade"
       hoverIndicator
       onClick={() => {
         dispatch(
