@@ -77,13 +77,11 @@ export function LedgerCard(props: { card: LedgerCardState }) {
       <BaseCard
         cardState={card}
         commands={
-          <>
-            <Button
-              active
-              onClick={() => setEditing(false)}
-              icon={<FontAwesomeIcon icon={faCog} />}
-            />
-          </>
+          <Button
+            active
+            onClick={() => setEditing(false)}
+            icon={<FontAwesomeIcon icon={faCog} />}
+          />
         }
       >
         <FormField label="Units">
@@ -126,12 +124,12 @@ export function LedgerCard(props: { card: LedgerCardState }) {
     <BaseCard
       cardState={card}
       commands={
-        <>
+        canEdit && (
           <Button
             onClick={() => setEditing(true)}
             icon={<FontAwesomeIcon icon={faCog} />}
           />
-        </>
+        )
       }
     >
       <Box
