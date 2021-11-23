@@ -166,6 +166,7 @@ export function LedgerCard(props: { card: LedgerCardState }) {
           <Box style={{ width: "6em" }}>
             <TextInput
               type="number"
+              placeholder={card.isDecreasing ? "-" : "+"}
               ref={amountInputRef}
               onKeyDown={submitOnEnter}
             />
