@@ -9,7 +9,8 @@ export function Login() {
   if (
     !(
       environment.REACT_APP_PATREON_CLIENT_ID &&
-      environment.REACT_APP_PATREON_LOGIN_REDIRECT_URI
+      environment.REACT_APP_PATREON_LOGIN_REDIRECT_URI &&
+      environment.REACT_APP_ENABLE_ACCOUNT_SYNC
     )
   ) {
     return null;
