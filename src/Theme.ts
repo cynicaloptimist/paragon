@@ -4,27 +4,25 @@ export const Theme: ThemeType = {
   global: {
     colors: {
       brand: {
-        dark: "#555F3E",
-        light: "#AFD5AA",
+        light: "#472654",
       },
       "brand-2": {
-        dark: "#52675E",
-        light: "#A3C4BC",
+        light: "#97A8C3",
       },
       text: {
         light: "rgba(68, 68, 68, 1)",
       },
       link: {
-        light: "#5eab54",
+        light: "#358600",
       },
       "text-fade": {
         light: "rgba(68, 68, 68, 0.2)",
       },
       focus: {
-        light: "#A3C4BC",
+        light: "#81D2C7",
       },
-      background: "#F1F7EE",
-      "background-contrast": "#E8F2E3",
+      background: "#EEE5E9",
+      "background-contrast": "#E7DAE0",
     },
     font: {
       family: "'Roboto', sans-serif",
