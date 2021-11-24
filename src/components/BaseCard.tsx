@@ -13,7 +13,6 @@ import React, { useContext, useRef } from "react";
 import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardState, PlayerViewPermission } from "../state/CardState";
-import { useThemeColor } from "./hooks/useThemeColor";
 import { useToast } from "./hooks/useToast";
 import { ViewType, ViewTypeContext } from "./ViewTypeContext";
 
