@@ -2,7 +2,7 @@ import {
   faCheck,
   faCode,
   faEdit,
-  faFont
+  faFont,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -12,11 +12,11 @@ import {
   Text,
   TextArea,
   ThemeContext,
-  ThemeType
+  ThemeType,
 } from "grommet";
 import React, { useContext } from "react";
 import Editor from "rich-markdown-editor";
-import light from "rich-markdown-editor/dist/styles/theme";
+import base from "rich-markdown-editor/dist/styles/theme";
 import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardsState } from "../state/AppState";
@@ -175,10 +175,9 @@ function ArticleEditor(props: {
         onBlur={saveCardContent}
         disableExtensions={["container_notice", "highlight"]}
         theme={{
-          ...light,
+          ...base,
           toolbarBackground: themeColors.primary,
           toolbarHoverBackground: themeColors.primary,
-          toolbarItem: themeColors.text,
           background: themeColors.background,
           codeBackground: themeColors.background,
           blockToolbarBackground: themeColors.background,
