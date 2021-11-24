@@ -1,8 +1,8 @@
 import { Box, Button } from "grommet";
 import React, { useCallback, useContext } from "react";
 import { Actions } from "../actions/Actions";
-import cardStack from "../cards-regular.svg";
-import dashboardIcon from "../dm-screen-regular.svg";
+import { ReactComponent as CardStack } from "../cards-regular.svg";
+import { ReactComponent as DMScreen } from "../dm-screen-regular.svg";
 import { ReducerContext } from "../reducers/ReducerContext";
 
 export function LibrarySidebarControls() {
@@ -27,11 +27,11 @@ export function LibrarySidebarControls() {
   return (
     <Box direction="row" gap="small">
       <Button
-        icon={<img src={cardStack} alt="Cards" height="22px" />}
+        icon={<CardStack title="Cards" height="22px" />}
         onClick={toggleCardLibrary}
       />
       <Button
-        icon={<img src={dashboardIcon} alt="Dashboards" height="22px" />}
+        icon={<DMScreen title="Dashboards" height="22px" />}
         onClick={toggleDashboardLibrary}
       />
     </Box>
