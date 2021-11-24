@@ -48,6 +48,7 @@ export function BaseCard(props: {
         pad={{ right: "small" }}
         overflow={{ horizontal: "auto" }}
       >
+        <Box height="1em" />
         {toast && (
           <Box
             flex="grow"
