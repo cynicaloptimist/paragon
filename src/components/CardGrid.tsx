@@ -23,6 +23,25 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 const MIN_GRID_UNITS_CARD_HEIGHT = 3;
 const MIN_GRID_UNITS_CARD_WIDTH = 4;
 
+const breakpoints: { [breakpoint: string]: number } = {
+  xxl: 2400,
+  xl: 1800,
+  lg: 1200,
+  md: 996,
+  sm: 768,
+  xs: 480,
+  xxs: 0,
+};
+
+function breakpointForSize(size: number) {
+  for (const breakpoint in breakpoints) {
+    if (size >= breakpoints[breakpoint]) {
+      return breakpoint;
+    }
+  }
+  return "xxs";
+}
+
 export function CardGrid() {
   const { state, dispatch } = useContext(ReducerContext);
   const canMoveCards = useContext(ViewTypeContext) !== ViewType.Player;
@@ -70,18 +89,19 @@ export function CardGrid() {
   };
 
   return (
-    <Box fill>
+    <Box
+      fill
+      ref={(boxRef) => {
+        if (boxRef) {
+          const box = boxRef.getBoundingClientRect();
+          const breakpoint = breakpointForSize(box.width);
+          setCurrentBreakpoint(breakpoint);
+        }
+      }}
+    >
       <ResponsiveGridLayout
         measureBeforeMount
-        breakpoints={{
-          xxl: 2400,
-          xl: 1800,
-          lg: 1200,
-          md: 996,
-          sm: 768,
-          xs: 480,
-          xxs: 0,
-        }}
+        breakpoints={breakpoints}
         cols={{ xxl: 48, xl: 36, lg: 24, md: 20, sm: 12, xs: 8, xxs: 4 }}
         rowHeight={30}
         draggableHandle=".drag-handle"
