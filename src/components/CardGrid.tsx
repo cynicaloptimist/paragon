@@ -41,6 +41,8 @@ export function CardGrid() {
       .map<Layout>((l) => {
         const layout: Layout = {
           ...l,
+          w: _.max([l.w, MIN_GRID_UNITS_CARD_WIDTH])!,
+          h: _.max([l.h, MIN_GRID_UNITS_CARD_HEIGHT])!,
           isDraggable: canMoveCards,
           isResizable: canMoveCards,
         };
