@@ -16,6 +16,7 @@ import { RollTableCard } from "./RollTableCard";
 import { ViewType, ViewTypeContext } from "./ViewTypeContext";
 import { ActiveDashboardOf, VisibleCardsOf } from "../state/AppState";
 import { LedgerCard } from "./LedgerCard";
+import { BaseCard } from "./BaseCard";
 
 type Size = { height: number; width: number };
 
@@ -199,4 +200,11 @@ function getComponentForCard(card: CardState, outerSize: Size) {
   if (card.type === "ledger") {
     return <LedgerCard card={card} />;
   }
+
+  const unsupportedCard: any = card;
+  return (
+    <BaseCard cardState={unsupportedCard as CardState} commands={null}>
+      Unsupported card type: {unsupportedCard.type}
+    </BaseCard>
+  );
 }
