@@ -82,7 +82,7 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
             icon={<FontAwesomeIcon icon={faCaretLeft} />}
             onClick={() => setPageNumberBounded(props.card.currentPage - 1)}
           />
-          <Box style={{ width: "100px" }}>
+          <Box style={{ width: "60px" }} flex="grow">
             <TextInput
               type="number"
               value={props.card.currentPage}
