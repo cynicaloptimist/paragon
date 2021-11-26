@@ -13,7 +13,13 @@ export function NewCardMenu() {
   const availableCardTypes = Object.keys(CardTypeFriendlyNames).filter(
     (cardType) => {
       if (cardType === "pdf") {
-        return state.user.hasStorage;
+        return (
+          process.env.REACT_APP_ENABLE_EXPERIMENTAL && state.user.hasStorage
+        );
+      }
+
+      if (cardType === "drawing") {
+        return process.env.REACT_APP_ENABLE_EXPERIMENTAL;
       }
 
       return true;

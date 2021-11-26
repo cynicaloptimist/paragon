@@ -63,8 +63,6 @@ function GetCardTypesCard(): ArticleCardState {
 
 **Ledger Cards** help keep track of values that change over time. Try using them for experience points, currency, treasure, encumbrance, et cetera.
 
-**Drawing Cards** provide some simple drawing tools. You can create freehand lines and shapes and move them around.
-
 **Image Cards** show an image. You can drag an image from another tab straight onto an image card.
 `,
 
