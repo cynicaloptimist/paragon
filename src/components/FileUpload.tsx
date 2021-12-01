@@ -5,12 +5,21 @@ import {
   uploadBytes,
   getDownloadURL,
 } from "@firebase/storage";
-import { Box, Button, TextInput, Paragraph } from "grommet";
-import { useContext, useEffect, useState } from "react";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  Text,
+  Paragraph,
+  List,
+  FileInput,
+  TextInput,
+  Box,
+  Button,
+} from "grommet";
+import { useContext, useEffect, useRef, useState } from "react";
 import { app } from "..";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { CardState } from "../state/CardState";
-import { BaseCard } from "./BaseCard";
 import { useUserId } from "./hooks/useAccountSync";
 
 type FileNameAndURL = {
@@ -23,6 +32,7 @@ export function FileUpload(props: {
   onFileSelect: (file: FileNameAndURL) => void;
   fileType: string;
   fileInputAccept?: string;
+  allowDirectLink?: boolean;
 }) {
   const { state } = useContext(ReducerContext);
   const userId = useUserId();
@@ -83,6 +93,30 @@ export function FileUpload(props: {
           });
         }}
         accept={props.fileInputAccept}
+      />
+      {props.allowDirectLink && (
+        <DirectUrlInput
+          onSubmit={(newUrl) => {
+            props.onFileSelect({
+              name: newUrl,
+              url: newUrl,
+            });
+          }}
+        />
+      )}
+    </Box>
+  );
+}
+
+function DirectUrlInput(props: { onSubmit: (url: string) => void }) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  return (
+    <Box direction="row" align="center">
+      <Text margin="small">URL: </Text>
+      <TextInput aria-label="URL" ref={inputRef} />
+      <Button
+        onClick={() => props.onSubmit(inputRef.current!.value)}
+        icon={<FontAwesomeIcon icon={faCheck} />}
       />
     </Box>
   );

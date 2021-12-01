@@ -1,15 +1,17 @@
-import { Box, Button, Image, TextInput } from "grommet";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Box, Button, Image } from "grommet";
 import React, { useContext, useState } from "react";
 import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { ImageCardState } from "../state/CardState";
 import { BaseCard } from "./BaseCard";
+import { FileUpload } from "./FileUpload";
 
 export function ImageCard(props: { card: ImageCardState }) {
   const { dispatch } = useContext(ReducerContext);
   const { card } = props;
   const [inputVisible, setInputVisible] = useState(false);
-  const [urlInput, setUrlInput] = useState(card.imageUrl);
 
   let innerElement = (
     <Button
@@ -21,43 +23,45 @@ export function ImageCard(props: { card: ImageCardState }) {
 
   if (card.imageUrl.length > 0) {
     innerElement = (
-      <Image
-        fit="contain"
-        alt="referenced image"
-        onClick={() => setInputVisible(true)}
-        src={card.imageUrl}
-      />
+      <Image fit="contain" alt="referenced image" src={card.imageUrl} />
     );
   }
 
   if (inputVisible) {
     innerElement = (
-      <TextInput
-        value={urlInput}
-        onChange={(event) => {
-          setUrlInput(event.target.value);
-        }}
-        onKeyDown={(event) => {
-          if (event.key !== "Enter") {
-            return;
-          }
+      <FileUpload
+        card={props.card}
+        onFileSelect={(file) => {
           setInputVisible(false);
           dispatch(
-            CardActions.SetImageUrl({ cardId: card.cardId, imageUrl: urlInput })
+            CardActions.SetImageUrl({ cardId: card.cardId, imageUrl: file.url })
           );
         }}
-        autoFocus
+        fileType="image"
+        allowDirectLink
       />
     );
   }
 
   return (
-    <BaseCard commands={null} cardState={card}>
+    <BaseCard
+      commands={
+        <Button
+          icon={<FontAwesomeIcon icon={faEdit} />}
+          onClick={() => setInputVisible(true)}
+        />
+      }
+      cardState={card}
+    >
       <Box
         fill
         onDropCapture={(dropEvent) => {
           const imageUrl = dropEvent.dataTransfer.getData("URL");
-          dispatch(CardActions.SetImageUrl({ cardId: card.cardId, imageUrl }));
+          if (imageUrl) {
+            dispatch(
+              CardActions.SetImageUrl({ cardId: card.cardId, imageUrl })
+            );
+          }
         }}
       >
         {innerElement}
