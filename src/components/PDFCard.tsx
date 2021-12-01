@@ -45,6 +45,7 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
           setCardPDF(props.card, dispatch, file.name, file.url);
         }}
         fileType="pdf"
+        fileInputAccept=".pdf"
       />
     );
   }

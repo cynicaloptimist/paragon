@@ -22,6 +22,7 @@ export function FileUpload(props: {
   card: CardState;
   onFileSelect: (file: FileNameAndURL) => void;
   fileType: string;
+  fileInputAccept?: string;
 }) {
   const { state } = useContext(ReducerContext);
   const userId = useUserId();
@@ -81,7 +82,7 @@ export function FileUpload(props: {
             url: fileUrl,
           });
         }}
-        accept={`.${props.fileType}`}
+        accept={props.fileInputAccept}
       />
     </BaseCard>
   );
