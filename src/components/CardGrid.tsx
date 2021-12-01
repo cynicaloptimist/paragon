@@ -156,8 +156,10 @@ const GridItem = React.forwardRef(
       width: CSSToNumber(props.style?.width),
     };
 
+    const { card, ...attributes } = props;
+
     return (
-      <div ref={ref} {...props}>
+      <div ref={ref} {...attributes}>
         {getComponentForCard(props.card, outerSize) || null}
         {props.children?.slice(1)}
       </div>
