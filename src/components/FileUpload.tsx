@@ -50,12 +50,27 @@ export function FileUpload(props: {
     return;
   }, [userId, state.user.hasStorage, props.fileType]);
 
+  const directUrlInput = (
+    <DirectUrlInput
+      onSubmit={(newUrl) => {
+        props.onFileSelect({
+          name: newUrl,
+          url: newUrl,
+        });
+      }}
+    />
+  );
+
   if (!(userId && state.user.hasStorage)) {
-    return (
-      <Paragraph>
-        Storage not available. Please log in to upload a file.
-      </Paragraph>
-    );
+    if (props.allowDirectLink) {
+      return directUrlInput;
+    } else {
+      return (
+        <Paragraph>
+          Storage not available. Please log in to upload a file.
+        </Paragraph>
+      );
+    }
   }
 
   const uploadedFilesList = uploadedFiles && (
@@ -94,16 +109,7 @@ export function FileUpload(props: {
         }}
         accept={props.fileInputAccept}
       />
-      {props.allowDirectLink && (
-        <DirectUrlInput
-          onSubmit={(newUrl) => {
-            props.onFileSelect({
-              name: newUrl,
-              url: newUrl,
-            });
-          }}
-        />
-      )}
+      {props.allowDirectLink && directUrlInput}
     </Box>
   );
 }
