@@ -5,7 +5,7 @@ import {
   uploadBytes,
   getDownloadURL,
 } from "@firebase/storage";
-import { Paragraph, List, FileInput } from "grommet";
+import { Box, Button, TextInput, Paragraph } from "grommet";
 import { useContext, useEffect, useState } from "react";
 import { app } from "..";
 import { ReducerContext } from "../reducers/ReducerContext";
@@ -63,7 +63,7 @@ export function FileUpload(props: {
   );
 
   return (
-    <BaseCard cardState={props.card} commands={null}>
+    <Box align="start">
       {uploadedFilesList || <Paragraph>Loading...</Paragraph>}
       <FileInput
         onChange={async (event) => {
@@ -84,7 +84,7 @@ export function FileUpload(props: {
         }}
         accept={props.fileInputAccept}
       />
-    </BaseCard>
+    </Box>
   );
 }
 
