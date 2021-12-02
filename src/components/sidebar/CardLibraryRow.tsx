@@ -2,11 +2,11 @@ import { faCheck, faFolder, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, TextInput } from "grommet";
 import React, { useCallback, useContext, useState } from "react";
-import { CardActions } from "../actions/CardActions";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { ActiveDashboardOf } from "../state/AppState";
-import { CardState } from "../state/CardState";
-import { LongPressButton } from "./LongPressButton";
+import { CardActions } from "../../actions/CardActions";
+import { ReducerContext } from "../../reducers/ReducerContext";
+import { ActiveDashboardOf } from "../../state/AppState";
+import { CardState } from "../../state/CardState";
+import { LongPressButton } from "../LongPressButton";
 
 export function CardLibraryRow(props: { card: CardState }) {
   const { state, dispatch } = useContext(ReducerContext);

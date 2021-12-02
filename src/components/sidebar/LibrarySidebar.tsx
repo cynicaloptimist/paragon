@@ -1,10 +1,10 @@
 import { Box, Header, Heading } from "grommet";
 import React, { useContext } from "react";
-import { ReducerContext } from "../reducers/ReducerContext";
+import { ReducerContext } from "../../reducers/ReducerContext";
 import { CardLibrary } from "./CardLibrary";
 import { DashboardLibrary } from "./DashboardLibrary";
 import { LibrarySidebarControls } from "./LibrarySidebarControls";
-import { Login } from "./LoginButton";
+import { Login } from "../LoginButton";
 
 export function LibrarySidebar() {
   const { state } = useContext(ReducerContext);

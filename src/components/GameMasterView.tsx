@@ -10,7 +10,7 @@ import { useAccountSync } from "./hooks/useAccountSync";
 import { useLogin } from "./hooks/useLogin";
 import { usePlayerView } from "./hooks/usePlayerView";
 import { useStorageBackedReducer } from "./hooks/useStorageBackedReducer";
-import { LibrarySidebar } from "./LibrarySidebar";
+import { LibrarySidebar } from "./sidebar/LibrarySidebar";
 import { TopBar } from "./TopBar";
 
 export function GameMasterView() {

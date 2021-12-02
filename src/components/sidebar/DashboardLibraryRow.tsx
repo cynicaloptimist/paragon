@@ -2,10 +2,10 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button } from "grommet";
 import React, { useCallback, useContext } from "react";
-import { Actions } from "../actions/Actions";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { DashboardState } from "../state/AppState";
-import { LongPressButton } from "./LongPressButton";
+import { Actions } from "../../actions/Actions";
+import { ReducerContext } from "../../reducers/ReducerContext";
+import { DashboardState } from "../../state/AppState";
+import { LongPressButton } from "../LongPressButton";
 
 export function DashboardLibraryRow(props: {
   dashboardId: string;

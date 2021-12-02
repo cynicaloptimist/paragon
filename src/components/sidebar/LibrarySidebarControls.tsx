@@ -1,9 +1,9 @@
 import { Box, Button } from "grommet";
 import React, { useCallback, useContext } from "react";
-import { Actions } from "../actions/Actions";
-import { ReactComponent as CardStack } from "../cards-regular.svg";
-import { ReactComponent as DMScreen } from "../dm-screen-regular.svg";
-import { ReducerContext } from "../reducers/ReducerContext";
+import { Actions } from "../../actions/Actions";
+import { ReactComponent as CardStack } from "../../cards-regular.svg";
+import { ReactComponent as DMScreen } from "../../dm-screen-regular.svg";
+import { ReducerContext } from "../../reducers/ReducerContext";
 
 export function LibrarySidebarControls() {
   const { state, dispatch } = useContext(ReducerContext);

@@ -2,9 +2,9 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button } from "grommet";
 import React, { useContext } from "react";
-import { Actions } from "../actions/Actions";
-import { randomString } from "../randomString";
-import { ReducerContext } from "../reducers/ReducerContext";
+import { Actions } from "../../actions/Actions";
+import { randomString } from "../../randomString";
+import { ReducerContext } from "../../reducers/ReducerContext";
 import { DashboardLibraryRow } from "./DashboardLibraryRow";
 
 export function DashboardLibrary() {

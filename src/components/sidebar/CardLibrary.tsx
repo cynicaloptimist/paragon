@@ -7,9 +7,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Fuse from "fuse.js";
 import { Box, Button, Heading, TextInput } from "grommet";
 import React, { useContext, useMemo, useState } from "react";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { CardState } from "../state/CardState";
-import { CardTypeFriendlyNames } from "../state/CardTypeFriendlyNames";
+import { ReducerContext } from "../../reducers/ReducerContext";
+import { CardState } from "../../state/CardState";
+import { CardTypeFriendlyNames } from "../../state/CardTypeFriendlyNames";
 import { CardLibraryRow } from "./CardLibraryRow";
 
 type Grouping = {
