@@ -21,7 +21,7 @@ import {
   VisibleCardsOf,
 } from "../../state/AppState";
 import { PlayerViewPermission } from "../../state/CardState";
-import { removeUndefinedNodesFromTree } from "./removeUndefinedNodesFromTree";
+import { removeUndefinedNodesFromTree } from "../removeUndefinedNodesFromTree";
 import { useUserId } from "./useAccountSync";
 
 function omitClosedCardsFromState(fullState: AppState): AppState {

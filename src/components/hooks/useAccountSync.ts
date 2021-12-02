@@ -9,7 +9,7 @@ import { Actions, RootAction } from "../../actions/Actions";
 import { CardActions } from "../../actions/CardActions";
 import { AppState, DashboardState } from "../../state/AppState";
 import { CardState } from "../../state/CardState";
-import { removeUndefinedNodesFromTree } from "./removeUndefinedNodesFromTree";
+import { removeUndefinedNodesFromTree } from "../removeUndefinedNodesFromTree";
 
 const environment = process.env;
 

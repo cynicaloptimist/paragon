@@ -2,7 +2,7 @@ import { getDatabase, ref, set } from "firebase/database";
 import "firebase/database";
 import { pickBy } from "lodash";
 import { ActiveDashboardOf, AppState } from "../state/AppState";
-import { removeUndefinedNodesFromTree } from "./hooks/removeUndefinedNodesFromTree";
+import { removeUndefinedNodesFromTree } from "./removeUndefinedNodesFromTree";
 import { app } from "..";
 
 export async function ShareDashboard(state: AppState) {

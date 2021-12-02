@@ -8,7 +8,7 @@ import { ReducerContext } from "../reducers/ReducerContext";
 import { AppState, EmptyState } from "../state/AppState";
 import { Theme } from "../Theme";
 import { CardGrid } from "./CardGrid";
-import { removeUndefinedNodesFromTree } from "./hooks/removeUndefinedNodesFromTree";
+import { removeUndefinedNodesFromTree } from "./removeUndefinedNodesFromTree";
 import { PlayerViewTopBar } from "./PlayerViewTopBar";
 import { restorePrunedEmptyArrays } from "./restorePrunedEmptyArrays";
 import { ViewType, ViewTypeContext } from "./ViewTypeContext";
