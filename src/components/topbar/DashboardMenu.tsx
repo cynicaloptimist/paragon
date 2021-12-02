@@ -5,9 +5,9 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CheckBox, Menu, Text } from "grommet";
 import React, { useCallback, useContext } from "react";
-import { Actions } from "../actions/Actions";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { DashboardState } from "../state/AppState";
+import { Actions } from "../../actions/Actions";
+import { ReducerContext } from "../../reducers/ReducerContext";
+import { DashboardState } from "../../state/AppState";
 import { ShareDashboard } from "./ShareDashboard";
 
 export function DashboardMenu(props: { dashboard: DashboardState }) {

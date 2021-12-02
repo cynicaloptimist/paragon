@@ -2,11 +2,11 @@ import { faDice } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "grommet";
 import React, { useContext } from "react";
-import { CardActions } from "../actions/CardActions";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { VisibleCardsOf } from "../state/AppState";
-import { CardState, RollTableCardState } from "../state/CardState";
-import { GetRollTableModel, RandomInt } from "./cards/RollTableCard";
+import { CardActions } from "../../actions/CardActions";
+import { ReducerContext } from "../../reducers/ReducerContext";
+import { VisibleCardsOf } from "../../state/AppState";
+import { CardState, RollTableCardState } from "../../state/CardState";
+import { GetRollTableModel, RandomInt } from "../cards/RollTableCard";
 
 export function RollAllTablesButton() {
   const { state, dispatch } = useContext(ReducerContext);

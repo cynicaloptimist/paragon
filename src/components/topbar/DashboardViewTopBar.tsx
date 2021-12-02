@@ -1,7 +1,7 @@
 import { Box, Header, Heading } from "grommet";
 import React, { useContext } from "react";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { ActiveDashboardOf } from "../state/AppState";
+import { ReducerContext } from "../../reducers/ReducerContext";
+import { ActiveDashboardOf } from "../../state/AppState";
 import { CopyDashboardButton } from "./CopyDashboardButton";
 import { RollAllTablesButton } from "./RollAllTablesButton";
 

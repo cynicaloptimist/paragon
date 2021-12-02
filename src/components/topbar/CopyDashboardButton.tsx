@@ -3,10 +3,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "grommet";
 import { merge } from "lodash";
 import React, { useContext } from "react";
-import { randomString } from "../randomString";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { AppState } from "../state/AppState";
-import { GetInitialState } from "../state/GetInitialState";
+import { randomString } from "../../randomString";
+import { ReducerContext } from "../../reducers/ReducerContext";
+import { AppState } from "../../state/AppState";
+import { GetInitialState } from "../../state/GetInitialState";
 
 export function CopyDashboardButton() {
   const { state } = useContext(ReducerContext);

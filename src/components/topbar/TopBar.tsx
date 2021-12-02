@@ -1,11 +1,11 @@
 import { Box, BoxProps, Header, Heading } from "grommet";
 import React, { useContext } from "react";
-import { Actions } from "../actions/Actions";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { ActiveDashboardOf } from "../state/AppState";
+import { Actions } from "../../actions/Actions";
+import { ReducerContext } from "../../reducers/ReducerContext";
+import { ActiveDashboardOf } from "../../state/AppState";
 import { DashboardMenu } from "./DashboardMenu";
 import { EditableText } from "./EditableText";
-import { LibrarySidebarControls } from "./sidebar/LibrarySidebarControls";
+import { LibrarySidebarControls } from "../sidebar/LibrarySidebarControls";
 import { NewCardMenu } from "./NewCardMenu";
 import { RollAllTablesButton } from "./RollAllTablesButton";
 

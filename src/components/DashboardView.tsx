@@ -7,7 +7,7 @@ import { ReducerContext } from "../reducers/ReducerContext";
 import { AppState } from "../state/AppState";
 import { Theme } from "../Theme";
 import { CardGrid } from "./CardGrid";
-import { DashboardViewTopBar } from "./DashboardViewTopBar";
+import { DashboardViewTopBar } from "./topbar/DashboardViewTopBar";
 import { restorePrunedEmptyArrays } from "./restorePrunedEmptyArrays";
 import { ViewType, ViewTypeContext } from "./ViewTypeContext";
 

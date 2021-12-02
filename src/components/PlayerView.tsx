@@ -9,7 +9,7 @@ import { AppState, EmptyState } from "../state/AppState";
 import { Theme } from "../Theme";
 import { CardGrid } from "./CardGrid";
 import { removeUndefinedNodesFromTree } from "./removeUndefinedNodesFromTree";
-import { PlayerViewTopBar } from "./PlayerViewTopBar";
+import { PlayerViewTopBar } from "./topbar/PlayerViewTopBar";
 import { restorePrunedEmptyArrays } from "./restorePrunedEmptyArrays";
 import { ViewType, ViewTypeContext } from "./ViewTypeContext";
 import { app } from "..";

@@ -11,7 +11,7 @@ import { useLogin } from "./hooks/useLogin";
 import { usePlayerView } from "./hooks/usePlayerView";
 import { useStorageBackedReducer } from "./hooks/useStorageBackedReducer";
 import { LibrarySidebar } from "./sidebar/LibrarySidebar";
-import { TopBar } from "./TopBar";
+import { TopBar } from "./topbar/TopBar";
 
 export function GameMasterView() {
   const [state, dispatch] = useStorageBackedReducer(

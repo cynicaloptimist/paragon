@@ -1,7 +1,7 @@
 import { Header, Heading } from "grommet";
 import React, { useContext } from "react";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { ActiveDashboardOf } from "../state/AppState";
+import { ReducerContext } from "../../reducers/ReducerContext";
+import { ActiveDashboardOf } from "../../state/AppState";
 
 export const PlayerViewTopBar = () => {
   const { state } = useContext(ReducerContext);

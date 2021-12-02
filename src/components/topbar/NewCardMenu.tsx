@@ -2,10 +2,10 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu } from "grommet";
 import React, { useContext } from "react";
-import { CardActions } from "../actions/CardActions";
-import { randomString } from "../randomString";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { CardTypeFriendlyNames } from "../state/CardTypeFriendlyNames";
+import { CardActions } from "../../actions/CardActions";
+import { randomString } from "../../randomString";
+import { ReducerContext } from "../../reducers/ReducerContext";
+import { CardTypeFriendlyNames } from "../../state/CardTypeFriendlyNames";
 
 export function NewCardMenu() {
   const { state, dispatch } = useContext(ReducerContext);
