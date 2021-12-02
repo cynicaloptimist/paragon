@@ -10,11 +10,11 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, Footer, Header, Heading, TextInput } from "grommet";
 import React, { useContext, useRef } from "react";
-import { CardActions } from "../actions/CardActions";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { CardState, PlayerViewPermission } from "../state/CardState";
-import { useToast } from "./hooks/useToast";
-import { ViewType, ViewTypeContext } from "./ViewTypeContext";
+import { CardActions } from "../../actions/CardActions";
+import { ReducerContext } from "../../reducers/ReducerContext";
+import { CardState, PlayerViewPermission } from "../../state/CardState";
+import { useToast } from "../hooks/useToast";
+import { ViewType, ViewTypeContext } from "../ViewTypeContext";
 
 export function BaseCard(props: {
   commands: React.ReactNode;

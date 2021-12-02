@@ -4,12 +4,12 @@ import { Box, Button, FormField, TextInput } from "grommet";
 import * as React from "react";
 import { PieChart } from "react-minimal-pie-chart";
 import { Data as PieChartData } from "react-minimal-pie-chart/types/commonTypes";
-import { CardActions } from "../actions/CardActions";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { ClockCardState, PlayerViewPermission } from "../state/CardState";
+import { CardActions } from "../../actions/CardActions";
+import { ReducerContext } from "../../reducers/ReducerContext";
+import { ClockCardState, PlayerViewPermission } from "../../state/CardState";
 import { BaseCard } from "./BaseCard";
-import { useThemeColor } from "./hooks/useThemeColor";
-import { ViewType, ViewTypeContext } from "./ViewTypeContext";
+import { useThemeColor } from "../hooks/useThemeColor";
+import { ViewType, ViewTypeContext } from "../ViewTypeContext";
 
 export function ClockCard(props: { card: ClockCardState }) {
   const [isConfigurable, setConfigurable] = React.useState(false);

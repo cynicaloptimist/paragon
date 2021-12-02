@@ -6,7 +6,7 @@ import { CardActions } from "../actions/CardActions";
 import { ReducerContext } from "../reducers/ReducerContext";
 import { VisibleCardsOf } from "../state/AppState";
 import { CardState, RollTableCardState } from "../state/CardState";
-import { GetRollTableModel, RandomInt } from "./RollTableCard";
+import { GetRollTableModel, RandomInt } from "./cards/RollTableCard";
 
 export function RollAllTablesButton() {
   const { state, dispatch } = useContext(ReducerContext);

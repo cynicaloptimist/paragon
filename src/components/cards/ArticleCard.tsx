@@ -17,13 +17,13 @@ import {
 import React, { useContext } from "react";
 import Editor from "rich-markdown-editor";
 import base from "rich-markdown-editor/dist/styles/theme";
-import { CardActions } from "../actions/CardActions";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { CardsState } from "../state/AppState";
-import { ArticleCardState, PlayerViewPermission } from "../state/CardState";
+import { CardActions } from "../../actions/CardActions";
+import { ReducerContext } from "../../reducers/ReducerContext";
+import { CardsState } from "../../state/AppState";
+import { ArticleCardState, PlayerViewPermission } from "../../state/CardState";
 import { BaseCard } from "./BaseCard";
-import { useThemeColor } from "./hooks/useThemeColor";
-import { ViewType, ViewTypeContext } from "./ViewTypeContext";
+import { useThemeColor } from "../hooks/useThemeColor";
+import { ViewType, ViewTypeContext } from "../ViewTypeContext";
 
 export function ArticleCard(props: { card: ArticleCardState }) {
   const { card } = props;

@@ -2,11 +2,11 @@ import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, Image } from "grommet";
 import React, { useContext, useState } from "react";
-import { CardActions } from "../actions/CardActions";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { ImageCardState } from "../state/CardState";
+import { CardActions } from "../../actions/CardActions";
+import { ReducerContext } from "../../reducers/ReducerContext";
+import { ImageCardState } from "../../state/CardState";
 import { BaseCard } from "./BaseCard";
-import { FileUpload } from "./FileUpload";
+import { FileUpload } from "../FileUpload";
 
 export function ImageCard(props: { card: ImageCardState }) {
   const { dispatch } = useContext(ReducerContext);

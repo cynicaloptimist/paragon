@@ -7,9 +7,9 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, TextArea } from "grommet";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { CardActions } from "../actions/CardActions";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { RollTableCardState, RollTableEntry } from "../state/CardState";
+import { CardActions } from "../../actions/CardActions";
+import { ReducerContext } from "../../reducers/ReducerContext";
+import { RollTableCardState, RollTableEntry } from "../../state/CardState";
 import { BaseCard } from "./BaseCard";
 
 export function RollTableCard(props: { card: RollTableCardState }) {

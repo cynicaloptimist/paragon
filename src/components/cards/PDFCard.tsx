@@ -11,12 +11,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, TextInput, Paragraph } from "grommet";
 import { useContext, useState } from "react";
 import { Document, Outline, Page } from "react-pdf/dist/esm/entry.webpack";
-import { CardActions } from "../actions/CardActions";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { PDFCardState, PlayerViewPermission } from "../state/CardState";
+import { CardActions } from "../../actions/CardActions";
+import { ReducerContext } from "../../reducers/ReducerContext";
+import { PDFCardState, PlayerViewPermission } from "../../state/CardState";
 import { BaseCard } from "./BaseCard";
-import { FileUpload } from "./FileUpload";
-import { ViewType, ViewTypeContext } from "./ViewTypeContext";
+import { FileUpload } from "../FileUpload";
+import { ViewType, ViewTypeContext } from "../ViewTypeContext";
 
 type Size = {
   width: number;

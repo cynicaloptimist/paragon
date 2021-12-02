@@ -3,16 +3,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dice } from "dice-typescript";
 import { Box, Button, Text, TextInput } from "grommet";
 import { useCallback, useContext, useRef, useState } from "react";
-import { CardActions } from "../actions/CardActions";
-import { ReducerContext } from "../reducers/ReducerContext";
+import { CardActions } from "../../actions/CardActions";
+import { ReducerContext } from "../../reducers/ReducerContext";
 import {
   DiceCardState,
   DiceRoll,
   PlayerViewPermission,
-} from "../state/CardState";
+} from "../../state/CardState";
 import { BaseCard } from "./BaseCard";
-import { useScrollTo } from "./hooks/useScrollTo";
-import { ViewType, ViewTypeContext } from "./ViewTypeContext";
+import { useScrollTo } from "../hooks/useScrollTo";
+import { ViewType, ViewTypeContext } from "../ViewTypeContext";
 
 const dice = new Dice();
 

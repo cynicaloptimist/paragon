@@ -1,5 +1,5 @@
 import { ActionType, createAction } from "typesafe-actions";
-import { SketchModelJSON } from "../components/SketchFieldProps";
+import { SketchModelJSON } from "../components/cards/SketchFieldProps";
 import { PlayerViewPermission, RollTableEntry } from "../state/CardState";
 import { LegacyCardState } from "../state/LegacyCardState";
 

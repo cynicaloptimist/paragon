@@ -1,4 +1,4 @@
-import { SketchModelJSON } from "../components/SketchFieldProps";
+import { SketchModelJSON } from "../components/cards/SketchFieldProps";
 
 export type CardState =
   | ArticleCardState

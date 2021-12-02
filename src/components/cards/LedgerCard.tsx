@@ -15,18 +15,18 @@ import {
 } from "grommet";
 import _ from "lodash";
 import { useContext, useRef, useState } from "react";
-import { CardActions } from "../actions/CardActions";
-import { ReducerContext } from "../reducers/ReducerContext";
+import { CardActions } from "../../actions/CardActions";
+import { ReducerContext } from "../../reducers/ReducerContext";
 import {
   LedgerCardState,
   LedgerEntry,
   PlayerViewPermission,
-} from "../state/CardState";
+} from "../../state/CardState";
 import { BaseCard } from "./BaseCard";
-import { useThemeColor } from "./hooks/useThemeColor";
-import { LongPressButton } from "./LongPressButton";
-import { useScrollTo } from "./hooks/useScrollTo";
-import { ViewType, ViewTypeContext } from "./ViewTypeContext";
+import { useThemeColor } from "../hooks/useThemeColor";
+import { LongPressButton } from "../LongPressButton";
+import { useScrollTo } from "../hooks/useScrollTo";
+import { ViewType, ViewTypeContext } from "../ViewTypeContext";
 
 export function LedgerCard(props: { card: LedgerCardState }) {
   const { dispatch } = useContext(ReducerContext);

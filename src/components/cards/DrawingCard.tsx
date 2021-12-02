@@ -11,9 +11,9 @@ import _ from "lodash";
 import React, { useContext, useRef, useState } from "react";
 import { SketchPicker } from "react-color";
 
-import { CardActions } from "../actions/CardActions";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { DrawingCardState, PlayerViewPermission } from "../state/CardState";
+import { CardActions } from "../../actions/CardActions";
+import { ReducerContext } from "../../reducers/ReducerContext";
+import { DrawingCardState, PlayerViewPermission } from "../../state/CardState";
 import { BaseCard } from "./BaseCard";
 import {
   SketchFieldProps,
@@ -21,7 +21,7 @@ import {
   SketchModelJSON,
   ToolsEnum,
 } from "./SketchFieldProps";
-import { ViewTypeContext, ViewType } from "./ViewTypeContext";
+import { ViewTypeContext, ViewType } from "../ViewTypeContext";
 
 type Size = { height: number; width: number };
 
