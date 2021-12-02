@@ -3,16 +3,16 @@ import "firebase/database";
 import { Box, Grommet } from "grommet";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { RootAction } from "../actions/Actions";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { AppState, EmptyState } from "../state/AppState";
-import { Theme } from "../Theme";
+import { RootAction } from "../../actions/Actions";
+import { ReducerContext } from "../../reducers/ReducerContext";
+import { AppState, EmptyState } from "../../state/AppState";
+import { Theme } from "../../Theme";
 import { CardGrid } from "./CardGrid";
-import { removeUndefinedNodesFromTree } from "./removeUndefinedNodesFromTree";
-import { PlayerViewTopBar } from "./topbar/PlayerViewTopBar";
-import { restorePrunedEmptyArrays } from "./restorePrunedEmptyArrays";
-import { ViewType, ViewTypeContext } from "./ViewTypeContext";
-import { app } from "..";
+import { removeUndefinedNodesFromTree } from "../removeUndefinedNodesFromTree";
+import { PlayerViewTopBar } from "../topbar/PlayerViewTopBar";
+import { restorePrunedEmptyArrays } from "../restorePrunedEmptyArrays";
+import { ViewType, ViewTypeContext } from "../ViewTypeContext";
+import { app } from "../..";
 
 function useRemoteState(
   playerViewId: string

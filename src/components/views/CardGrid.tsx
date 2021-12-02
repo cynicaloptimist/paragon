@@ -3,20 +3,20 @@ import { Box } from "grommet";
 import React, { CSSProperties, useContext } from "react";
 
 import { Layout, Responsive, WidthProvider } from "react-grid-layout";
-import { Actions } from "../actions/Actions";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { CardState } from "../state/CardState";
-import { ArticleCard } from "./cards/ArticleCard";
-import { ClockCard } from "./cards/ClockCard";
-import { DiceCard } from "./cards/DiceCard";
-import { DrawingCard } from "./cards/DrawingCard";
-import { ImageCard } from "./cards/ImageCard";
-import { PDFCard } from "./cards/PDFCard";
-import { RollTableCard } from "./cards/RollTableCard";
-import { ViewType, ViewTypeContext } from "./ViewTypeContext";
-import { ActiveDashboardOf, VisibleCardsOf } from "../state/AppState";
-import { LedgerCard } from "./cards/LedgerCard";
-import { BaseCard } from "./cards/BaseCard";
+import { Actions } from "../../actions/Actions";
+import { ReducerContext } from "../../reducers/ReducerContext";
+import { CardState } from "../../state/CardState";
+import { ArticleCard } from "../cards/ArticleCard";
+import { ClockCard } from "../cards/ClockCard";
+import { DiceCard } from "../cards/DiceCard";
+import { DrawingCard } from "../cards/DrawingCard";
+import { ImageCard } from "../cards/ImageCard";
+import { PDFCard } from "../cards/PDFCard";
+import { RollTableCard } from "../cards/RollTableCard";
+import { ViewType, ViewTypeContext } from "../ViewTypeContext";
+import { ActiveDashboardOf, VisibleCardsOf } from "../../state/AppState";
+import { LedgerCard } from "../cards/LedgerCard";
+import { BaseCard } from "../cards/BaseCard";
 
 type Size = { height: number; width: number };
 

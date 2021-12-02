@@ -2,14 +2,14 @@ import { getDatabase, off, onValue, ref } from "firebase/database";
 import { Box, Grommet } from "grommet";
 import { useEffect, useReducer, useState } from "react";
 import { useParams } from "react-router-dom";
-import { AppReducer } from "../reducers/AppReducer";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { AppState } from "../state/AppState";
-import { Theme } from "../Theme";
+import { AppReducer } from "../../reducers/AppReducer";
+import { ReducerContext } from "../../reducers/ReducerContext";
+import { AppState } from "../../state/AppState";
+import { Theme } from "../../Theme";
 import { CardGrid } from "./CardGrid";
-import { DashboardViewTopBar } from "./topbar/DashboardViewTopBar";
-import { restorePrunedEmptyArrays } from "./restorePrunedEmptyArrays";
-import { ViewType, ViewTypeContext } from "./ViewTypeContext";
+import { DashboardViewTopBar } from "../topbar/DashboardViewTopBar";
+import { restorePrunedEmptyArrays } from "../restorePrunedEmptyArrays";
+import { ViewType, ViewTypeContext } from "../ViewTypeContext";
 
 function useStateFromSharedDashboard(dashboardId: string) {
   const [state, setState] = useState<AppState | null>(null);
