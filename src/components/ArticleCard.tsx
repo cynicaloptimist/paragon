@@ -130,14 +130,6 @@ function ArticleEditor(props: {
 }) {
   const { state, dispatch } = React.useContext(ReducerContext);
   const [content, setContent] = React.useState(props.card.content);
-  const themeColors = {
-    primary: useThemeColor("brand"),
-    secondary: useThemeColor("brand-2"),
-    text: useThemeColor("text"),
-    background: useThemeColor("background"),
-  };
-  const theme: ThemeType = React.useContext(ThemeContext);
-  const markdownEditor = React.useRef<Editor>(null);
 
   const saveCardContent = () => {
     const updatedContent = ConvertDoubleBracketsToWikiLinks(
@@ -166,40 +158,63 @@ function ArticleEditor(props: {
     );
   } else {
     return (
-      <Box
-        fill
-        style={{ cursor: "text" }}
-        onClick={() => {
-          if (markdownEditor.current && markdownEditor.current.isBlurred) {
-            markdownEditor.current.focusAtEnd();
-          }
-        }}
-      >
-        <Editor
-          autoFocus
-          defaultValue={props.card.content}
-          placeholder=""
-          onChange={(getValue) => {
-            setContent(getValue());
-          }}
-          onBlur={saveCardContent}
-          disableExtensions={["container_notice", "highlight"]}
-          theme={{
-            ...base,
-            toolbarBackground: themeColors.primary,
-            toolbarHoverBackground: themeColors.primary,
-            background: themeColors.background,
-            codeBackground: themeColors.background,
-            blockToolbarBackground: themeColors.background,
-          }}
-          style={{
-            font: theme.global?.font?.family || "inherit",
-          }}
-          ref={markdownEditor}
-        />
-      </Box>
+      <MarkdownEditor
+        card={props.card}
+        setContent={setContent}
+        saveCardContent={saveCardContent}
+      />
     );
   }
+}
+
+function MarkdownEditor(props: {
+  card: ArticleCardState;
+  setContent: (content: string) => void;
+  saveCardContent: () => void;
+}) {
+  const themeColors = {
+    primary: useThemeColor("brand"),
+    secondary: useThemeColor("brand-2"),
+    text: useThemeColor("text"),
+    background: useThemeColor("background"),
+  };
+  const theme: ThemeType = React.useContext(ThemeContext);
+  const markdownEditor = React.useRef<Editor>(null);
+
+  return (
+    <Box
+      fill
+      style={{ cursor: "text" }}
+      onClick={() => {
+        if (markdownEditor.current && markdownEditor.current.isBlurred) {
+          markdownEditor.current.focusAtEnd();
+        }
+      }}
+    >
+      <Editor
+        autoFocus
+        defaultValue={props.card.content}
+        placeholder=""
+        onChange={(getValue) => {
+          props.setContent(getValue());
+        }}
+        onBlur={props.saveCardContent}
+        disableExtensions={["container_notice", "highlight"]}
+        theme={{
+          ...base,
+          toolbarBackground: themeColors.primary,
+          toolbarHoverBackground: themeColors.primary,
+          background: themeColors.background,
+          codeBackground: themeColors.background,
+          blockToolbarBackground: themeColors.background,
+        }}
+        style={{
+          font: theme.global?.font?.family || "inherit",
+        }}
+        ref={markdownEditor}
+      />
+    </Box>
+  );
 }
 
 function ConvertDoubleBracketsToWikiLinks(
