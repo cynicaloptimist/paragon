@@ -137,6 +137,7 @@ function ArticleEditor(props: {
     background: useThemeColor("background"),
   };
   const theme: ThemeType = React.useContext(ThemeContext);
+  const markdownEditor = React.useRef<Editor>(null);
 
   const saveCardContent = () => {
     const updatedContent = ConvertDoubleBracketsToWikiLinks(
@@ -165,27 +166,38 @@ function ArticleEditor(props: {
     );
   } else {
     return (
-      <Editor
-        autoFocus
-        defaultValue={props.card.content}
-        placeholder=""
-        onChange={(getValue) => {
-          setContent(getValue());
+      <Box
+        fill
+        style={{ cursor: "text" }}
+        onClick={() => {
+          if (markdownEditor.current && markdownEditor.current.isBlurred) {
+            markdownEditor.current.focusAtEnd();
+          }
         }}
-        onBlur={saveCardContent}
-        disableExtensions={["container_notice", "highlight"]}
-        theme={{
-          ...base,
-          toolbarBackground: themeColors.primary,
-          toolbarHoverBackground: themeColors.primary,
-          background: themeColors.background,
-          codeBackground: themeColors.background,
-          blockToolbarBackground: themeColors.background,
-        }}
-        style={{
-          font: theme.global?.font?.family || "inherit",
-        }}
-      />
+      >
+        <Editor
+          autoFocus
+          defaultValue={props.card.content}
+          placeholder=""
+          onChange={(getValue) => {
+            setContent(getValue());
+          }}
+          onBlur={saveCardContent}
+          disableExtensions={["container_notice", "highlight"]}
+          theme={{
+            ...base,
+            toolbarBackground: themeColors.primary,
+            toolbarHoverBackground: themeColors.primary,
+            background: themeColors.background,
+            codeBackground: themeColors.background,
+            blockToolbarBackground: themeColors.background,
+          }}
+          style={{
+            font: theme.global?.font?.family || "inherit",
+          }}
+          ref={markdownEditor}
+        />
+      </Box>
     );
   }
 }
