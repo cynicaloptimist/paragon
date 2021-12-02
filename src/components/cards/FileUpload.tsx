@@ -29,6 +29,7 @@ type FileNameAndURL = {
 
 export function FileUpload(props: {
   card: CardState;
+  currentUrl: string;
   onFileSelect: (file: FileNameAndURL) => void;
   fileType: string;
   fileInputAccept?: string;
@@ -52,6 +53,7 @@ export function FileUpload(props: {
 
   const directUrlInput = (
     <DirectUrlInput
+      currentUrl={props.currentUrl}
       onSubmit={(newUrl) => {
         props.onFileSelect({
           name: newUrl,
@@ -114,12 +116,12 @@ export function FileUpload(props: {
   );
 }
 
-function DirectUrlInput(props: { onSubmit: (url: string) => void }) {
+function DirectUrlInput(props: { currentUrl: string, onSubmit: (url: string) => void }) {
   const inputRef = useRef<HTMLInputElement>(null);
   return (
     <Box direction="row" align="center">
       <Text margin="small">URL: </Text>
-      <TextInput aria-label="URL" ref={inputRef} />
+      <TextInput aria-label="URL" ref={inputRef} value={props.currentUrl} />
       <Button
         onClick={() => props.onSubmit(inputRef.current!.value)}
         icon={<FontAwesomeIcon icon={faCheck} />}

@@ -42,6 +42,7 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
       <BaseCard cardState={props.card} commands={null}>
         <FileUpload
           card={props.card}
+          currentUrl={props.card.pdfUrl}
           onFileSelect={(file) => {
             setCardPDF(props.card, dispatch, file.name, file.url);
           }}
