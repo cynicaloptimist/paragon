@@ -6,7 +6,7 @@ import { CardActions } from "../../actions/CardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { ImageCardState } from "../../state/CardState";
 import { BaseCard } from "./BaseCard";
-import { FileUpload } from "../FileUpload";
+import { FileUpload } from "./FileUpload";
 
 export function ImageCard(props: { card: ImageCardState }) {
   const { dispatch } = useContext(ReducerContext);

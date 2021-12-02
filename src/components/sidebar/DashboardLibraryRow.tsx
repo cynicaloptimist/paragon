@@ -5,7 +5,7 @@ import React, { useCallback, useContext } from "react";
 import { Actions } from "../../actions/Actions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { DashboardState } from "../../state/AppState";
-import { LongPressButton } from "../LongPressButton";
+import { LongPressButton } from "../common/LongPressButton";
 
 export function DashboardLibraryRow(props: {
   dashboardId: string;

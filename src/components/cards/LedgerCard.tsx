@@ -24,7 +24,7 @@ import {
 } from "../../state/CardState";
 import { BaseCard } from "./BaseCard";
 import { useThemeColor } from "../hooks/useThemeColor";
-import { LongPressButton } from "../LongPressButton";
+import { LongPressButton } from "../common/LongPressButton";
 import { useScrollTo } from "../hooks/useScrollTo";
 import { ViewType, ViewTypeContext } from "../ViewTypeContext";
 

@@ -1,7 +1,7 @@
 import "firebase/auth";
 import { Button, Text } from "grommet";
 import React, { useContext } from "react";
-import { ReducerContext } from "../reducers/ReducerContext";
+import { ReducerContext } from "../../reducers/ReducerContext";
 
 export function Login() {
   const { state } = useContext(ReducerContext);

@@ -15,7 +15,7 @@ import { CardActions } from "../../actions/CardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { PDFCardState, PlayerViewPermission } from "../../state/CardState";
 import { BaseCard } from "./BaseCard";
-import { FileUpload } from "../FileUpload";
+import { FileUpload } from "./FileUpload";
 import { ViewType, ViewTypeContext } from "../ViewTypeContext";
 
 type Size = {

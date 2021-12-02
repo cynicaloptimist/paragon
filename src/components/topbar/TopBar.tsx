@@ -4,7 +4,7 @@ import { Actions } from "../../actions/Actions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { ActiveDashboardOf } from "../../state/AppState";
 import { DashboardMenu } from "./DashboardMenu";
-import { EditableText } from "./EditableText";
+import { EditableText } from "../common/EditableText";
 import { LibrarySidebarControls } from "../sidebar/LibrarySidebarControls";
 import { NewCardMenu } from "./NewCardMenu";
 import { RollAllTablesButton } from "./RollAllTablesButton";

@@ -17,10 +17,10 @@ import {
   Button,
 } from "grommet";
 import { useContext, useEffect, useRef, useState } from "react";
-import { app } from "..";
-import { ReducerContext } from "../reducers/ReducerContext";
-import { CardState } from "../state/CardState";
-import { useUserId } from "./hooks/useAccountSync";
+import { app } from "../..";
+import { ReducerContext } from "../../reducers/ReducerContext";
+import { CardState } from "../../state/CardState";
+import { useUserId } from "../hooks/useAccountSync";
 
 type FileNameAndURL = {
   name: string;

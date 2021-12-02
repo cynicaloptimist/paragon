@@ -6,7 +6,7 @@ import { CardActions } from "../../actions/CardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { ActiveDashboardOf } from "../../state/AppState";
 import { CardState } from "../../state/CardState";
-import { LongPressButton } from "../LongPressButton";
+import { LongPressButton } from "../common/LongPressButton";
 
 export function CardLibraryRow(props: { card: CardState }) {
   const { state, dispatch } = useContext(ReducerContext);
