@@ -8,10 +8,9 @@ import { ReducerContext } from "../../reducers/ReducerContext";
 import { AppState, EmptyState } from "../../state/AppState";
 import { Theme } from "../../Theme";
 import { CardGrid } from "./CardGrid";
-import { removeUndefinedNodesFromTree } from "../removeUndefinedNodesFromTree";
 import { PlayerViewTopBar } from "../topbar/PlayerViewTopBar";
-import { restorePrunedEmptyArrays } from "../restorePrunedEmptyArrays";
 import { ViewType, ViewTypeContext } from "../ViewTypeContext";
+import { FirebaseUtils } from "../../FirebaseUtils"
 import { app } from "../..";
 
 function useRemoteState(
@@ -48,7 +47,7 @@ function useRemoteState(
       if (!networkAppState) {
         return;
       }
-      const completeAppState = restorePrunedEmptyArrays(networkAppState);
+      const completeAppState = FirebaseUtils.restorePrunedEmptyArrays(networkAppState);
       setState(completeAppState);
     });
 
@@ -56,7 +55,7 @@ function useRemoteState(
   }, [playerViewId, playerViewUserId]);
 
   const dispatch = (action: RootAction) => {
-    const cleanAction = removeUndefinedNodesFromTree(action);
+    const cleanAction = FirebaseUtils.removeUndefinedNodesFromTree(action);
     const database = getDatabase(app);
     const dbRef = ref(database, `pendingActions/${state.activeDashboardId}`);
     push(dbRef, cleanAction);

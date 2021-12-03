@@ -9,7 +9,7 @@ import { Actions, RootAction } from "../../actions/Actions";
 import { CardActions } from "../../actions/CardActions";
 import { AppState, DashboardState } from "../../state/AppState";
 import { CardState } from "../../state/CardState";
-import { removeUndefinedNodesFromTree } from "../removeUndefinedNodesFromTree";
+import { FirebaseUtils } from "../../FirebaseUtils";
 
 const environment = process.env;
 
@@ -116,7 +116,7 @@ function writeFromLocalToServer(
       if (
         !isEqual(state[collection][itemId], serverProfile[collection]?.[itemId])
       ) {
-        const cleanTree = removeUndefinedNodesFromTree(
+        const cleanTree = FirebaseUtils.removeUndefinedNodesFromTree(
           state[collection][itemId]
         );
         const database = getDatabase(app);
@@ -170,8 +170,8 @@ function useUpdatesToServer(
       const allItemIds = union(Object.keys(items), Object.keys(previousItems));
 
       for (const itemId of allItemIds) {
-        const newItemPruned = removeUndefinedNodesFromTree(items[itemId]);
-        const previousItemPruned = removeUndefinedNodesFromTree(
+        const newItemPruned = FirebaseUtils.removeUndefinedNodesFromTree(items[itemId]);
+        const previousItemPruned = FirebaseUtils.removeUndefinedNodesFromTree(
           previousItems[itemId]
         );
 

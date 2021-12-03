@@ -21,7 +21,7 @@ import {
   VisibleCardsOf,
 } from "../../state/AppState";
 import { PlayerViewPermission } from "../../state/CardState";
-import { removeUndefinedNodesFromTree } from "../removeUndefinedNodesFromTree";
+import { FirebaseUtils } from "../../FirebaseUtils"
 import { useUserId } from "./useAccountSync";
 
 function omitClosedCardsFromState(fullState: AppState): AppState {
@@ -119,7 +119,7 @@ export function usePlayerView(
     }
 
     const playerViewState = omitClosedCardsFromState(
-      removeUndefinedNodesFromTree(state)
+      FirebaseUtils.removeUndefinedNodesFromTree(state)
     );
 
     if (

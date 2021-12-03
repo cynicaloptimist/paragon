@@ -8,7 +8,7 @@ import { AppState } from "../../state/AppState";
 import { Theme } from "../../Theme";
 import { CardGrid } from "./CardGrid";
 import { DashboardViewTopBar } from "../topbar/DashboardViewTopBar";
-import { restorePrunedEmptyArrays } from "../restorePrunedEmptyArrays";
+import { FirebaseUtils } from "../../FirebaseUtils"
 import { ViewType, ViewTypeContext } from "../ViewTypeContext";
 
 function useStateFromSharedDashboard(dashboardId: string) {
@@ -24,7 +24,7 @@ function useStateFromSharedDashboard(dashboardId: string) {
         return;
       }
       off(dbRef);
-      const completeAppState = restorePrunedEmptyArrays(networkAppState);
+      const completeAppState = FirebaseUtils.restorePrunedEmptyArrays(networkAppState);
       setState(completeAppState);
     });
 
