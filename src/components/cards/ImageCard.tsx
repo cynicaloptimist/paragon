@@ -3,13 +3,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, Image } from "grommet";
 import React, { useContext, useState } from "react";
 import { CardActions } from "../../actions/CardActions";
+import { FirebaseUtils } from "../../FirebaseUtils";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { ImageCardState } from "../../state/CardState";
+import { useUserId } from "../hooks/useAccountSync";
 import { BaseCard } from "./BaseCard";
 import { FileUpload } from "./FileUpload";
 
 export function ImageCard(props: { card: ImageCardState }) {
   const { dispatch } = useContext(ReducerContext);
+  const userId = useUserId();
   const { card } = props;
   const [inputVisible, setInputVisible] = useState(false);
 
@@ -56,12 +59,21 @@ export function ImageCard(props: { card: ImageCardState }) {
     >
       <Box
         fill
-        onDropCapture={(dropEvent) => {
+        onDropCapture={async (dropEvent) => {
           const imageUrl = dropEvent.dataTransfer.getData("URL");
           if (imageUrl) {
             dispatch(
               CardActions.SetImageUrl({ cardId: card.cardId, imageUrl })
             );
+            return;
+          }
+          const imageUpload = dropEvent.dataTransfer.files?.[0];
+          if (userId && imageUpload) {
+            const imageUrl = await FirebaseUtils.UploadUserFileToStorageAndGetURL(imageUpload, userId, "image");
+            dispatch(
+              CardActions.SetImageUrl({ cardId: card.cardId, imageUrl })
+            );
+            return;
           }
         }}
       >
