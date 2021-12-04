@@ -36,6 +36,9 @@ export namespace FirebaseUtils {
         networkAppState: Partial<AppState>
     ): AppState {
         for (const dashboard of Object.values(networkAppState.dashboardsById || {})) {
+            if (!dashboard.layoutsBySize) {
+                dashboard.layoutsBySize = {}
+            }
             for (const size of Object.keys(dashboard.layoutsBySize)) {
                 dashboard.layoutsBySize[size] = dashboard.layoutsBySize[size] || [];
             }
