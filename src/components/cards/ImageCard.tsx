@@ -11,8 +11,9 @@ import { BaseCard } from "./BaseCard";
 import { FileUpload } from "./FileUpload";
 
 export function ImageCard(props: { card: ImageCardState }) {
-  const { dispatch } = useContext(ReducerContext);
+  const { state, dispatch } = useContext(ReducerContext);
   const userId = useUserId();
+  const hasStorage = userId && state.user.hasStorage;
   const { card } = props;
   const [inputVisible, setInputVisible] = useState(false);
 
@@ -23,6 +24,10 @@ export function ImageCard(props: { card: ImageCardState }) {
       fill
     />
   );
+
+  if(hasStorage) {
+    innerElement.props.label = "Drag and drop from a file or tab, or click to view files"
+  }
 
   if (card.imageUrl.length > 0) {
     innerElement = (
@@ -68,7 +73,7 @@ export function ImageCard(props: { card: ImageCardState }) {
             return;
           }
           const imageUpload = dropEvent.dataTransfer.files?.[0];
-          if (userId && imageUpload) {
+          if (hasStorage && imageUpload) {
             const imageUrl = await FirebaseUtils.UploadUserFileToStorageAndGetURL(imageUpload, userId, "image");
             dispatch(
               CardActions.SetImageUrl({ cardId: card.cardId, imageUrl })
