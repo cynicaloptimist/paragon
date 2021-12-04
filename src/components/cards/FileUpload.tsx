@@ -109,7 +109,7 @@ function DirectUrlInput(props: { currentUrl: string, onSubmit: (url: string) => 
   return (
     <Box direction="row" align="center">
       <Text margin="small">URL: </Text>
-      <TextInput aria-label="URL" ref={inputRef} value={props.currentUrl} />
+      <TextInput aria-label="URL" ref={inputRef} defaultValue={props.currentUrl} />
       <Button
         onClick={() => props.onSubmit(inputRef.current!.value)}
         icon={<FontAwesomeIcon icon={faCheck} />}
