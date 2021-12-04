@@ -1,10 +1,3 @@
-import {
-  ref,
-  getStorage,
-  listAll,
-  uploadBytes,
-  getDownloadURL,
-} from "@firebase/storage";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -17,15 +10,10 @@ import {
   Button,
 } from "grommet";
 import { useContext, useEffect, useRef, useState } from "react";
-import { app } from "../..";
+import { FileNameAndURL, FirebaseUtils } from "../../FirebaseUtils";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { CardState } from "../../state/CardState";
 import { useUserId } from "../hooks/useAccountSync";
-
-type FileNameAndURL = {
-  name: string;
-  url: string;
-};
 
 export function FileUpload(props: {
   card: CardState;
@@ -45,7 +33,7 @@ export function FileUpload(props: {
     if (!(userId && state.user.hasStorage)) {
       return;
     }
-    GetCurrentUserUploads(userId, props.fileType).then((files) => {
+    FirebaseUtils.GetCurrentUserUploads(userId, props.fileType).then((files) => {
       setUploadedFiles(files);
     });
     return;
@@ -99,7 +87,7 @@ export function FileUpload(props: {
             return;
           }
           const file = files[0];
-          const fileUrl = await UploadUserFileToStorageAndGetURL(
+          const fileUrl = await FirebaseUtils.UploadUserFileToStorageAndGetURL(
             file,
             userId,
             props.fileType
@@ -128,30 +116,4 @@ function DirectUrlInput(props: { currentUrl: string, onSubmit: (url: string) => 
       />
     </Box>
   );
-}
-
-async function UploadUserFileToStorageAndGetURL(
-  file: File,
-  userId: string,
-  fileType: string
-) {
-  const storage = getStorage(app);
-  const fileRef = ref(storage, `users/${userId}/${fileType}s/${file.name}`);
-  await uploadBytes(fileRef, file);
-  return getDownloadURL(fileRef);
-}
-
-async function GetCurrentUserUploads(userId: string, fileType: string) {
-  const storage = getStorage(app);
-  const filesRef = ref(storage, `users/${userId}/${fileType}s`);
-  const files = await listAll(filesRef);
-  const fileUrls: FileNameAndURL[] = await Promise.all(
-    files.items.map(async (file) => {
-      return {
-        name: file.name,
-        url: await getDownloadURL(file),
-      };
-    })
-  );
-  return fileUrls;
 }
