@@ -48,9 +48,6 @@ function useTwoWayDataSync(
       if (!user) {
         return;
       }
-      if (!state.user.hasStorage) {
-        return;
-      }
 
       const localLastUpdateTime = parseInt(
         localStorage.getItem("localLastUpdateTime") || "0"
