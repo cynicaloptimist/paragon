@@ -90,7 +90,10 @@ export function FileUpload(props: {
           const fileUrl = await FirebaseUtils.UploadUserFileToStorageAndGetURL(
             file,
             userId,
-            props.fileType
+            props.fileType,
+            (currentBytes, totalBytes) => {
+              console.log(`${currentBytes}/${totalBytes} uploaded`);
+            }
           );
           props.onFileSelect({
             name: file.name,
