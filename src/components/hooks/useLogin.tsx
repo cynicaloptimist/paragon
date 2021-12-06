@@ -41,9 +41,16 @@ export function useLogin(dispatch: React.Dispatch<RootAction>) {
           history.replace(location);
         } else {
           const auth = getAuth(app);
-          onAuthStateChanged(auth, () => {
+          return onAuthStateChanged(auth, () => {
             if (!auth.currentUser) {
               signInAnonymously(auth);
+            } else if (process.env.REACT_APP_ALL_CLAIMS) {
+              dispatch(
+                Actions.SetUserClaims({
+                  hasStorage: true,
+                  hasEpic: true,
+                })
+              );
             }
           });
         }
