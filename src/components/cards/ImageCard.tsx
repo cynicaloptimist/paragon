@@ -17,17 +17,17 @@ export function ImageCard(props: { card: ImageCardState }) {
   const { card } = props;
   const [inputVisible, setInputVisible] = useState(false);
 
+  const innerElementLabel = hasStorage
+    ? "Drag and drop from a file or tab, or click to view files"
+    : "Drag and drop an image from another tab, or click to input a URL";
+
   let innerElement = (
     <Button
-      label="Drag and drop an image from another tab, or click to input a URL"
+      label={innerElementLabel}
       onClick={() => setInputVisible(true)}
       fill
     />
   );
-
-  if(hasStorage) {
-    innerElement.props.label = "Drag and drop from a file or tab, or click to view files"
-  }
 
   if (card.imageUrl.length > 0) {
     innerElement = (
@@ -74,7 +74,12 @@ export function ImageCard(props: { card: ImageCardState }) {
           }
           const imageUpload = dropEvent.dataTransfer.files?.[0];
           if (hasStorage && imageUpload) {
-            const imageUrl = await FirebaseUtils.UploadUserFileToStorageAndGetURL(imageUpload, userId, "image");
+            const imageUrl =
+              await FirebaseUtils.UploadUserFileToStorageAndGetURL(
+                imageUpload,
+                userId,
+                "image"
+              );
             dispatch(
               CardActions.SetImageUrl({ cardId: card.cardId, imageUrl })
             );
