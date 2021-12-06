@@ -199,12 +199,13 @@ export function useUserId() {
 
   useEffect(() => {
     const auth = getAuth(app);
-    onAuthStateChanged(auth, async (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
         return;
       }
       setUserId(user.uid);
     });
+    return unsubscribe;
   }, [setUserId]);
 
   return userId;
