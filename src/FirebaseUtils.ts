@@ -4,7 +4,7 @@ import {
     ref,
     getStorage,
     listAll,
-    uploadBytes,
+    uploadBytesResumable,
     getDownloadURL,
 } from "@firebase/storage";
 
@@ -54,11 +54,23 @@ export namespace FirebaseUtils {
     export async function UploadUserFileToStorageAndGetURL(
         file: File,
         userId: string,
-        fileType: string
+        fileType: string,
+        onProgress?: (currentBytes: number, totalBytes: number) => void
     ) {
         const storage = getStorage(app);
         const fileRef = ref(storage, `users/${userId}/${fileType}s/${file.name}`);
-        await uploadBytes(fileRef, file);
+        const uploadTask = uploadBytesResumable(fileRef, file);
+        if (onProgress) {
+            uploadTask.on(
+                "state_changed",
+                (snapshot) => {
+                    onProgress(snapshot.bytesTransferred, snapshot.totalBytes);
+                }
+            );
+        }
+
+        await uploadTask;
+
         return getDownloadURL(fileRef);
     }
 
