@@ -4,6 +4,7 @@ import {
   ref,
   getStorage,
   listAll,
+  deleteObject,
   uploadBytesResumable,
   getDownloadURL,
 } from "@firebase/storage";
@@ -89,5 +90,15 @@ export namespace FirebaseUtils {
       })
     );
     return fileUrls;
+  }
+
+  export async function DeleteFile(
+    userId: string,
+    fileType: string,
+    fileName: string
+  ): Promise<void> {
+    const storage = getStorage(app);
+    const fileRef = ref(storage, `users/${userId}/${fileType}s/${fileName}`);
+    return deleteObject(fileRef);
   }
 }

@@ -1,4 +1,4 @@
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Text,
@@ -9,10 +9,12 @@ import {
   Box,
   Button,
 } from "grommet";
+import _ from "lodash";
 import { useContext, useEffect, useRef, useState } from "react";
 import { FileNameAndURL, FirebaseUtils } from "../../FirebaseUtils";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { CardState } from "../../state/CardState";
+import { LongPressButton } from "../common/LongPressButton";
 import { useUserId } from "../hooks/useAccountSync";
 
 export function FileUpload(props: {
@@ -33,9 +35,11 @@ export function FileUpload(props: {
     if (!(userId && state.user.hasStorage)) {
       return;
     }
-    FirebaseUtils.GetCurrentUserUploads(userId, props.fileType).then((files) => {
-      setUploadedFiles(files);
-    });
+    FirebaseUtils.GetCurrentUserUploads(userId, props.fileType).then(
+      (files) => {
+        setUploadedFiles(files);
+      }
+    );
     return;
   }, [userId, state.user.hasStorage, props.fileType]);
 
@@ -65,7 +69,7 @@ export function FileUpload(props: {
 
   const uploadedFilesList = uploadedFiles && (
     <List
-      style={{ overflowY: "auto" }}
+      style={{ overflowY: "auto", alignSelf: "stretch" }}
       primaryKey="name"
       data={uploadedFiles}
       onClickItem={(event: { item?: FileNameAndURL; index?: number }) => {
@@ -73,6 +77,32 @@ export function FileUpload(props: {
           return;
         }
         props.onFileSelect(event.item);
+      }}
+      action={(item: FileNameAndURL) => {
+        return (
+          <LongPressButton
+            icon={<FontAwesomeIcon icon={faTrash} />}
+            onLongPress={async () => {
+              await FirebaseUtils.DeleteFile(userId, props.fileType, item.name);
+              if (props.currentUrl === item.url) {
+                props.onFileSelect({
+                  name: "",
+                  url: "",
+                });
+              }
+              setUploadedFiles((files) => {
+                if (!files) {
+                  return [];
+                }
+                return _.remove(files, item);
+              });
+            }}
+            onClickCapture={(mouseEvent) => {
+              // Prevent the click from triggering the list item click
+              mouseEvent.stopPropagation();
+            }}
+          />
+        );
       }}
     />
   );
@@ -107,12 +137,19 @@ export function FileUpload(props: {
   );
 }
 
-function DirectUrlInput(props: { currentUrl: string, onSubmit: (url: string) => void }) {
+function DirectUrlInput(props: {
+  currentUrl: string;
+  onSubmit: (url: string) => void;
+}) {
   const inputRef = useRef<HTMLInputElement>(null);
   return (
     <Box direction="row" align="center">
       <Text margin="small">URL: </Text>
-      <TextInput aria-label="URL" ref={inputRef} defaultValue={props.currentUrl} />
+      <TextInput
+        aria-label="URL"
+        ref={inputRef}
+        defaultValue={props.currentUrl}
+      />
       <Button
         onClick={() => props.onSubmit(inputRef.current!.value)}
         icon={<FontAwesomeIcon icon={faCheck} />}
