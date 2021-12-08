@@ -79,7 +79,7 @@ function useTwoWayDataSync(
           serverProfile?.lastUpdateTime,
           0
         );
-        if (serverLastUpdateTime < localLastUpdateTime) {
+        if (serverLastUpdateTime <= localLastUpdateTime) {
           writeFromLocalToServer(state, serverProfile, user.uid);
         } else {
           writeFromServerToLocal(state, dispatch, serverProfile);
