@@ -14,7 +14,7 @@ import { FirebaseUtils } from "../../FirebaseUtils";
 const environment = process.env;
 
 type ServerProfile = {
-  lastUpdateTime: number;
+  lastUpdateTime: string;
   cardsById: Record<string, CardState>;
   dashboardsById: Record<string, DashboardState>;
 };
@@ -32,6 +32,18 @@ export function useAccountSync(
   useUpdatesToServer(state, dispatch, didSync);
   /* eslint-enable */
 }
+
+const parseIntOrDefault = (value: string | null, defaultNumber: number) => {
+  try {
+    const result = parseInt(value || "", 10);
+    if (isNaN(result)) {
+      return defaultNumber;
+    }
+    return result;
+  } catch {
+    return defaultNumber;
+  }
+};
 
 function useTwoWayDataSync(
   state: AppState,
@@ -63,17 +75,18 @@ function useTwoWayDataSync(
       onValue(dbRef, async (profileRef) => {
         off(dbRef);
         const serverProfile: ServerProfile = profileRef.val();
-        if (
-          !serverProfile?.lastUpdateTime ||
-          serverProfile.lastUpdateTime < localLastUpdateTime
-        ) {
+        const serverLastUpdateTime = parseIntOrDefault(
+          serverProfile?.lastUpdateTime,
+          0
+        );
+        if (serverLastUpdateTime < localLastUpdateTime) {
           writeFromLocalToServer(state, serverProfile, user.uid);
         } else {
           writeFromServerToLocal(state, dispatch, serverProfile);
         }
 
-        const currentTime = Date.now();
-        localStorage.setItem("localLastUpdateTime", currentTime.toString());
+        const currentTime = Date.now().toString();
+        localStorage.setItem("localLastUpdateTime", currentTime);
         const updateTimeRef = ref(database, `users/${user.uid}/lastUpdateTime`);
         await set(updateTimeRef, currentTime);
         done();
@@ -167,7 +180,9 @@ function useUpdatesToServer(
       const allItemIds = union(Object.keys(items), Object.keys(previousItems));
 
       for (const itemId of allItemIds) {
-        const newItemPruned = FirebaseUtils.removeUndefinedNodesFromTree(items[itemId]);
+        const newItemPruned = FirebaseUtils.removeUndefinedNodesFromTree(
+          items[itemId]
+        );
         const previousItemPruned = FirebaseUtils.removeUndefinedNodesFromTree(
           previousItems[itemId]
         );
