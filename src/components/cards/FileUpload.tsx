@@ -69,7 +69,7 @@ export function FileUpload(props: {
 
   const uploadedFilesList = uploadedFiles && (
     <List
-      style={{ overflowY: "auto", alignSelf: "stretch" }}
+      style={{ overflowY: "auto" }}
       primaryKey="name"
       data={uploadedFiles}
       onClickItem={(event: { item?: FileNameAndURL; index?: number }) => {
@@ -108,7 +108,7 @@ export function FileUpload(props: {
   );
 
   return (
-    <Box align="start">
+    <Box align="stretch">
       {uploadedFilesList || <Paragraph>Loading...</Paragraph>}
       <FileInput
         onChange={async (event) => {
