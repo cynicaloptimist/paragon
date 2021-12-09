@@ -2,6 +2,8 @@ import * as admin from "firebase-admin";
 import * as functions from "firebase-functions";
 import * as Url from "url";
 
+import contributors from "../../thanks";
+
 const patreon = require("@nathanhigh/patreon");
 
 const { patreon_config } = functions.config();
@@ -54,12 +56,17 @@ export const patreon_login = functions.https.onRequest(
 
       functions.logger.info("Entitled Tier Ids: ", entitledTiers);
 
-      const hasStorage = entitledTiers.some((entitledTier) =>
-        storageRewardIds.includes(entitledTier)
-      );
-      const hasEpic = entitledTiers.some((entitledTier) =>
-        epicRewardIds.includes(entitledTier)
-      );
+      const isContributor = contributors.some((c) => c.PatreonId === patreonId);
+      const hasStorage =
+        isContributor ||
+        entitledTiers.some((entitledTier) =>
+          storageRewardIds.includes(entitledTier)
+        );
+      const hasEpic =
+        isContributor ||
+        entitledTiers.some((entitledTier) =>
+          epicRewardIds.includes(entitledTier)
+        );
 
       const authToken = await admin
         .auth()
