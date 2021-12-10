@@ -196,7 +196,11 @@ function MarkdownEditor(props: {
         defaultValue={props.card.content}
         placeholder=""
         onChange={(getValue) => {
-          props.setContent(getValue());
+          try {
+            props.setContent(getValue());
+          } catch (e) {
+            console.warn("Editor onChange threw: ", e);
+          }
         }}
         onBlur={props.onBlur}
         disableExtensions={["container_notice", "highlight"]}
