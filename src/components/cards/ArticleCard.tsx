@@ -24,6 +24,7 @@ import { ArticleCardState, PlayerViewPermission } from "../../state/CardState";
 import { BaseCard } from "./BaseCard";
 import { useThemeColor } from "../hooks/useThemeColor";
 import { ViewType, ViewTypeContext } from "../ViewTypeContext";
+import _ from "lodash";
 
 export function ArticleCard(props: { card: ArticleCardState }) {
   const { card } = props;
@@ -129,20 +130,29 @@ function ArticleEditor(props: {
   isMarkdownEditorActive: boolean;
 }) {
   const { state, dispatch } = React.useContext(ReducerContext);
-  const [content, setContent] = React.useState(props.card.content);
 
-  const saveCardContent = () => {
-    const updatedContent = ConvertDoubleBracketsToWikiLinks(
-      content,
-      state.cardsById
-    );
-    dispatch(
-      CardActions.SetCardContent({
-        cardId: props.card.cardId,
-        content: updatedContent,
-      })
-    );
-  };
+  const saveCardContent = React.useCallback(
+    (currentContent) => {
+      const updatedContent = ConvertDoubleBracketsToWikiLinks(
+        currentContent,
+        state.cardsById
+      );
+      dispatch(
+        CardActions.SetCardContent({
+          cardId: props.card.cardId,
+          content: updatedContent,
+        })
+      );
+    },
+    [props.card.cardId, state.cardsById, dispatch]
+  );
+
+  const saveCardContentThrottled = React.useMemo(() => {
+    return _.throttle(saveCardContent, 200, {
+      leading: false,
+      trailing: true,
+    });
+  }, [saveCardContent]);
 
   if (props.isMarkdownEditorActive) {
     return (
@@ -151,17 +161,17 @@ function ArticleEditor(props: {
         autoFocus
         defaultValue={props.card.content}
         onChange={(changeEvent) => {
-          setContent(changeEvent.target.value);
+          saveCardContentThrottled(changeEvent.target.value);
         }}
-        onBlur={saveCardContent}
       />
     );
   } else {
     return (
       <MarkdownEditor
         card={props.card}
-        setContent={setContent}
-        onBlur={saveCardContent}
+        setContent={(newContent) => {
+          saveCardContentThrottled(newContent);
+        }}
       />
     );
   }
@@ -170,7 +180,6 @@ function ArticleEditor(props: {
 function MarkdownEditor(props: {
   card: ArticleCardState;
   setContent: (content: string) => void;
-  onBlur: () => void;
 }) {
   const themeColors = {
     primary: useThemeColor("brand"),
@@ -202,7 +211,6 @@ function MarkdownEditor(props: {
             console.warn("Editor onChange threw: ", e);
           }
         }}
-        onBlur={props.onBlur}
         disableExtensions={["container_notice", "highlight"]}
         theme={{
           ...base,
