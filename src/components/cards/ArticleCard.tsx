@@ -161,7 +161,7 @@ function ArticleEditor(props: {
       <MarkdownEditor
         card={props.card}
         setContent={setContent}
-        saveCardContent={saveCardContent}
+        onBlur={saveCardContent}
       />
     );
   }
@@ -170,7 +170,7 @@ function ArticleEditor(props: {
 function MarkdownEditor(props: {
   card: ArticleCardState;
   setContent: (content: string) => void;
-  saveCardContent: () => void;
+  onBlur: () => void;
 }) {
   const themeColors = {
     primary: useThemeColor("brand"),
@@ -198,7 +198,7 @@ function MarkdownEditor(props: {
         onChange={(getValue) => {
           props.setContent(getValue());
         }}
-        onBlur={props.saveCardContent}
+        onBlur={props.onBlur}
         disableExtensions={["container_notice", "highlight"]}
         theme={{
           ...base,
