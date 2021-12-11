@@ -2,7 +2,7 @@ import * as admin from "firebase-admin";
 import * as functions from "firebase-functions";
 import * as Url from "url";
 
-import contributors from "../../thanks";
+import contributors from "./thanks";
 
 const patreon = require("@nathanhigh/patreon");
 
@@ -57,6 +57,9 @@ export const patreon_login = functions.https.onRequest(
       functions.logger.info("Entitled Tier Ids: ", entitledTiers);
 
       const isContributor = contributors.some((c) => c.PatreonId === patreonId);
+
+      functions.logger.info("isContributor: ", isContributor);
+
       const hasStorage =
         isContributor ||
         entitledTiers.some((entitledTier) =>
