@@ -6,6 +6,9 @@ export const Theme: ThemeType = {
       brand: {
         light: "#472654",
       },
+      "brand-desaturated": {
+        light: "#4d3b54",
+      },
       "brand-2": {
         light: "#97A8C3",
       },

@@ -8,7 +8,15 @@ import {
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, Footer, Header, Heading, TextInput } from "grommet";
+import {
+  Box,
+  BoxProps,
+  Button,
+  Footer,
+  Header,
+  Heading,
+  TextInput,
+} from "grommet";
 import React, { useContext, useRef } from "react";
 import { CardActions } from "../../actions/CardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
@@ -22,11 +30,7 @@ export function BaseCard(props: {
   children: React.ReactNode;
   centerRow?: boolean;
 }) {
-  const viewType = useContext(ViewTypeContext);
   const [toast, popToast] = useToast(5000);
-  const canEdit =
-    viewType !== ViewType.Player ||
-    props.cardState.playerViewPermission === PlayerViewPermission.Interact;
 
   const innerBoxRef = useRef<HTMLDivElement>(null);
 
@@ -42,9 +46,25 @@ export function BaseCard(props: {
       >
         {props.children}
       </Box>
-      <CardFooter toast={toast} canEdit={canEdit} commands={props.commands} />
+      <CardFooter
+        toast={toast}
+        cardState={props.cardState}
+        commands={props.commands}
+      />
     </Box>
   );
+}
+
+function GetThemePropsFromPlayerViewPermission(
+  permission: PlayerViewPermission
+): BoxProps {
+  if (permission === PlayerViewPermission.Hidden) {
+    return {
+      background: "brand-desaturated",
+    };
+  }
+
+  return { background: "brand" };
 }
 
 function CardHeader(props: {
@@ -69,8 +89,12 @@ function CardHeader(props: {
   const isGmView = viewType === ViewType.GameMaster;
   const isDashboardView = viewType === ViewType.Dashboard;
 
+  const boxProps = GetThemePropsFromPlayerViewPermission(
+    props.cardState.playerViewPermission
+  );
+
   return (
-    <Header pad="xsmall" background="brand" height="3.4rem">
+    <Header pad="xsmall" height="3.4rem" {...boxProps}>
       <Box
         fill
         className={isGmView || isDashboardView ? "drag-handle" : undefined}
@@ -209,14 +233,23 @@ function PlayerViewButton(props: {
 function CardFooter(props: {
   toast: string | null;
   commands: React.ReactNode;
-  canEdit: boolean;
+  cardState: CardState;
 }) {
+  const viewType = useContext(ViewTypeContext);
+  const canEdit =
+    viewType !== ViewType.Player ||
+    props.cardState.playerViewPermission === PlayerViewPermission.Interact;
+
+  const boxProps = GetThemePropsFromPlayerViewPermission(
+    props.cardState.playerViewPermission
+  );
+
   return (
     <Footer
-      background="brand"
       justify="stretch"
       pad={{ right: "small" }}
       overflow={{ horizontal: "auto" }}
+      {...boxProps}
     >
       <Box height="1em" />
       {props.toast && (
@@ -229,7 +262,7 @@ function CardFooter(props: {
         </Box>
       )}
       <Box fill />
-      {props.canEdit && props.commands}
+      {canEdit && props.commands}
     </Footer>
   );
 }
