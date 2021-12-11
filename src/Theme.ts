@@ -50,4 +50,9 @@ export const Theme: ThemeType = {
       maxWidth: "none",
     },
   },
+  button: {
+    border: {
+      radius: "1px",
+    },
+  },
 };
