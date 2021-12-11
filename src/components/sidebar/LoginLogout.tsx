@@ -8,7 +8,7 @@ import { app } from "../..";
 import { Actions } from "../../actions/Actions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 
-export function Login() {
+export function LoginLogout() {
   const { state, dispatch } = useContext(ReducerContext);
   const environment = process.env;
   if (

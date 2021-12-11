@@ -4,7 +4,7 @@ import { ReducerContext } from "../../reducers/ReducerContext";
 import { CardLibrary } from "./CardLibrary";
 import { DashboardLibrary } from "./DashboardLibrary";
 import { LibrarySidebarControls } from "./LibrarySidebarControls";
-import { Login } from "./LoginButton";
+import { LoginLogout } from "./LoginLogout";
 
 export function LibrarySidebar() {
   const { state } = useContext(ReducerContext);
@@ -30,7 +30,7 @@ export function LibrarySidebar() {
         )}
       </Box>
       <Box alignSelf="stretch">
-        <Login />
+        <LoginLogout />
       </Box>
     </Box>
   );
