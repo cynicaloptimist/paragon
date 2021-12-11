@@ -21,6 +21,17 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     };
   }
 
+  if (isActionOf(Actions.LogOut, action)) {
+    return {
+      ...oldState,
+      user: {
+        isLoggedIn: false,
+        hasStorage: false,
+        hasEpic: false,
+      },
+    };
+  }
+
   if (isActionOf(Actions.UpdateDashboardFromServer, action)) {
     return {
       ...oldState,

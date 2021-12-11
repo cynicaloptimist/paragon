@@ -8,6 +8,7 @@ export const Actions = {
     hasStorage: boolean;
     hasEpic: boolean;
   }>(),
+  LogOut: createAction("LogOut")(),
   SetLayouts: createAction("SetLayouts")<{
     gridSize: string;
     layouts: GridLayout.Layout[];

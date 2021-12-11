@@ -29,7 +29,7 @@ export function LibrarySidebar() {
           <CardLibrary />
         )}
       </Box>
-      <Box alignSelf="center" pad="small">
+      <Box alignSelf="stretch">
         <Login />
       </Box>
     </Box>

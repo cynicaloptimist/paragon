@@ -1,10 +1,15 @@
+import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "firebase/auth";
-import { Button, Text } from "grommet";
+import { getAuth } from "firebase/auth";
+import { Box, Button, Text } from "grommet";
 import React, { useContext } from "react";
+import { app } from "../..";
+import { Actions } from "../../actions/Actions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 
 export function Login() {
-  const { state } = useContext(ReducerContext);
+  const { state, dispatch } = useContext(ReducerContext);
   const environment = process.env;
   if (
     !(
@@ -17,7 +22,23 @@ export function Login() {
   }
 
   if (state.user.isLoggedIn) {
-    return <Text style={{ fontStyle: "italic" }}>Logged in with Patreon</Text>;
+    return (
+      <Box direction="row" pad="small" align="center" justify="center">
+        <Text style={{ fontStyle: "italic" }}>Logged in with Patreon</Text>
+        <Button
+          icon={
+            <FontAwesomeIcon
+              icon={faSignOutAlt}
+              onClick={async () => {
+                const auth = getAuth(app);
+                await auth.signOut();
+                dispatch(Actions.LogOut());
+              }}
+            />
+          }
+        />
+      </Box>
+    );
   }
 
   const loginUrl = new URL("https://www.patreon.com/oauth2/authorize");
@@ -35,5 +56,12 @@ export function Login() {
     JSON.stringify({ finalRedirect: window.location.href })
   );
 
-  return <Button label="Login with Patreon" href={loginUrl.href} />;
+  return (
+    <Button
+      margin="small"
+      alignSelf="center"
+      label="Login with Patreon"
+      href={loginUrl.href}
+    />
+  );
 }
