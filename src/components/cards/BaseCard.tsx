@@ -42,25 +42,7 @@ export function BaseCard(props: {
       >
         {props.children}
       </Box>
-      <Footer
-        background="brand"
-        justify="stretch"
-        pad={{ right: "small" }}
-        overflow={{ horizontal: "auto" }}
-      >
-        <Box height="1em" />
-        {toast && (
-          <Box
-            flex="grow"
-            pad={{ horizontal: "small" }}
-            animation={{ type: "fadeIn", duration: 500 }}
-          >
-            {toast}
-          </Box>
-        )}
-        <Box fill />
-        {canEdit && props.commands}
-      </Footer>
+      <CardFooter toast={toast} canEdit={canEdit} commands={props.commands} />
     </Box>
   );
 }
@@ -221,5 +203,33 @@ function PlayerViewButton(props: {
         props.popToast("Revealed in Player View");
       }}
     />
+  );
+}
+
+function CardFooter(props: {
+  toast: string | null;
+  commands: React.ReactNode;
+  canEdit: boolean;
+}) {
+  return (
+    <Footer
+      background="brand"
+      justify="stretch"
+      pad={{ right: "small" }}
+      overflow={{ horizontal: "auto" }}
+    >
+      <Box height="1em" />
+      {props.toast && (
+        <Box
+          flex="grow"
+          pad={{ horizontal: "small" }}
+          animation={{ type: "fadeIn", duration: 500 }}
+        >
+          {props.toast}
+        </Box>
+      )}
+      <Box fill />
+      {props.canEdit && props.commands}
+    </Footer>
   );
 }
