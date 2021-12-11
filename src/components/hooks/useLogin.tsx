@@ -44,7 +44,7 @@ export function useLogin(dispatch: React.Dispatch<RootAction>) {
           return onAuthStateChanged(auth, () => {
             if (!auth.currentUser) {
               signInAnonymously(auth);
-            } else if (process.env.REACT_APP_ALL_CLAIMS) {
+            } else if (process.env.REACT_APP_ALL_CLAIMS === "true") {
               dispatch(
                 Actions.SetUserClaims({
                   hasStorage: true,

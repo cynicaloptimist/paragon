@@ -14,12 +14,13 @@ export function NewCardMenu() {
     (cardType) => {
       if (cardType === "pdf") {
         return (
-          process.env.REACT_APP_ENABLE_EXPERIMENTAL && state.user.hasStorage
+          process.env.REACT_APP_ENABLE_EXPERIMENTAL === "true" &&
+          state.user.hasStorage
         );
       }
 
       if (cardType === "drawing") {
-        return process.env.REACT_APP_ENABLE_EXPERIMENTAL;
+        return process.env.REACT_APP_ENABLE_EXPERIMENTAL === "true";
       }
 
       return true;
