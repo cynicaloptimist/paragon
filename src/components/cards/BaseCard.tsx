@@ -89,12 +89,12 @@ function CardHeader(props: {
   const isGmView = viewType === ViewType.GameMaster;
   const isDashboardView = viewType === ViewType.Dashboard;
 
-  const boxProps = GetThemePropsFromPlayerViewPermission(
+  const themeProps = GetThemePropsFromPlayerViewPermission(
     props.cardState.playerViewPermission
   );
 
   return (
-    <Header pad="xsmall" height="3.4rem" {...boxProps}>
+    <Header pad="xsmall" height="3.4rem" {...themeProps}>
       <Box
         fill
         className={isGmView || isDashboardView ? "drag-handle" : undefined}
@@ -240,7 +240,7 @@ function CardFooter(props: {
     viewType !== ViewType.Player ||
     props.cardState.playerViewPermission === PlayerViewPermission.Interact;
 
-  const boxProps = GetThemePropsFromPlayerViewPermission(
+  const themeProps = GetThemePropsFromPlayerViewPermission(
     props.cardState.playerViewPermission
   );
 
@@ -249,7 +249,7 @@ function CardFooter(props: {
       justify="stretch"
       pad={{ right: "small" }}
       overflow={{ horizontal: "auto" }}
-      {...boxProps}
+      {...themeProps}
     >
       <Box height="1em" />
       {props.toast && (
