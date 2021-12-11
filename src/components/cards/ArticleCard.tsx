@@ -163,6 +163,7 @@ function ArticleEditor(props: {
         onChange={(changeEvent) => {
           saveCardContentThrottled(changeEvent.target.value);
         }}
+        style={{ fontFamily: '"Roboto Mono", monospace' }}
       />
     );
   } else {
