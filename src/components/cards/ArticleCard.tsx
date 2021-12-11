@@ -69,15 +69,19 @@ export function ArticleCard(props: { card: ArticleCardState }) {
       }
     >
       {isContentEditable ? (
-        <Box
-          fill
-          pad={{ horizontal: "medium" }}
-          overflow={{ vertical: "auto" }}
-        >
-          <ArticleEditor
-            card={card}
-            isMarkdownEditorActive={isMarkdownEditorActive}
-          />
+        // Crazy fill, overflow, and flexbox stuff to make the textarea focus border look correct
+        <Box fill overflow={{ vertical: "auto" }}>
+          <Box
+            fill={isMarkdownEditorActive ? "vertical" : false}
+            style={{ minHeight: isMarkdownEditorActive ? 0 : "unset" }}
+            className="article-card-content"
+            pad={{ horizontal: "medium" }}
+          >
+            <ArticleEditor
+              card={card}
+              isMarkdownEditorActive={isMarkdownEditorActive}
+            />
+          </Box>
         </Box>
       ) : (
         <Box
