@@ -154,8 +154,13 @@ export function LedgerCard(props: { card: LedgerCardState }) {
         <div ref={scrollBottom} />
       </Box>
 
-      <Box direction="row" justify="end" pad="small">
-        Total: {valueTotal} {card.units}
+      <Box
+        pad="small"
+        style={{
+          fontWeight: "bold",
+        }}
+      >
+        {valueTotal} {card.units}
       </Box>
       {canEdit && (
         <Box direction="row" gap="small" justify="stretch">
