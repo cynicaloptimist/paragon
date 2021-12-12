@@ -89,6 +89,7 @@ export const Groupings: Grouping[] = [
         return (
           <Box flex={false} key={props.groupName}>
             <Button
+              justify="start"
               icon={<FontAwesomeIcon icon={faFolder} />}
               label={props.groupName}
               onClick={() => setFolderOpen(true)}
@@ -99,6 +100,7 @@ export const Groupings: Grouping[] = [
         return (
           <Box flex={false} key={props.groupName}>
             <Button
+              justify="start"
               icon={<FontAwesomeIcon icon={faFolderOpen} />}
               label={props.groupName}
               onClick={() => setFolderOpen(false)}
