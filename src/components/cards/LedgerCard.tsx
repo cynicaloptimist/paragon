@@ -28,6 +28,8 @@ import { LongPressButton } from "../common/LongPressButton";
 import { useScrollTo } from "../hooks/useScrollTo";
 import { ViewType, ViewTypeContext } from "../ViewTypeContext";
 
+const AMOUNT_COLUMN_WIDTH = "80px";
+
 export function LedgerCard(props: { card: LedgerCardState }) {
   const { dispatch } = useContext(ReducerContext);
   const { card } = props;
@@ -156,18 +158,21 @@ export function LedgerCard(props: { card: LedgerCardState }) {
         Total: {valueTotal} {card.units}
       </Box>
       {canEdit && (
-        <Box direction="row" gap="small">
-          <TextInput
-            type="text"
-            placeholder="Comment"
-            ref={commentInputRef}
-            onKeyDown={submitOnEnter}
-          />
-          <Box style={{ width: "6em" }}>
+        <Box direction="row" gap="small" justify="stretch">
+          <Box width={AMOUNT_COLUMN_WIDTH}>
             <TextInput
               type="number"
+              textAlign="center"
               placeholder={card.isDecreasing ? "-" : "+"}
               ref={amountInputRef}
+              onKeyDown={submitOnEnter}
+            />
+          </Box>
+          <Box flex fill>
+            <TextInput
+              type="text"
+              placeholder="Comment"
+              ref={commentInputRef}
               onKeyDown={submitOnEnter}
             />
           </Box>
@@ -204,10 +209,12 @@ function LedgerEntryRow(props: {
           : undefined
       }
     >
+      <Box width={AMOUNT_COLUMN_WIDTH} align="center">
+        {entry.changeAmount}
+      </Box>
       <Box flex fill pad="xsmall">
         {entry.comment}
       </Box>
-      <Box>{entry.changeAmount}</Box>
       <LongPressButton
         key={index}
         icon={<FontAwesomeIcon color={buttonColor} icon={faTimes} />}
