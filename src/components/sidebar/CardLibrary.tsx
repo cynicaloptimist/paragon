@@ -1,20 +1,21 @@
 import {
   faFolder,
   faFolderOpen,
-  faSort
+  faSort,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Fuse from "fuse.js";
 import { Box, Button, Heading, TextInput } from "grommet";
 import React, { useContext, useMemo, useState } from "react";
 import { ReducerContext } from "../../reducers/ReducerContext";
+import { AppState } from "../../state/AppState";
 import { CardState } from "../../state/CardState";
 import { CardTypeFriendlyNames } from "../../state/CardTypeFriendlyNames";
 import { CardLibraryRow } from "./CardLibraryRow";
 
 type Grouping = {
   Name: string;
-  GetGroupForCard: (cardState: CardState) => string;
+  GetGroupsForCard: (cardState: CardState, appState: AppState) => string[];
   GetSection: React.FunctionComponent<{
     groupName: string;
     cards: CardState[];
@@ -24,8 +25,9 @@ type Grouping = {
 export const Groupings: Grouping[] = [
   {
     Name: "Type",
-    GetGroupForCard: (cardState: CardState) =>
+    GetGroupsForCard: (cardState: CardState) => [
       CardTypeFriendlyNames[cardState.type],
+    ],
     GetSection: (props: { groupName: string; cards: CardState[] }) => {
       return (
         <Box flex={false} key={props.groupName}>
@@ -40,8 +42,36 @@ export const Groupings: Grouping[] = [
     },
   },
   {
+    Name: "Dashboard",
+    GetGroupsForCard: (cardState: CardState, appState: AppState) => {
+      const dashboardIds = Object.keys(appState.dashboardsById).filter(
+        (dashboardId) =>
+          appState.dashboardsById[dashboardId].openCardIds?.includes(
+            cardState.cardId
+          )
+      );
+      return dashboardIds;
+    },
+    GetSection: (props: { groupName: string; cards: CardState[] }) => {
+      const { state } = useContext(ReducerContext);
+      return (
+        <Box flex={false} key={props.groupName}>
+          <Heading level={3} margin="xsmall">
+            {state.dashboardsById[props.groupName]?.name}
+          </Heading>
+          {props.cards.map((card) => (
+            <CardLibraryRow
+              key={props.groupName + "_" + card.cardId}
+              card={card}
+            />
+          ))}
+        </Box>
+      );
+    },
+  },
+  {
     Name: "Folder",
-    GetGroupForCard: (cardState: CardState) => cardState.path ?? "",
+    GetGroupsForCard: (cardState: CardState) => [cardState.path ?? ""],
     GetSection: (props: { groupName: string; cards: CardState[] }) => {
       const [folderOpen, setFolderOpen] = useState(false);
 
@@ -111,13 +141,13 @@ export function CardLibrary() {
 
   const cardsByGroup = Object.values(state.cardsById).reduce(
     (hash: Record<string, CardState[]>, cardState) => {
-      const cardGroup = selectedGrouping.GetGroupForCard(cardState);
-      if (hash[cardGroup] === undefined) {
-        hash[cardGroup] = [];
+      const cardGroups = selectedGrouping.GetGroupsForCard(cardState, state);
+      for (const group of cardGroups) {
+        if (!hash[group]) {
+          hash[group] = [];
+        }
+        hash[group].push(cardState);
       }
-
-      hash[cardGroup].push(cardState);
-
       return hash;
     },
     {}
