@@ -79,7 +79,7 @@ export const Groupings: Grouping[] = [
         return (
           <Box flex={false} key={props.groupName}>
             {props.cards.map((card) => (
-              <CardLibraryRow key={card.cardId} card={card} />
+              <CardLibraryRow showFolder key={card.cardId} card={card} />
             ))}
           </Box>
         );
@@ -104,7 +104,7 @@ export const Groupings: Grouping[] = [
               onClick={() => setFolderOpen(false)}
             />
             {props.cards.map((card) => (
-              <CardLibraryRow key={card.cardId} card={card} />
+              <CardLibraryRow showFolder key={card.cardId} card={card} />
             ))}
           </Box>
         );

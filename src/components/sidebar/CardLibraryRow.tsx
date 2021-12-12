@@ -8,7 +8,10 @@ import { ActiveDashboardOf } from "../../state/AppState";
 import { CardState } from "../../state/CardState";
 import { LongPressButton } from "../common/LongPressButton";
 
-export function CardLibraryRow(props: { card: CardState }) {
+export function CardLibraryRow(props: {
+  card: CardState;
+  showFolder?: boolean;
+}) {
   const { state, dispatch } = useContext(ReducerContext);
 
   const isCardOpen =
@@ -78,11 +81,13 @@ export function CardLibraryRow(props: { card: CardState }) {
       >
         {props.card.title}
       </Button>
-      <Button
-        tip="Move to Folder"
-        onClick={() => setEditingPath(true)}
-        icon={<FontAwesomeIcon icon={faFolder} />}
-      />
+      {props.showFolder && (
+        <Button
+          tip="Move to Folder"
+          onClick={() => setEditingPath(true)}
+          icon={<FontAwesomeIcon icon={faFolder} />}
+        />
+      )}
       <LongPressButton
         tip="Delete"
         onLongPress={deleteCard}
