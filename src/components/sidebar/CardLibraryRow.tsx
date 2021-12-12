@@ -1,7 +1,7 @@
 import { faCheck, faFolder, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, TextInput } from "grommet";
-import React, { useCallback, useContext, useState } from "react";
+import React, { useCallback, useContext, useRef, useState } from "react";
 import { CardActions } from "../../actions/CardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { ActiveDashboardOf } from "../../state/AppState";
@@ -24,21 +24,24 @@ export function CardLibraryRow(props: { card: CardState }) {
   }, [dispatch, props.card.cardId]);
 
   const [editingPath, setEditingPath] = useState(false);
-  const [pathInput, setPathInput] = useState("");
+  const pathInput = useRef<HTMLInputElement>(null);
+
   const saveAndClose = () => {
     dispatch(
-      CardActions.SetCardPath({ cardId: props.card.cardId, path: pathInput })
+      CardActions.SetCardPath({
+        cardId: props.card.cardId,
+        path: pathInput.current?.value || "",
+      })
     );
     setEditingPath(false);
-    setPathInput("");
   };
 
   if (editingPath) {
     return (
       <Box flex={false} direction="row">
         <TextInput
+          ref={pathInput}
           defaultValue={props.card.path}
-          onChange={(changeEvent) => setPathInput(changeEvent.target.value)}
           onKeyDown={(keyEvent) => {
             if (keyEvent.key === "Enter") {
               saveAndClose();
