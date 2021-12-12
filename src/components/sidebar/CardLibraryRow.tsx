@@ -48,6 +48,7 @@ export function CardLibraryRow(props: { card: CardState }) {
           onBlur={saveAndClose}
         />
         <Button
+          tip="Move to Folder"
           onClick={() => setEditingPath(false)}
           icon={<FontAwesomeIcon icon={faCheck} />}
         />
@@ -72,10 +73,12 @@ export function CardLibraryRow(props: { card: CardState }) {
         {props.card.title}
       </Button>
       <Button
+        tip="Move to Folder"
         onClick={() => setEditingPath(true)}
         icon={<FontAwesomeIcon icon={faFolder} />}
       />
       <LongPressButton
+        tip="Delete"
         onLongPress={deleteCard}
         icon={<FontAwesomeIcon icon={faTrash} />}
       />
