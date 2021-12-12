@@ -42,6 +42,7 @@ export function DashboardLibraryRow(props: {
         {props.dashboard.name}
       </Button>
       <LongPressButton
+        tip="Delete Dashboard"
         onLongPress={deleteDashboard}
         icon={<FontAwesomeIcon icon={faTrash} />}
       />
