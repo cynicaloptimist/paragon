@@ -103,9 +103,11 @@ export const Groupings: Grouping[] = [
               label={props.groupName}
               onClick={() => setFolderOpen(false)}
             />
-            {props.cards.map((card) => (
-              <CardLibraryRow showFolder key={card.cardId} card={card} />
-            ))}
+            <Box pad="small" border={{ side: "left" }}>
+              {props.cards.map((card) => (
+                <CardLibraryRow showFolder key={card.cardId} card={card} />
+              ))}
+            </Box>
           </Box>
         );
       }
