@@ -38,7 +38,10 @@ export function CardLibraryRow(props: { card: CardState }) {
 
   if (editingPath) {
     return (
-      <Box flex={false} direction="row">
+      <Box flex={false} direction="row" align="center">
+        <Box margin="small">
+          <FontAwesomeIcon icon={faFolder} />
+        </Box>
         <TextInput
           ref={pathInput}
           defaultValue={props.card.path}
