@@ -27,10 +27,12 @@ export function LibrarySidebarControls() {
   return (
     <Box direction="row" gap="small">
       <Button
+        tip="Cards"
         icon={<CardStack title="Cards" height="22px" />}
         onClick={toggleCardLibrary}
       />
       <Button
+        tip="Dashboards"
         icon={<DMScreen title="Dashboards" height="22px" />}
         onClick={toggleDashboardLibrary}
       />
