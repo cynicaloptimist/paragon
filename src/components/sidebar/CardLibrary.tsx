@@ -154,7 +154,15 @@ export function CardLibrary() {
   );
 
   const headersAndCards = Object.keys(cardsByGroup)
-    .sort()
+    .sort((a, b) => {
+      if (a === "") {
+        return 1;
+      }
+      if (b === "") {
+        return -1;
+      }
+      return a.localeCompare(b);
+    })
     .map((cardGroup) =>
       React.createElement(selectedGrouping.GetSection, {
         groupName: cardGroup,
