@@ -101,6 +101,13 @@ export function usePlayerView(
             CardActions.SetClockValue,
             CardActions.SetClockMax,
             CardActions.SetClockDisplayType,
+            CardActions.AddLedgerEntry,
+            CardActions.RemoveLedgerEntry,
+            CardActions.SetLedgerUnits,
+            CardActions.SetLedgerDecreasing,
+            CardActions.SetSketchModel,
+            CardActions.SetPDF,
+            CardActions.SetPDFPage,
           ],
           action
         )
