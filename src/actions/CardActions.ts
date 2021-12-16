@@ -61,7 +61,7 @@ export const CardActions = {
     result: string;
     total: number;
   }>(),
-  SetSketchModel: createAction("SetSketchJSON")<{
+  SetSketchModel: createAction("SetSketchModel")<{
     cardId: string;
     sketchJSON: SketchModelJSON;
   }>(),
