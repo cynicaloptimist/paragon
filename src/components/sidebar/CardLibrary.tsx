@@ -5,7 +5,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Fuse from "fuse.js";
-import { Box, Button, Heading, TextInput } from "grommet";
+import {
+  Accordion,
+  AccordionPanel,
+  Box,
+  Button,
+  Heading,
+  TextInput,
+  Text,
+} from "grommet";
 import React, { useContext, useMemo, useState } from "react";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { AppState } from "../../state/AppState";
@@ -30,14 +38,11 @@ export const Groupings: Grouping[] = [
     ],
     GetSection: (props: { groupName: string; cards: CardState[] }) => {
       return (
-        <Box flex={false} key={props.groupName}>
-          <Heading level={3} margin="xsmall">
-            {props.groupName}
-          </Heading>
+        <AccordionPanel label={props.groupName}>
           {props.cards.map((card) => (
             <CardLibraryRow key={card.cardId} card={card} />
           ))}
-        </Box>
+        </AccordionPanel>
       );
     },
   },
@@ -55,17 +60,14 @@ export const Groupings: Grouping[] = [
     GetSection: (props: { groupName: string; cards: CardState[] }) => {
       const { state } = useContext(ReducerContext);
       return (
-        <Box flex={false} key={props.groupName}>
-          <Heading level={3} margin="xsmall">
-            {state.dashboardsById[props.groupName]?.name}
-          </Heading>
+        <AccordionPanel label={state.dashboardsById[props.groupName]?.name}>
           {props.cards.map((card) => (
             <CardLibraryRow
               key={props.groupName + "_" + card.cardId}
               card={card}
             />
           ))}
-        </Box>
+        </AccordionPanel>
       );
     },
   },
@@ -73,8 +75,6 @@ export const Groupings: Grouping[] = [
     Name: "Folder",
     GetGroupsForCard: (cardState: CardState) => [cardState.path ?? ""],
     GetSection: (props: { groupName: string; cards: CardState[] }) => {
-      const [folderOpen, setFolderOpen] = useState(false);
-
       if (props.groupName === "") {
         return (
           <Box flex={false} key={props.groupName}>
@@ -85,34 +85,13 @@ export const Groupings: Grouping[] = [
         );
       }
 
-      if (!folderOpen) {
-        return (
-          <Box flex={false} key={props.groupName}>
-            <Button
-              justify="start"
-              icon={<FontAwesomeIcon icon={faFolder} />}
-              label={props.groupName}
-              onClick={() => setFolderOpen(true)}
-            />
-          </Box>
-        );
-      } else {
-        return (
-          <Box flex={false} key={props.groupName}>
-            <Button
-              justify="start"
-              icon={<FontAwesomeIcon icon={faFolderOpen} />}
-              label={props.groupName}
-              onClick={() => setFolderOpen(false)}
-            />
-            <Box pad="small" border={{ side: "left" }}>
-              {props.cards.map((card) => (
-                <CardLibraryRow showFolder key={card.cardId} card={card} />
-              ))}
-            </Box>
-          </Box>
-        );
-      }
+      return (
+        <AccordionPanel label={props.groupName}>
+          {props.cards.map((card) => (
+            <CardLibraryRow showFolder key={card.cardId} card={card} />
+          ))}
+        </AccordionPanel>
+      );
     },
   },
 ];
@@ -190,7 +169,7 @@ export function CardLibrary() {
           setGroupingIndex(nextGrouping);
         }}
       />
-      {headersAndCards}
+      <Accordion>{headersAndCards}</Accordion>
     </Box>
   );
 }
