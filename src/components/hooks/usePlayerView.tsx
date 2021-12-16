@@ -21,7 +21,7 @@ import {
   VisibleCardsOf,
 } from "../../state/AppState";
 import { PlayerViewPermission } from "../../state/CardState";
-import { FirebaseUtils } from "../../FirebaseUtils"
+import { FirebaseUtils } from "../../FirebaseUtils";
 import { useUserId } from "./useAccountSync";
 
 function omitClosedCardsFromState(fullState: AppState): AppState {
@@ -106,6 +106,8 @@ export function usePlayerView(
         )
       ) {
         dispatch(action);
+      } else {
+        console.warn("Action not permitted in Player View: ", action.type);
       }
       remove(actionSnapshot.ref);
     });
