@@ -1,15 +1,7 @@
 import { faSort } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Fuse from "fuse.js";
-import {
-  Accordion,
-  AccordionPanel,
-  Box,
-  Button,
-  Heading,
-  TextInput,
-  Text,
-} from "grommet";
+import { Accordion, AccordionPanel, Box, Button, TextInput } from "grommet";
 import React, { useContext, useMemo, useState } from "react";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { AppState } from "../../state/AppState";
