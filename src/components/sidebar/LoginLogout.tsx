@@ -26,6 +26,7 @@ export function LoginLogout() {
       <Box direction="row" pad="small" align="center" justify="center">
         <Text style={{ fontStyle: "italic" }}>Logged in with Patreon</Text>
         <Button
+          tip="Log out"
           icon={
             <FontAwesomeIcon
               icon={faSignOutAlt}
