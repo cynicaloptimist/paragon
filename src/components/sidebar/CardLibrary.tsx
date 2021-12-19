@@ -1,8 +1,4 @@
-import {
-  faFolder,
-  faFolderOpen,
-  faSort,
-} from "@fortawesome/free-solid-svg-icons";
+import { faSort } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Fuse from "fuse.js";
 import {
@@ -162,7 +158,17 @@ export function CardLibrary() {
         onChange={(e) => setSearchTerm(e.target.value)}
       />
       <Button
-        label={"Sorted by " + selectedGrouping.Name}
+        tip={{
+          content: "Change sorting",
+          dropProps: {
+            stretch: false,
+            align: {
+              bottom: "top",
+              right: "right",
+            },
+          },
+        }}
+        label={selectedGrouping.Name}
         icon={<FontAwesomeIcon icon={faSort} />}
         onClick={() => {
           const nextGrouping = (groupingIndex + 1) % Groupings.length;
