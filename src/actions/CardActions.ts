@@ -1,6 +1,9 @@
 import { ActionType, createAction } from "typesafe-actions";
-import { SketchModelJSON } from "../components/cards/SketchFieldProps";
-import { PlayerViewPermission, RollTableEntry } from "../state/CardState";
+import {
+  PlayerViewPermission,
+  RollTableEntry,
+  SketchModelJSON,
+} from "../state/CardState";
 import { LegacyCardState } from "../state/LegacyCardState";
 
 export const CardActions = {

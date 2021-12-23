@@ -13,14 +13,13 @@ import { SketchPicker } from "react-color";
 
 import { CardActions } from "../../actions/CardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
-import { DrawingCardState, PlayerViewPermission } from "../../state/CardState";
-import { BaseCard } from "./BaseCard";
 import {
-  SketchFieldProps,
-  SketchModel,
+  DrawingCardState,
+  PlayerViewPermission,
   SketchModelJSON,
-  ToolsEnum,
-} from "./SketchFieldProps";
+} from "../../state/CardState";
+import { BaseCard } from "./BaseCard";
+import { SketchFieldProps, SketchModel, ToolsEnum } from "./SketchFieldProps";
 import { ViewTypeContext, ViewType } from "../ViewTypeContext";
 
 type Size = { height: number; width: number };

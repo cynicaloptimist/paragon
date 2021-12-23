@@ -66,12 +66,6 @@ export type SketchModel = {
   version: string;
 };
 
-export type SketchModelJSON = {
-  background: string;
-  objectJSONs: string[];
-  version: string;
-};
-
 export type ToolsEnum = {
     Circle: "circle",
     Line: "line",
