@@ -42,7 +42,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "build-functions": "tsc -p functions/",
-    "deploy": "npm run build && npm run build-functions && firebase deploy",
+    "deploy": "npm run build && npm run build-functions && firebase deploy && npm version patch",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
