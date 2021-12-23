@@ -6,7 +6,7 @@ import { Layout, Responsive, WidthProvider } from "react-grid-layout";
 import { Actions } from "../../actions/Actions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { CardState } from "../../state/CardState";
-import { ArticleCard } from "../cards/ArticleCard";
+import { ArticleCard } from "../cards/article/ArticleCard";
 import { ClockCard } from "../cards/clock/ClockCard";
 import { DiceCard } from "../cards/DiceCard";
 import { DrawingCard } from "../cards/DrawingCard";
