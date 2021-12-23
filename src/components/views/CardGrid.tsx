@@ -7,7 +7,7 @@ import { Actions } from "../../actions/Actions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { CardState } from "../../state/CardState";
 import { ArticleCard } from "../cards/ArticleCard";
-import { ClockCard } from "../cards/ClockCard";
+import { ClockCard } from "../cards/clock/ClockCard";
 import { DiceCard } from "../cards/DiceCard";
 import { DrawingCard } from "../cards/DrawingCard";
 import { ImageCard } from "../cards/ImageCard";
