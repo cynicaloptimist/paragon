@@ -25,6 +25,10 @@ type Grouping = {
   }>;
 };
 
+const accordionBoxProps: BoxExtendedProps = {
+  gap: "xsmall",
+};
+
 export const Groupings: Grouping[] = [
   {
     Name: "Card Type",
@@ -34,9 +38,11 @@ export const Groupings: Grouping[] = [
     GetSection: (props: { groupName: string; cards: CardState[] }) => {
       return (
         <AccordionPanel label={props.groupName}>
-          {props.cards.map((card) => (
-            <CardLibraryRow key={card.cardId} card={card} />
-          ))}
+          <Box {...accordionBoxProps}>
+            {props.cards.map((card) => (
+              <CardLibraryRow key={card.cardId} card={card} />
+            ))}
+          </Box>
         </AccordionPanel>
       );
     },
@@ -56,12 +62,14 @@ export const Groupings: Grouping[] = [
       const { state } = useContext(ReducerContext);
       return (
         <AccordionPanel label={state.dashboardsById[props.groupName]?.name}>
-          {props.cards.map((card) => (
-            <CardLibraryRow
-              key={props.groupName + "_" + card.cardId}
-              card={card}
-            />
-          ))}
+          <Box {...accordionBoxProps}>
+            {props.cards.map((card) => (
+              <CardLibraryRow
+                key={props.groupName + "_" + card.cardId}
+                card={card}
+              />
+            ))}
+          </Box>
         </AccordionPanel>
       );
     },
@@ -73,18 +81,22 @@ export const Groupings: Grouping[] = [
       if (props.groupName === "") {
         return (
           <AccordionPanel label="(no folder)">
-            {props.cards.map((card) => (
-              <CardLibraryRow showFolder key={card.cardId} card={card} />
-            ))}
+            <Box {...accordionBoxProps}>
+              {props.cards.map((card) => (
+                <CardLibraryRow showFolder key={card.cardId} card={card} />
+              ))}
+            </Box>
           </AccordionPanel>
         );
       }
 
       return (
         <AccordionPanel label={props.groupName}>
-          {props.cards.map((card) => (
-            <CardLibraryRow showFolder key={card.cardId} card={card} />
-          ))}
+          <Box {...accordionBoxProps}>
+            {props.cards.map((card) => (
+              <CardLibraryRow showFolder key={card.cardId} card={card} />
+            ))}
+          </Box>
         </AccordionPanel>
       );
     },
