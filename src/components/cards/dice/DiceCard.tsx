@@ -1,18 +1,13 @@
-import { faArrowRight, faRedo } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dice } from "dice-typescript";
-import { Box, Button, Text, TextInput } from "grommet";
+import { Box, Button, TextInput } from "grommet";
 import { useCallback, useContext, useRef, useState } from "react";
-import { CardActions } from "../../actions/CardActions";
-import { ReducerContext } from "../../reducers/ReducerContext";
-import {
-  DiceCardState,
-  DiceRoll,
-  PlayerViewPermission,
-} from "../../state/CardState";
-import { BaseCard } from "./BaseCard";
-import { useScrollTo } from "../hooks/useScrollTo";
-import { ViewType, ViewTypeContext } from "../ViewTypeContext";
+import { CardActions } from "../../../actions/CardActions";
+import { ReducerContext } from "../../../reducers/ReducerContext";
+import { DiceCardState, PlayerViewPermission } from "../../../state/CardState";
+import { BaseCard } from "../BaseCard";
+import { useScrollTo } from "../../hooks/useScrollTo";
+import { ViewType, ViewTypeContext } from "../../ViewTypeContext";
+import { DiceRollRow } from "./DiceRollRow";
 
 const dice = new Dice();
 
@@ -102,34 +97,5 @@ export function DiceCard(props: { card: DiceCardState }) {
         />
       )}
     </BaseCard>
-  );
-}
-
-function DiceRollRow(props: {
-  roll: DiceRoll;
-  rollDice: (expression: string) => void;
-}) {
-  return (
-    <Box flex={false} direction="row" border="top">
-      <Box fill justify="center">
-        <Text>
-          {props.roll.expression}
-          <FontAwesomeIcon
-            icon={faArrowRight}
-            style={{ padding: "0 5px 1px" }}
-          />
-          {props.roll.result}
-          {" = "}
-          <strong>{props.roll.total}</strong>
-        </Text>
-      </Box>
-      <Button
-        margin="xxsmall"
-        color="light-6"
-        hoverIndicator={{ color: "auto" }}
-        onClick={() => props.rollDice(props.roll.expression)}
-        icon={<FontAwesomeIcon icon={faRedo} size="xs" />}
-      />
-    </Box>
   );
 }
