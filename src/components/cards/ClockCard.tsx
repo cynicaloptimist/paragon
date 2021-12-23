@@ -1,4 +1,8 @@
-import { faCheck, faEdit, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMinusSquare,
+  faCheck,
+  faEdit,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, FormField, TextInput } from "grommet";
 import * as React from "react";
@@ -182,7 +186,8 @@ function HorizontalClock(props: { card: ClockCardState }) {
           plain
           margin="xsmall"
           fill="vertical"
-          icon={<FontAwesomeIcon icon={faTimes} />}
+          icon={<FontAwesomeIcon icon={faMinusSquare} />}
+          color={props.card.value === 0 ? "light-6" : "brand"}
           onClick={() => onClickSegment(-1)}
         />
       )}
