@@ -191,7 +191,7 @@ export function CardLibrary() {
           setGroupingIndex(nextGrouping);
         }}
       />
-      <Accordion>{headersAndCards}</Accordion>
+      <Accordion key={selectedGrouping.Name}>{headersAndCards}</Accordion>
     </Box>
   );
 }
