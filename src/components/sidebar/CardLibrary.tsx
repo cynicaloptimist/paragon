@@ -20,7 +20,7 @@ type Grouping = {
 
 export const Groupings: Grouping[] = [
   {
-    Name: "Type",
+    Name: "Card Type",
     GetGroupsForCard: (cardState: CardState) => [
       CardTypeFriendlyNames[cardState.type],
     ],
