@@ -12,7 +12,7 @@ import { DiceCard } from "../cards/dice/DiceCard";
 import { DrawingCard } from "../cards/DrawingCard";
 import { ImageCard } from "../cards/ImageCard";
 import { PDFCard } from "../cards/PDFCard";
-import { RollTableCard } from "../cards/RollTableCard";
+import { RollTableCard } from "../cards/roll-table/RollTableCard";
 import { ViewType, ViewTypeContext } from "../ViewTypeContext";
 import { ActiveDashboardOf, VisibleCardsOf } from "../../state/AppState";
 import { LedgerCard } from "../cards/LedgerCard";
