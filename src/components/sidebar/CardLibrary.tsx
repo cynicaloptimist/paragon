@@ -99,6 +99,7 @@ export function CardLibrary() {
   const fuse = useMemo(() => new Fuse(cards, { keys: ["title"] }), [cards]);
   const boxProps: BoxExtendedProps = {
     pad: "xsmall",
+    gap: "small",
     overflow: { vertical: "auto" },
   };
 
