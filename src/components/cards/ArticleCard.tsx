@@ -186,6 +186,7 @@ function MarkdownEditor(props: {
   card: ArticleCardState;
   setContent: (content: string) => void;
 }) {
+  const { state, dispatch } = React.useContext(ReducerContext);
   const themeColors = {
     primary: useThemeColor("brand"),
     secondary: useThemeColor("brand-2"),
@@ -217,6 +218,15 @@ function MarkdownEditor(props: {
           }
         }}
         disableExtensions={["container_notice", "highlight"]}
+        onClickLink={(href) => {
+          const url = new URL(href);
+          const maybeCardId = url.pathname.replace(/^\//, "");
+          if (state.cardsById[maybeCardId]) {
+            dispatch(CardActions.OpenCard({ cardId: maybeCardId }));
+          } else {
+            window.open(href, "_blank");
+          }
+        }}
         theme={{
           ...base,
           toolbarBackground: themeColors.primary,
