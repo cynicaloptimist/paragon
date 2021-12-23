@@ -1,7 +1,14 @@
 import { faSort } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Fuse from "fuse.js";
-import { Accordion, AccordionPanel, Box, Button, TextInput } from "grommet";
+import {
+  Accordion,
+  AccordionPanel,
+  Box,
+  BoxExtendedProps,
+  Button,
+  TextInput,
+} from "grommet";
 import React, { useContext, useMemo, useState } from "react";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { AppState } from "../../state/AppState";
@@ -90,11 +97,15 @@ export function CardLibrary() {
   const [searchTerm, setSearchTerm] = useState("");
   const cards = Object.values(state.cardsById);
   const fuse = useMemo(() => new Fuse(cards, { keys: ["title"] }), [cards]);
+  const boxProps: BoxExtendedProps = {
+    pad: "xsmall",
+    overflow: { vertical: "auto" },
+  };
 
   if (searchTerm.length > 0) {
     const searchResults = fuse.search(searchTerm);
     return (
-      <Box pad="xsmall" overflow={{ vertical: "auto" }}>
+      <Box {...boxProps}>
         <TextInput
           placeholder="Search..."
           value={searchTerm}
@@ -143,7 +154,7 @@ export function CardLibrary() {
     );
 
   return (
-    <Box pad="xsmall" overflow={{ vertical: "auto" }}>
+    <Box {...boxProps}>
       <TextInput
         placeholder="Search..."
         value={searchTerm}
