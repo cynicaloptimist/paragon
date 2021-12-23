@@ -65,11 +65,11 @@ export const Groupings: Grouping[] = [
     GetSection: (props: { groupName: string; cards: CardState[] }) => {
       if (props.groupName === "") {
         return (
-          <Box flex={false} key={props.groupName}>
+          <AccordionPanel label="(no folder)">
             {props.cards.map((card) => (
               <CardLibraryRow showFolder key={card.cardId} card={card} />
             ))}
-          </Box>
+          </AccordionPanel>
         );
       }
 
