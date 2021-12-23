@@ -173,6 +173,7 @@ function PlayerViewButton(props: {
     return (
       <Button
         icon={<PlayerViewIcon topLayer={faEye} />}
+        tip="Players can see this card."
         hoverIndicator
         onClick={() => {
           const permission = state.user.hasEpic
@@ -199,6 +200,7 @@ function PlayerViewButton(props: {
     return (
       <Button
         icon={<PlayerViewIcon topLayer={faPencilAlt} />}
+        tip="Players can interact with this card."
         hoverIndicator
         onClick={() => {
           dispatch(
@@ -216,6 +218,7 @@ function PlayerViewButton(props: {
   return (
     <Button
       icon={<PlayerViewIcon topLayer={faEyeSlash} />}
+      tip="Players cannot see this card."
       hoverIndicator
       onClick={() => {
         dispatch(
