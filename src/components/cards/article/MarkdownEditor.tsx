@@ -54,8 +54,10 @@ export function MarkdownEditor(props: {
         }}
         theme={{
           ...base,
-          toolbarBackground: themeColors.primary,
-          toolbarHoverBackground: themeColors.primary,
+          toolbarBackground: themeColors.secondary,
+          toolbarHoverBackground: themeColors.secondary,
+          toolbarItem: themeColors.text,
+          toolbarInput: themeColors.text,
           background: themeColors.background,
           codeBackground: themeColors.background,
           blockToolbarBackground: themeColors.background,
