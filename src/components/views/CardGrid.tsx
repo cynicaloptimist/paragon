@@ -55,7 +55,18 @@ export function CardGrid() {
   const gridItems = React.useMemo(
     () =>
       cards.map((card) => {
-        return <GridItem key={card.cardId} card={card} />;
+        return (
+          <GridItem
+            data-grid={{
+              x: 0,
+              y: 0,
+              w: MIN_GRID_UNITS_CARD_WIDTH,
+              h: MIN_GRID_UNITS_CARD_HEIGHT,
+            }}
+            key={card.cardId}
+            card={card}
+          />
+        );
       }),
     [cards]
   );
