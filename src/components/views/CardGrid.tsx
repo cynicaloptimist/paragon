@@ -49,6 +49,16 @@ export function CardGrid() {
   const [currentBreakpoint, setCurrentBreakpoint] =
     React.useState<string>("xxl");
 
+  const cards = VisibleCardsOf(state);
+
+  // useMemo is used to take advantage of https://github.com/react-grid-layout/react-grid-layout#performance
+  const gridItems = React.useMemo(
+    () =>
+      cards.map((card) => {
+        return <GridItem key={card.cardId} card={card} />;
+      }),
+    [cards]
+  );
   const dashboard = ActiveDashboardOf(state);
 
   if (!dashboard) {
@@ -68,11 +78,6 @@ export function CardGrid() {
         };
         return layout;
       });
-  });
-
-  const cards = VisibleCardsOf(state);
-  const gridItems = cards.map((card) => {
-    return <GridItem key={card.cardId} card={card} />;
   });
 
   const updateLayout = (newLayout: Layout[]) => {
