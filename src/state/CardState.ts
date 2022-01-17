@@ -22,8 +22,8 @@ export type ClockCardState = BaseCardState & {
 
 export type RollTableCardState = BaseCardState & {
   type: "roll-table-h";
-  entries: RollTableEntry[];
-  rollHistory: number[];
+  entries?: RollTableEntry[];
+  rollHistory?: number[];
 };
 
 export type RollTableEntry = {
@@ -38,7 +38,7 @@ export type ImageCardState = BaseCardState & {
 
 export type DiceCardState = BaseCardState & {
   type: "dice";
-  history: DiceRoll[];
+  history?: DiceRoll[];
 };
 
 export type DiceRoll = {
@@ -54,7 +54,7 @@ export type DrawingCardState = BaseCardState & {
 
 export type SketchModelJSON = {
   background: string;
-  objectJSONs: string[];
+  objectJSONs?: string[];
   version: string;
 };
 
@@ -66,7 +66,7 @@ export type PDFCardState = BaseCardState & {
 
 export type LedgerCardState = BaseCardState & {
   type: "ledger";
-  entries: LedgerEntry[];
+  entries?: LedgerEntry[];
   units: string;
   isDecreasing: boolean;
 };

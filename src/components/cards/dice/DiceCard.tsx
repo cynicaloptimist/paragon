@@ -41,7 +41,8 @@ export function DiceCard(props: { card: DiceCardState }) {
     </Button>
   );
 
-  const scrollBottom = useScrollTo(card.history);
+  const cardHistory = card.history || [];
+  const scrollBottom = useScrollTo(cardHistory);
 
   const diceInputRef = useRef<HTMLInputElement>(null);
   const [lookback, setLookback] = useState(0);
@@ -63,7 +64,7 @@ export function DiceCard(props: { card: DiceCardState }) {
       }
     >
       <Box overflow={{ vertical: "auto" }} flex justify="start">
-        {card.history.map((roll, index) => (
+        {cardHistory.map((roll, index) => (
           <DiceRollRow key={index} roll={roll} rollDice={rollDice} />
         ))}
         <div ref={scrollBottom} />
@@ -81,15 +82,15 @@ export function DiceCard(props: { card: DiceCardState }) {
               input.value = "";
               setLookback(0);
             }
-            if (e.key === "ArrowUp" && lookback < card.history.length) {
+            if (e.key === "ArrowUp" && lookback < cardHistory.length) {
               input.value =
-                card.history[card.history.length - (lookback + 1)].expression;
+                cardHistory[cardHistory.length - (lookback + 1)].expression;
 
               setLookback(lookback + 1);
             }
             if (e.key === "ArrowDown" && lookback - 1 > 0) {
               input.value =
-                card.history[card.history.length - (lookback - 1)].expression;
+                cardHistory[cardHistory.length - (lookback - 1)].expression;
 
               setLookback(lookback - 1);
             }

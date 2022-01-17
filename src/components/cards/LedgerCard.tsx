@@ -41,11 +41,14 @@ export function LedgerCard(props: { card: LedgerCardState }) {
 
   const [isEditing, setEditing] = useState(false);
 
-  const scrollBottom = useScrollTo(card.entries);
+  // Firebase will strip empty arrays so we need to be defensive here.
+  const entries = card.entries || [];
+
+  const scrollBottom = useScrollTo(entries);
   const amountInputRef = useRef<HTMLInputElement>(null);
   const commentInputRef = useRef<HTMLInputElement>(null);
 
-  const valueTotal = _.sum(card.entries.map((e) => e.changeAmount));
+  const valueTotal = _.sum(entries.map((e) => e.changeAmount));
 
   const submitLedgerEntry = () => {
     const commentInput = commentInputRef.current;
@@ -139,7 +142,7 @@ export function LedgerCard(props: { card: LedgerCardState }) {
         overflow={{ vertical: "auto", horizontal: "hidden" }}
         justify="start"
       >
-        <List data={card.entries} pad="xxsmall" show={card.entries.length - 1}>
+        <List data={entries} pad="xxsmall" show={entries.length - 1}>
           {(entry: LedgerEntry, index: number) => {
             return (
               <LedgerEntryRow

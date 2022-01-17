@@ -86,7 +86,7 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
     const oldCard = oldState[action.payload.cardId] as DiceCardState;
     const { cardId, ...historyItem } = action.payload;
     return mergeCardState(oldState, action, {
-      history: oldCard.history.concat([historyItem]),
+      history: (oldCard.history || []).concat([historyItem]),
     });
   })
   .handleAction(CardActions.SetSketchModel, (oldState, action) => {
@@ -112,7 +112,7 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
     const oldCard = oldState[action.payload.cardId] as LedgerCardState;
     return mergeCardState(oldState, action, {
       entries: [
-        ...oldCard.entries,
+        ...(oldCard.entries || []),
         {
           changeAmount: action.payload.changeAmount,
           comment: action.payload.comment,
@@ -123,7 +123,7 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
   .handleAction(CardActions.RemoveLedgerEntry, (oldState, action) => {
     const oldCard = oldState[action.payload.cardId] as LedgerCardState;
     return mergeCardState(oldState, action, {
-      entries: oldCard.entries.filter(
+      entries: (oldCard.entries || []).filter(
         (_, index) => index !== action.payload.ledgerEntryIndex
       ),
     });

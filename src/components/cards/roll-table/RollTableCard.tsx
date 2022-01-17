@@ -21,10 +21,9 @@ export function RollTableCard(props: { card: RollTableCardState }) {
   const { card } = props;
 
   const [currentView, setCurrentView] = useState("table");
+  const rollHistory = card.rollHistory || [];
   const lastRoll =
-    card.rollHistory.length > 0
-      ? card.rollHistory[card.rollHistory.length - 1]
-      : 0;
+    rollHistory.length > 0 ? rollHistory[rollHistory.length - 1] : 0;
   const rollTableModel = GetRollTableModel(card, lastRoll);
 
   return (
@@ -74,7 +73,7 @@ export function RollTableCard(props: { card: RollTableCardState }) {
       {currentView === "history" && (
         <RollTableHistory
           rollTableModel={rollTableModel}
-          rollHistory={card.rollHistory}
+          rollHistory={rollHistory}
         />
       )}
     </BaseCard>

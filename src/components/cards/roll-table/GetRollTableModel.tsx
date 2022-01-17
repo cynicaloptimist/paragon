@@ -5,7 +5,8 @@ export function GetRollTableModel(
   rollResult: number
 ): RollTableModel {
   let runningTotal = 0;
-  const entries = card.entries.map((entry) => {
+  const cardEntries = card.entries || [];
+  const entries = cardEntries.map((entry) => {
     runningTotal += entry.weight;
     const diceRangeFloor = runningTotal - entry.weight + 1;
     const diceRangeCeiling = runningTotal;
