@@ -41,7 +41,7 @@ export type LegacyDashboardState = {
 type LegacyCardsState = Record<string, LegacyCardState>;
 
 export function UpdateMissingOrLegacyAppState(
-  storedState: LegacyAppState | null
+  storedState: Partial<LegacyAppState> | null
 ): AppState {
   if (!storedState) {
     return GetInitialState();
@@ -49,8 +49,9 @@ export function UpdateMissingOrLegacyAppState(
 
   const convertedCards: CardsState = {};
 
-  for (const cardId of Object.keys(storedState.cardsById)) {
-    convertedCards[cardId] = UpdateCardState(storedState.cardsById[cardId]);
+  const cardsById = storedState.cardsById || {};
+  for (const cardId of Object.keys(cardsById)) {
+    convertedCards[cardId] = UpdateCardState(cardsById[cardId]);
   }
 
   const appState: AppState = {
