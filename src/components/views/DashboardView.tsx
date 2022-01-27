@@ -10,6 +10,7 @@ import { CardGrid } from "./CardGrid";
 import { DashboardViewTopBar } from "../topbar/DashboardViewTopBar";
 import { FirebaseUtils } from "../../FirebaseUtils"
 import { ViewType, ViewTypeContext } from "../ViewTypeContext";
+import { LegacyAppState, UpdateMissingOrLegacyAppState } from "../../state/LegacyAppState";
 
 function useStateFromSharedDashboard(dashboardId: string) {
   const [state, setState] = useState<AppState | null>(null);
@@ -19,11 +20,13 @@ function useStateFromSharedDashboard(dashboardId: string) {
     const dbRef = ref(database, `shared/${dashboardId}`);
 
     onValue(dbRef, (appState) => {
-      const networkAppState: Partial<AppState> = appState.val();
-      if (!networkAppState) {
+      const networkLegacyAppState: Partial<LegacyAppState> = appState.val();
+      if (!networkLegacyAppState) {
         return;
       }
       off(dbRef);
+
+      const networkAppState = UpdateMissingOrLegacyAppState(networkLegacyAppState);
       const completeAppState = FirebaseUtils.restorePrunedEmptyArrays(networkAppState);
       setState(completeAppState);
     });
