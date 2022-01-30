@@ -62,6 +62,7 @@ export function ArticleCard(props: { card: ArticleCardState }) {
         // Crazy fill, overflow, and flexbox stuff to make the textarea focus border look correct
         <Box fill overflow={{ vertical: "auto" }}>
           <Box
+            flex="grow"
             fill={isMarkdownEditorActive ? "vertical" : false}
             style={{ minHeight: isMarkdownEditorActive ? 0 : "unset" }}
             className="article-card-content"
