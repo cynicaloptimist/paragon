@@ -95,15 +95,8 @@ function CardHeader(props: {
 
   return (
     <Header pad="xsmall" height="3.4rem" {...themeProps}>
-      <Box
-        fill
-        className={isGmView || isDashboardView ? "drag-handle" : undefined}
-        direction="row"
-        gap="xxsmall"
-      >
-        {(isGmView || isDashboardView) && (
-          <Button icon={<FontAwesomeIcon icon={faGripLines} />} />
-        )}
+      <Box fill className="drag-handle" direction="row" gap="xxsmall">
+        <Button icon={<FontAwesomeIcon icon={faGripLines} />} />
         {isHeaderEditable ? (
           <TextInput
             placeholder={props.cardState.title}

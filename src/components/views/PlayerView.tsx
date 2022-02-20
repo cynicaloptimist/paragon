@@ -10,7 +10,7 @@ import { Theme } from "../../Theme";
 import { CardGrid } from "./CardGrid";
 import { PlayerViewTopBar } from "../topbar/PlayerViewTopBar";
 import { ViewType, ViewTypeContext } from "../ViewTypeContext";
-import { FirebaseUtils } from "../../FirebaseUtils"
+import { FirebaseUtils } from "../../FirebaseUtils";
 import { app } from "../..";
 
 function useRemoteState(
@@ -47,7 +47,8 @@ function useRemoteState(
       if (!networkAppState) {
         return;
       }
-      const completeAppState = FirebaseUtils.restorePrunedEmptyArrays(networkAppState);
+      const completeAppState =
+        FirebaseUtils.restorePrunedEmptyArrays(networkAppState);
       setState(completeAppState);
     });
 
@@ -67,14 +68,21 @@ function useRemoteState(
 export function PlayerView() {
   const { playerViewId } = useParams<{ playerViewId: string }>();
   const [state, dispatch] = useRemoteState(playerViewId);
+  const [matchGMLayout, setMatchGMLayout] = React.useState(true);
 
   return (
     <ReducerContext.Provider value={{ state, dispatch }}>
       <ViewTypeContext.Provider value={ViewType.Player}>
         <Grommet style={{ minHeight: "100%" }} theme={Theme}>
           <Box fill align="center">
-            <PlayerViewTopBar />
-            <CardGrid />
+            <PlayerViewTopBar
+              matchGMLayout={matchGMLayout}
+              setMatchGMLayout={setMatchGMLayout}
+            />
+            <CardGrid
+              matchGMLayout={matchGMLayout}
+              setMatchGMLayout={setMatchGMLayout}
+            />
           </Box>
         </Grommet>
       </ViewTypeContext.Provider>

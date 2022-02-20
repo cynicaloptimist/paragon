@@ -5,6 +5,7 @@ import React, { CSSProperties, useContext } from "react";
 import { Layout, Responsive, WidthProvider } from "react-grid-layout";
 import { Actions } from "../../actions/Actions";
 import { ReducerContext } from "../../reducers/ReducerContext";
+import { DashboardReducer } from "../../reducers/DashboardReducer";
 import { CardState } from "../../state/CardState";
 import { ArticleCard } from "../cards/article/ArticleCard";
 import { ClockCard } from "../cards/clock/ClockCard";
@@ -14,9 +15,15 @@ import { ImageCard } from "../cards/ImageCard";
 import { PDFCard } from "../cards/PDFCard";
 import { RollTableCard } from "../cards/roll-table/RollTableCard";
 import { ViewType, ViewTypeContext } from "../ViewTypeContext";
-import { ActiveDashboardOf, VisibleCardsOf } from "../../state/AppState";
+import {
+  ActiveDashboardOf,
+  DashboardState,
+  VisibleCardsOf,
+} from "../../state/AppState";
 import { LedgerCard } from "../cards/LedgerCard";
 import { BaseCard } from "../cards/BaseCard";
+import { useStorageBackedReducer } from "../hooks/useStorageBackedReducer";
+import { UpdateMissingOrLegacyAppState } from "../../state/LegacyAppState";
 
 type Size = { height: number; width: number };
 
@@ -43,11 +50,57 @@ function breakpointForSize(size: number) {
   return "xxs";
 }
 
-export function CardGrid() {
+export function CardGrid(props: {
+  matchGMLayout?: boolean;
+  setMatchGMLayout?: (matchGMLayout: boolean) => void;
+}) {
   const { state, dispatch } = useContext(ReducerContext);
-  const canMoveCards = useContext(ViewTypeContext) !== ViewType.Player;
+  const matchGMLayout = props.matchGMLayout ?? true;
   const [currentBreakpoint, setCurrentBreakpoint] =
     React.useState<string>("xxl");
+
+  const isPlayerView = useContext(ViewTypeContext) === ViewType.Player;
+  const activeDashboardState = ActiveDashboardOf(state);
+
+  const [localDashboardState, localDashboardDispatch] = useStorageBackedReducer(
+    DashboardReducer,
+    (storedState) => {
+      const storedActiveDashboardState =
+        storedState &&
+        ActiveDashboardOf(UpdateMissingOrLegacyAppState(storedState));
+      const emptyDashboardState: DashboardState = {
+        name: "Dashboard 1",
+        openCardIds: [],
+        layoutsBySize: { xxl: [] },
+        layoutCompaction: "free",
+        layoutPushCards: "none",
+      };
+
+      return (
+        storedActiveDashboardState ||
+        activeDashboardState ||
+        emptyDashboardState
+      );
+    },
+    "dashboardState"
+  );
+
+  React.useEffect(() => {
+    if (activeDashboardState && !matchGMLayout) {
+      const setLayoutsActions = Object.keys(
+        activeDashboardState.layoutsBySize
+      ).map((size) => {
+        return Actions.SetLayouts({
+          gridSize: size,
+          layouts: activeDashboardState.layoutsBySize[size],
+        });
+      });
+
+      setLayoutsActions.forEach(localDashboardDispatch);
+    }
+  }, [matchGMLayout, activeDashboardState, localDashboardDispatch]);
+
+  const dashboard = matchGMLayout ? activeDashboardState : localDashboardState;
 
   const cards = VisibleCardsOf(state);
 
@@ -70,7 +123,6 @@ export function CardGrid() {
       }),
     [cards]
   );
-  const dashboard = ActiveDashboardOf(state);
 
   if (!dashboard) {
     return null;
@@ -78,30 +130,30 @@ export function CardGrid() {
 
   const dedupedLayouts = _.mapValues(dashboard.layoutsBySize, (layout) => {
     return _.uniqBy(layout, (l) => l.i)
-      .filter((l) => dashboard.openCardIds?.includes(l.i))
+      .filter((l) => activeDashboardState?.openCardIds?.includes(l.i))
       .map<Layout>((l) => {
         const layout: Layout = {
           ...l,
           w: _.max([l.w, MIN_GRID_UNITS_CARD_WIDTH])!,
           h: _.max([l.h, MIN_GRID_UNITS_CARD_HEIGHT])!,
-          isDraggable: canMoveCards,
-          isResizable: canMoveCards,
         };
         return layout;
       });
   });
 
   const updateLayout = (newLayout: Layout[]) => {
-    if (
-      canMoveCards &&
-      !_.isEqual(dashboard.layoutsBySize[currentBreakpoint], newLayout)
-    ) {
-      dispatch(
-        Actions.SetLayouts({
-          gridSize: currentBreakpoint,
-          layouts: newLayout,
-        })
-      );
+    if (!_.isEqual(dashboard.layoutsBySize[currentBreakpoint], newLayout)) {
+      const action = Actions.SetLayouts({
+        gridSize: currentBreakpoint,
+        layouts: newLayout,
+      });
+
+      if (isPlayerView) {
+        localDashboardDispatch(action);
+        props.setMatchGMLayout?.(false);
+      } else {
+        dispatch(action);
+      }
     }
   };
 
