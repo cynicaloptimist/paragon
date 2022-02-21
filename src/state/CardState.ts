@@ -87,4 +87,5 @@ type BaseCardState = {
   title: string;
   playerViewPermission: PlayerViewPermission;
   path?: string;
+  themeColor?: string;
 };

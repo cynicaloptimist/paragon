@@ -46,6 +46,10 @@ export const CardActions = {
     cardId: string;
     playerViewPermission: PlayerViewPermission;
   }>(),
+  SetThemeColor: createAction("SetThemeColor")<{
+    cardId: string;
+    themeColor: string;
+  }>(),
   SetRollTableEntries: createAction("SetRollTableEntries")<{
     cardId: string;
     entries: RollTableEntry[];

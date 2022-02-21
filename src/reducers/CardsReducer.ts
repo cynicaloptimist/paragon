@@ -49,6 +49,11 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
       });
     }
   )
+  .handleAction(CardActions.SetThemeColor, (oldState: CardsState, action) => {
+    return mergeCardState(oldState, action, {
+      themeColor: action.payload.themeColor,
+    });
+  })
   .handleAction(CardActions.SetClockValue, (oldState, action) => {
     return mergeCardState(oldState, action, {
       value: action.payload.value,
