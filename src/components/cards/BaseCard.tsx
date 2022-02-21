@@ -55,10 +55,8 @@ export function BaseCard(props: {
   );
 }
 
-function GetThemePropsFromPlayerViewPermission(
-  permission: PlayerViewPermission
-): BoxProps {
-  if (permission === PlayerViewPermission.Hidden) {
+function ComputeThemeProps(cardState: CardState): BoxProps {
+  if (cardState.playerViewPermission === PlayerViewPermission.Hidden) {
     return {
       background: "brand-desaturated",
     };
@@ -89,9 +87,7 @@ function CardHeader(props: {
   const isGmView = viewType === ViewType.GameMaster;
   const isDashboardView = viewType === ViewType.Dashboard;
 
-  const themeProps = GetThemePropsFromPlayerViewPermission(
-    props.cardState.playerViewPermission
-  );
+  const themeProps = ComputeThemeProps(props.cardState);
 
   return (
     <Header pad="xsmall" height="3.4rem" {...themeProps}>
@@ -236,9 +232,7 @@ function CardFooter(props: {
     viewType !== ViewType.Player ||
     props.cardState.playerViewPermission === PlayerViewPermission.Interact;
 
-  const themeProps = GetThemePropsFromPlayerViewPermission(
-    props.cardState.playerViewPermission
-  );
+  const themeProps = ComputeThemeProps(props.cardState);
 
   return (
     <Footer
