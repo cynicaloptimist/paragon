@@ -1,7 +1,9 @@
 import {
+  faCircle,
   faEye,
   faEyeSlash,
   faGripLines,
+  faPalette,
   faPencilAlt,
   faTimes,
   faUserFriends,
@@ -12,6 +14,7 @@ import {
   Box,
   BoxProps,
   Button,
+  Drop,
   Footer,
   Header,
   Heading,
@@ -62,7 +65,7 @@ function ComputeThemeProps(cardState: CardState): BoxProps {
     };
   }
 
-  return { background: "brand" };
+  return { background: cardState.themeColor ?? "brand" };
 }
 
 function CardHeader(props: {
@@ -119,6 +122,7 @@ function CardHeader(props: {
             </Heading>
           </Box>
         )}
+        {isGmView && <ColorPickerButton cardId={props.cardState.cardId} />}
         {isGmView && (
           <PlayerViewButton
             cardState={props.cardState}
@@ -137,6 +141,51 @@ function CardHeader(props: {
         )}
       </Box>
     </Header>
+  );
+}
+
+function ColorPickerButton(props: { cardId: string }): React.ReactElement {
+  const { dispatch } = React.useContext(ReducerContext);
+  const buttonRef = React.useRef(null);
+  const [isColorPickerOpen, setColorPickerOpen] =
+    React.useState<boolean>(false);
+  const themeColors = ["brand", "accent-1", "accent-2", "accent-3"];
+
+  return (
+    <>
+      <Button
+        icon={<FontAwesomeIcon icon={faPalette} />}
+        onClick={() => setColorPickerOpen(!isColorPickerOpen)}
+        ref={buttonRef}
+      />
+      {isColorPickerOpen && (
+        <Drop
+          target={buttonRef.current ?? undefined}
+          background="background"
+          align={{ top: "bottom" }}
+        >
+          <Box direction="row">
+            {themeColors.map((themeColor) => (
+              <Button
+                plain
+                style={{ padding: "4px" }}
+                key={themeColor}
+                color={themeColor}
+                icon={<FontAwesomeIcon icon={faCircle} />}
+                onClick={() =>
+                  dispatch(
+                    CardActions.SetThemeColor({
+                      cardId: props.cardId,
+                      themeColor,
+                    })
+                  )
+                }
+              />
+            ))}
+          </Box>
+        </Drop>
+      )}
+    </>
   );
 }
 
