@@ -38,7 +38,6 @@ export function ImageCard(props: { card: ImageCardState }) {
   if (inputVisible) {
     innerElement = (
       <FileUpload
-        card={props.card}
         currentUrl={props.card.imageUrl}
         onFileSelect={(file) => {
           setInputVisible(false);

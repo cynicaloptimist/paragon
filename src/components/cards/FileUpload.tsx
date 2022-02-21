@@ -13,12 +13,10 @@ import _ from "lodash";
 import { useContext, useEffect, useRef, useState } from "react";
 import { FileNameAndURL, FirebaseUtils } from "../../FirebaseUtils";
 import { ReducerContext } from "../../reducers/ReducerContext";
-import { CardState } from "../../state/CardState";
 import { LongPressButton } from "../common/LongPressButton";
 import { useUserId } from "../hooks/useAccountSync";
 
 export function FileUpload(props: {
-  card: CardState;
   currentUrl: string;
   onFileSelect: (file: FileNameAndURL) => void;
   fileType: string;
