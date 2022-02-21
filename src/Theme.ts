@@ -13,13 +13,13 @@ export const Theme: ThemeType = {
         light: "#97A8C3",
       },
       "accent-1": {
-        light: "#FB3640",
-      },
-      "accent-2": {
         light: "#80D39B",
       },
-      "accent-3": {
+      "accent-2": {
         light: "#FCCA46",
+      },
+      "accent-3": {
+        light: "#FB3640",
       },
       text: {
         light: "rgba(68, 68, 68, 1)",
