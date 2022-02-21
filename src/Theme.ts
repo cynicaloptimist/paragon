@@ -12,6 +12,15 @@ export const Theme: ThemeType = {
       "brand-2": {
         light: "#97A8C3",
       },
+      "accent-1": {
+        light: "#FB3640",
+      },
+      "accent-2": {
+        light: "#80D39B",
+      },
+      "accent-3": {
+        light: "#FCCA46",
+      },
       text: {
         light: "rgba(68, 68, 68, 1)",
       },
