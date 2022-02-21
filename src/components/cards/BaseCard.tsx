@@ -169,6 +169,7 @@ function ColorPickerButton(props: { cardId: string }): React.ReactElement {
       />
       {isColorPickerOpen && (
         <Drop
+          onClickOutside={() => setColorPickerOpen(false)}
           target={buttonRef.current ?? undefined}
           background="background"
           align={{ top: "bottom" }}
