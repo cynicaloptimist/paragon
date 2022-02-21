@@ -146,7 +146,7 @@ export function LedgerCard(props: { card: LedgerCardState }) {
           {(entry: LedgerEntry, index: number) => {
             return (
               <LedgerEntryRow
-                key={index + JSON.stringify(entry)}
+                key={`${card.cardId}_${index}_${entry.comment}_${entry.changeAmount}`}
                 card={card}
                 entry={entry}
                 index={index}
