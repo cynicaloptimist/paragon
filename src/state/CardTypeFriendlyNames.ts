@@ -1,10 +1,10 @@
 export const CardTypeFriendlyNames: Record<string, string> = {
-  clock: "Clock",
-  "roll-table-h": "Random Table",
-  image: "Image",
-  dice: "Dice",
   article: "Article",
+  dice: "Dice",
+  "roll-table-h": "Random Table",
+  clock: "Clock",
+  ledger: "Ledger",
+  image: "Image",
   drawing: "Drawing",
   pdf: "PDF",
-  ledger: "Ledger",
 };
