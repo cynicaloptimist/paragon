@@ -21,14 +21,18 @@ export function RollTableHistory(props: {
         direction="row"
         flex="grow"
         pad={{ vertical: "xsmall" }}
-        style={{ fontWeight: "bold", borderBottom: "1px solid" }}
+        style={{
+          fontWeight: "bold",
+          fontStyle: "italic",
+          borderBottom: "1px solid",
+        }}
       >
         <Box width="xsmall" align="center">
           Rolled
         </Box>
         <Box>Result History</Box>
       </Box>
-      <Box overflow="auto">
+      <Box overflow="auto" style={{ fontStyle: "italic" }}>
         {props.rollHistory.map((roll, index) => {
           return (
             <Box
