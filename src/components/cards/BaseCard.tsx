@@ -59,13 +59,16 @@ export function BaseCard(props: {
 }
 
 function ComputeThemeProps(cardState: CardState): BoxProps {
+  let props: BoxProps = {
+    border: { color: cardState.themeColor ?? "brand", size: "medium" },
+    background: cardState.themeColor ?? "brand",
+  };
+
   if (cardState.playerViewPermission === PlayerViewPermission.Hidden) {
-    return {
-      background: "brand-desaturated",
-    };
+    props.background = "background";
   }
 
-  return { background: cardState.themeColor ?? "brand" };
+  return props;
 }
 
 function CardHeader(props: {
@@ -94,7 +97,13 @@ function CardHeader(props: {
 
   return (
     <Header pad="xsmall" height="3.4rem" {...themeProps}>
-      <Box fill className="drag-handle" direction="row" gap="xxsmall">
+      <Box
+        fill
+        className="drag-handle"
+        direction="row"
+        gap="xxsmall"
+        align="center"
+      >
         <Button icon={<FontAwesomeIcon icon={faGripLines} />} />
         {isHeaderEditable ? (
           <TextInput
