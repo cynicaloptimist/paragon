@@ -107,7 +107,6 @@ export function usePlayerView(
             CardActions.SetLedgerDecreasing,
             CardActions.SetSketchModel,
             CardActions.SetPDF,
-            CardActions.SetPDFPage,
           ],
           action
         )

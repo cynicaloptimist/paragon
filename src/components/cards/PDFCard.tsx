@@ -9,7 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, TextInput, Paragraph } from "grommet";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Document, Outline, Page } from "react-pdf/dist/esm/entry.webpack";
 import { CardActions } from "../../actions/CardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
@@ -27,11 +27,18 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
   const [fitType, setFitType] = useState("width");
   const [pageCount, setPageCount] = useState(1);
   const [outlineVisible, setOutlineVisible] = useState(false);
+  const [currentPage, setCurrentPage] = useState(props.card.currentPage);
   const { dispatch } = useContext(ReducerContext);
   const viewType = useContext(ViewTypeContext);
   const canEdit =
     viewType !== ViewType.Player ||
     props.card.playerViewPermission === PlayerViewPermission.Interact;
+
+  useEffect(() => {
+    if (!canEdit) {
+      setCurrentPage(props.card.currentPage);
+    }
+  }, [props.card.currentPage, canEdit]);
 
   if (props.card.pdfUrl === "") {
     if (!canEdit) {
@@ -60,10 +67,12 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
       pageNumber = pageCount;
     }
 
-    dispatch(
-      CardActions.SetPDFPage({ cardId: props.card.cardId, page: pageNumber })
-    );
+    if (viewType !== ViewType.Player) {
+      dispatch(
+        CardActions.SetPDFPage({ cardId: props.card.cardId, page: pageNumber })
+      );
     }
+    setCurrentPage(pageNumber);
   };
 
   return (
@@ -83,12 +92,12 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
           />
           <Button
             icon={<FontAwesomeIcon icon={faCaretLeft} />}
-            onClick={() => setPageNumberBounded(props.card.currentPage - 1)}
+            onClick={() => setPageNumberBounded(currentPage - 1)}
           />
           <Box style={{ width: "60px" }} flex="grow">
             <TextInput
               type="number"
-              value={props.card.currentPage}
+              value={currentPage}
               className="no-spinner"
               style={{ textAlign: "center" }}
               onChange={(changeEvent) =>
@@ -99,7 +108,7 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
           </Box>
           <Button
             icon={<FontAwesomeIcon icon={faCaretRight} />}
-            onClick={() => setPageNumberBounded(props.card.currentPage + 1)}
+            onClick={() => setPageNumberBounded(currentPage + 1)}
           />
           <Button
             icon={<FontAwesomeIcon icon={faStepForward} />}
@@ -135,9 +144,7 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
             />
           ) : (
             <Page
-              pageNumber={
-                isNaN(props.card.currentPage) ? 1 : props.card.currentPage
-              }
+              pageNumber={isNaN(currentPage) ? 1 : currentPage}
               width={
                 fitType === "width" ? props.outerSize.width - 40 : undefined
               }
