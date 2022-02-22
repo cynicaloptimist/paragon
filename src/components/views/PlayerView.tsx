@@ -23,7 +23,7 @@ function useRemoteState(
     const database = getDatabase(app);
     const idDbRef = ref(
       database,
-      `playerViews/${playerViewId.toLocaleLowerCase()}`
+      `playerViews/${playerViewId}`
     );
 
     onValue(idDbRef, (id) => {
