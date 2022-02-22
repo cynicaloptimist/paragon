@@ -54,15 +54,15 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
 
   const setPageNumberBounded = (pageNumber: number) => {
     if (pageNumber < 1) {
-      dispatch(CardActions.SetPDFPage({ cardId: props.card.cardId, page: 1 }));
-    } else if (pageNumber > pageCount) {
-      dispatch(
-        CardActions.SetPDFPage({ cardId: props.card.cardId, page: pageCount })
-      );
-    } else {
-      dispatch(
-        CardActions.SetPDFPage({ cardId: props.card.cardId, page: pageNumber })
-      );
+      pageNumber = 1;
+    }
+    if (pageNumber > pageCount) {
+      pageNumber = pageCount;
+    }
+
+    dispatch(
+      CardActions.SetPDFPage({ cardId: props.card.cardId, page: pageNumber })
+    );
     }
   };
 
