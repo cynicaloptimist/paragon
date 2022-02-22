@@ -8,7 +8,7 @@ export function InitialCardState(
 ): CardState {
   const baseCard = {
     cardId,
-    playerViewPermission: PlayerViewPermission.Hidden,
+    playerViewPermission: PlayerViewPermission.Visible,
     title: CardTypeFriendlyNames[type],
   };
 
