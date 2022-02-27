@@ -9,7 +9,7 @@ import {
   faStepForward,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, TextInput, Paragraph, Stack } from "grommet";
+import { Box, Button, TextInput, Paragraph } from "grommet";
 import React, { useContext, useEffect, useState } from "react";
 import { Document, Outline, Page } from "react-pdf/dist/esm/entry.webpack";
 import { CardActions } from "../../actions/CardActions";
