@@ -32,13 +32,20 @@ export function BaseCard(props: {
   cardState: CardState;
   children: React.ReactNode;
   centerRow?: boolean;
+  onKeyDown?: (event: React.KeyboardEvent) => void;
 }) {
   const [toast, popToast] = useToast(5000);
 
   const innerBoxRef = useRef<HTMLDivElement>(null);
 
   return (
-    <Box fill elevation="medium" background="background">
+    <Box
+      tabIndex={0}
+      fill
+      elevation="medium"
+      background="background"
+      onKeyDown={props.onKeyDown}
+    >
       <CardHeader popToast={popToast} cardState={props.cardState} />
       <Box
         ref={innerBoxRef}

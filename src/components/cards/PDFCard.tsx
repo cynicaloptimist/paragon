@@ -9,8 +9,8 @@ import {
   faStepForward,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, TextInput, Paragraph } from "grommet";
-import { useContext, useEffect, useState } from "react";
+import { Box, Button, TextInput, Paragraph, Stack } from "grommet";
+import React, { useContext, useEffect, useState } from "react";
 import { Document, Outline, Page } from "react-pdf/dist/esm/entry.webpack";
 import { CardActions } from "../../actions/CardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
@@ -80,6 +80,20 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
     <BaseCard
       centerRow={!outlineVisible}
       cardState={props.card}
+      onKeyDown={(keyboardEvent) => {
+        if (["ArrowLeft", "PageUp"].includes(keyboardEvent.key)) {
+          setPageNumberBounded(currentPage - 1);
+        }
+        if (["ArrowRight", "PageDown"].includes(keyboardEvent.key)) {
+          setPageNumberBounded(currentPage + 1);
+        }
+        if (["Home"].includes(keyboardEvent.key)) {
+          setPageNumberBounded(1);
+        }
+        if (["End"].includes(keyboardEvent.key)) {
+          setPageNumberBounded(pageCount);
+        }
+      }}
       commands={
         <>
           <Button
