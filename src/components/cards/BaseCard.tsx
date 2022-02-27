@@ -1,20 +1,9 @@
-import {
-  faCircle,
-  faEye,
-  faEyeSlash,
-  faGripLines,
-  faPalette,
-  faPencilAlt,
-  faTimes,
-  faUserFriends,
-  IconDefinition,
-} from "@fortawesome/free-solid-svg-icons";
+import { faGripLines, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
   BoxProps,
   Button,
-  Drop,
   Footer,
   Header,
   Heading,
@@ -26,6 +15,8 @@ import { ReducerContext } from "../../reducers/ReducerContext";
 import { CardState, PlayerViewPermission } from "../../state/CardState";
 import { useToast } from "../hooks/useToast";
 import { ViewType, ViewTypeContext } from "../ViewTypeContext";
+import { ColorPickerButton } from "./ColorPickerButton";
+import { PlayerViewButton } from "./PlayerViewButton";
 
 export function BaseCard(props: {
   commands: React.ReactNode;
@@ -156,134 +147,6 @@ function CardHeader(props: {
         )}
       </Box>
     </Header>
-  );
-}
-
-function ColorPickerButton(props: { cardId: string }): React.ReactElement {
-  const { dispatch } = React.useContext(ReducerContext);
-  const buttonRef = React.useRef(null);
-  const [isColorPickerOpen, setColorPickerOpen] =
-    React.useState<boolean>(false);
-  const themeColors = ["brand", "accent-1", "accent-2", "accent-3"];
-
-  return (
-    <>
-      <Button
-        icon={<FontAwesomeIcon icon={faPalette} />}
-        onClick={() => setColorPickerOpen(!isColorPickerOpen)}
-        ref={buttonRef}
-      />
-      {isColorPickerOpen && (
-        <Drop
-          onClickOutside={() => setColorPickerOpen(false)}
-          target={buttonRef.current ?? undefined}
-          background="background"
-          align={{ top: "bottom" }}
-        >
-          <Box direction="row">
-            {themeColors.map((themeColor) => (
-              <Button
-                plain
-                style={{ padding: "4px" }}
-                key={themeColor}
-                color={themeColor}
-                icon={<FontAwesomeIcon icon={faCircle} />}
-                onClick={() =>
-                  dispatch(
-                    CardActions.SetThemeColor({
-                      cardId: props.cardId,
-                      themeColor,
-                    })
-                  )
-                }
-              />
-            ))}
-          </Box>
-        </Drop>
-      )}
-    </>
-  );
-}
-
-function PlayerViewIcon(props: { topLayer: IconDefinition }) {
-  return (
-    <span className="fa-layers fa-fw">
-      <FontAwesomeIcon icon={props.topLayer} transform="grow-4 up-2 left-4" />
-      <FontAwesomeIcon
-        icon={faUserFriends}
-        transform="right-8 down-7 shrink-5 flip-h"
-      />
-    </span>
-  );
-}
-
-function PlayerViewButton(props: {
-  cardState: CardState;
-  popToast: (message: string) => void;
-}) {
-  const { state, dispatch } = useContext(ReducerContext);
-
-  if (props.cardState.playerViewPermission === PlayerViewPermission.Visible) {
-    return (
-      <Button
-        icon={<PlayerViewIcon topLayer={faEye} />}
-        tip="Players can see this card."
-        hoverIndicator
-        onClick={() => {
-          const permission = state.user.hasEpic
-            ? PlayerViewPermission.Interact
-            : PlayerViewPermission.Hidden;
-          dispatch(
-            CardActions.SetPlayerViewPermission({
-              cardId: props.cardState.cardId,
-              playerViewPermission: permission,
-            })
-          );
-          if (permission === PlayerViewPermission.Interact) {
-            props.popToast("Interactable in Player View");
-          }
-          if (permission === PlayerViewPermission.Hidden) {
-            props.popToast("Hidden from Player View");
-          }
-        }}
-      />
-    );
-  }
-
-  if (props.cardState.playerViewPermission === PlayerViewPermission.Interact) {
-    return (
-      <Button
-        icon={<PlayerViewIcon topLayer={faPencilAlt} />}
-        tip="Players can interact with this card."
-        hoverIndicator
-        onClick={() => {
-          dispatch(
-            CardActions.SetPlayerViewPermission({
-              cardId: props.cardState.cardId,
-              playerViewPermission: PlayerViewPermission.Hidden,
-            })
-          );
-          props.popToast("Hidden from Player View");
-        }}
-      />
-    );
-  }
-
-  return (
-    <Button
-      icon={<PlayerViewIcon topLayer={faEyeSlash} />}
-      tip="Players cannot see this card."
-      hoverIndicator
-      onClick={() => {
-        dispatch(
-          CardActions.SetPlayerViewPermission({
-            cardId: props.cardState.cardId,
-            playerViewPermission: PlayerViewPermission.Visible,
-          })
-        );
-        props.popToast("Revealed in Player View");
-      }}
-    />
   );
 }
 
