@@ -77,6 +77,62 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
     setCurrentPage(pageNumber);
   };
 
+  const commands = (
+    <>
+      <Button
+        icon={<FontAwesomeIcon icon={faFileUpload} />}
+        tip="Select or upload PDF"
+        onClick={() => clearCardPDF(props.card, dispatch)}
+      />
+      <Button
+        icon={<FontAwesomeIcon icon={faList} />}
+        tip="Toggle outline"
+        onClick={() => setOutlineVisible(!outlineVisible)}
+        active={outlineVisible}
+      />
+      <Button
+        icon={<FontAwesomeIcon icon={faStepBackward} />}
+        onClick={() => setPageNumberBounded(1)}
+      />
+      <Button
+        icon={<FontAwesomeIcon icon={faCaretLeft} />}
+        onClick={() => setPageNumberBounded(currentPage - 1)}
+      />
+      <Box style={{ width: "60px" }} flex="grow">
+        <TextInput
+          type="number"
+          value={currentPage}
+          className="no-spinner"
+          style={{ textAlign: "center" }}
+          onChange={(changeEvent) =>
+            setPageNumberBounded(parseInt(changeEvent.target.value))
+          }
+          onFocus={(focusEvent) => focusEvent.target.select()}
+        />
+      </Box>
+      <Button
+        icon={<FontAwesomeIcon icon={faCaretRight} />}
+        onClick={() => setPageNumberBounded(currentPage + 1)}
+      />
+      <Button
+        icon={<FontAwesomeIcon icon={faStepForward} />}
+        onClick={() => setPageNumberBounded(pageCount)}
+      />
+      <Button
+        icon={<FontAwesomeIcon icon={faArrowsAltV} />}
+        onClick={() => setFitType("height")}
+        tip="Fit document to card height"
+        active={fitType === "height"}
+      />
+      <Button
+        icon={<FontAwesomeIcon icon={faArrowsAltH} />}
+        onClick={() => setFitType("width")}
+        tip="Fit document to card width"
+        active={fitType === "width"}
+      />
+    </>
+  );
+
   return (
     <BaseCard
       centerRow={!outlineVisible}
@@ -95,61 +151,7 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
           setPageNumberBounded(pageCount);
         }
       }}
-      commands={
-        <>
-          <Button
-            icon={<FontAwesomeIcon icon={faFileUpload} />}
-            tip="Select or upload PDF"
-            onClick={() => clearCardPDF(props.card, dispatch)}
-          />
-          <Button
-            icon={<FontAwesomeIcon icon={faList} />}
-            tip="Toggle outline"
-            onClick={() => setOutlineVisible(!outlineVisible)}
-            active={outlineVisible}
-          />
-          <Button
-            icon={<FontAwesomeIcon icon={faStepBackward} />}
-            onClick={() => setPageNumberBounded(1)}
-          />
-          <Button
-            icon={<FontAwesomeIcon icon={faCaretLeft} />}
-            onClick={() => setPageNumberBounded(currentPage - 1)}
-          />
-          <Box style={{ width: "60px" }} flex="grow">
-            <TextInput
-              type="number"
-              value={currentPage}
-              className="no-spinner"
-              style={{ textAlign: "center" }}
-              onChange={(changeEvent) =>
-                setPageNumberBounded(parseInt(changeEvent.target.value))
-              }
-              onFocus={(focusEvent) => focusEvent.target.select()}
-            />
-          </Box>
-          <Button
-            icon={<FontAwesomeIcon icon={faCaretRight} />}
-            onClick={() => setPageNumberBounded(currentPage + 1)}
-          />
-          <Button
-            icon={<FontAwesomeIcon icon={faStepForward} />}
-            onClick={() => setPageNumberBounded(pageCount)}
-          />
-          <Button
-            icon={<FontAwesomeIcon icon={faArrowsAltV} />}
-            onClick={() => setFitType("height")}
-            tip="Fit document to card height"
-            active={fitType === "height"}
-          />
-          <Button
-            icon={<FontAwesomeIcon icon={faArrowsAltH} />}
-            onClick={() => setFitType("width")}
-            tip="Fit document to card width"
-            active={fitType === "width"}
-          />
-        </>
-      }
+      commands={commands}
       innerBoxRef={innerBox}
     >
       <Box overflow="auto" alignContent="center">
