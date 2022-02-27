@@ -154,7 +154,7 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
       commands={commands}
       innerBoxRef={innerBox}
     >
-      <Box overflow="auto" alignContent="center">
+      <Box overflow="auto" align="center">
         <Document
           file={props.card.pdfUrl}
           onLoadSuccess={(document) => {
