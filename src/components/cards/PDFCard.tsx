@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, TextInput, Paragraph } from "grommet";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Document, Outline, Page } from "react-pdf/dist/esm/entry.webpack";
 import { CardActions } from "../../actions/CardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
@@ -31,6 +31,7 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
   const [currentPage, setCurrentPage] = useState(props.card.currentPage);
   const { dispatch } = useContext(ReducerContext);
   const viewType = useContext(ViewTypeContext);
+  const innerBox = useRef<HTMLDivElement>(null);
   const canEdit =
     viewType !== ViewType.Player ||
     props.card.playerViewPermission === PlayerViewPermission.Interact;
@@ -149,6 +150,7 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
           />
         </>
       }
+      innerBoxRef={innerBox}
     >
       <Box overflow="auto" alignContent="center">
         <Document
@@ -169,10 +171,14 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
             <Page
               pageNumber={isNaN(currentPage) ? 1 : currentPage}
               width={
-                fitType === "width" ? props.outerSize.width - 40 : undefined
+                fitType === "width"
+                  ? (innerBox.current?.clientWidth ?? 30) - 30
+                  : undefined
               }
               height={
-                fitType === "height" ? props.outerSize.height - 110 : undefined
+                fitType === "height"
+                  ? (innerBox.current?.clientHeight ?? 30) - 30
+                  : undefined
               }
               renderAnnotationLayer={false}
             />

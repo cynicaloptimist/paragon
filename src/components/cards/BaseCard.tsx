@@ -20,7 +20,7 @@ import {
   Heading,
   TextInput,
 } from "grommet";
-import React, { useContext, useRef } from "react";
+import React, { useContext } from "react";
 import { CardActions } from "../../actions/CardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { CardState, PlayerViewPermission } from "../../state/CardState";
@@ -33,10 +33,9 @@ export function BaseCard(props: {
   children: React.ReactNode;
   centerRow?: boolean;
   onKeyDown?: (event: React.KeyboardEvent) => void;
+  innerBoxRef?: React.RefObject<HTMLDivElement>;
 }) {
   const [toast, popToast] = useToast(5000);
-
-  const innerBoxRef = useRef<HTMLDivElement>(null);
 
   return (
     <Box
@@ -48,7 +47,7 @@ export function BaseCard(props: {
     >
       <CardHeader popToast={popToast} cardState={props.cardState} />
       <Box
-        ref={innerBoxRef}
+        ref={props.innerBoxRef}
         flex
         pad="xxsmall"
         direction={props.centerRow ? "row" : undefined}
