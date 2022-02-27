@@ -3,7 +3,7 @@ import {
   faArrowsAltV,
   faCaretLeft,
   faCaretRight,
-  faEdit,
+  faFileUpload,
   faList,
   faStepBackward,
   faStepForward,
@@ -97,11 +97,13 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
       commands={
         <>
           <Button
-            icon={<FontAwesomeIcon icon={faEdit} />}
+            icon={<FontAwesomeIcon icon={faFileUpload} />}
+            tip="Select or upload PDF"
             onClick={() => clearCardPDF(props.card, dispatch)}
           />
           <Button
             icon={<FontAwesomeIcon icon={faList} />}
+            tip="Toggle outline"
             onClick={() => setOutlineVisible(!outlineVisible)}
             active={outlineVisible}
           />
@@ -136,11 +138,13 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
           <Button
             icon={<FontAwesomeIcon icon={faArrowsAltV} />}
             onClick={() => setFitType("height")}
+            tip="Fit document to card height"
             active={fitType === "height"}
           />
           <Button
             icon={<FontAwesomeIcon icon={faArrowsAltH} />}
             onClick={() => setFitType("width")}
+            tip="Fit document to card width"
             active={fitType === "width"}
           />
         </>
