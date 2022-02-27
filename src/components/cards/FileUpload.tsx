@@ -68,7 +68,6 @@ export function FileUpload(props: {
   const uploadedFilesList = uploadedFiles && (
     <List
       style={{ overflowY: "auto" }}
-      primaryKey="name"
       data={uploadedFiles}
       onClickItem={(event: { item?: FileNameAndURL; index?: number }) => {
         if (!event.item) {
@@ -92,7 +91,7 @@ export function FileUpload(props: {
                 if (!files) {
                   return [];
                 }
-                return _.remove(files, item);
+                return _.filter(files, (file) => file.url !== item.url);
               });
             }}
             onClickCapture={(mouseEvent) => {
