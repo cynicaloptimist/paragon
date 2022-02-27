@@ -3,6 +3,7 @@ import {
   faArrowsAltV,
   faCaretLeft,
   faCaretRight,
+  faEdit,
   faList,
   faStepBackward,
   faStepForward,
@@ -81,6 +82,10 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
       cardState={props.card}
       commands={
         <>
+          <Button
+            icon={<FontAwesomeIcon icon={faEdit} />}
+            onClick={() => clearCardPDF(props.card, dispatch)}
+          />
           <Button
             icon={<FontAwesomeIcon icon={faList} />}
             onClick={() => setOutlineVisible(!outlineVisible)}
@@ -168,5 +173,11 @@ function setCardPDF(
 ) {
   dispatch(
     CardActions.SetPDF({ cardId: card.cardId, pdfURL, pdfTitle: fileName })
+  );
+}
+
+function clearCardPDF(card: PDFCardState, dispatch: React.Dispatch<any>) {
+  dispatch(
+    CardActions.SetPDF({ cardId: card.cardId, pdfURL: "", pdfTitle: "" })
   );
 }
