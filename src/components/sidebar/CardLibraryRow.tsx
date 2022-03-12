@@ -66,8 +66,15 @@ export function CardLibraryRow(props: {
             }
           }}
           autoFocus
-          onBlur={saveAndClose}
           suggestions={existingPathSuggestions}
+          onSuggestionSelect={(selectEvent) => {
+            if (!pathInput.current) {
+              return;
+            }
+            pathInput.current.value = selectEvent.suggestion.value;
+            saveAndClose();
+          }}
+          
         />
         <Button
           tip="Move to Folder"
