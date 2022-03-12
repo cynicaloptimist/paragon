@@ -1,6 +1,7 @@
 import { faCheck, faFolder, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, TextInput } from "grommet";
+import _ from "lodash";
 import React, { useCallback, useContext, useRef, useState } from "react";
 import { CardActions } from "../../actions/CardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
@@ -40,6 +41,17 @@ export function CardLibraryRow(props: {
   };
 
   if (editingPath) {
+    const existingPathSuggestions = _.uniq(
+      Object.values(state.cardsById).map((c) => c.path)
+    )
+      .filter((path) => path && path.length > 0)
+      .map((path) => {
+        return {
+          label: path,
+          value: path,
+        };
+      });
+
     return (
       <Box flex={false} direction="row" align="center">
         <Box margin="small">
@@ -55,6 +67,7 @@ export function CardLibraryRow(props: {
           }}
           autoFocus
           onBlur={saveAndClose}
+          suggestions={existingPathSuggestions}
         />
         <Button
           tip="Move to Folder"
