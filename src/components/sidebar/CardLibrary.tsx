@@ -184,7 +184,7 @@ export function CardLibrary() {
             },
           },
         }}
-        label={selectedGrouping.Name}
+        label={`Sorted by ${selectedGrouping.Name}`}
         icon={<FontAwesomeIcon icon={faSort} />}
         onClick={() => {
           const nextGrouping = (groupingIndex + 1) % Groupings.length;
