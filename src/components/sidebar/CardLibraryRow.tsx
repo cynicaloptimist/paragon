@@ -45,6 +45,7 @@ export function CardLibraryRow(props: {
       Object.values(state.cardsById).map((c) => c.path)
     )
       .filter((path) => path && path.length > 0)
+      .sort()
       .map((path) => {
         return {
           label: path,
@@ -74,7 +75,6 @@ export function CardLibraryRow(props: {
             pathInput.current.value = selectEvent.suggestion.value;
             saveAndClose();
           }}
-          
         />
         <Button
           tip="Move to Folder"
