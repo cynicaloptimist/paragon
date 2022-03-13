@@ -7,6 +7,7 @@ import {
   Box,
   BoxExtendedProps,
   Button,
+  Heading,
   TextInput,
 } from "grommet";
 import React, { useContext, useMemo, useState } from "react";
@@ -173,24 +174,36 @@ export function CardLibrary() {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <Button
-        tip={{
-          content: "Change sorting",
-          dropProps: {
-            stretch: false,
-            align: {
-              bottom: "top",
-              right: "right",
+      <Box
+        flex={false}
+        direction="row"
+        align="center"
+        justify="between"
+        pad={{ horizontal: "xsmall" }}
+        border={{ side: "bottom" }}
+      >
+        <Heading level={4} style={{ fontStyle: "italic" }}>
+          Sorted by {selectedGrouping.Name}
+        </Heading>
+        <Button
+          margin="none"
+          tip={{
+            content: "Change sorting",
+            dropProps: {
+              stretch: false,
+              align: {
+                bottom: "top",
+                right: "right",
+              },
             },
-          },
-        }}
-        label={`Sorted by ${selectedGrouping.Name}`}
-        icon={<FontAwesomeIcon icon={faSort} />}
-        onClick={() => {
-          const nextGrouping = (groupingIndex + 1) % Groupings.length;
-          setGroupingIndex(nextGrouping);
-        }}
-      />
+          }}
+          icon={<FontAwesomeIcon icon={faSort} />}
+          onClick={() => {
+            const nextGrouping = (groupingIndex + 1) % Groupings.length;
+            setGroupingIndex(nextGrouping);
+          }}
+        />
+      </Box>
       <Accordion key={selectedGrouping.Name}>{headersAndCards}</Accordion>
     </Box>
   );
