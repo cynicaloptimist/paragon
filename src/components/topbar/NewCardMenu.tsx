@@ -12,6 +12,10 @@ export function NewCardMenu() {
 
   const availableCardTypes = Object.keys(CardTypeFriendlyNames).filter(
     (cardType) => {
+      if (cardType === "info") {
+        return false;
+      }
+
       if (cardType === "pdf") {
         return state.user.hasStorage;
       }

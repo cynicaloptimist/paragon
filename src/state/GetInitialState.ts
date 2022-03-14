@@ -1,6 +1,6 @@
 import { randomString } from "../randomString";
 import { AppState, EmptyState } from "./AppState";
-import { ArticleCardState, PlayerViewPermission } from "./CardState";
+import { InfoCardState, PlayerViewPermission } from "./CardState";
 
 export const GetInitialState = (): AppState => {
   const welcomeCard = GetWelcomeCard();
@@ -34,10 +34,11 @@ export const GetInitialState = (): AppState => {
     },
   };
 };
-function GetWelcomeCard(): ArticleCardState {
+
+function GetWelcomeCard(): InfoCardState {
   return {
     cardId: "welcome",
-    type: "article",
+    type: "info",
     title: "Welcome",
     content:
       `Reference your TTRPG session prep with this powerful, customizable virtual GM screen. ` +
@@ -47,13 +48,14 @@ function GetWelcomeCard(): ArticleCardState {
     playerViewPermission: PlayerViewPermission.Hidden,
   };
 }
-function GetCardTypesCard(): ArticleCardState {
+
+function GetCardTypesCard(): InfoCardState {
   return {
     cardId: "card-types",
-    type: "article",
+    type: "info",
     title: "Card Types",
     content: `
-**Article Cards** like this one can contain [markdown-formatted](https://www.markdownguide.org/) text. Useful for characters, locations, read-aloud text, game rules, et cetera.
+**Article Cards** can contain [markdown-formatted](https://www.markdownguide.org/) text. Useful for characters, locations, read-aloud text, game rules, et cetera.
 
 **Random Table Cards** will roll on a random table that you provide. When editing, it accepts the commonly used markdown format used in places like [/r/dndbehindthetables](https://www.reddit.com/r/BehindTheTables/).
 

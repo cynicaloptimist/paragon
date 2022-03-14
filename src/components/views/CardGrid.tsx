@@ -24,6 +24,7 @@ import { LedgerCard } from "../cards/LedgerCard";
 import { BaseCard } from "../cards/BaseCard";
 import { useStorageBackedReducer } from "../hooks/useStorageBackedReducer";
 import { UpdateMissingOrLegacyAppState } from "../../state/LegacyAppState";
+import { InfoCard } from "../cards/article/InfoCard";
 
 type Size = { height: number; width: number };
 
@@ -248,6 +249,9 @@ function CSSToNumber(item: number | string | undefined) {
 function getComponentForCard(card: CardState, outerSize: Size) {
   if (card.type === "article") {
     return <ArticleCard card={card} />;
+  }
+  if (card.type === "info") {
+    return <InfoCard card={card} />;
   }
   if (card.type === "clock") {
     return <ClockCard card={card} />;

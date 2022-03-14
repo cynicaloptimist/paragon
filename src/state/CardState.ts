@@ -1,5 +1,6 @@
 export type CardState =
   | ArticleCardState
+  | InfoCardState
   | ClockCardState
   | RollTableCardState
   | ImageCardState
@@ -10,6 +11,11 @@ export type CardState =
 
 export type ArticleCardState = BaseCardState & {
   type: "article";
+  content: string;
+};
+
+export type InfoCardState = BaseCardState & {
+  type: "info";
   content: string;
 };
 
