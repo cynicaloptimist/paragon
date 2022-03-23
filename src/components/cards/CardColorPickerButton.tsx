@@ -4,12 +4,12 @@ import {
   faPlusCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, Drop, ThemeContext } from "grommet";
+import { Box, Button, Drop } from "grommet";
+import _ from "lodash";
 import React from "react";
 import SketchPicker from "react-color/lib/components/sketch/Sketch";
 import { CardActions } from "../../actions/CardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
-import { themeColor } from "../hooks/useThemeColor";
 
 const themeColors = ["brand", "accent-1", "accent-2", "accent-3"];
 
@@ -80,8 +80,12 @@ function CustomColorPicker(props: {
 }) {
   const buttonRef = React.useRef(null);
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
-  const theme = React.useContext(ThemeContext);
-  const themeColorCodes = themeColors.map((color) => themeColor(theme, color));
+  const { state } = React.useContext(ReducerContext);
+  const existingCustomColors = _.uniq(
+    Object.values(state.cardsById)
+      .filter((c) => !!c.customColor)
+      .map((c) => c.customColor as string)
+  );
 
   return (
     <>
@@ -94,8 +98,8 @@ function CustomColorPicker(props: {
           <SketchPicker
             color={props.color}
             disableAlpha
-            presetColors={themeColorCodes}
-            onChange={(colorResult) => {
+            presetColors={[...existingCustomColors]}
+            onChangeComplete={(colorResult) => {
               props.setColor(colorResult.hex);
             }}
           />
