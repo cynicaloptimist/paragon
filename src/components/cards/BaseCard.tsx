@@ -56,11 +56,19 @@ export function BaseCard(props: {
 }
 
 function ComputeThemeProps(cardState: CardState): BoxProps {
-  let props: BoxProps = {
+  const props = {
     border: { color: cardState.themeColor ?? "brand", size: "medium" },
     background: cardState.themeColor ?? "brand",
   };
 
+  if(cardState.themeColor === "custom") {
+    if(!cardState.customColor) {
+      console.warn("cardState.themeColor is custom but no customColor is set.");
+    }
+    props.border.color = cardState.customColor ?? "brand"
+    props.background = cardState.customColor ?? "brand"
+  }
+  
   if (cardState.playerViewPermission === PlayerViewPermission.Hidden) {
     props.background = "background";
   }

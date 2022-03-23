@@ -94,4 +94,5 @@ type BaseCardState = {
   playerViewPermission: PlayerViewPermission;
   path?: string;
   themeColor?: string;
+  customColor?: string;
 };
