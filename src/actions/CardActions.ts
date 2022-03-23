@@ -50,6 +50,10 @@ export const CardActions = {
     cardId: string;
     themeColor: string;
   }>(),
+  SetCustomColor: createAction("SetCustomColor")<{
+    cardId: string;
+    customColor: string;
+  }>(),
   SetRollTableEntries: createAction("SetRollTableEntries")<{
     cardId: string;
     entries: RollTableEntry[];
