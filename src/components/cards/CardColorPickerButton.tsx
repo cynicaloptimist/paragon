@@ -1,4 +1,8 @@
-import { faCircle, faPalette, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircle,
+  faPalette,
+  faPlusCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, Drop, ThemeContext } from "grommet";
 import React from "react";
@@ -50,12 +54,19 @@ export function CardColorPickerButton(props: {
                 }
               />
             ))}
-            {state.user.hasEpic && <CustomColorPicker color={card.customColor ?? "#000000"} setColor={(color) => {
-              dispatch(CardActions.SetCustomColor({
-                cardId: props.cardId,
-                customColor: color
-              }))
-            }} />}
+            {state.user.hasEpic && (
+              <CustomColorPicker
+                color={card.customColor ?? "#000000"}
+                setColor={(color) => {
+                  dispatch(
+                    CardActions.SetCustomColor({
+                      cardId: props.cardId,
+                      customColor: color,
+                    })
+                  );
+                }}
+              />
+            )}
           </Box>
         </Drop>
       )}
@@ -70,7 +81,7 @@ function CustomColorPicker(props: {
   const buttonRef = React.useRef(null);
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const theme = React.useContext(ThemeContext);
-  const themeColorCodes = themeColors.map(color => themeColor(theme, color));
+  const themeColorCodes = themeColors.map((color) => themeColor(theme, color));
 
   return (
     <>
@@ -79,7 +90,6 @@ function CustomColorPicker(props: {
           target={buttonRef.current}
           align={{ top: "bottom", right: "right" }}
           onClickOutside={() => setIsOpen(false)}
-
         >
           <SketchPicker
             color={props.color}
@@ -103,4 +113,3 @@ function CustomColorPicker(props: {
     </>
   );
 }
-
