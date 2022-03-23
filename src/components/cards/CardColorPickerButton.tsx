@@ -1,18 +1,22 @@
-import { faCircle, faPalette } from "@fortawesome/free-solid-svg-icons";
+import { faCircle, faPalette, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, Drop } from "grommet";
+import { Box, Button, Drop, ThemeContext } from "grommet";
 import React from "react";
+import SketchPicker from "react-color/lib/components/sketch/Sketch";
 import { CardActions } from "../../actions/CardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
+import { themeColor } from "../hooks/useThemeColor";
+
+const themeColors = ["brand", "accent-1", "accent-2", "accent-3"];
 
 export function CardColorPickerButton(props: {
   cardId: string;
 }): React.ReactElement {
-  const { dispatch } = React.useContext(ReducerContext);
+  const { state, dispatch } = React.useContext(ReducerContext);
   const buttonRef = React.useRef(null);
   const [isColorPickerOpen, setColorPickerOpen] =
     React.useState<boolean>(false);
-  const themeColors = ["brand", "accent-1", "accent-2", "accent-3"];
+  const card = state.cardsById[props.cardId];
 
   return (
     <>
@@ -46,9 +50,57 @@ export function CardColorPickerButton(props: {
                 }
               />
             ))}
+            {state.user.hasEpic && <CustomColorPicker color={card.customColor ?? "#000000"} setColor={(color) => {
+              dispatch(CardActions.SetCustomColor({
+                cardId: props.cardId,
+                customColor: color
+              }))
+            }} />}
           </Box>
         </Drop>
       )}
     </>
   );
 }
+
+function CustomColorPicker(props: {
+  color: string;
+  setColor: (color: string) => void;
+}) {
+  const buttonRef = React.useRef(null);
+  const [isOpen, setIsOpen] = React.useState<boolean>(false);
+  const theme = React.useContext(ThemeContext);
+  const themeColorCodes = themeColors.map(color => themeColor(theme, color));
+
+  return (
+    <>
+      {isOpen && buttonRef.current && (
+        <Drop
+          target={buttonRef.current}
+          align={{ top: "bottom", right: "right" }}
+          onClickOutside={() => setIsOpen(false)}
+
+        >
+          <SketchPicker
+            color={props.color}
+            disableAlpha
+            presetColors={themeColorCodes}
+            onChange={(colorResult) => {
+              props.setColor(colorResult.hex);
+            }}
+          />
+        </Drop>
+      )}
+      <Button
+        ref={buttonRef}
+        plain
+        style={{ padding: "4px" }}
+        active={isOpen}
+        key="colorPicker"
+        onClick={() => setIsOpen(!isOpen)}
+        icon={<FontAwesomeIcon color={props.color} icon={faPlusCircle} />}
+      />
+    </>
+  );
+}
+
