@@ -15,7 +15,7 @@ import { ReducerContext } from "../../reducers/ReducerContext";
 import { CardState, PlayerViewPermission } from "../../state/CardState";
 import { useToast } from "../hooks/useToast";
 import { ViewType, ViewTypeContext } from "../ViewTypeContext";
-import { ColorPickerButton } from "./ColorPickerButton";
+import { CardColorPickerButton } from "./CardColorPickerButton";
 import { PlayerViewButton } from "./PlayerViewButton";
 
 export function BaseCard(props: {
@@ -128,7 +128,7 @@ function CardHeader(props: {
             </Heading>
           </Box>
         )}
-        {isGmView && <ColorPickerButton cardId={props.cardState.cardId} />}
+        {isGmView && <CardColorPickerButton cardId={props.cardState.cardId} />}
         {isGmView && (
           <PlayerViewButton
             cardState={props.cardState}

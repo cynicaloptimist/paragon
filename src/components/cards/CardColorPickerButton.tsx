@@ -5,7 +5,7 @@ import React from "react";
 import { CardActions } from "../../actions/CardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 
-export function ColorPickerButton(props: {
+export function CardColorPickerButton(props: {
   cardId: string;
 }): React.ReactElement {
   const { dispatch } = React.useContext(ReducerContext);
