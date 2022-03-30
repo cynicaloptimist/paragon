@@ -11,6 +11,7 @@ export function DiceRollRow(props: {
     flex: false,
     direction: "row",
     border: "top",
+    height: "3em",
   };
 
   return (
