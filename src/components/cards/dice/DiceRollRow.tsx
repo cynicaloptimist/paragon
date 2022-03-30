@@ -14,6 +14,15 @@ export function DiceRollRow(props: {
     height: "3em",
   };
 
+  const noDiceRolled = !props.roll.result.includes("[");
+  if (noDiceRolled) {
+    return (
+      <Box {...containerProps} align="center">
+        <Text>{props.roll.expression}</Text>
+      </Box>
+    );
+  }
+
   return (
     <Box {...containerProps}>
       <Box fill justify="center">
