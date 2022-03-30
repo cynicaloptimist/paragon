@@ -15,7 +15,7 @@ export function DiceRollRow(props: {
   };
 
   const noDiceRolled = !props.roll.result.includes("[");
-  if (noDiceRolled) {
+  if (noDiceRolled && props.roll.total === 0) {
     return (
       <Box {...containerProps} align="center">
         <Text>{props.roll.expression}</Text>
