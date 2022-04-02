@@ -29,9 +29,7 @@ export const PlayerViewTopBar = (props: {
           />
         }
         tip={
-          props.matchGMLayout
-            ? "Matching GM layout"
-            : "Unlocked from GM layout"
+          props.matchGMLayout ? "Matching GM layout" : "Unlocked from GM layout"
         }
       />
     </Header>
