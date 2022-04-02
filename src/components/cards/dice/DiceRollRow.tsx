@@ -14,7 +14,7 @@ export function DiceRollRow(props: {
     height: "3em",
   };
 
-  const nameDisplay = props.roll.userName ? `${props.roll.userName}: ` : "";
+  const nameDisplay = props.roll.userName && <em>{props.roll.userName}: </em>;
 
   const noDiceRolled = !props.roll.result.includes("[");
   if (noDiceRolled && props.roll.total === 0) {
