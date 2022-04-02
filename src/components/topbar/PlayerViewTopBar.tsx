@@ -1,9 +1,14 @@
-import { faLock, faLockOpen } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLock,
+  faLockOpen,
+  faUserPen,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, Header, Heading } from "grommet";
-import { useContext } from "react";
+import { Box, Button, Drop, Header, Heading, TextInput } from "grommet";
+import { useContext, useRef, useState } from "react";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { ActiveDashboardOf } from "../../state/AppState";
+import { PlayerViewUserContext } from "../PlayerViewUserContext";
 
 export const PlayerViewTopBar = (props: {
   matchGMLayout: boolean;
@@ -20,6 +25,7 @@ export const PlayerViewTopBar = (props: {
           Paragon Campaign Dashboard: Player View
         </Heading>
       </Box>
+      <SetPlayerNameButton />
       <Button
         onClick={() => props.setMatchGMLayout(!props.matchGMLayout)}
         icon={
@@ -35,3 +41,42 @@ export const PlayerViewTopBar = (props: {
     </Header>
   );
 };
+
+function SetPlayerNameButton() {
+  const [inputVisible, setInputVisible] = useState(false);
+  const buttonRef = useRef(null);
+  const playerViewUser = useContext(PlayerViewUserContext);
+
+  return (
+    <>
+      <Button
+        onClick={() => setInputVisible(!inputVisible)}
+        icon={<FontAwesomeIcon fixedWidth icon={faUserPen} />}
+        tip="Set Player Name"
+        ref={buttonRef}
+      />
+      {buttonRef.current && inputVisible && (
+        <Drop
+          target={buttonRef.current}
+          align={{ top: "bottom" }}
+          onClickOutside={() => setInputVisible(false)}
+        >
+          <TextInput
+            placeholder="Player Name"
+            defaultValue={playerViewUser.name ?? undefined}
+            onKeyDown={(keyboardEvent) => {
+              if (keyboardEvent.key !== "Enter") {
+                return;
+              }
+              const target = keyboardEvent.target as HTMLInputElement;
+              if (target.value.length > 0) {
+                playerViewUser.setName(target.value);
+                setInputVisible(false);
+              }
+            }}
+          />
+        </Drop>
+      )}
+    </>
+  );
+}
