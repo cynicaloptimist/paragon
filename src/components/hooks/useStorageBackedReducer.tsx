@@ -1,4 +1,10 @@
-import { Dispatch, Reducer, ReducerAction, ReducerState, useReducer } from "react";
+import {
+  Dispatch,
+  Reducer,
+  ReducerAction,
+  ReducerState,
+  useReducer,
+} from "react";
 import { LegacyAppState } from "../../state/LegacyAppState";
 
 export function useStorageBackedReducer<R extends Reducer<any, any>>(
@@ -19,5 +25,8 @@ export function useStorageBackedReducer<R extends Reducer<any, any>>(
   const storedState = storedStateJSON ? JSON.parse(storedStateJSON) : null;
   const initialState = initializeState(storedState);
 
-  return useReducer(reducerWithSave, initialState) as [ReducerState<R>, Dispatch<ReducerAction<R>>];
+  return useReducer(reducerWithSave, initialState) as [
+    ReducerState<R>,
+    Dispatch<ReducerAction<R>>
+  ];
 }
