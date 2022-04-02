@@ -67,7 +67,10 @@ function useRemoteState(
 export function PlayerView() {
   const { playerViewId } = useParams<{ playerViewId: string }>();
   const [state, dispatch] = useRemoteState(playerViewId);
-  const [matchGMLayout, setMatchGMLayout] = React.useState(true);
+  const [matchGMLayout, setMatchGMLayout] = useStorageBackedState(
+    "matchGmLayout",
+    true
+  );
   const [playerName, setPlayerName] = useStorageBackedState<string | null>(
     "playerName",
     null
