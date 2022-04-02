@@ -14,11 +14,16 @@ export function DiceRollRow(props: {
     height: "3em",
   };
 
+  const nameDisplay = props.roll.userName ? `${props.roll.userName}: ` : "";
+
   const noDiceRolled = !props.roll.result.includes("[");
   if (noDiceRolled && props.roll.total === 0) {
     return (
       <Box {...containerProps} align="center">
-        <Text>{props.roll.expression}</Text>
+        <Text>
+          {nameDisplay}
+          {props.roll.expression}
+        </Text>
       </Box>
     );
   }
@@ -27,6 +32,7 @@ export function DiceRollRow(props: {
     <Box {...containerProps}>
       <Box fill justify="center">
         <Text>
+          {nameDisplay}
           {props.roll.expression}
           <FontAwesomeIcon
             icon={faArrowRight}

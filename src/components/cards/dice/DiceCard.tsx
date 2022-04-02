@@ -12,6 +12,7 @@ import { BaseCard } from "../BaseCard";
 import { useScrollTo } from "../../hooks/useScrollTo";
 import { ViewType, ViewTypeContext } from "../../ViewTypeContext";
 import { DiceRollRow } from "./DiceRollRow";
+import { PlayerViewUserContext } from "../../PlayerViewUserContext";
 
 const dice = new Dice();
 
@@ -24,6 +25,8 @@ export function DiceCard(props: { card: DiceCardState }) {
     viewType !== ViewType.Player ||
     card.playerViewPermission === PlayerViewPermission.Interact;
 
+  const playerViewUser = useContext(PlayerViewUserContext);
+
   const rollDice = useCallback(
     (expression: string) => {
       const result = dice.roll(expression);
@@ -33,10 +36,11 @@ export function DiceCard(props: { card: DiceCardState }) {
           expression,
           result: result.renderedExpression,
           total: result.total,
+          userName: playerViewUser.name || undefined,
         })
       );
     },
-    [card.cardId, dispatch]
+    [card.cardId, dispatch, playerViewUser.name]
   );
 
   const quickDie = (dieSize: string) => (
@@ -47,6 +51,9 @@ export function DiceCard(props: { card: DiceCardState }) {
 
   const cardHistory = card.history || [];
   const scrollBottom = useScrollTo(cardHistory);
+
+  const nameInputVisible =
+    viewType === ViewType.Player && canEdit && playerViewUser.name === null;
 
   return (
     <BaseCard
@@ -70,7 +77,22 @@ export function DiceCard(props: { card: DiceCardState }) {
         ))}
         <div ref={scrollBottom} />
       </Box>
-      {canEdit && (
+      {nameInputVisible && (
+        <TextInput
+          placeholder="Enter a name to roll dice"
+          onKeyDown={(keyboardEvent) => {
+            if (keyboardEvent.key !== "Enter") {
+              return;
+            }
+
+            const target = keyboardEvent.target as HTMLInputElement;
+            if (target.value.length) {
+              playerViewUser.setName(target.value);
+            }
+          }}
+        />
+      )}
+      {!nameInputVisible && canEdit && (
         <DiceTextInput rollDice={rollDice} cardHistory={cardHistory} />
       )}
     </BaseCard>

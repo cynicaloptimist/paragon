@@ -71,6 +71,7 @@ export const CardActions = {
     expression: string;
     result: string;
     total: number;
+    userName?: string;
   }>(),
   SetSketchModel: createAction("SetSketchModel")<{
     cardId: string;
