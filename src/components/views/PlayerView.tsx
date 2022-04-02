@@ -12,6 +12,8 @@ import { PlayerViewTopBar } from "../topbar/PlayerViewTopBar";
 import { ViewType, ViewTypeContext } from "../ViewTypeContext";
 import { FirebaseUtils } from "../../FirebaseUtils";
 import { app } from "../..";
+import { useStorageBackedState } from "../hooks/useStorageBackedState";
+import { PlayerViewUserContext } from "../PlayerViewUserContext";
 
 function useRemoteState(
   playerViewId: string
@@ -21,10 +23,7 @@ function useRemoteState(
 
   useEffect(() => {
     const database = getDatabase(app);
-    const idDbRef = ref(
-      database,
-      `playerViews/${playerViewId}`
-    );
+    const idDbRef = ref(database, `playerViews/${playerViewId}`);
 
     onValue(idDbRef, (id) => {
       setPlayerViewUserId(id.val());
@@ -69,22 +68,30 @@ export function PlayerView() {
   const { playerViewId } = useParams<{ playerViewId: string }>();
   const [state, dispatch] = useRemoteState(playerViewId);
   const [matchGMLayout, setMatchGMLayout] = React.useState(true);
+  const [playerName, setPlayerName] = useStorageBackedState<string | null>(
+    "playerName",
+    null
+  );
 
   return (
     <ReducerContext.Provider value={{ state, dispatch }}>
       <ViewTypeContext.Provider value={ViewType.Player}>
-        <Grommet style={{ minHeight: "100%" }} theme={Theme}>
-          <Box fill align="center">
-            <PlayerViewTopBar
-              matchGMLayout={matchGMLayout}
-              setMatchGMLayout={setMatchGMLayout}
-            />
-            <CardGrid
-              matchGMLayout={matchGMLayout}
-              setMatchGMLayout={setMatchGMLayout}
-            />
-          </Box>
-        </Grommet>
+        <PlayerViewUserContext.Provider
+          value={{ name: playerName, setName: setPlayerName }}
+        >
+          <Grommet style={{ minHeight: "100%" }} theme={Theme}>
+            <Box fill align="center">
+              <PlayerViewTopBar
+                matchGMLayout={matchGMLayout}
+                setMatchGMLayout={setMatchGMLayout}
+              />
+              <CardGrid
+                matchGMLayout={matchGMLayout}
+                setMatchGMLayout={setMatchGMLayout}
+              />
+            </Box>
+          </Grommet>
+        </PlayerViewUserContext.Provider>
       </ViewTypeContext.Provider>
     </ReducerContext.Provider>
   );
