@@ -28,7 +28,7 @@ export const Theme: ThemeType = {
         light: "#358600",
       },
       "text-fade": {
-        light: "rgba(68, 68, 68, 0.2)",
+        light: "rgba(68, 68, 68, 0.6)",
       },
       focus: {
         light: "#81D2C7",
