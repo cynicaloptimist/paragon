@@ -45,11 +45,12 @@ export function DiceCard(props: { card: DiceCardState }) {
     [card.cardId, dispatch, playerViewUser.name]
   );
 
-  const quickRollButton = (quickRoll: string) => (
+  const quickRolls = card.quickRolls ?? defaultQuickRolls;
+  const quickRollButtons = quickRolls.map((quickRoll: string) => (
     <Button margin="xxsmall" onClick={() => rollDice(quickRoll)}>
       {quickRoll}
     </Button>
-  );
+  ));
 
   const cardHistory = card.history || [];
   const scrollBottom = useScrollTo(cardHistory);
@@ -58,10 +59,7 @@ export function DiceCard(props: { card: DiceCardState }) {
     viewType === ViewType.Player && canEdit && playerViewUser.name === null;
 
   return (
-    <BaseCard
-      cardState={card}
-      commands={defaultQuickRolls.map(quickRollButton)}
-    >
+    <BaseCard cardState={card} commands={quickRollButtons}>
       <Box overflow={{ vertical: "auto" }} flex justify="start">
         {cardHistory.map((roll, index) => (
           <DiceRollRow key={index} roll={roll} rollDice={rollDice} />
