@@ -16,6 +16,8 @@ import { PlayerViewUserContext } from "../../PlayerViewUserContext";
 
 const dice = new Dice();
 
+const defaultQuickRolls = ["d2", "d4", "d6", "d8", "d10", "d12", "d20", "d100"];
+
 export function DiceCard(props: { card: DiceCardState }) {
   const { dispatch } = useContext(ReducerContext);
   const { card } = props;
@@ -43,9 +45,9 @@ export function DiceCard(props: { card: DiceCardState }) {
     [card.cardId, dispatch, playerViewUser.name]
   );
 
-  const quickDie = (dieSize: string) => (
-    <Button margin="xxsmall" onClick={() => rollDice("1" + dieSize)}>
-      {dieSize}
+  const quickRollButton = (quickRoll: string) => (
+    <Button margin="xxsmall" onClick={() => rollDice(quickRoll)}>
+      {quickRoll}
     </Button>
   );
 
@@ -58,18 +60,7 @@ export function DiceCard(props: { card: DiceCardState }) {
   return (
     <BaseCard
       cardState={card}
-      commands={
-        <>
-          {quickDie("d2")}
-          {quickDie("d4")}
-          {quickDie("d6")}
-          {quickDie("d8")}
-          {quickDie("d10")}
-          {quickDie("d12")}
-          {quickDie("d20")}
-          {quickDie("d100")}
-        </>
-      }
+      commands={defaultQuickRolls.map(quickRollButton)}
     >
       <Box overflow={{ vertical: "auto" }} flex justify="start">
         {cardHistory.map((roll, index) => (
