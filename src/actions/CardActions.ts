@@ -73,6 +73,10 @@ export const CardActions = {
     total: number;
     userName?: string;
   }>(),
+  SetQuickRolls: createAction("SetQuickRolls")<{
+    cardId: string;
+    quickRolls: string[];
+  }>(),
   SetSketchModel: createAction("SetSketchModel")<{
     cardId: string;
     sketchJSON: SketchModelJSON;

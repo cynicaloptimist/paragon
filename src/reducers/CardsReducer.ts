@@ -100,6 +100,11 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
       history: (oldCard.history || []).concat([historyItem]),
     });
   })
+  .handleAction(CardActions.SetQuickRolls, (oldState, action) => {
+    return mergeCardState(oldState, action, {
+      quickRolls: action.payload.quickRolls,
+    });
+  })
   .handleAction(CardActions.SetSketchModel, (oldState, action) => {
     return mergeCardState(oldState, action, {
       sketchModel: action.payload.sketchJSON,
