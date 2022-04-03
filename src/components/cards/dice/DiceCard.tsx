@@ -1,23 +1,30 @@
 import { Dice } from "dice-typescript";
-import { Box, Button, TextArea, TextInput } from "grommet";
-import { useCallback, useContext, useRef, useState } from "react";
+import { Box, Button, TextInput } from "grommet";
+import { useCallback, useContext, useState } from "react";
 import { CardActions } from "../../../actions/CardActions";
 import { ReducerContext } from "../../../reducers/ReducerContext";
-import {
-  DiceCardState,
-  DiceRoll,
-  PlayerViewPermission,
-} from "../../../state/CardState";
+import { DiceCardState, PlayerViewPermission } from "../../../state/CardState";
 import { BaseCard } from "../BaseCard";
 import { useScrollTo } from "../../hooks/useScrollTo";
 import { ViewType, ViewTypeContext } from "../../ViewTypeContext";
 import { DiceRollRow } from "./DiceRollRow";
 import { PlayerViewUserContext } from "../../PlayerViewUserContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faGears, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faGears } from "@fortawesome/free-solid-svg-icons";
+import { DiceTextInput } from "./DiceTextInput";
+import { QuickRollsInput } from "./QuickRollsInput";
 
 const dice = new Dice();
-const defaultQuickRolls = ["d2", "d4", "d6", "d8", "d10", "d12", "d20", "d100"];
+export const defaultQuickRolls = [
+  "d2",
+  "d4",
+  "d6",
+  "d8",
+  "d10",
+  "d12",
+  "d20",
+  "d100",
+];
 
 export function DiceCard(props: { card: DiceCardState }) {
   const { dispatch } = useContext(ReducerContext);
@@ -75,6 +82,7 @@ export function DiceCard(props: { card: DiceCardState }) {
       />
     );
   }
+
   return (
     <BaseCard cardState={card} commands={commands}>
       <Box overflow={{ vertical: "auto" }} flex justify="start">
@@ -102,75 +110,5 @@ export function DiceCard(props: { card: DiceCardState }) {
         <DiceTextInput rollDice={rollDice} cardHistory={cardHistory} />
       )}
     </BaseCard>
-  );
-}
-
-function QuickRollsInput(props: { card: DiceCardState; done: () => void }) {
-  const { dispatch } = useContext(ReducerContext);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
-  const quickRolls = props.card.quickRolls ?? defaultQuickRolls;
-  const inputDefaultValue = quickRolls.join("\n");
-  return (
-    <BaseCard
-      cardState={props.card}
-      commands={[
-        <Button
-          icon={<FontAwesomeIcon icon={faCheck} />}
-          onClick={() => {
-            if (!inputRef.current) {
-              return;
-            }
-            const newQuickRolls = inputRef.current.value.split("\n");
-            dispatch(
-              CardActions.SetQuickRolls({
-                cardId: props.card.cardId,
-                quickRolls: newQuickRolls,
-              })
-            );
-            props.done();
-          }}
-        />,
-      ]}
-    >
-      <TextArea fill ref={inputRef} defaultValue={inputDefaultValue} />
-    </BaseCard>
-  );
-}
-
-function DiceTextInput(props: {
-  rollDice: (expression: string) => void;
-  cardHistory: DiceRoll[];
-}) {
-  const { rollDice, cardHistory } = props;
-  const [lookback, setLookback] = useState(0);
-  const diceInputRef = useRef<HTMLInputElement>(null);
-
-  return (
-    <TextInput
-      ref={diceInputRef}
-      onKeyDown={(e) => {
-        if (!diceInputRef.current) {
-          return;
-        }
-        const input = diceInputRef.current;
-        if (e.key === "Enter" && input.value.length > 0) {
-          rollDice(input.value);
-          input.value = "";
-          setLookback(0);
-        }
-        if (e.key === "ArrowUp" && lookback < cardHistory.length) {
-          input.value =
-            cardHistory[cardHistory.length - (lookback + 1)].expression;
-
-          setLookback(lookback + 1);
-        }
-        if (e.key === "ArrowDown" && lookback - 1 > 0) {
-          input.value =
-            cardHistory[cardHistory.length - (lookback - 1)].expression;
-
-          setLookback(lookback - 1);
-        }
-      }}
-    />
   );
 }
