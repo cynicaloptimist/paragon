@@ -45,7 +45,7 @@ export type ImageCardState = BaseCardState & {
 export type DiceCardState = BaseCardState & {
   type: "dice";
   history?: DiceRoll[];
-  quickRolls?: string [];
+  quickRolls?: string[];
 };
 
 export type DiceRoll = {
