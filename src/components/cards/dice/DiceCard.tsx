@@ -1,5 +1,5 @@
 import { Dice } from "dice-typescript";
-import { Box, Button, TextInput } from "grommet";
+import { Box, Button, TextArea, TextInput } from "grommet";
 import { useCallback, useContext, useRef, useState } from "react";
 import { CardActions } from "../../../actions/CardActions";
 import { ReducerContext } from "../../../reducers/ReducerContext";
@@ -13,9 +13,10 @@ import { useScrollTo } from "../../hooks/useScrollTo";
 import { ViewType, ViewTypeContext } from "../../ViewTypeContext";
 import { DiceRollRow } from "./DiceRollRow";
 import { PlayerViewUserContext } from "../../PlayerViewUserContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faGears, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const dice = new Dice();
-
 const defaultQuickRolls = ["d2", "d4", "d6", "d8", "d10", "d12", "d20", "d100"];
 
 export function DiceCard(props: { card: DiceCardState }) {
@@ -45,12 +46,20 @@ export function DiceCard(props: { card: DiceCardState }) {
     [card.cardId, dispatch, playerViewUser.name]
   );
 
+  const [configuringQuickRolls, setConfiguringQuickRolls] = useState(false);
   const quickRolls = card.quickRolls ?? defaultQuickRolls;
   const quickRollButtons = quickRolls.map((quickRoll: string) => (
     <Button margin="xxsmall" onClick={() => rollDice(quickRoll)}>
       {quickRoll}
     </Button>
   ));
+  const commands = [
+    ...quickRollButtons,
+    <Button
+      icon={<FontAwesomeIcon icon={faGears} />}
+      onClick={() => setConfiguringQuickRolls(true)}
+    />,
+  ];
 
   const cardHistory = card.history || [];
   const scrollBottom = useScrollTo(cardHistory);
@@ -58,8 +67,16 @@ export function DiceCard(props: { card: DiceCardState }) {
   const nameInputVisible =
     viewType === ViewType.Player && canEdit && playerViewUser.name === null;
 
+  if (configuringQuickRolls) {
+    return (
+      <QuickRollsInput
+        card={card}
+        done={() => setConfiguringQuickRolls(false)}
+      />
+    );
+  }
   return (
-    <BaseCard cardState={card} commands={quickRollButtons}>
+    <BaseCard cardState={card} commands={commands}>
       <Box overflow={{ vertical: "auto" }} flex justify="start">
         {cardHistory.map((roll, index) => (
           <DiceRollRow key={index} roll={roll} rollDice={rollDice} />
@@ -84,6 +101,38 @@ export function DiceCard(props: { card: DiceCardState }) {
       {!nameInputVisible && canEdit && (
         <DiceTextInput rollDice={rollDice} cardHistory={cardHistory} />
       )}
+    </BaseCard>
+  );
+}
+
+function QuickRollsInput(props: { card: DiceCardState; done: () => void }) {
+  const { dispatch } = useContext(ReducerContext);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const quickRolls = props.card.quickRolls ?? defaultQuickRolls;
+  const inputDefaultValue = quickRolls.join("\n");
+  return (
+    <BaseCard
+      cardState={props.card}
+      commands={[
+        <Button
+          icon={<FontAwesomeIcon icon={faCheck} />}
+          onClick={() => {
+            if (!inputRef.current) {
+              return;
+            }
+            const newQuickRolls = inputRef.current.value.split("\n");
+            dispatch(
+              CardActions.SetQuickRolls({
+                cardId: props.card.cardId,
+                quickRolls: newQuickRolls,
+              })
+            );
+            props.done();
+          }}
+        />,
+      ]}
+    >
+      <TextArea fill ref={inputRef} defaultValue={inputDefaultValue} />
     </BaseCard>
   );
 }
