@@ -175,6 +175,7 @@ function CardFooter(props: {
       justify="stretch"
       pad={{ right: "small" }}
       overflow={{ horizontal: "auto" }}
+      gap="xsmall"
       {...themeProps}
     >
       <Box height="1em" />
