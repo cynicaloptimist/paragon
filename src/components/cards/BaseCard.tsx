@@ -24,6 +24,7 @@ export function BaseCard(props: {
   children: React.ReactNode;
   centerRow?: boolean;
   onKeyDown?: (event: React.KeyboardEvent) => void;
+  onPaste?: (event: React.ClipboardEvent) => void;
   innerBoxRef?: React.RefObject<HTMLDivElement>;
 }) {
   const [toast, popToast] = useToast(5000);
@@ -35,6 +36,7 @@ export function BaseCard(props: {
       elevation="medium"
       background="background"
       onKeyDown={props.onKeyDown}
+      onPaste={props.onPaste}
     >
       <CardHeader popToast={popToast} cardState={props.cardState} />
       <Box

@@ -60,6 +60,17 @@ export function ImageCard(props: { card: ImageCardState }) {
         />
       }
       cardState={card}
+      onPaste={async (pasteEvent) => {
+        const imageUpload = pasteEvent.clipboardData.files?.[0];
+        if (hasStorage && imageUpload) {
+          const imageUrl = await FirebaseUtils.UploadUserFileToStorageAndGetURL(
+            imageUpload,
+            userId,
+            "image"
+          );
+          dispatch(CardActions.SetImageUrl({ cardId: card.cardId, imageUrl }));
+        }
+      }}
     >
       <Box
         fill
