@@ -28,12 +28,15 @@ export function BaseCard(props: {
   innerBoxRef?: React.RefObject<HTMLDivElement>;
 }) {
   const [toast, popToast] = useToast(5000);
+  const [isFocused, setFocused] = React.useState(false);
 
   return (
     <Box
       tabIndex={0}
       fill
-      elevation="medium"
+      border={{ color: isFocused ? "focus" : "transparent", size: "small" }}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
       background="background"
       onKeyDown={props.onKeyDown}
       onPaste={props.onPaste}
