@@ -77,6 +77,9 @@ export const CardActions = {
     cardId: string;
     quickRolls: string[];
   }>(),
+  RevertToDefaultQuickRolls: createAction("RevertToDefaultQuickRolls")<{
+    cardId: string;
+  }>(),
   SetSketchModel: createAction("SetSketchModel")<{
     cardId: string;
     sketchJSON: SketchModelJSON;

@@ -5,7 +5,7 @@ import { ReducerContext } from "../../../reducers/ReducerContext";
 import { DiceCardState } from "../../../state/CardState";
 import { BaseCard } from "../BaseCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faEraser } from "@fortawesome/free-solid-svg-icons";
 import { defaultQuickRolls } from "./DiceCard";
 
 export function QuickRollsInput(props: {
@@ -21,6 +21,18 @@ export function QuickRollsInput(props: {
       cardState={props.card}
       commands={[
         <Button
+          icon={<FontAwesomeIcon icon={faEraser} />}
+          onClick={() => {
+            dispatch(
+              CardActions.RevertToDefaultQuickRolls({
+                cardId: props.card.cardId,
+              })
+            );
+            props.done();
+          }}
+          tip="Reset to default Quick Rolls"
+        />,
+        <Button
           icon={<FontAwesomeIcon icon={faCheck} />}
           onClick={() => {
             if (!inputRef.current) {
@@ -35,6 +47,7 @@ export function QuickRollsInput(props: {
             );
             props.done();
           }}
+          tip="Save Quick Rolls"
         />,
       ]}
     >
