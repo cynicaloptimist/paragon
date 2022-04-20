@@ -1,6 +1,6 @@
 import { Box, Markdown } from "grommet";
 import { InfoCardState } from "../../../state/CardState";
-import { BaseCard } from "../BaseCard";
+import { BaseCard } from "../base/BaseCard";
 import { CardLink } from "./CardLink";
 
 export function InfoCard(props: { card: InfoCardState }) {

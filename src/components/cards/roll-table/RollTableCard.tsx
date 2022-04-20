@@ -10,7 +10,7 @@ import React, { useContext, useState } from "react";
 import { CardActions } from "../../../actions/CardActions";
 import { ReducerContext } from "../../../reducers/ReducerContext";
 import { RollTableCardState } from "../../../state/CardState";
-import { BaseCard } from "../BaseCard";
+import { BaseCard } from "../base/BaseCard";
 import { GetRollTableModel } from "./GetRollTableModel";
 import { RollTable } from "./RollTable";
 import { RollTableConfiguration } from "./RollTableConfiguration";

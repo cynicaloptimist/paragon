@@ -8,8 +8,8 @@ import { Box, Button, Drop } from "grommet";
 import _ from "lodash";
 import React from "react";
 import SketchPicker from "react-color/lib/components/sketch/Sketch";
-import { CardActions } from "../../actions/CardActions";
-import { ReducerContext } from "../../reducers/ReducerContext";
+import { CardActions } from "../../../actions/CardActions";
+import { ReducerContext } from "../../../reducers/ReducerContext";
 
 const themeColors = ["brand", "accent-1", "accent-2", "accent-3"];
 

@@ -21,7 +21,7 @@ import {
   VisibleCardsOf,
 } from "../../state/AppState";
 import { LedgerCard } from "../cards/LedgerCard";
-import { BaseCard } from "../cards/BaseCard";
+import { BaseCard } from "../cards/base/BaseCard";
 import { useStorageBackedReducer } from "../hooks/useStorageBackedReducer";
 import { UpdateMissingOrLegacyAppState } from "../../state/LegacyAppState";
 import { InfoCard } from "../cards/article/InfoCard";

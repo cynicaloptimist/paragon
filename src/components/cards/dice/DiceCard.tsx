@@ -4,7 +4,7 @@ import { useCallback, useContext, useState } from "react";
 import { CardActions } from "../../../actions/CardActions";
 import { ReducerContext } from "../../../reducers/ReducerContext";
 import { DiceCardState, PlayerViewPermission } from "../../../state/CardState";
-import { BaseCard } from "../BaseCard";
+import { BaseCard } from "../base/BaseCard";
 import { useScrollTo } from "../../hooks/useScrollTo";
 import { ViewType, ViewTypeContext } from "../../ViewTypeContext";
 import { DiceRollRow } from "./DiceRollRow";

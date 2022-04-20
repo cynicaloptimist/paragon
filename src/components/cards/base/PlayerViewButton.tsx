@@ -8,9 +8,9 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "grommet";
 import React, { useContext } from "react";
-import { CardActions } from "../../actions/CardActions";
-import { ReducerContext } from "../../reducers/ReducerContext";
-import { CardState, PlayerViewPermission } from "../../state/CardState";
+import { CardActions } from "../../../actions/CardActions";
+import { ReducerContext } from "../../../reducers/ReducerContext";
+import { CardState, PlayerViewPermission } from "../../../state/CardState";
 
 export function PlayerViewButton(props: {
   cardState: CardState;

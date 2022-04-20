@@ -7,7 +7,7 @@ import { FirebaseUtils } from "../../FirebaseUtils";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { ImageCardState } from "../../state/CardState";
 import { useUserId } from "../hooks/useAccountSync";
-import { BaseCard } from "./BaseCard";
+import { BaseCard } from "./base/BaseCard";
 import { FileUpload } from "./FileUpload";
 
 export function ImageCard(props: { card: ImageCardState }) {

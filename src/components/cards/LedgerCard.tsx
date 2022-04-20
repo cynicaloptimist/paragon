@@ -22,7 +22,7 @@ import {
   LedgerEntry,
   PlayerViewPermission,
 } from "../../state/CardState";
-import { BaseCard } from "./BaseCard";
+import { BaseCard } from "./base/BaseCard";
 import { useThemeColor } from "../hooks/useThemeColor";
 import { LongPressButton } from "../common/LongPressButton";
 import { useScrollTo } from "../hooks/useScrollTo";

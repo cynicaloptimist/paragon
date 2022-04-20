@@ -18,7 +18,7 @@ import {
   PlayerViewPermission,
   SketchModelJSON,
 } from "../../state/CardState";
-import { BaseCard } from "./BaseCard";
+import { BaseCard } from "./base/BaseCard";
 import { SketchFieldProps, SketchModel, ToolsEnum } from "./SketchFieldProps";
 import { ViewTypeContext, ViewType } from "../ViewTypeContext";
 

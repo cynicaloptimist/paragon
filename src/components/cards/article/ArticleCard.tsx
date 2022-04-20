@@ -11,7 +11,7 @@ import {
   ArticleCardState,
   PlayerViewPermission,
 } from "../../../state/CardState";
-import { BaseCard } from "../BaseCard";
+import { BaseCard } from "../base/BaseCard";
 import { ViewType, ViewTypeContext } from "../../ViewTypeContext";
 import { ArticleEditor } from "./ArticleEditor";
 import { CardLink } from "./CardLink";

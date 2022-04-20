@@ -1,7 +1,7 @@
 import { Box, Footer } from "grommet";
 import React, { useContext } from "react";
-import { CardState, PlayerViewPermission } from "../../state/CardState";
-import { ViewType, ViewTypeContext } from "../ViewTypeContext";
+import { CardState, PlayerViewPermission } from "../../../state/CardState";
+import { ViewType, ViewTypeContext } from "../../ViewTypeContext";
 import { ComputeThemeProps } from "./ComputeThemeProps";
 
 export function CardFooter(props: {

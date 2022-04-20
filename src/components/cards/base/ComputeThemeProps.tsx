@@ -1,5 +1,5 @@
 import { BoxProps } from "grommet";
-import { CardState, PlayerViewPermission } from "../../state/CardState";
+import { CardState, PlayerViewPermission } from "../../../state/CardState";
 
 export function ComputeThemeProps(cardState: CardState): BoxProps {
   const props = {

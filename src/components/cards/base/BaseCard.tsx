@@ -1,7 +1,7 @@
 import { Box } from "grommet";
 import React from "react";
-import { CardState } from "../../state/CardState";
-import { useToast } from "../hooks/useToast";
+import { CardState } from "../../../state/CardState";
+import { useToast } from "../../hooks/useToast";
 import { CardFooter } from "./CardFooter";
 import { CardHeader } from "./CardHeader";
 
