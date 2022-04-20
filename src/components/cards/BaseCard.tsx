@@ -87,6 +87,7 @@ function CardHeader(props: {
 }) {
   const { dispatch } = React.useContext(ReducerContext);
   const [isHeaderEditable, setHeaderEditable] = React.useState<boolean>(false);
+  const [didSelectHeader, setDidSelectHeader] = React.useState<boolean>(false);
   const [headerInput, setHeaderInput] = React.useState<string>("");
   const saveAndClose = () => {
     if (headerInput.length > 0) {
@@ -98,6 +99,7 @@ function CardHeader(props: {
       );
     }
     setHeaderEditable(false);
+    setDidSelectHeader(false);
   };
   const viewType = useContext(ViewTypeContext);
   const isGmView = viewType === ViewType.GameMaster;
@@ -109,7 +111,7 @@ function CardHeader(props: {
     <Header pad="xsmall" height="3.4rem" {...themeProps}>
       <Box
         fill
-        className="drag-handle"
+        className={isHeaderEditable ? "" : "drag-handle"}
         direction="row"
         gap="xxsmall"
         align="center"
@@ -117,14 +119,19 @@ function CardHeader(props: {
         <Button icon={<FontAwesomeIcon icon={faGripLines} />} />
         {isHeaderEditable ? (
           <TextInput
-            placeholder={props.cardState.title}
+            ref={(el) => {
+              if (el && !didSelectHeader) {
+                el.select();
+                setDidSelectHeader(true);
+              }
+            }}
+            defaultValue={props.cardState.title}
             onChange={(changeEvent) => setHeaderInput(changeEvent.target.value)}
             onKeyDown={(keyEvent) => {
               if (keyEvent.key === "Enter") {
                 saveAndClose();
               }
             }}
-            autoFocus
             onBlur={saveAndClose}
           />
         ) : (
