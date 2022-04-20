@@ -46,8 +46,9 @@ function useRemoteState(
       if (!networkAppState) {
         return;
       }
-      const completeAppState =
-        FirebaseUtils.restorePrunedEmptyArrays(networkAppState);
+      const completeAppState = FirebaseUtils.restorePrunedEmptyArrays(
+        networkAppState
+      );
       setState(completeAppState);
     });
 

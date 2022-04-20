@@ -19,8 +19,9 @@ import { CardLink } from "./CardLink";
 export function ArticleCard(props: { card: ArticleCardState }) {
   const { card } = props;
 
-  const [isMarkdownEditorActive, setMarkdownEditorActive] =
-    React.useState(false);
+  const [isMarkdownEditorActive, setMarkdownEditorActive] = React.useState(
+    false
+  );
 
   const viewType = useContext(ViewTypeContext);
 

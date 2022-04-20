@@ -18,8 +18,9 @@ export function CardColorPickerButton(props: {
 }): React.ReactElement {
   const { state, dispatch } = React.useContext(ReducerContext);
   const buttonRef = React.useRef(null);
-  const [isColorPickerOpen, setColorPickerOpen] =
-    React.useState<boolean>(false);
+  const [isColorPickerOpen, setColorPickerOpen] = React.useState<boolean>(
+    false
+  );
   const card = state.cardsById[props.cardId];
 
   return (

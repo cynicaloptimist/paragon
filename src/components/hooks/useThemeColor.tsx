@@ -1,7 +1,4 @@
-import {
-    ThemeContext,
-    ThemeType
-} from "grommet";
+import { ThemeContext, ThemeType } from "grommet";
 import { normalizeColor } from "grommet/utils";
 import * as React from "react";
 

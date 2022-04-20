@@ -57,8 +57,9 @@ export function CardGrid(props: {
 }) {
   const { state, dispatch } = useContext(ReducerContext);
   const matchGMLayout = props.matchGMLayout ?? true;
-  const [currentBreakpoint, setCurrentBreakpoint] =
-    React.useState<string>("xxl");
+  const [currentBreakpoint, setCurrentBreakpoint] = React.useState<string>(
+    "xxl"
+  );
 
   const isPlayerView = useContext(ViewTypeContext) === ViewType.Player;
   const activeDashboardState = ActiveDashboardOf(state);

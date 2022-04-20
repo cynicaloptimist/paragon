@@ -2,7 +2,7 @@ import { getDatabase, ref, set } from "firebase/database";
 import "firebase/database";
 import { pickBy } from "lodash";
 import { ActiveDashboardOf, AppState } from "../../state/AppState";
-import { FirebaseUtils } from "../../FirebaseUtils"
+import { FirebaseUtils } from "../../FirebaseUtils";
 import { app } from "../..";
 
 export async function ShareDashboard(state: AppState) {

@@ -42,8 +42,10 @@ export function DashboardReducer(
       return oldState;
     }
 
-    const cardAlreadyHasLayout = Object.values(oldState.layoutsBySize).some(
-      (layouts) => layouts.some((layout) => layout.i === action.payload.cardId)
+    const cardAlreadyHasLayout = Object.values(
+      oldState.layoutsBySize
+    ).some((layouts) =>
+      layouts.some((layout) => layout.i === action.payload.cardId)
     );
 
     if (cardAlreadyHasLayout) {

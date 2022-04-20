@@ -84,12 +84,11 @@ export function ImageCard(props: { card: ImageCardState }) {
           }
           const imageUpload = dropEvent.dataTransfer.files?.[0];
           if (hasStorage && imageUpload) {
-            const imageUrl =
-              await FirebaseUtils.UploadUserFileToStorageAndGetURL(
-                imageUpload,
-                userId,
-                "image"
-              );
+            const imageUrl = await FirebaseUtils.UploadUserFileToStorageAndGetURL(
+              imageUpload,
+              userId,
+              "image"
+            );
             dispatch(
               CardActions.SetImageUrl({ cardId: card.cardId, imageUrl })
             );

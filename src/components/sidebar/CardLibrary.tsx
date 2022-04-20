@@ -51,11 +51,12 @@ export const Groupings: Grouping[] = [
   {
     Name: "Dashboard",
     GetGroupsForCard: (cardState: CardState, appState: AppState) => {
-      const dashboardIds = Object.keys(appState.dashboardsById).filter(
-        (dashboardId) =>
-          appState.dashboardsById[dashboardId].openCardIds?.includes(
-            cardState.cardId
-          )
+      const dashboardIds = Object.keys(
+        appState.dashboardsById
+      ).filter((dashboardId) =>
+        appState.dashboardsById[dashboardId].openCardIds?.includes(
+          cardState.cardId
+        )
       );
       return dashboardIds;
     },

@@ -44,4 +44,3 @@ export function HorizontalClock(props: { card: ClockCardState }) {
     </Box>
   );
 }
-

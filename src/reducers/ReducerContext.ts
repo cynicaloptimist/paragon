@@ -6,5 +6,5 @@ export const ReducerContext = React.createContext<{
   dispatch: React.Dispatch<any>;
 }>({
   state: EmptyState(),
-  dispatch: () => {}
+  dispatch: () => {},
 });
