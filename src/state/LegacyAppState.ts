@@ -2,7 +2,7 @@ import _ from "lodash";
 import GridLayout from "react-grid-layout";
 import { randomString } from "../randomString";
 import { AppState, CardsState, EmptyState, UserState } from "./AppState";
-import { GetInitialState } from "./GetInitialState";
+import { GetInfoCards, GetInitialState } from "./GetInitialState";
 import { LegacyCardState, UpdateCardState } from "./LegacyCardState";
 
 export type LegacyAppState = {
@@ -57,7 +57,10 @@ export function UpdateMissingOrLegacyAppState(
   const appState: AppState = {
     ...EmptyState(),
     ...storedState,
-    cardsById: convertedCards,
+    cardsById: {
+      ...convertedCards,
+      ...GetInfoCards(),
+    },
     dashboardsById: {},
   };
 
