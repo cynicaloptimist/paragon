@@ -108,11 +108,13 @@ export function CardLibraryRow(props: {
           icon={<FontAwesomeIcon icon={faFolder} />}
         />
       )}
-      <LongPressButton
-        tip="Delete"
-        onLongPress={deleteCard}
-        icon={<FontAwesomeIcon icon={faTrash} />}
-      />
+      {props.card.type !== "info" && (
+        <LongPressButton
+          tip="Delete"
+          onLongPress={deleteCard}
+          icon={<FontAwesomeIcon icon={faTrash} />}
+        />
+      )}
     </Box>
   );
 }
