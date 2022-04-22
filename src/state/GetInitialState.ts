@@ -2,25 +2,30 @@ import { randomString } from "../randomString";
 import { AppState, EmptyState } from "./AppState";
 import { InfoCardState, PlayerViewPermission } from "./CardState";
 
-export const GetInitialState = (): AppState => {
+export function GetInfoCards() {
   const welcomeCard = GetWelcomeCard();
   const cardTypesCard = GetCardTypesCard();
+  return {
+    [welcomeCard.cardId]: welcomeCard,
+    [cardTypesCard.cardId]: cardTypesCard,
+  };
+}
+
+export const GetInitialState = (): AppState => {
   const firstDashboardId = randomString(4);
+  const infoCards = GetInfoCards();
   return {
     ...EmptyState(),
-    cardsById: {
-      [welcomeCard.cardId]: welcomeCard,
-      [cardTypesCard.cardId]: cardTypesCard,
-    },
+    cardsById: infoCards,
     activeDashboardId: firstDashboardId,
     dashboardsById: {
       [firstDashboardId]: {
         name: "Dashboard 1",
-        openCardIds: [welcomeCard.cardId],
+        openCardIds: [GetWelcomeCard().cardId],
         layoutsBySize: {
           xxl: [
             {
-              i: welcomeCard.cardId,
+              i: GetWelcomeCard().cardId,
               h: 8,
               w: 8,
               x: 2,
@@ -44,7 +49,8 @@ function GetWelcomeCard(): InfoCardState {
       `Reference your TTRPG session prep with this powerful, customizable virtual GM screen. ` +
       `Welcome to **Paragon Campaign Dashboard!** Add new cards from the '+' menu. There are several [card types](${
         GetCardTypesCard().cardId
-      }) available.`,
+      }) available.\n\n` +
+      `Love the app? Get account sync and more for your support [on Patreon](https://www.patreon.com/improvedinitiative)!`,
     playerViewPermission: PlayerViewPermission.Hidden,
   };
 }
@@ -66,6 +72,8 @@ function GetCardTypesCard(): InfoCardState {
 **Ledger Cards** help keep track of values that change over time. Try using them for experience points, currency, treasure, encumbrance, et cetera.
 
 **Image Cards** show an image. You can drag an image from another tab straight onto an image card.
+
+All cards can be shared with your players in the Player View. If you're a [Patreon](https://www.patreon.com/improvedinitiative) supporter at the Epic tier, you can make cards fully interactable in the Player View.
 `,
 
     playerViewPermission: PlayerViewPermission.Hidden,
