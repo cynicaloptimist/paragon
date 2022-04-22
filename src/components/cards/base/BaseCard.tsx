@@ -21,6 +21,7 @@ export function BaseCard(props: {
     <Box
       tabIndex={0}
       fill
+      elevation="medium"
       border={{ color: isFocused ? "focus" : "transparent", size: "small" }}
       onFocus={() => setFocused(true)}
       onBlur={() => setFocused(false)}
