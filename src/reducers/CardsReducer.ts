@@ -81,7 +81,7 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
       entries: action.payload.entries,
     });
   })
-  .handleAction(CardActions.SetRollTableLastRoll, (oldState, action) => {
+  .handleAction(CardActions.PushRollTableHistory, (oldState, action) => {
     const oldCard = oldState[action.payload.cardId] as RollTableCardState;
 
     return mergeCardState(oldState, action, {

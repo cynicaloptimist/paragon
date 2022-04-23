@@ -96,7 +96,7 @@ export function usePlayerView(
             CardActions.SetCardContent,
             CardActions.RollDiceExpression,
             CardActions.SetImageUrl,
-            CardActions.SetRollTableLastRoll,
+            CardActions.PushRollTableHistory,
             CardActions.SetRollTableEntries,
             CardActions.SetClockValue,
             CardActions.SetClockMax,

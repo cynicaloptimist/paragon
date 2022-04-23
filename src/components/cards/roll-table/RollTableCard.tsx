@@ -44,7 +44,7 @@ export function RollTableCard(props: { card: RollTableCardState }) {
           <Button
             onClick={() =>
               dispatch(
-                CardActions.SetRollTableLastRoll({
+                CardActions.PushRollTableHistory({
                   cardId: card.cardId,
                   rollResult: RandomInt(rollTableModel.dieSize),
                 })

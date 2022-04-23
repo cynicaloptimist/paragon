@@ -26,7 +26,7 @@ export function RollAllTablesButton() {
         for (const tableCard of tableCards) {
           const rollTableModel = GetRollTableModel(tableCard, 0);
           dispatch(
-            CardActions.SetRollTableLastRoll({
+            CardActions.PushRollTableHistory({
               cardId: tableCard.cardId,
               rollResult: RandomInt(rollTableModel.dieSize),
             })

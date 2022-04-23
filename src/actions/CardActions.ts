@@ -58,7 +58,7 @@ export const CardActions = {
     cardId: string;
     entries: RollTableEntry[];
   }>(),
-  SetRollTableLastRoll: createAction("SetRollTableLastRoll")<{
+  PushRollTableHistory: createAction("PushRollTableHistory")<{
     cardId: string;
     rollResult: number;
   }>(),
