@@ -6,9 +6,10 @@ import {
   getIdTokenResult,
   signInAnonymously,
   onAuthStateChanged,
+  User,
 } from "firebase/auth";
 import "firebase/auth";
-import { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { Actions, RootAction } from "../../actions/Actions";
 import { app } from "../..";
@@ -16,6 +17,8 @@ import { app } from "../..";
 export function useLogin(dispatch: React.Dispatch<RootAction>) {
   const location = useLocation();
   const history = useHistory();
+  const user: React.MutableRefObject<User | null> = useRef(null);
+
   useEffect(() => {
     const doAuthAsync = async () => {
       try {
@@ -42,10 +45,14 @@ export function useLogin(dispatch: React.Dispatch<RootAction>) {
         } else {
           const auth = getAuth(app);
           return onAuthStateChanged(auth, () => {
-            if (!auth.currentUser) {
+            if (!user.current && !auth.currentUser) {
               signInAnonymously(auth);
               dispatch(Actions.LogOut());
-            } else if (process.env.REACT_APP_ALL_CLAIMS === "true") {
+            } else {
+              user.current = auth.currentUser;
+            }
+
+            if (process.env.REACT_APP_ALL_CLAIMS === "true") {
               dispatch(
                 Actions.SetUserClaims({
                   hasStorage: true,
