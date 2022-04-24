@@ -12,7 +12,7 @@ export function GetInfoCards() {
 }
 
 export const GetInitialState = (): AppState => {
-  const firstDashboardId = randomString(4);
+  const firstDashboardId = randomString();
   const infoCards = GetInfoCards();
   return {
     ...EmptyState(),
