@@ -47,9 +47,6 @@ function useRemoteState(
     }
 
     const auth = getAuth(app);
-    if (!auth.currentUser) {
-      return;
-    }
 
     const database = getDatabase(app);
     const playerViewRef = ref(
@@ -65,6 +62,10 @@ function useRemoteState(
         FirebaseUtils.restorePrunedEmptyArrays(networkAppState);
       setState(completeAppState);
     });
+
+    if (!auth.currentUser) {
+      return;
+    }
 
     const uid = auth.currentUser.uid;
     const presenceRef = ref(
