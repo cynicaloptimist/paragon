@@ -33,7 +33,10 @@ export function useAccountSync(
   /* eslint-enable */
 }
 
-const parseIntOrDefault = (value: string | null, defaultNumber: number) => {
+const parseIntOrDefault = (
+  value: string | null | undefined,
+  defaultNumber: number
+) => {
   try {
     const result = parseInt(value || "", 10);
     if (isNaN(result)) {
@@ -74,14 +77,14 @@ function useTwoWayDataSync(
 
       onValue(dbRef, async (profileRef) => {
         off(dbRef);
-        const serverProfile: ServerProfile = profileRef.val();
+        const serverProfile: ServerProfile | null = profileRef.val();
         const serverLastUpdateTime = parseIntOrDefault(
           serverProfile?.lastUpdateTime,
           0
         );
         if (serverLastUpdateTime <= localLastUpdateTime) {
           writeFromLocalToServer(state, serverProfile, user.uid);
-        } else {
+        } else if (serverProfile !== null) {
           writeFromServerToLocal(state, dispatch, serverProfile);
         }
 
@@ -115,7 +118,7 @@ const actionCreators: Record<
 
 function writeFromLocalToServer(
   state: AppState,
-  serverProfile: ServerProfile,
+  serverProfile: ServerProfile | null,
   userId: string
 ) {
   console.log("Local data is newer, writing to DB");
@@ -124,7 +127,10 @@ function writeFromLocalToServer(
     //Add new and updated items
     for (const itemId in state[collection]) {
       if (
-        !isEqual(state[collection][itemId], serverProfile[collection]?.[itemId])
+        !isEqual(
+          state[collection][itemId],
+          serverProfile?.[collection]?.[itemId]
+        )
       ) {
         const cleanTree = FirebaseUtils.removeUndefinedNodesFromTree(
           state[collection][itemId]
