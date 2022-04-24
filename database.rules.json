@@ -22,7 +22,7 @@
       "$playerViewId": {
         ".read": true,
         ".write": true,
-        ".validate": "newData.isString()"
+        ".validate": "newData.isString() || newData.isNumber()"
       }
     },
     "shared": {
