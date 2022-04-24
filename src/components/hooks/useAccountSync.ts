@@ -33,7 +33,10 @@ export function useAccountSync(
   /* eslint-enable */
 }
 
-const parseIntOrDefault = (value: string | null, defaultNumber: number) => {
+const parseIntOrDefault = (
+  value: string | null | undefined,
+  defaultNumber: number
+) => {
   try {
     const result = parseInt(value || "", 10);
     if (isNaN(result)) {
