@@ -45,12 +45,18 @@ function useRemoteState(
     if (!playerViewUserId) {
       return;
     }
+
+    const auth = getAuth(app);
+    if (!auth.currentUser) {
+      return;
+    }
+
     const database = getDatabase(app);
-    const dbRef = ref(
+    const playerViewRef = ref(
       database,
       `users/${playerViewUserId}/playerViews/${playerViewId}`
     );
-    onValue(dbRef, (appState) => {
+    onValue(playerViewRef, (appState) => {
       const networkAppState: Partial<AppState> = appState.val();
       if (!networkAppState) {
         return;
@@ -60,29 +66,19 @@ function useRemoteState(
       setState(completeAppState);
     });
 
-    return () => off(dbRef);
-  }, [playerViewId, playerViewUserId]);
-
-  useEffect(() => {
-    if (!playerViewUserId) {
-      return;
-    }
-    const database = getDatabase(app);
-    const auth = getAuth(app);
-    if (!auth.currentUser) {
-      return;
-    }
     const uid = auth.currentUser.uid;
-    const dbRef = ref(
+    const presenceRef = ref(
       database,
       `users/${playerViewUserId}/playerViewsPresence/${playerViewId}/${uid}`
     );
 
-    onDisconnect(dbRef)
-      .set(false)
-      .then(() => {
-        set(dbRef, true);
-      });
+    set(presenceRef, true);
+    onDisconnect(presenceRef).remove();
+
+    return () => {
+      off(playerViewRef);
+      off(presenceRef);
+    };
   }, [playerViewId, playerViewUserId]);
 
   const dispatch = (action: RootAction) => {
