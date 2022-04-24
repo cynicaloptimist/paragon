@@ -63,22 +63,24 @@ function useRemoteState(
       setState(completeAppState);
     });
 
-    if (!auth.currentUser) {
-      return;
-    }
+    auth.onAuthStateChanged((authState) => {
+      if (!authState) {
+        return;
+      }
+      const uid = authState.uid;
+      const presenceRef = ref(
+        database,
+        `users/${playerViewUserId}/playerViewsPresence/${playerViewId}/${uid}`
+      );
 
-    const uid = auth.currentUser.uid;
-    const presenceRef = ref(
-      database,
-      `users/${playerViewUserId}/playerViewsPresence/${playerViewId}/${uid}`
-    );
+      set(presenceRef, true);
+      onDisconnect(presenceRef).remove();
 
-    set(presenceRef, true);
-    onDisconnect(presenceRef).remove();
+      return () => off(presenceRef);
+    });
 
     return () => {
       off(playerViewRef);
-      off(presenceRef);
     };
   }, [playerViewId, playerViewUserId]);
 
