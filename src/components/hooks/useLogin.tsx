@@ -46,9 +46,11 @@ export function useLogin(dispatch: React.Dispatch<RootAction>) {
           const auth = getAuth(app);
           return onAuthStateChanged(auth, () => {
             if (!user.current && !auth.currentUser) {
+              console.log("No user, signing in anonymously");
               signInAnonymously(auth);
               dispatch(Actions.LogOut());
-            } else {
+            } else if (auth.currentUser) {
+              console.log("User ID", auth.currentUser.uid);
               user.current = auth.currentUser;
             }
 
