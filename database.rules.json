@@ -9,6 +9,12 @@
         },
         "playerViews": {
           ".read": true
+        },
+        "playerViewsPresence": {
+          "$playerId": {
+            ".write": "$playerId === auth.uid",
+            ".read": true
+          }
         }
       }
     },
