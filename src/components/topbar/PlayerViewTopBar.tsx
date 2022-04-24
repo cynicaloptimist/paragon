@@ -16,7 +16,13 @@ export const PlayerViewTopBar = (props: {
 }) => {
   const { state } = useContext(ReducerContext);
   return (
-    <Header fill="horizontal" background="brand" pad="small" gap="none">
+    <Header
+      fill="horizontal"
+      background="brand"
+      pad="small"
+      gap="none"
+      height="xsmall"
+    >
       <Box align="center" direction="column" fill>
         <Heading level={1} size="small" margin="none">
           {ActiveDashboardOf(state)?.name}
