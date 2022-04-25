@@ -222,7 +222,6 @@ export function useUserId() {
     const auth = getAuth(app);
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        setUserId(null);
         return;
       }
       setUserId(user.uid);
