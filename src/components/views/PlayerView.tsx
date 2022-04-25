@@ -1,12 +1,4 @@
-import {
-  getDatabase,
-  off,
-  onDisconnect,
-  onValue,
-  push,
-  ref,
-  set,
-} from "firebase/database";
+import { getDatabase, off, onValue, push, ref } from "firebase/database";
 import "firebase/database";
 import { Box, Grommet } from "grommet";
 import React, { useEffect, useState } from "react";
@@ -22,7 +14,6 @@ import { FirebaseUtils } from "../../FirebaseUtils";
 import { app } from "../..";
 import { useStorageBackedState } from "../hooks/useStorageBackedState";
 import { PlayerViewUserContext } from "../PlayerViewUserContext";
-import { getAuth } from "firebase/auth";
 
 function useRemoteState(
   playerViewId: string
@@ -46,8 +37,6 @@ function useRemoteState(
       return;
     }
 
-    const auth = getAuth(app);
-
     const database = getDatabase(app);
     const playerViewRef = ref(
       database,
@@ -61,22 +50,6 @@ function useRemoteState(
       const completeAppState =
         FirebaseUtils.restorePrunedEmptyArrays(networkAppState);
       setState(completeAppState);
-    });
-
-    auth.onAuthStateChanged((authState) => {
-      if (!authState) {
-        return;
-      }
-      const uid = authState.uid;
-      const presenceRef = ref(
-        database,
-        `users/${playerViewUserId}/playerViewsPresence/${playerViewId}/${uid}`
-      );
-
-      set(presenceRef, true);
-      onDisconnect(presenceRef).remove();
-
-      return () => off(presenceRef);
     });
 
     return () => {
