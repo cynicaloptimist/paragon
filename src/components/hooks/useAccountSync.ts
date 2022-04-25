@@ -1,5 +1,11 @@
 import "firebase/auth";
-import { getAuth, onAuthStateChanged, Unsubscribe } from "firebase/auth";
+import {
+  browserLocalPersistence,
+  getAuth,
+  onAuthStateChanged,
+  setPersistence,
+  Unsubscribe,
+} from "firebase/auth";
 import "firebase/database";
 import { getDatabase, off, onValue, ref, remove, set } from "firebase/database";
 import { isEqual, union } from "lodash";
@@ -218,21 +224,24 @@ function useUpdatesToServer(
 
 export function useUserId() {
   const [userId, setUserId] = useState<string | null>(null);
+
   const viewType = useContext(ViewTypeContext);
 
   useEffect(() => {
     if (viewType !== ViewType.GameMaster) {
       return;
     }
+
     const auth = getAuth(app);
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        console.log("received empty user from onAuthStateChanged");
-        return;
-      }
-      setUserId(user.uid);
+    setPersistence(auth, browserLocalPersistence).then(() => {
+      onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+          console.log("received empty user from onAuthStateChanged");
+          return;
+        }
+        setUserId(user.uid);
+      });
     });
-    return unsubscribe;
   }, [setUserId, viewType]);
 
   return userId;
