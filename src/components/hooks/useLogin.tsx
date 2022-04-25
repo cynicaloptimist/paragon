@@ -43,7 +43,6 @@ export function useLogin(dispatch: React.Dispatch<RootAction>) {
           location.search = "";
           history.replace(location);
         } else {
-          const auth = getAuth(app);
           return onAuthStateChanged(auth, () => {
             if (!user.current && !auth.currentUser) {
               console.log("No user, signing in anonymously");
