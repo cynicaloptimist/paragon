@@ -1,3 +1,5 @@
+import { ExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
+
 export type CardState =
   | ArticleCardState
   | InfoCardState
@@ -58,6 +60,7 @@ export type DiceRoll = {
 export type DrawingCardState = BaseCardState & {
   type: "drawing";
   sketchModel?: SketchModelJSON;
+  sceneElements?: ExcalidrawElement[];
 };
 
 export type SketchModelJSON = {
