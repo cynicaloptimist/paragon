@@ -9,7 +9,10 @@ import { DrawingCardState, PlayerViewPermission } from "../../state/CardState";
 import { BaseCard } from "./base/BaseCard";
 import { ViewTypeContext, ViewType } from "../ViewTypeContext";
 import { ExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
-import { ExcalidrawAPIRefValue } from "@excalidraw/excalidraw/types/types";
+import {
+  AppState as ExcalidrawState,
+  ExcalidrawAPIRefValue,
+} from "@excalidraw/excalidraw/types/types";
 import { ActiveDashboardOf } from "../../state/AppState";
 
 type Size = { height: number; width: number };
@@ -22,6 +25,8 @@ export function DrawingCard(props: {
 
   const viewType = useContext(ViewTypeContext);
   const excalidrawRef = useRef<ExcalidrawAPIRefValue>(null);
+  const excalidrawStateRef: React.MutableRefObject<Partial<ExcalidrawState>> =
+    useRef({});
 
   const dashboard = ActiveDashboardOf(state);
   const allLayouts = Object.values(dashboard?.layoutsBySize || {}).flat();
@@ -47,12 +52,24 @@ export function DrawingCard(props: {
           ref={excalidrawRef}
           viewModeEnabled={!canEdit}
           initialData={{ elements: props.card.sceneElements }}
-          onChange={(elements) => {
-            if (!_.isEqual(elements, props.card.sceneElements)) {
+          onChange={(elements, appState) => {
+            if (!excalidrawRef.current?.ready) {
+              return;
+            }
+
+            const newExcalidrawState = {
+              editingElement: appState.editingElement,
+              draggingElement: appState.draggingElement,
+              resizingElement: appState.resizingElement,
+            };
+
+            if (!_.isEqual(excalidrawStateRef.current, newExcalidrawState)) {
+              console.log("excalidraw onChange: excalidrawState changed");
+              excalidrawStateRef.current = newExcalidrawState;
               dispatch(
                 CardActions.SetSceneElements({
                   cardId: props.card.cardId,
-                  sceneElements: elements as ExcalidrawElement[],
+                  sceneElements: _.cloneDeep(elements) as ExcalidrawElement[],
                 })
               );
             }
