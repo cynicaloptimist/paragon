@@ -114,9 +114,13 @@ export function DrawingCard(props: {
   );
 }
 
-function getSceneElements(card: DrawingCardState) {
+function getSceneElements(card: DrawingCardState): ExcalidrawElement[] {
+  if (!card.sceneElementJSONs) {
+    return [];
+  }
+
   return card.sceneElementJSONs
-    ?.map((json) => {
+    .map((json) => {
       try {
         return JSON.parse(json);
       } catch (err) {
