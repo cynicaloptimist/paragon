@@ -45,16 +45,7 @@ export function DrawingCard(props: {
     (l) => l.i === props.card.cardId
   );
 
-  const sceneElements = props.card.sceneElementJSONs
-    ?.map((json) => {
-      try {
-        return JSON.parse(json);
-      } catch (err) {
-        console.log("Error parsing JSON: ", err);
-        return null;
-      }
-    })
-    .filter((element) => element !== null);
+  const sceneElements = getSceneElements(props.card);
 
   useEffect(() => {
     if (!excalidrawRef.current?.ready) {
@@ -121,4 +112,17 @@ export function DrawingCard(props: {
       </Box>
     </BaseCard>
   );
+}
+
+function getSceneElements(card: DrawingCardState) {
+  return card.sceneElementJSONs
+    ?.map((json) => {
+      try {
+        return JSON.parse(json);
+      } catch (err) {
+        console.log("Error parsing JSON: ", err);
+        return null;
+      }
+    })
+    .filter((element) => element !== null);
 }
