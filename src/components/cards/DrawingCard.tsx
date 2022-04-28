@@ -8,7 +8,10 @@ import { ReducerContext } from "../../reducers/ReducerContext";
 import { DrawingCardState, PlayerViewPermission } from "../../state/CardState";
 import { BaseCard } from "./base/BaseCard";
 import { ViewTypeContext, ViewType } from "../ViewTypeContext";
-import { ExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
+import {
+  ExcalidrawElement,
+  NonDeletedExcalidrawElement,
+} from "@excalidraw/excalidraw/types/element/types";
 import {
   AppState as ExcalidrawState,
   ExcalidrawAPIRefValue,
@@ -34,6 +37,17 @@ export function DrawingCard(props: {
     (l) => l.i === props.card.cardId
   );
 
+  const sceneElements = props.card.sceneElementJSONs
+    ?.map((json) => {
+      try {
+        return JSON.parse(json);
+      } catch (err) {
+        console.log("Error parsing JSON: ", err);
+        return null;
+      }
+    })
+    .filter((element) => element !== null);
+
   useEffect(() => {
     if (!excalidrawRef.current?.ready) {
       return;
@@ -53,8 +67,8 @@ export function DrawingCard(props: {
     ) {
       return;
     }
-    excalidrawRef.current.updateScene({ elements: props.card.sceneElements });
-  }, [props.card.sceneElements]);
+    excalidrawRef.current.updateScene({ elements: sceneElements });
+  }, [sceneElements]);
 
   const canEdit =
     viewType !== ViewType.Player ||
@@ -66,8 +80,11 @@ export function DrawingCard(props: {
         <Excalidraw
           ref={excalidrawRef}
           viewModeEnabled={!canEdit}
-          initialData={{ elements: props.card.sceneElements }}
-          onChange={(elements, appState) => {
+          initialData={{ elements: sceneElements }}
+          onChange={(
+            elements: readonly ExcalidrawElement[],
+            appState: ExcalidrawState
+          ) => {
             if (!excalidrawRef.current?.ready) {
               return;
             }
@@ -84,7 +101,7 @@ export function DrawingCard(props: {
               dispatch(
                 CardActions.SetSceneElements({
                   cardId: props.card.cardId,
-                  sceneElements: _.cloneDeep(elements) as ExcalidrawElement[],
+                  sceneElementJSONs: elements.map((e) => JSON.stringify(e)),
                 })
               );
             }

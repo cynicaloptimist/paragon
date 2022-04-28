@@ -1,4 +1,3 @@
-import { ExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
 import { ActionType, createAction } from "typesafe-actions";
 import {
   PlayerViewPermission,
@@ -87,7 +86,7 @@ export const CardActions = {
   }>(),
   SetSceneElements: createAction("SetSceneElements")<{
     cardId: string;
-    sceneElements: ExcalidrawElement[];
+    sceneElementJSONs: string[];
   }>(),
   SetPDF: createAction("SetPDF")<{
     cardId: string;
