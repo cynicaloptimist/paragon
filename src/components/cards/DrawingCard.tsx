@@ -41,6 +41,21 @@ export function DrawingCard(props: {
     excalidrawRef.current.refresh();
   }, [layoutsForThisCard]);
 
+  useEffect(() => {
+    if (!excalidrawRef.current?.ready) {
+      return;
+    }
+    const excalidrawState = excalidrawRef.current.getAppState();
+    if (
+      excalidrawState.editingElement ||
+      excalidrawState.resizingElement ||
+      excalidrawState.draggingElement
+    ) {
+      return;
+    }
+    excalidrawRef.current.updateScene({ elements: props.card.sceneElements });
+  }, [props.card.sceneElements]);
+
   const canEdit =
     viewType !== ViewType.Player ||
     props.card.playerViewPermission === PlayerViewPermission.Interact;
@@ -57,7 +72,7 @@ export function DrawingCard(props: {
               return;
             }
 
-            const newExcalidrawState = {
+            const newExcalidrawState: Partial<ExcalidrawState> = {
               editingElement: appState.editingElement,
               draggingElement: appState.draggingElement,
               resizingElement: appState.resizingElement,
