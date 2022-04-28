@@ -19,6 +19,13 @@ import {
 import { ActiveDashboardOf } from "../../state/AppState";
 
 type Size = { height: number; width: number };
+type ExcalidrawStateMemo = {
+  draggingElement: NonDeletedExcalidrawElement | null;
+  resizingElement: NonDeletedExcalidrawElement | null;
+  selectionElement: NonDeletedExcalidrawElement | null;
+  editingElement: NonDeletedExcalidrawElement | null;
+  nonDeletedElementCount: number;
+};
 
 export function DrawingCard(props: {
   card: DrawingCardState;
@@ -28,8 +35,9 @@ export function DrawingCard(props: {
 
   const viewType = useContext(ViewTypeContext);
   const excalidrawRef = useRef<ExcalidrawAPIRefValue>(null);
-  const excalidrawStateRef: React.MutableRefObject<Partial<ExcalidrawState>> =
-    useRef({});
+  const excalidrawStateRef: React.MutableRefObject<
+    ExcalidrawStateMemo | undefined
+  > = useRef();
 
   const dashboard = ActiveDashboardOf(state);
   const allLayouts = Object.values(dashboard?.layoutsBySize || {}).flat();
@@ -89,10 +97,13 @@ export function DrawingCard(props: {
               return;
             }
 
-            const newExcalidrawState: Partial<ExcalidrawState> = {
+            const newExcalidrawState: ExcalidrawStateMemo = {
               editingElement: appState.editingElement,
               draggingElement: appState.draggingElement,
               resizingElement: appState.resizingElement,
+              selectionElement: appState.selectionElement,
+              nonDeletedElementCount: elements.filter((e) => e.isDeleted)
+                .length,
             };
 
             if (!_.isEqual(excalidrawStateRef.current, newExcalidrawState)) {
