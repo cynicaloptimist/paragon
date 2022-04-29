@@ -3,24 +3,12 @@ import { ThemeType } from "grommet";
 export const Theme: ThemeType = {
   global: {
     colors: {
-      brand: {
-        light: "#472654",
-      },
-      "brand-desaturated": {
-        light: "#4d3b54",
-      },
-      "brand-2": {
-        light: "#97A8C3",
-      },
-      "accent-1": {
-        light: "#80D39B",
-      },
-      "accent-2": {
-        light: "#FCCA46",
-      },
-      "accent-3": {
-        light: "#FB3640",
-      },
+      brand: "#472654",
+      "brand-desaturated": "#4d3b54",
+      "brand-2": "#97A8C3",
+      "accent-1": "#80D39B",
+      "accent-2": "#FCCA46",
+      "accent-3": "#FB3640",
       text: {
         light: "rgba(68, 68, 68, 1)",
       },
@@ -30,9 +18,7 @@ export const Theme: ThemeType = {
       "text-fade": {
         light: "rgba(68, 68, 68, 0.6)",
       },
-      focus: {
-        light: "#81D2C7",
-      },
+      focus: "#81D2C7",
       background: "#EEE5E9",
       "background-contrast": "#E7DAE0",
     },
