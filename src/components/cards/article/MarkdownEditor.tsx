@@ -10,7 +10,6 @@ import { useThemeColor } from "../../hooks/useThemeColor";
 import styled from "styled-components";
 
 const StyledEditor = styled(Editor)`
-  padding: 12px;
   font-size: 18px;
   p {
     line-height: 24px;
@@ -35,7 +34,7 @@ export function MarkdownEditor(props: {
   return (
     <Box
       fill
-      style={{ cursor: "text", borderStyle: "dotted" }}
+      style={{ cursor: "text", borderStyle: "dotted", padding: "8px 0" }}
       onClick={() => {
         if (markdownEditor.current && markdownEditor.current.isBlurred) {
           markdownEditor.current.focusAtEnd();
