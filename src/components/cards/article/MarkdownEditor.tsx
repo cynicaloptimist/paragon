@@ -7,6 +7,17 @@ import { ReducerContext } from "../../../reducers/ReducerContext";
 import { ArticleCardState } from "../../../state/CardState";
 import { useThemeColor } from "../../hooks/useThemeColor";
 
+import styled from "styled-components";
+
+const StyledEditor = styled(Editor)`
+  padding: 12px;
+  font-size: 18px;
+  p {
+    line-height: 24px;
+    margin-block-end: 1em;
+  }
+`;
+
 export function MarkdownEditor(props: {
   card: ArticleCardState;
   setContent: (content: string) => void;
@@ -24,14 +35,14 @@ export function MarkdownEditor(props: {
   return (
     <Box
       fill
-      style={{ cursor: "text" }}
+      style={{ cursor: "text", borderStyle: "dotted" }}
       onClick={() => {
         if (markdownEditor.current && markdownEditor.current.isBlurred) {
           markdownEditor.current.focusAtEnd();
         }
       }}
     >
-      <Editor
+      <StyledEditor
         autoFocus
         defaultValue={props.card.content}
         placeholder=""
