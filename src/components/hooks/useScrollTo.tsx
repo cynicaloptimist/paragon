@@ -6,8 +6,8 @@ export function useScrollTo(entries: any[]) {
 
   useEffect(() => {
     const scrollTarget = scrollTargetRef.current;
-    if (scrollTarget && typeof setImmediate === "function") {
-      setImmediate(() => {
+    if (scrollTarget) {
+      setTimeout(() => {
         scrollTarget.scrollIntoView({
           behavior: didInitialRenderScroll.current ? "smooth" : "auto",
           block: "nearest",
