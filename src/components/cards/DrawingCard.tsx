@@ -78,6 +78,8 @@ export function DrawingCard(props: {
     viewType !== ViewType.Player ||
     props.card.playerViewPermission === PlayerViewPermission.Interact;
 
+  const defaultTool = sceneElements.length === 0 ? "freedraw" : "selection";
+
   return (
     <BaseCard cardState={props.card} commands={[]}>
       <Box fill tabIndex={0}>
@@ -87,7 +89,7 @@ export function DrawingCard(props: {
           initialData={{
             elements: sceneElements,
             appState: {
-              elementType: "freedraw",
+              elementType: defaultTool,
             },
           }}
           onChange={(
