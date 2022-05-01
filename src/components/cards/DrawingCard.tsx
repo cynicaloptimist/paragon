@@ -79,7 +79,12 @@ export function DrawingCard(props: {
         <Excalidraw
           ref={excalidrawRef}
           viewModeEnabled={!canEdit}
-          initialData={{ elements: sceneElements }}
+          initialData={{
+            elements: sceneElements,
+            appState: {
+              elementType: "freedraw",
+            },
+          }}
           onChange={(
             elements: readonly ExcalidrawElement[],
             appState: ExcalidrawState
