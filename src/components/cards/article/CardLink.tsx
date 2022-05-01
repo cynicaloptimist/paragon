@@ -8,7 +8,8 @@ export const CardLink = (
 ) => {
   const { state, dispatch } = React.useContext(ReducerContext);
   const cardId = props.href || "";
-  if (!state.cardsById[cardId]) {
+  const card = state.cardsById[cardId];
+  if (!card) {
     return (
       <a {...props} target="_blank">
         {props.children}
@@ -20,7 +21,7 @@ export const CardLink = (
       color="link"
       style={{ textDecoration: "underline", cursor: "pointer" }}
       onClick={() => {
-        dispatch(CardActions.OpenCard({ cardId }));
+        dispatch(CardActions.OpenCard({ cardId, cardType: card.type }));
       }}
     >
       {props.children}

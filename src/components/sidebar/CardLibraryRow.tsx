@@ -18,9 +18,14 @@ export function CardLibraryRow(props: {
   const isCardOpen =
     ActiveDashboardOf(state)?.openCardIds?.includes(props.card.cardId) || false;
 
+  const card = state.cardsById[props.card.cardId];
+
   const openCard = useCallback(
-    () => dispatch(CardActions.OpenCard({ cardId: props.card.cardId })),
-    [dispatch, props.card.cardId]
+    () =>
+      dispatch(
+        CardActions.OpenCard({ cardId: props.card.cardId, cardType: card.type })
+      ),
+    [dispatch, props.card.cardId, card.type]
   );
 
   const deleteCard = useCallback(() => {

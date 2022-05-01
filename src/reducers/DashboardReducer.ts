@@ -29,7 +29,9 @@ export function DashboardReducer(
       ...oldState,
       openCardIds: (oldState.openCardIds || []).concat([cardId]),
       layoutsBySize: _.mapValues(oldState.layoutsBySize, (layout) => {
-        return _.union(layout, [InitialLayout(cardId)]);
+        return _.union(layout, [
+          InitialLayout(cardId, action.payload.cardType),
+        ]);
       }),
     };
   }
@@ -42,10 +44,8 @@ export function DashboardReducer(
       return oldState;
     }
 
-    const cardAlreadyHasLayout = Object.values(
-      oldState.layoutsBySize
-    ).some((layouts) =>
-      layouts.some((layout) => layout.i === action.payload.cardId)
+    const cardAlreadyHasLayout = Object.values(oldState.layoutsBySize).some(
+      (layouts) => layouts.some((layout) => layout.i === action.payload.cardId)
     );
 
     if (cardAlreadyHasLayout) {
@@ -59,7 +59,9 @@ export function DashboardReducer(
       ...oldState,
       openCardIds: union(oldState.openCardIds, [action.payload.cardId]),
       layoutsBySize: _.mapValues(oldState.layoutsBySize, (layouts) => {
-        return union(layouts, [InitialLayout(action.payload.cardId)]);
+        return union(layouts, [
+          InitialLayout(action.payload.cardId, action.payload.cardType),
+        ]);
       }),
     };
   }

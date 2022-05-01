@@ -56,8 +56,11 @@ export function MarkdownEditor(props: {
         onClickLink={(href) => {
           const url = new URL(href);
           const maybeCardId = url.pathname.replace(/^\//, "");
-          if (state.cardsById[maybeCardId]) {
-            dispatch(CardActions.OpenCard({ cardId: maybeCardId }));
+          const card = state.cardsById[maybeCardId];
+          if (card) {
+            dispatch(
+              CardActions.OpenCard({ cardId: maybeCardId, cardType: card.type })
+            );
           } else {
             window.open(href, "_blank");
           }
