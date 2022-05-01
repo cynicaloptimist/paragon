@@ -1,7 +1,7 @@
 import { Box } from "grommet";
 import _ from "lodash";
 import React, { useContext, useEffect, useRef } from "react";
-import Excalidraw from "@excalidraw/excalidraw";
+import Excalidraw, { restoreElements } from "@excalidraw/excalidraw";
 
 import { CardActions } from "../../actions/CardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
@@ -66,7 +66,12 @@ export function DrawingCard(props: {
     ) {
       return;
     }
-    excalidrawRef.current.updateScene({ elements: sceneElements });
+
+    const elements = restoreElements(
+      sceneElements,
+      excalidrawRef.current.getSceneElements()
+    );
+    excalidrawRef.current.updateScene({ elements });
   }, [sceneElements]);
 
   const canEdit =
