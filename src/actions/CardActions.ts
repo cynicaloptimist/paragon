@@ -1,9 +1,5 @@
 import { ActionType, createAction } from "typesafe-actions";
-import {
-  PlayerViewPermission,
-  RollTableEntry,
-  SketchModelJSON,
-} from "../state/CardState";
+import { PlayerViewPermission, RollTableEntry } from "../state/CardState";
 import { LegacyCardState } from "../state/LegacyCardState";
 
 export const CardActions = {
@@ -79,10 +75,6 @@ export const CardActions = {
   }>(),
   RevertToDefaultQuickRolls: createAction("RevertToDefaultQuickRolls")<{
     cardId: string;
-  }>(),
-  SetSketchModel: createAction("SetSketchModel")<{
-    cardId: string;
-    sketchJSON: SketchModelJSON;
   }>(),
   SetSceneElements: createAction("SetSceneElements")<{
     cardId: string;

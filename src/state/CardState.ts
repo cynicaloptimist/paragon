@@ -57,14 +57,7 @@ export type DiceRoll = {
 
 export type DrawingCardState = BaseCardState & {
   type: "drawing";
-  sketchModel?: SketchModelJSON;
   sceneElementJSONs?: string[];
-};
-
-export type SketchModelJSON = {
-  background: string;
-  objectJSONs?: string[];
-  version: string;
 };
 
 export type PDFCardState = BaseCardState & {
