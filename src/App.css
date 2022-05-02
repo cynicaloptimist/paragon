@@ -15,3 +15,8 @@ p {
 .react-grid-item.react-grid-item > .react-resizable-handle::after {
   border-color: white;
 }
+
+.card__drawing .excalidraw .App-bottom-bar > .Island {
+  min-width: unset;
+  width: 350px;
+}

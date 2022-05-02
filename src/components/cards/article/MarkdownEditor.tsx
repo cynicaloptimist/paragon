@@ -7,6 +7,16 @@ import { ReducerContext } from "../../../reducers/ReducerContext";
 import { ArticleCardState } from "../../../state/CardState";
 import { useThemeColor } from "../../hooks/useThemeColor";
 
+import styled from "styled-components";
+
+const StyledEditor = styled(Editor)`
+  font-size: 18px;
+  p {
+    line-height: 24px;
+    margin-block-end: 1em;
+  }
+`;
+
 export function MarkdownEditor(props: {
   card: ArticleCardState;
   setContent: (content: string) => void;
@@ -24,14 +34,14 @@ export function MarkdownEditor(props: {
   return (
     <Box
       fill
-      style={{ cursor: "text" }}
+      style={{ cursor: "text", borderStyle: "dotted", padding: "8px 0" }}
       onClick={() => {
         if (markdownEditor.current && markdownEditor.current.isBlurred) {
           markdownEditor.current.focusAtEnd();
         }
       }}
     >
-      <Editor
+      <StyledEditor
         autoFocus
         defaultValue={props.card.content}
         placeholder=""
@@ -46,8 +56,11 @@ export function MarkdownEditor(props: {
         onClickLink={(href) => {
           const url = new URL(href);
           const maybeCardId = url.pathname.replace(/^\//, "");
-          if (state.cardsById[maybeCardId]) {
-            dispatch(CardActions.OpenCard({ cardId: maybeCardId }));
+          const card = state.cardsById[maybeCardId];
+          if (card) {
+            dispatch(
+              CardActions.OpenCard({ cardId: maybeCardId, cardType: card.type })
+            );
           } else {
             window.open(href, "_blank");
           }

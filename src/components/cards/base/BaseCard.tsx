@@ -28,6 +28,7 @@ export function BaseCard(props: {
       background="background"
       onKeyDown={props.onKeyDown}
       onPaste={props.onPaste}
+      className={`card__${props.cardState.type}`}
     >
       <CardHeader popToast={popToast} cardState={props.cardState} />
       <Box
