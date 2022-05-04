@@ -1,6 +1,6 @@
 import { faMinusSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, TextArea } from "grommet";
+import { Box, Button, Text, TextArea } from "grommet";
 import * as React from "react";
 import { CardActions } from "../../../actions/CardActions";
 import { ReducerContext } from "../../../reducers/ReducerContext";
@@ -37,14 +37,19 @@ export function VerticalClock(props: { card: ClockCardState }) {
       overflow={{ vertical: "auto" }}
     >
       {canEdit && (
-        <Button
-          plain
-          margin={{ vertical: "xsmall" }}
-          style={{ textAlign: "center", width: VERTICAL_CLOCK_SEGMENT_WIDTH }}
-          icon={<FontAwesomeIcon icon={faMinusSquare} />}
-          color={props.card.value === 0 ? "light-6" : "brand"}
-          onClick={() => onClickSegment(-1)}
-        />
+        <Box direction="row" align="center">
+          <Button
+            plain
+            margin={{ vertical: "xsmall" }}
+            style={{ textAlign: "center", width: VERTICAL_CLOCK_SEGMENT_WIDTH }}
+            icon={<FontAwesomeIcon icon={faMinusSquare} />}
+            color={props.card.value === 0 ? "light-6" : "brand"}
+            onClick={() => onClickSegment(-1)}
+          />
+          <Text style={{ fontStyle: "italic" }} margin="small">
+            Detail
+          </Text>
+        </Box>
       )}
       <Box direction="column" fill gap="xxsmall" justify="stretch">
         {segments}
