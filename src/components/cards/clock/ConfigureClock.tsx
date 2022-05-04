@@ -46,8 +46,8 @@ export function ConfigureClock(props: {
   );
 
   return (
-    <Box direction="column">
-      <Box direction="row" align="center">
+    <Box direction="column" overflow={{ vertical: "auto" }}>
+      <Box direction="row" align="center" flex="grow">
         <FormField label="Current">
           <TextInput
             type="number"
@@ -63,7 +63,7 @@ export function ConfigureClock(props: {
           />
         </FormField>
       </Box>
-      <Box direction="row" align="center">
+      <Box direction="row" wrap align="center" justify="center">
         <Button
           label="Horizontal"
           active={card.displayType === "horizontal"}
