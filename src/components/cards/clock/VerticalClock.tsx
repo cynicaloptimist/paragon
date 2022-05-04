@@ -93,7 +93,6 @@ function DetailRow(props: { detailIndex: number; card: ClockCardState }) {
           resize="vertical"
           defaultValue={props.card.details?.[i]}
           onChange={(changeEvent) => {
-            changeEvent.persist();
             return onDetailSaveThrottled(changeEvent);
           }}
         />
