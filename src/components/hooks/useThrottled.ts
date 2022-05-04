@@ -10,5 +10,5 @@ export function useThrottledTrailing<T extends (...args: any) => any>(
       leading: false,
       trailing: true,
     });
-  }, [method]);
+  }, [method, timeout]);
 }
