@@ -4,6 +4,7 @@ import { CardAction, CardActions } from "../actions/CardActions";
 import { CardsState } from "../state/AppState";
 import {
   CardState,
+  ClockCardState,
   DiceCardState,
   LedgerCardState,
   PDFCardState,
@@ -68,6 +69,14 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
   .handleAction(CardActions.SetClockMax, (oldState, action) => {
     return mergeCardState(oldState, action, {
       max: action.payload.max,
+    });
+  })
+  .handleAction(CardActions.SetClockDetail, (oldState, action) => {
+    const oldCard = oldState[action.payload.cardId] as ClockCardState;
+    const newDetails = (oldCard.details || []).slice();
+    newDetails[action.payload.detailIndex] = action.payload.detail;
+    return mergeCardState(oldState, action, {
+      details: newDetails,
     });
   })
   .handleAction(CardActions.SetClockDisplayType, (oldState, action) => {

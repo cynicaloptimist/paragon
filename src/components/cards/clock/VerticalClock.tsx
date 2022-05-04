@@ -1,6 +1,6 @@
 import { faMinusSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button } from "grommet";
+import { Box, Button, TextArea } from "grommet";
 import * as React from "react";
 import { ClockCardState, PlayerViewPermission } from "../../../state/CardState";
 import { ViewType, ViewTypeContext } from "../../ViewTypeContext";
@@ -23,20 +23,12 @@ export function VerticalClock(props: { card: ClockCardState }) {
         <Box
           key={i}
           width={VERTICAL_CLOCK_SEGMENT_WIDTH}
-          flex="grow"
+          flex={false}
           hoverIndicator={canEdit && { color: "brand-2" }}
           background={color}
           onClick={canEdit ? () => onClickSegment(i) : undefined}
         />
-        <Box margin="small">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
-        </Box>
+        <TextArea value={props.card.details?.[i]} />
       </Box>
     );
   }

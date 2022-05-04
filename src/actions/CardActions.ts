@@ -34,6 +34,11 @@ export const CardActions = {
     cardId: string;
     max: number;
   }>(),
+  SetClockDetail: createAction("SetClockDetails")<{
+    cardId: string;
+    detail: string;
+    detailIndex: number;
+  }>(),
   SetCardTitle: createAction("SetCardTitle")<{
     cardId: string;
     title: string;
