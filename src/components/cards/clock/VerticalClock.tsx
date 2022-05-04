@@ -88,13 +88,16 @@ function DetailRow(props: { detailIndex: number; card: ClockCardState }) {
         background={color}
         onClick={canEdit ? () => onClickSegment(i) : undefined}
       />
-      <TextArea
-        defaultValue={props.card.details?.[i]}
-        onChange={(changeEvent) => {
-          changeEvent.persist();
-          return onDetailSaveThrottled(changeEvent);
-        }}
-      />
+      <Box border={{ color: color, size: "medium" }} fill>
+        <TextArea
+          resize="vertical"
+          defaultValue={props.card.details?.[i]}
+          onChange={(changeEvent) => {
+            changeEvent.persist();
+            return onDetailSaveThrottled(changeEvent);
+          }}
+        />
+      </Box>
     </Box>
   );
 }
