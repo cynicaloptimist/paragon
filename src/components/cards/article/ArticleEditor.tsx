@@ -4,7 +4,6 @@ import { CardActions } from "../../../actions/CardActions";
 import { ReducerContext } from "../../../reducers/ReducerContext";
 import { CardsState } from "../../../state/AppState";
 import { ArticleCardState } from "../../../state/CardState";
-import _ from "lodash";
 import { MarkdownEditor } from "./MarkdownEditor";
 import { useThrottledTrailing } from "../../hooks/useThrottled";
 
