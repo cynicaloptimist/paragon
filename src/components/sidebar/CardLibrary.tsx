@@ -51,12 +51,11 @@ export const Groupings: Grouping[] = [
   {
     Name: "Dashboard",
     GetGroupsForCard: (cardState: CardState, appState: AppState) => {
-      const dashboardIds = Object.keys(
-        appState.dashboardsById
-      ).filter((dashboardId) =>
-        appState.dashboardsById[dashboardId].openCardIds?.includes(
-          cardState.cardId
-        )
+      const dashboardIds = Object.keys(appState.dashboardsById).filter(
+        (dashboardId) =>
+          appState.dashboardsById[dashboardId].openCardIds?.includes(
+            cardState.cardId
+          )
       );
       return dashboardIds;
     },
@@ -110,7 +109,10 @@ export function CardLibrary() {
   const [groupingIndex, setGroupingIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const cards = Object.values(state.cardsById);
-  const fuse = useMemo(() => new Fuse(cards, { keys: ["title"] }), [cards]);
+  const fuse = useMemo(
+    () => new Fuse(cards, { keys: ["title"], fieldNormWeight: 0 }),
+    [cards]
+  );
   const boxProps: BoxExtendedProps = {
     pad: "xsmall",
     gap: "small",
