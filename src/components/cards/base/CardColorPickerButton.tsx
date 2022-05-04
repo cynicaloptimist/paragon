@@ -18,9 +18,8 @@ export function CardColorPickerButton(props: {
 }): React.ReactElement {
   const { state, dispatch } = React.useContext(ReducerContext);
   const buttonRef = React.useRef(null);
-  const [isColorPickerOpen, setColorPickerOpen] = React.useState<boolean>(
-    false
-  );
+  const [isColorPickerOpen, setColorPickerOpen] =
+    React.useState<boolean>(false);
   const card = state.cardsById[props.cardId];
 
   return (
@@ -43,7 +42,7 @@ export function CardColorPickerButton(props: {
                 plain
                 style={{ padding: "4px" }}
                 key={themeColor}
-                color={themeColor}
+                color={themeColor === "brand" ? "brand-revert" : themeColor}
                 icon={<FontAwesomeIcon icon={faCircle} />}
                 onClick={() =>
                   dispatch(
