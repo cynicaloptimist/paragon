@@ -6,6 +6,7 @@ import { CardsState } from "../../../state/AppState";
 import { ArticleCardState } from "../../../state/CardState";
 import _ from "lodash";
 import { MarkdownEditor } from "./MarkdownEditor";
+import { useThrottledTrailing } from "../../hooks/useThrottled";
 
 export function ArticleEditor(props: {
   card: ArticleCardState;
@@ -29,12 +30,7 @@ export function ArticleEditor(props: {
     [props.card.cardId, state.cardsById, dispatch]
   );
 
-  const saveCardContentThrottled = React.useMemo(() => {
-    return _.throttle(saveCardContent, 200, {
-      leading: false,
-      trailing: true,
-    });
-  }, [saveCardContent]);
+  const saveCardContentThrottled = useThrottledTrailing(saveCardContent, 200);
 
   if (props.isMarkdownEditorActive) {
     return (
