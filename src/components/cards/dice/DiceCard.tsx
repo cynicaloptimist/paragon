@@ -56,13 +56,18 @@ export function DiceCard(props: { card: DiceCardState }) {
   const [configuringQuickRolls, setConfiguringQuickRolls] = useState(false);
   const quickRolls = card.quickRolls ?? defaultQuickRolls;
   const quickRollButtons = quickRolls.map((quickRoll: string) => (
-    <Button margin="xxsmall" onClick={() => rollDice(quickRoll)}>
+    <Button
+      key={"quickroll__" + quickRoll}
+      margin="xxsmall"
+      onClick={() => rollDice(quickRoll)}
+    >
       {quickRoll}
     </Button>
   ));
   const commands = [
     ...quickRollButtons,
     <Button
+      key="configure"
       icon={<FontAwesomeIcon icon={faPen} />}
       onClick={() => setConfiguringQuickRolls(true)}
       tip="Configure Quick Rolls"
