@@ -19,11 +19,14 @@ export type InfoCardState = BaseCardState & {
   content: string;
 };
 
+export type ClockCardDisplayType = "horizontal" | "radial" | "v-detail";
+
 export type ClockCardState = BaseCardState & {
   type: "clock";
   max: number;
   value: number;
-  displayType?: "horizontal" | "radial";
+  displayType?: ClockCardDisplayType;
+  details?: string[];
 };
 
 export type RollTableCardState = BaseCardState & {

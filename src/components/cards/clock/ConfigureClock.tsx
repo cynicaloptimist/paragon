@@ -2,7 +2,7 @@ import { Box, Button, FormField, TextInput } from "grommet";
 import * as React from "react";
 import { CardActions } from "../../../actions/CardActions";
 import { ReducerContext } from "../../../reducers/ReducerContext";
-import { ClockCardState } from "../../../state/CardState";
+import { ClockCardDisplayType, ClockCardState } from "../../../state/CardState";
 
 export function ConfigureClock(props: {
   card: ClockCardState;
@@ -33,7 +33,7 @@ export function ConfigureClock(props: {
   );
 
   const setCardDisplayType = React.useCallback(
-    (displayType: "horizontal" | "radial") => {
+    (displayType: ClockCardDisplayType) => {
       dispatch(
         CardActions.SetClockDisplayType({
           cardId: card.cardId,
@@ -73,6 +73,11 @@ export function ConfigureClock(props: {
           label="Radial"
           active={card.displayType === "radial"}
           onClick={() => setCardDisplayType("radial")}
+        />
+        <Button
+          label="Vertical Detail"
+          active={card.displayType === "v-detail"}
+          onClick={() => setCardDisplayType("v-detail")}
         />
       </Box>
     </Box>

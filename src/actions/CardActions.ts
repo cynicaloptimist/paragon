@@ -1,5 +1,9 @@
 import { ActionType, createAction } from "typesafe-actions";
-import { PlayerViewPermission, RollTableEntry } from "../state/CardState";
+import {
+  ClockCardDisplayType,
+  PlayerViewPermission,
+  RollTableEntry,
+} from "../state/CardState";
 import { LegacyCardState } from "../state/LegacyCardState";
 
 export const CardActions = {
@@ -24,7 +28,7 @@ export const CardActions = {
   }>(),
   SetClockDisplayType: createAction("SetClockDisplayType")<{
     cardId: string;
-    displayType: "horizontal" | "radial";
+    displayType: ClockCardDisplayType;
   }>(),
   SetClockMax: createAction("SetClockMax")<{
     cardId: string;

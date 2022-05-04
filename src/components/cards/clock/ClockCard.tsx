@@ -7,6 +7,7 @@ import { BaseCard } from "../base/BaseCard";
 import { HorizontalClock } from "./HorizontalClock";
 import { ClockFace } from "./ClockFace";
 import { ConfigureClock } from "./ConfigureClock";
+import { VerticalClock } from "./VerticalClock";
 
 export function ClockCard(props: { card: ClockCardState }) {
   const [isConfigurable, setConfigurable] = React.useState(false);
@@ -19,6 +20,8 @@ export function ClockCard(props: { card: ClockCardState }) {
     );
   } else if (props.card.displayType === "radial") {
     innerComponent = <ClockFace card={props.card} />;
+  } else if (props.card.displayType === "v-detail") {
+    innerComponent = <VerticalClock card={props.card} />;
   }
 
   return (
