@@ -4,6 +4,7 @@ export const Theme: ThemeType = {
   global: {
     colors: {
       brand: "#472654",
+      "brand-revert": "#472654",
       "brand-desaturated": "#4d3b54",
       "brand-2": "#97A8C3",
       "accent-1": "#80D39B",
