@@ -38,6 +38,7 @@ export function ArticleEditor(props: {
         autoFocus
         defaultValue={props.card.content}
         onChange={(changeEvent) => {
+          changeEvent.persist();
           saveCardContentThrottled(changeEvent.target.value);
         }}
         style={{ fontFamily: '"Roboto Mono", monospace' }}
