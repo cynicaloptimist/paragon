@@ -35,7 +35,7 @@ export function DrawingCard(props: {
 
   const viewType = useContext(ViewTypeContext);
   const excalidrawRef = useRef<ExcalidrawAPIRefValue>(null);
-  const excalidrawStateRef: React.MutableRefObject<
+  const lastExcalidrawState: React.MutableRefObject<
     ExcalidrawStateMemo | undefined
   > = useRef();
 
@@ -109,9 +109,9 @@ export function DrawingCard(props: {
                 .length,
             };
 
-            if (!_.isEqual(excalidrawStateRef.current, newExcalidrawState)) {
+            if (!_.isEqual(lastExcalidrawState.current, newExcalidrawState)) {
               console.log("excalidraw onChange: excalidrawState changed");
-              excalidrawStateRef.current = newExcalidrawState;
+              lastExcalidrawState.current = newExcalidrawState;
               dispatch(
                 CardActions.SetSceneElements({
                   cardId: props.card.cardId,
