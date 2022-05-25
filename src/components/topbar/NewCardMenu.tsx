@@ -20,14 +20,6 @@ export function NewCardMenu() {
         return state.user.hasStorage;
       }
 
-      if (cardType === "drawing") {
-        /*
-         * TODO before enabling:
-         * Ensure Files support is built
-         */
-        return process.env.REACT_APP_ENABLE_EXPERIMENTAL === "true";
-      }
-
       return true;
     }
   );
