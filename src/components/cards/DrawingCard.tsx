@@ -93,12 +93,14 @@ export function DrawingCard(props: {
             },
           }}
           onChange={(
-            elements: readonly ExcalidrawElement[],
+            allElements: readonly ExcalidrawElement[],
             appState: ExcalidrawState
           ) => {
             if (!excalidrawRef.current?.ready) {
               return;
             }
+
+            const elements = allElements.filter((e) => e.type !== "image");
 
             const newExcalidrawState: ExcalidrawStateMemo = {
               editingElement: appState.editingElement,
