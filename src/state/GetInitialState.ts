@@ -73,6 +73,8 @@ function GetCardTypesCard(): InfoCardState {
 
 **Image Cards** show an image. You can drag an image from another tab straight onto an image card.
 
+**Drawing Cards** are powered by [Excalidraw](https://excalidraw.com/). Epic Tier patrons can collaborate with their players.
+
 All cards can be shared with your players in the Player View. If you're a [Patreon](https://www.patreon.com/improvedinitiative) supporter at the Epic tier, you can make cards fully interactable in the Player View.
 `,
 
