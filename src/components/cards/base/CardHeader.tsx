@@ -45,7 +45,7 @@ export function CardHeader(props: {
         gap="xxsmall"
         align="center"
       >
-        <Button icon={<FontAwesomeIcon icon={faGripLines} />} />
+        <DragHandleButton />
         {isHeaderEditable ? (
           <TextInput
             ref={(el) => {
@@ -96,5 +96,18 @@ export function CardHeader(props: {
         )}
       </Box>
     </Header>
+  );
+}
+
+function DragHandleButton() {
+  const [isDragging, setDragging] = React.useState(false);
+
+  return (
+    <Button
+      style={{ cursor: isDragging ? "grabbing" : "grab" }}
+      onMouseDown={() => setDragging(true)}
+      onMouseUp={() => setDragging(false)}
+      icon={<FontAwesomeIcon icon={faGripLines} />}
+    />
   );
 }
