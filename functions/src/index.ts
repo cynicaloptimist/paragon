@@ -12,8 +12,14 @@ const patreonAPI = patreon.patreon;
 const patreonOAuth = patreon.oauth;
 const jsonApiURL = patreon.jsonApiURL;
 
-const tiersWithAccountSyncEntitled = ["1322253", "1937132"];
-const tiersWithEpicEntitled = ["1937132"];
+const tiersWithAccountSyncEntitled = [
+  "1322253", // deprecated: "Improved Initiative"
+  "8750629", // "Account Sync"
+  "1937132", // deprecated: "Epic Initiative"
+  "8749940", // "Epic Tier"
+];
+
+const tiersWithEpicEntitled = ["1937132", "8749940"];
 
 admin.initializeApp();
 
