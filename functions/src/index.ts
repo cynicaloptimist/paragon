@@ -12,8 +12,8 @@ const patreonAPI = patreon.patreon;
 const patreonOAuth = patreon.oauth;
 const jsonApiURL = patreon.jsonApiURL;
 
-const storageRewardIds = ["1322253", "1937132"];
-const epicRewardIds = ["1937132"];
+const tiersWithAccountSyncEntitled = ["1322253", "1937132"];
+const tiersWithEpicEntitled = ["1937132"];
 
 admin.initializeApp();
 
@@ -63,12 +63,12 @@ export const patreon_login = functions.https.onRequest(
       const hasStorage =
         isContributor ||
         entitledTiers.some((entitledTier) =>
-          storageRewardIds.includes(entitledTier)
+          tiersWithAccountSyncEntitled.includes(entitledTier)
         );
       const hasEpic =
         isContributor ||
         entitledTiers.some((entitledTier) =>
-          epicRewardIds.includes(entitledTier)
+          tiersWithEpicEntitled.includes(entitledTier)
         );
 
       const authToken = await admin
