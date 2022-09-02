@@ -1,7 +1,8 @@
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button } from "grommet";
-import React, { useCallback, useContext } from "react";
+import { Box } from "grommet";
+import { useCallback, useContext } from "react";
+import { Link } from "react-router-dom";
 import { Actions } from "../../actions/Actions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { DashboardState } from "../../state/AppState";
@@ -15,12 +16,6 @@ export function DashboardLibraryRow(props: {
 
   const isActiveDashboard = state.activeDashboardId === props.dashboardId;
 
-  const openDashboard = useCallback(
-    () =>
-      dispatch(Actions.ActivateDashboard({ dashboardId: props.dashboardId })),
-    [dispatch, props.dashboardId]
-  );
-
   const deleteDashboard = useCallback(() => {
     dispatch(Actions.DeleteDashboard({ dashboardId: props.dashboardId }));
   }, [dispatch, props.dashboardId]);
@@ -33,14 +28,16 @@ export function DashboardLibraryRow(props: {
         color: isActiveDashboard ? "brand-2" : "transparent",
       }}
     >
-      <Button
-        onClick={openDashboard}
-        fill="horizontal"
-        margin="xsmall"
-        style={{ overflowX: "hidden" }}
+      <Link
+        to={`/e/${props.dashboardId}`}
+        onClick={() =>
+          dispatch(Actions.SetLibraryMode({ libraryMode: "hidden" }))
+        }
       >
-        {props.dashboard.name}
-      </Button>
+        <Box fill="horizontal" margin="xsmall" style={{ overflowX: "hidden" }}>
+          {props.dashboard.name}
+        </Box>
+      </Link>
       <LongPressButton
         tip="Delete Dashboard"
         onLongPress={deleteDashboard}

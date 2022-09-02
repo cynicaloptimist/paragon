@@ -18,6 +18,9 @@ const App = () => {
         <Route path="/d/:dashboardId">
           <SharedDashboardView />
         </Route>
+        <Route path="/e/:dashboardId">
+          <GameMasterView />
+        </Route>
         <Route path="/">
           <GameMasterView />
         </Route>
