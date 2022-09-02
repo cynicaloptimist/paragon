@@ -7,7 +7,7 @@ import { ReducerContext } from "../../reducers/ReducerContext";
 import { AppState } from "../../state/AppState";
 import { Theme } from "../../Theme";
 import { CardGrid } from "./CardGrid";
-import { DashboardViewTopBar } from "../topbar/DashboardViewTopBar";
+import { SharedDashboardViewTopBar } from "../topbar/SharedDashboardViewTopBar";
 import { FirebaseUtils } from "../../FirebaseUtils";
 import { ViewType, ViewTypeContext } from "../ViewTypeContext";
 import {
@@ -51,7 +51,7 @@ export function SharedDashboardView() {
     return (
       <Grommet style={{ minHeight: "100%" }} theme={Theme}>
         <Box fill align="center">
-          <DashboardViewTopBar />
+          <SharedDashboardViewTopBar />
         </Box>
       </Grommet>
     );
@@ -68,7 +68,7 @@ export function SharedDashboardViewWithState(props: { loadedState: AppState }) {
       <ViewTypeContext.Provider value={ViewType.Dashboard}>
         <Grommet style={{ minHeight: "100%" }} theme={Theme}>
           <Box fill align="center">
-            <DashboardViewTopBar />
+            <SharedDashboardViewTopBar />
             <CardGrid />
           </Box>
         </Grommet>

@@ -5,7 +5,7 @@ import { ActiveDashboardOf } from "../../state/AppState";
 import { CopyDashboardButton } from "./CopyDashboardButton";
 import { RollAllTablesButton } from "./RollAllTablesButton";
 
-export const DashboardViewTopBar = () => {
+export const SharedDashboardViewTopBar = () => {
   const { state } = useContext(ReducerContext);
   return (
     <Header background="brand" pad="small" fill="horizontal">
