@@ -28,16 +28,21 @@ export function DashboardLibraryRow(props: {
         color: isActiveDashboard ? "brand-2" : "transparent",
       }}
     >
-      <Link
-        to={`/e/${props.dashboardId}`}
-        onClick={() =>
-          dispatch(Actions.SetLibraryMode({ libraryMode: "hidden" }))
-        }
+      <Box
+        fill="horizontal"
+        justify="center"
+        margin="xsmall"
+        style={{ overflowX: "hidden" }}
       >
-        <Box fill="horizontal" margin="xsmall" style={{ overflowX: "hidden" }}>
+        <Link
+          to={`/e/${props.dashboardId}`}
+          onClick={() =>
+            dispatch(Actions.SetLibraryMode({ libraryMode: "hidden" }))
+          }
+        >
           {props.dashboard.name}
-        </Box>
-      </Link>
+        </Link>
+      </Box>
       <LongPressButton
         tip="Delete Dashboard"
         onLongPress={deleteDashboard}
