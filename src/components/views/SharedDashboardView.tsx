@@ -57,10 +57,10 @@ export function SharedDashboardView() {
     );
   }
 
-  return <DashboardViewWithState loadedState={state} />;
+  return <SharedDashboardViewWithState loadedState={state} />;
 }
 
-export function DashboardViewWithState(props: { loadedState: AppState }) {
+export function SharedDashboardViewWithState(props: { loadedState: AppState }) {
   const [state, dispatch] = useReducer(AppReducer, props.loadedState);
 
   return (
