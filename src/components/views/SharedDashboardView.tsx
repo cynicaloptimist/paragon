@@ -32,9 +32,8 @@ function useStateFromSharedDashboard(dashboardId: string) {
       const networkAppState = UpdateMissingOrLegacyAppState(
         networkLegacyAppState
       );
-      const completeAppState = FirebaseUtils.restorePrunedEmptyArrays(
-        networkAppState
-      );
+      const completeAppState =
+        FirebaseUtils.restorePrunedEmptyArrays(networkAppState);
       setState(completeAppState);
     });
 
@@ -44,7 +43,7 @@ function useStateFromSharedDashboard(dashboardId: string) {
   return state;
 }
 
-export function DashboardView() {
+export function SharedDashboardView() {
   const { dashboardId } = useParams<{ dashboardId: string }>();
 
   const state = useStateFromSharedDashboard(dashboardId);
