@@ -12,8 +12,8 @@ import { usePlayerView } from "../hooks/usePlayerView";
 import { useStorageBackedReducer } from "../hooks/useStorageBackedReducer";
 import { LibrarySidebar } from "../sidebar/LibrarySidebar";
 import { TopBar } from "../topbar/TopBar";
-import { useParams } from "react-router-dom";
 import { Actions } from "../../actions/Actions";
+import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 
 export function GameMasterView() {
   const [state, dispatch] = useStorageBackedReducer(
@@ -25,8 +25,8 @@ export function GameMasterView() {
   useLogin(dispatch);
   usePlayerView(state, dispatch);
   useAccountSync(state, dispatch);
-  const { dashboardId } = useParams<{ dashboardId: string | undefined }>();
-  if (dashboardId !== undefined) {
+  const dashboardId = useActiveDashboardId();
+  if (dashboardId !== null) {
     if (
       state.activeDashboardId !== dashboardId &&
       state.dashboardsById[dashboardId] !== undefined

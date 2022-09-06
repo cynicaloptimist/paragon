@@ -14,11 +14,15 @@ import {
   LegacyAppState,
   UpdateMissingOrLegacyAppState,
 } from "../../state/LegacyAppState";
+import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 
-function useStateFromSharedDashboard(dashboardId: string) {
+function useStateFromSharedDashboard(dashboardId: string | null) {
   const [state, setState] = useState<AppState | null>(null);
 
   useEffect(() => {
+    if (!dashboardId) {
+      return;
+    }
     const database = getDatabase();
     const dbRef = ref(database, `shared/${dashboardId}`);
 
@@ -44,7 +48,7 @@ function useStateFromSharedDashboard(dashboardId: string) {
 }
 
 export function SharedDashboardView() {
-  const { dashboardId } = useParams<{ dashboardId: string }>();
+  const dashboardId = useActiveDashboardId();
 
   const state = useStateFromSharedDashboard(dashboardId);
   if (!state) {
