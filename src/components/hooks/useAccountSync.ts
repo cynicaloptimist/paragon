@@ -28,14 +28,20 @@ type ServerProfile = {
 
 export function useAccountSync(
   state: AppState,
-  dispatch: React.Dispatch<RootAction>
+  dispatch: React.Dispatch<RootAction>,
+  onDashboardsLoaded: (dashboardIds: string[]) => void
 ) {
   if (!environment.REACT_APP_ENABLE_ACCOUNT_SYNC) {
     return;
   }
   /* eslint-disable react-hooks/rules-of-hooks */
   const [didSync, setDidSync] = useState(false);
-  useTwoWayDataSync(state, dispatch, () => setDidSync(true));
+  useTwoWayDataSync(
+    state,
+    dispatch,
+    () => setDidSync(true),
+    onDashboardsLoaded
+  );
   useUpdatesToServer(state, dispatch, didSync);
   /* eslint-enable */
 }
@@ -58,7 +64,8 @@ const parseIntOrDefault = (
 function useTwoWayDataSync(
   state: AppState,
   dispatch: React.Dispatch<RootAction>,
-  done: () => void
+  done: () => void,
+  onDashboardsLoaded: (dashboardIds: string[]) => void
 ) {
   const authListener = useRef<Unsubscribe | null>(null);
   useEffect(() => {
@@ -97,6 +104,11 @@ function useTwoWayDataSync(
           writeFromServerToLocal(state, dispatch, serverProfile);
         }
 
+        onDashboardsLoaded([
+          ...Object.keys(state.dashboardsById),
+          ...Object.keys(serverProfile?.dashboardsById ?? {}),
+        ]);
+
         const currentTime = Date.now().toString();
         localStorage.setItem("localLastUpdateTime", currentTime);
         const updateTimeRef = ref(database, `users/${user.uid}/lastUpdateTime`);
@@ -104,7 +116,7 @@ function useTwoWayDataSync(
         done();
       });
     });
-  }, [state, dispatch, done]);
+  }, [state, dispatch, done, onDashboardsLoaded]);
 }
 
 type SyncedCollection = keyof ServerProfile & keyof AppState;
