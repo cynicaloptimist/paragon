@@ -68,6 +68,7 @@ function useTwoWayDataSync(
     const auth = getAuth(app);
     authListener.current = onAuthStateChanged(auth, async (user) => {
       if (!user) {
+        done();
         return;
       }
 
@@ -76,6 +77,7 @@ function useTwoWayDataSync(
       );
       if (isNaN(localLastUpdateTime)) {
         localStorage.setItem("localLastUpdateTime", "0");
+        done();
         return;
       }
 

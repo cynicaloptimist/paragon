@@ -1,0 +1,14 @@
+user visits /
+-> Create a new dashboard and redirect to /d/DBID
+user visits /d/DBID
+-> wait for account sync to complete
+-> user has dashboard?
+--> load dashboard
+-> user doesn't have dashboard?
+--> dashboard is shared?
+---> redirect to /s/DBID
+--> dashboard has player view?
+---> redirect to /p/DBID
+--> not shared?
+---> ??? create new DBID and redirect?
+---> ??? show error message?
