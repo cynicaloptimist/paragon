@@ -1,4 +1,4 @@
-import { omit } from "lodash";
+import { mapValues, omit } from "lodash";
 import { isActionOf } from "typesafe-actions";
 import { Actions, RootAction } from "../actions/Actions";
 import { CardActions } from "../actions/CardActions";
@@ -156,7 +156,18 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     return {
       ...oldState,
       cardsById: omit(oldState.cardsById, action.payload.cardId),
-      dashboardsById,
+      dashboardsById: mapValues(
+        oldState.dashboardsById,
+        (oldDashboardState) => {
+          const openCardIds = oldDashboardState.openCardIds ?? [];
+          return {
+            ...oldDashboardState,
+            openCardIds: openCardIds.filter(
+              (id) => id !== action.payload.cardId
+            ),
+          };
+        }
+      ),
     };
   }
 
