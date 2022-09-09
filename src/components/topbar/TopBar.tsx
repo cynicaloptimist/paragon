@@ -1,6 +1,5 @@
 import { Box, BoxProps, Header, Heading } from "grommet";
-import React, { useContext } from "react";
-import { Actions } from "../../actions/Actions";
+import { useContext } from "react";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { ActiveDashboardOf } from "../../state/AppState";
 import { DashboardMenu } from "./DashboardMenu";
@@ -8,6 +7,7 @@ import { EditableText } from "../common/EditableText";
 import { LibrarySidebarControls } from "../sidebar/LibrarySidebarControls";
 import { NewCardMenu } from "./NewCardMenu";
 import { RollAllTablesButton } from "./RollAllTablesButton";
+import { DashboardActions } from "../../actions/DashboardActions";
 
 export const TopBar = () => {
   const { state } = useContext(ReducerContext);
@@ -73,7 +73,7 @@ function DashboardNameWithEdit() {
       text={dashboardName}
       trySubmit={(newName) => {
         if (newName.length > 0) {
-          dispatch(Actions.RenameActiveDashboard({ newName }));
+          dispatch(DashboardActions.RenameActiveDashboard({ newName }));
           return true;
         }
         return false;

@@ -1,7 +1,8 @@
 import _, { union } from "lodash";
 import { isActionOf } from "typesafe-actions";
-import { Actions, RootAction } from "../actions/Actions";
+import { RootAction } from "../actions/Actions";
 import { CardActions } from "../actions/CardActions";
+import { DashboardActions } from "../actions/DashboardActions";
 import { DashboardState } from "../state/AppState";
 import { InitialLayout } from "../state/InitialLayout";
 
@@ -9,14 +10,14 @@ export function DashboardReducer(
   oldState: DashboardState,
   action: RootAction
 ): DashboardState {
-  if (isActionOf(Actions.SetLayoutCompaction, action)) {
+  if (isActionOf(DashboardActions.SetLayoutCompaction, action)) {
     return {
       ...oldState,
       layoutCompaction: action.payload.layoutCompaction,
     };
   }
 
-  if (isActionOf(Actions.SetLayoutPushCards, action)) {
+  if (isActionOf(DashboardActions.SetLayoutPushCards, action)) {
     return {
       ...oldState,
       layoutPushCards: action.payload.layoutPushCards,
@@ -84,7 +85,7 @@ export function DashboardReducer(
     };
   }
 
-  if (isActionOf(Actions.SetLayouts, action)) {
+  if (isActionOf(DashboardActions.SetLayouts, action)) {
     const updatedLayoutIds = action.payload.layouts.map((layout) => layout.i);
     const activeLayout = oldState.layoutsBySize[action.payload.gridSize] || [];
     const nonUpdatedLayouts = activeLayout.filter(
@@ -103,7 +104,7 @@ export function DashboardReducer(
     };
   }
 
-  if (isActionOf(Actions.RenameActiveDashboard, action)) {
+  if (isActionOf(DashboardActions.RenameActiveDashboard, action)) {
     return {
       ...oldState,
       name: action.payload.newName,

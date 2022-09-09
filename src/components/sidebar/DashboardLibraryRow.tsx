@@ -4,6 +4,7 @@ import { Box } from "grommet";
 import { useCallback, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Actions } from "../../actions/Actions";
+import { DashboardActions } from "../../actions/DashboardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { DashboardState } from "../../state/AppState";
 import { LongPressButton } from "../common/LongPressButton";
@@ -17,7 +18,9 @@ export function DashboardLibraryRow(props: {
   const isActiveDashboard = state.activeDashboardId === props.dashboardId;
 
   const deleteDashboard = useCallback(() => {
-    dispatch(Actions.DeleteDashboard({ dashboardId: props.dashboardId }));
+    dispatch(
+      DashboardActions.DeleteDashboard({ dashboardId: props.dashboardId })
+    );
   }, [dispatch, props.dashboardId]);
 
   return (

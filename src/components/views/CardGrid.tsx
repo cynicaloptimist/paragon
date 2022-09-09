@@ -3,7 +3,6 @@ import { Box } from "grommet";
 import React, { CSSProperties, useContext } from "react";
 
 import { Layout, Responsive, WidthProvider } from "react-grid-layout";
-import { Actions } from "../../actions/Actions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { DashboardReducer } from "../../reducers/DashboardReducer";
 import { CardState } from "../../state/CardState";
@@ -25,6 +24,7 @@ import { BaseCard } from "../cards/base/BaseCard";
 import { useStorageBackedReducer } from "../hooks/useStorageBackedReducer";
 import { UpdateMissingOrLegacyAppState } from "../../state/LegacyAppState";
 import { InfoCard } from "../cards/article/InfoCard";
+import { DashboardActions } from "../../actions/DashboardActions";
 
 type Size = { height: number; width: number };
 
@@ -57,9 +57,8 @@ export function CardGrid(props: {
 }) {
   const { state, dispatch } = useContext(ReducerContext);
   const matchGMLayout = props.matchGMLayout ?? true;
-  const [currentBreakpoint, setCurrentBreakpoint] = React.useState<string>(
-    "xxl"
-  );
+  const [currentBreakpoint, setCurrentBreakpoint] =
+    React.useState<string>("xxl");
 
   const isPlayerView = useContext(ViewTypeContext) === ViewType.Player;
   const activeDashboardState = ActiveDashboardOf(state);
@@ -92,7 +91,7 @@ export function CardGrid(props: {
       const setLayoutsActions = Object.keys(
         activeDashboardState.layoutsBySize
       ).map((size) => {
-        return Actions.SetLayouts({
+        return DashboardActions.SetLayouts({
           gridSize: size,
           layouts: activeDashboardState.layoutsBySize[size],
         });
@@ -145,7 +144,7 @@ export function CardGrid(props: {
 
   const updateLayout = (newLayout: Layout[]) => {
     if (!_.isEqual(dashboard.layoutsBySize[currentBreakpoint], newLayout)) {
-      const action = Actions.SetLayouts({
+      const action = DashboardActions.SetLayouts({
         gridSize: currentBreakpoint,
         layouts: newLayout,
       });
@@ -184,7 +183,7 @@ export function CardGrid(props: {
           const currentLayouts = dedupedLayouts[currentBreakpoint];
           setCurrentBreakpoint(newBreakpoint);
           if (!dedupedLayouts[newBreakpoint]) {
-            Actions.SetLayouts({
+            DashboardActions.SetLayouts({
               gridSize: newBreakpoint,
               layouts: currentLayouts,
             });

@@ -4,8 +4,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CheckBox, Menu, Text } from "grommet";
-import React, { useCallback, useContext } from "react";
-import { Actions } from "../../actions/Actions";
+import { useCallback, useContext } from "react";
+import { DashboardActions } from "../../actions/DashboardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { DashboardState } from "../../state/AppState";
 import { ShareDashboard } from "./ShareDashboard";
@@ -15,13 +15,17 @@ export function DashboardMenu(props: { dashboard: DashboardState }) {
 
   const setLayoutCompaction = useCallback(
     (compaction: "free" | "compact") =>
-      dispatch(Actions.SetLayoutCompaction({ layoutCompaction: compaction })),
+      dispatch(
+        DashboardActions.SetLayoutCompaction({ layoutCompaction: compaction })
+      ),
     [dispatch]
   );
 
   const setLayoutPushCards = useCallback(
     (pushCards: "none" | "preventcollision") =>
-      dispatch(Actions.SetLayoutPushCards({ layoutPushCards: pushCards })),
+      dispatch(
+        DashboardActions.SetLayoutPushCards({ layoutPushCards: pushCards })
+      ),
     [dispatch]
   );
 

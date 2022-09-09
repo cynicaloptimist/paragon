@@ -11,12 +11,13 @@ import { getDatabase, off, onValue, ref, remove, set } from "firebase/database";
 import { isEqual, union } from "lodash";
 import { useContext, useEffect, useRef, useState } from "react";
 import { app } from "../..";
-import { Actions, RootAction } from "../../actions/Actions";
+import { RootAction } from "../../actions/Actions";
 import { CardActions } from "../../actions/CardActions";
 import { AppState, DashboardState } from "../../state/AppState";
 import { CardState } from "../../state/CardState";
 import { FirebaseUtils } from "../../FirebaseUtils";
 import { ViewType, ViewTypeContext } from "../ViewTypeContext";
+import { DashboardActions } from "../../actions/DashboardActions";
 
 const environment = process.env;
 
@@ -131,7 +132,7 @@ const actionCreators: Record<
       cardState: item,
     }),
   dashboardsById: (id: string, item: any) =>
-    Actions.UpdateDashboardFromServer({
+    DashboardActions.UpdateDashboardFromServer({
       dashboardId: id,
       dashboardState: item,
     }),

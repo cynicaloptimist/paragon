@@ -2,6 +2,7 @@ import { omit } from "lodash";
 import { isActionOf } from "typesafe-actions";
 import { Actions, RootAction } from "../actions/Actions";
 import { CardActions } from "../actions/CardActions";
+import { DashboardActions } from "../actions/DashboardActions";
 import { AppState, DashboardState } from "../state/AppState";
 import { InitialCardState } from "../state/InitialCardState";
 import { LegacyDashboardState } from "../state/LegacyAppState";
@@ -32,7 +33,7 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     };
   }
 
-  if (isActionOf(Actions.UpdateDashboardFromServer, action)) {
+  if (isActionOf(DashboardActions.UpdateDashboardFromServer, action)) {
     return {
       ...oldState,
       dashboardsById: {
@@ -72,7 +73,7 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     };
   }
 
-  if (isActionOf(Actions.CreateDashboard, action)) {
+  if (isActionOf(DashboardActions.CreateDashboard, action)) {
     let autoIndex = 0;
     let autoName: string;
     const doesNameCollide = (dashboard: DashboardState) =>
@@ -97,14 +98,14 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     };
   }
 
-  if (isActionOf(Actions.ActivateDashboard, action)) {
+  if (isActionOf(DashboardActions.ActivateDashboard, action)) {
     return {
       ...oldState,
       activeDashboardId: action.payload.dashboardId,
     };
   }
 
-  if (isActionOf(Actions.DeleteDashboard, action)) {
+  if (isActionOf(DashboardActions.DeleteDashboard, action)) {
     const remainingDashboards = omit(
       oldState.dashboardsById,
       action.payload.dashboardId

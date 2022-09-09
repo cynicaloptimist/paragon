@@ -12,9 +12,9 @@ import { usePlayerView } from "../hooks/usePlayerView";
 import { useStorageBackedReducer } from "../hooks/useStorageBackedReducer";
 import { LibrarySidebar } from "../sidebar/LibrarySidebar";
 import { TopBar } from "../topbar/TopBar";
-import { Actions } from "../../actions/Actions";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 import { useHistory } from "react-router-dom";
+import { DashboardActions } from "../../actions/DashboardActions";
 
 export function GameMasterView() {
   const [state, dispatch] = useStorageBackedReducer(
@@ -48,7 +48,7 @@ export function GameMasterView() {
       state.activeDashboardId !== dashboardId &&
       state.dashboardsById[dashboardId] !== undefined
     ) {
-      dispatch(Actions.ActivateDashboard({ dashboardId }));
+      dispatch(DashboardActions.ActivateDashboard({ dashboardId }));
     }
   }
 

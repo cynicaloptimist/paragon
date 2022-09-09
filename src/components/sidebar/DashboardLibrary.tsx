@@ -1,8 +1,8 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button } from "grommet";
-import React, { useContext } from "react";
-import { Actions } from "../../actions/Actions";
+import { useContext } from "react";
+import { DashboardActions } from "../../actions/DashboardActions";
 import { randomString } from "../../randomString";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { DashboardLibraryRow } from "./DashboardLibraryRow";
@@ -23,7 +23,9 @@ export function DashboardLibrary() {
       })}
       <Button
         onClick={() =>
-          dispatch(Actions.CreateDashboard({ dashboardId: randomString() }))
+          dispatch(
+            DashboardActions.CreateDashboard({ dashboardId: randomString() })
+          )
         }
         fill="horizontal"
         label="New Dashboard"
