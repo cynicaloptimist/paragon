@@ -76,15 +76,6 @@ export function DashboardReducer(
     };
   }
 
-  if (isActionOf(CardActions.DeleteCard, action)) {
-    return {
-      ...oldState,
-      openCardIds: oldState.openCardIds?.filter(
-        (openCardId) => openCardId !== action.payload.cardId
-      ),
-    };
-  }
-
   if (isActionOf(DashboardActions.SetLayouts, action)) {
     const updatedLayoutIds = action.payload.layouts.map((layout) => layout.i);
     const activeLayout = oldState.layoutsBySize[action.payload.gridSize] || [];
