@@ -17,7 +17,6 @@ export const GetInitialState = (): AppState => {
   return {
     ...EmptyState(),
     cardsById: infoCards,
-    activeDashboardId: firstDashboardId,
     dashboardsById: {
       [firstDashboardId]: {
         name: "Dashboard 1",

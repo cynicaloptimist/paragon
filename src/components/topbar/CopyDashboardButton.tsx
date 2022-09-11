@@ -7,21 +7,26 @@ import { randomString } from "../../randomString";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { AppState } from "../../state/AppState";
 import { GetInitialState } from "../../state/GetInitialState";
+import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 
 export function CopyDashboardButton() {
   const { state } = useContext(ReducerContext);
+  const dashboardId = useActiveDashboardId();
 
   return (
     <Button
       icon={<FontAwesomeIcon icon={faCopy} />}
       label="Copy this Dashboard"
-      onClick={() => SaveStateToLocalStorageAndRedirect(state)}
+      onClick={() => SaveStateToLocalStorageAndRedirect(state, dashboardId)}
     />
   );
 }
 
-function SaveStateToLocalStorageAndRedirect(state: AppState) {
-  if (!state.activeDashboardId) {
+function SaveStateToLocalStorageAndRedirect(
+  state: AppState,
+  dashboardId: string | null
+) {
+  if (!dashboardId) {
     return;
   }
   const storedStateJSON = localStorage.getItem("appState");
@@ -30,9 +35,8 @@ function SaveStateToLocalStorageAndRedirect(state: AppState) {
   const mergedState: AppState = merge(GetInitialState(), storedState);
 
   const newDashboardId = randomString();
-  mergedState.activeDashboardId = newDashboardId;
   mergedState.dashboardsById[newDashboardId] =
-    state.dashboardsById[state.activeDashboardId];
+    state.dashboardsById[dashboardId];
   mergedState.cardsById = {
     ...mergedState.cardsById,
     ...state.cardsById,

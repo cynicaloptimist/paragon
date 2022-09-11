@@ -25,7 +25,7 @@ function omitClosedCardsFromState(
   fullState: AppState,
   dashboardId: string | null
 ): AppState {
-  if (fullState.activeDashboardId == null) {
+  if (dashboardId == null) {
     return {
       ...fullState,
       cardsById: {},
@@ -55,7 +55,7 @@ function omitClosedCardsFromState(
       visibleCards.some((card) => card.cardId === cardId)
     ),
     dashboardsById: {
-      [fullState.activeDashboardId]: {
+      [dashboardId]: {
         ...dashboard,
         openCardIds: visibleCardIds,
         layoutsBySize: _.mapValues(dashboard.layoutsBySize, (layout) => {
@@ -81,13 +81,10 @@ export function usePlayerView(
     }
 
     const database = getDatabase(app);
-    const dbRef = ref(database, `playerViews/${state.activeDashboardId}`);
+    const dbRef = ref(database, `playerViews/${dashboardId}`);
     set(dbRef, userId);
 
-    const pendingActionsRef = ref(
-      database,
-      `pendingActions/${state.activeDashboardId}`
-    );
+    const pendingActionsRef = ref(database, `pendingActions/${dashboardId}`);
 
     onChildAdded(pendingActionsRef, (actionSnapshot) => {
       const action: RootAction = actionSnapshot.val();
@@ -120,10 +117,10 @@ export function usePlayerView(
     });
 
     return () => off(pendingActionsRef);
-  }, [userId, state.activeDashboardId, dispatch]);
+  }, [userId, dashboardId, dispatch]);
 
   useEffect(() => {
-    if (!userId || !state.activeDashboardId) {
+    if (!userId || !dashboardId) {
       return;
     }
 
@@ -136,10 +133,7 @@ export function usePlayerView(
       JSON.stringify(previousState.current) !== JSON.stringify(playerViewState)
     ) {
       const database = getDatabase(app);
-      const dbRef = ref(
-        database,
-        `users/${userId}/playerViews/${state.activeDashboardId}`
-      );
+      const dbRef = ref(database, `users/${userId}/playerViews/${dashboardId}`);
       set(dbRef, playerViewState);
       previousState.current = playerViewState;
     }

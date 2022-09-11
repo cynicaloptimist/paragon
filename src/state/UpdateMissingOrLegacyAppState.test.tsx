@@ -17,7 +17,6 @@ test("updates legacy empty state", () => {
 
   const expectedState: AppState = {
     ...EmptyState(),
-    activeDashboardId: "playerViewId",
     dashboardsById: {
       playerViewId: {
         name: "Dashboard 1",
@@ -49,7 +48,6 @@ test("updates legacy dashboard state", () => {
 
   const expectedState: AppState = {
     ...EmptyState(),
-    activeDashboardId: "playerViewId",
     dashboardsById: {
       playerViewId: {
         name: "Dashboard 1",

@@ -81,7 +81,6 @@ export function UpdateMissingOrLegacyAppState(
         };
       }
     );
-    appState.activeDashboardId = storedState.activeDashboardId || null;
   } else {
     const dashboardId = storedState.playerViewId || randomString();
     appState.dashboardsById = {
@@ -93,7 +92,6 @@ export function UpdateMissingOrLegacyAppState(
         layoutPushCards: "none",
       },
     };
-    appState.activeDashboardId = dashboardId;
   }
 
   return appState;

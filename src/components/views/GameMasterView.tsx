@@ -44,10 +44,7 @@ export function GameMasterView() {
   useAccountSync(state, dispatch, onDashboardLoaded);
 
   if (dashboardId !== null) {
-    if (
-      state.activeDashboardId !== dashboardId &&
-      state.dashboardsById[dashboardId] !== undefined
-    ) {
+    if (state.dashboardsById[dashboardId] !== undefined) {
       dispatch(DashboardActions.ActivateDashboard({ dashboardId }));
     }
   }

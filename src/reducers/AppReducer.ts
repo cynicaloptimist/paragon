@@ -98,37 +98,17 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     };
   }
 
-  if (isActionOf(DashboardActions.ActivateDashboard, action)) {
-    return {
-      ...oldState,
-      activeDashboardId: action.payload.dashboardId,
-    };
-  }
-
   if (isActionOf(DashboardActions.DeleteDashboard, action)) {
     const remainingDashboards = omit(
       oldState.dashboardsById,
       action.payload.dashboardId
     );
 
-    if (oldState.activeDashboardId === action.payload.dashboardId) {
-      return {
-        ...oldState,
-        activeDashboardId: null,
-        dashboardsById: remainingDashboards,
-      };
-    } else {
-      return {
-        ...oldState,
-        dashboardsById: remainingDashboards,
-      };
-    }
+    return {
+      ...oldState,
+      dashboardsById: remainingDashboards,
+    };
   }
-
-  if (oldState.activeDashboardId === null) {
-    return oldState;
-  }
-
   const dashboardsById = {
     ...oldState.dashboardsById,
   };

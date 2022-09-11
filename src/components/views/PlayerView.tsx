@@ -14,12 +14,14 @@ import { FirebaseUtils } from "../../FirebaseUtils";
 import { app } from "../..";
 import { useStorageBackedState } from "../hooks/useStorageBackedState";
 import { PlayerViewUserContext } from "../PlayerViewUserContext";
+import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 
 function useRemoteState(
   playerViewId: string
 ): [AppState, React.Dispatch<RootAction>] {
   const [state, setState] = useState(EmptyState());
   const [playerViewUserId, setPlayerViewUserId] = useState<string | null>(null);
+  const dashboardId = useActiveDashboardId();
 
   useEffect(() => {
     const database = getDatabase(app);
@@ -60,7 +62,7 @@ function useRemoteState(
   const dispatch = (action: RootAction) => {
     const cleanAction = FirebaseUtils.removeUndefinedNodesFromTree(action);
     const database = getDatabase(app);
-    const dbRef = ref(database, `pendingActions/${state.activeDashboardId}`);
+    const dbRef = ref(database, `pendingActions/${dashboardId}`);
     push(dbRef, cleanAction);
   };
 

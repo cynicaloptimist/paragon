@@ -69,10 +69,10 @@ export function DashboardMenu(props: { dashboard: DashboardState }) {
                 icon={faExternalLinkAlt}
                 style={{ padding: "0 5px 1px" }}
               />
-              {"Player View: " + state.activeDashboardId}
+              {"Player View: " + dashboardId}
             </Text>
           ),
-          onClick: () => window.open(`/p/${state.activeDashboardId}`, "_blank"),
+          onClick: () => window.open(`/p/${dashboardId}`, "_blank"),
         },
         {
           label: (
@@ -86,7 +86,7 @@ export function DashboardMenu(props: { dashboard: DashboardState }) {
           ),
           onClick: async () => {
             if (dashboardId && (await ShareDashboard(state, dashboardId))) {
-              window.open(`/d/${state.activeDashboardId}`, "_blank");
+              window.open(`/d/${dashboardId}`, "_blank");
             }
           },
         },

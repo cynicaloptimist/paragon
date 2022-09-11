@@ -12,7 +12,7 @@ export async function ShareDashboard(state: AppState, dashboardId: string) {
   }
 
   const database = getDatabase(app);
-  const dbRef = ref(database, `shared/${state.activeDashboardId}`);
+  const dbRef = ref(database, `shared/${dashboardId}`);
   const trimmedState: AppState = FirebaseUtils.removeUndefinedNodesFromTree({
     ...state,
     cardsById: pickBy(state.cardsById, (card) =>

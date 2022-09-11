@@ -8,14 +8,16 @@ import { DashboardActions } from "../../actions/DashboardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { DashboardState } from "../../state/AppState";
 import { LongPressButton } from "../common/LongPressButton";
+import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 
 export function DashboardLibraryRow(props: {
   dashboardId: string;
   dashboard: DashboardState;
 }) {
-  const { state, dispatch } = useContext(ReducerContext);
+  const { dispatch } = useContext(ReducerContext);
+  const activeDashboardId = useActiveDashboardId();
 
-  const isActiveDashboard = state.activeDashboardId === props.dashboardId;
+  const isActiveDashboard = activeDashboardId === props.dashboardId;
 
   const deleteDashboard = useCallback(() => {
     dispatch(
