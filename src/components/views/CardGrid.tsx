@@ -15,7 +15,7 @@ import { PDFCard } from "../cards/PDFCard";
 import { RollTableCard } from "../cards/roll-table/RollTableCard";
 import { ViewType, ViewTypeContext } from "../ViewTypeContext";
 import {
-  ActiveDashboardOf,
+  GetDashboard,
   DashboardState,
   VisibleCardsOf,
 } from "../../state/AppState";
@@ -63,14 +63,13 @@ export function CardGrid(props: {
 
   const isPlayerView = useContext(ViewTypeContext) === ViewType.Player;
   const activeDashboardId = useActiveDashboardId();
-  const activeDashboardState = ActiveDashboardOf(state);
+  const activeDashboardState = GetDashboard(state);
 
   const [localDashboardState, localDashboardDispatch] = useStorageBackedReducer(
     DashboardReducer,
     (storedState) => {
       const storedActiveDashboardState =
-        storedState &&
-        ActiveDashboardOf(UpdateMissingOrLegacyAppState(storedState));
+        storedState && GetDashboard(UpdateMissingOrLegacyAppState(storedState));
       const emptyDashboardState: DashboardState = {
         name: "Dashboard 1",
         openCardIds: [],

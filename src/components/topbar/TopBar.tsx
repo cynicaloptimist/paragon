@@ -1,7 +1,7 @@
 import { Box, BoxProps, Header, Heading } from "grommet";
 import { useContext } from "react";
 import { ReducerContext } from "../../reducers/ReducerContext";
-import { ActiveDashboardOf } from "../../state/AppState";
+import { GetDashboard } from "../../state/AppState";
 import { DashboardMenu } from "./DashboardMenu";
 import { EditableText } from "../common/EditableText";
 import { LibrarySidebarControls } from "../sidebar/LibrarySidebarControls";
@@ -13,7 +13,7 @@ import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 export const TopBar = () => {
   const { state } = useContext(ReducerContext);
 
-  const dashboard = ActiveDashboardOf(state);
+  const dashboard = GetDashboard(state);
   const headerProps: BoxProps = {
     background: "brand",
     pad: "small",
@@ -69,7 +69,7 @@ export const TopBar = () => {
 function DashboardNameWithEdit() {
   const { state, dispatch } = useContext(ReducerContext);
   const dashboardId = useActiveDashboardId();
-  const dashboardName = ActiveDashboardOf(state)?.name || "";
+  const dashboardName = GetDashboard(state)?.name || "";
   return (
     <EditableText
       text={dashboardName}

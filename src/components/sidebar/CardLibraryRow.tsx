@@ -6,7 +6,7 @@ import React, { useCallback, useContext, useRef, useState } from "react";
 import { CardActions } from "../../actions/CardActions";
 import { DashboardActions } from "../../actions/DashboardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
-import { ActiveDashboardOf } from "../../state/AppState";
+import { GetDashboard } from "../../state/AppState";
 import { CardState } from "../../state/CardState";
 import { LongPressButton } from "../common/LongPressButton";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
@@ -18,7 +18,7 @@ export function CardLibraryRow(props: {
   const { state, dispatch } = useContext(ReducerContext);
   const dashboardId = useActiveDashboardId();
   const isCardOpen =
-    ActiveDashboardOf(state)?.openCardIds?.includes(props.card.cardId) || false;
+    GetDashboard(state)?.openCardIds?.includes(props.card.cardId) || false;
 
   const card = state.cardsById[props.card.cardId];
 

@@ -16,7 +16,7 @@ import {
   AppState as ExcalidrawState,
   ExcalidrawAPIRefValue,
 } from "@excalidraw/excalidraw/types/types";
-import { ActiveDashboardOf } from "../../state/AppState";
+import { GetDashboard } from "../../state/AppState";
 
 type Size = { height: number; width: number };
 type ExcalidrawStateMemo = {
@@ -39,7 +39,7 @@ export function DrawingCard(props: {
     ExcalidrawStateMemo | undefined
   > = useRef();
 
-  const dashboard = ActiveDashboardOf(state);
+  const dashboard = GetDashboard(state);
   const allLayouts = Object.values(dashboard?.layoutsBySize || {}).flat();
   const layoutsForThisCard = allLayouts.filter(
     (l) => l.i === props.card.cardId

@@ -15,11 +15,7 @@ import { isActionOf } from "typesafe-actions";
 import { app } from "../..";
 import { RootAction } from "../../actions/Actions";
 import { CardActions } from "../../actions/CardActions";
-import {
-  ActiveDashboardOf,
-  AppState,
-  VisibleCardsOf,
-} from "../../state/AppState";
+import { GetDashboard, AppState, VisibleCardsOf } from "../../state/AppState";
 import { PlayerViewPermission } from "../../state/CardState";
 import { FirebaseUtils } from "../../FirebaseUtils";
 import { useUserId } from "./useAccountSync";
@@ -32,7 +28,7 @@ function omitClosedCardsFromState(fullState: AppState): AppState {
     };
   }
 
-  const dashboard = ActiveDashboardOf(fullState);
+  const dashboard = GetDashboard(fullState);
 
   if (!dashboard) {
     return {

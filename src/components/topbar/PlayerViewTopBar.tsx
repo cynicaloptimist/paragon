@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, Drop, Header, Heading, TextInput } from "grommet";
 import { useContext, useRef, useState } from "react";
 import { ReducerContext } from "../../reducers/ReducerContext";
-import { ActiveDashboardOf } from "../../state/AppState";
+import { GetDashboard } from "../../state/AppState";
 import { PlayerViewUserContext } from "../PlayerViewUserContext";
 
 export const PlayerViewTopBar = (props: {
@@ -25,7 +25,7 @@ export const PlayerViewTopBar = (props: {
     >
       <Box align="center" direction="column" fill>
         <Heading level={1} size="small" margin="none">
-          {ActiveDashboardOf(state)?.name}
+          {GetDashboard(state)?.name}
         </Heading>
         <Heading level={2} size="small" margin="none">
           Paragon Campaign Dashboard: Player View

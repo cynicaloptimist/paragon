@@ -1,12 +1,12 @@
 import { getDatabase, ref, set } from "firebase/database";
 import "firebase/database";
 import { pickBy } from "lodash";
-import { ActiveDashboardOf, AppState } from "../../state/AppState";
+import { GetDashboard, AppState } from "../../state/AppState";
 import { FirebaseUtils } from "../../FirebaseUtils";
 import { app } from "../..";
 
 export async function ShareDashboard(state: AppState) {
-  const activeDashboard = ActiveDashboardOf(state);
+  const activeDashboard = GetDashboard(state);
   if (activeDashboard === null) {
     return false;
   }

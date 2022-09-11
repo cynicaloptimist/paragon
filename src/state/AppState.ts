@@ -37,7 +37,7 @@ export const EmptyState = (): AppState => ({
   },
 });
 
-export function ActiveDashboardOf(state: AppState) {
+export function GetDashboard(state: AppState) {
   if (!state.activeDashboardId) {
     return null;
   }
@@ -45,7 +45,7 @@ export function ActiveDashboardOf(state: AppState) {
 }
 
 export function VisibleCardsOf(state: AppState) {
-  const activeDashboard = ActiveDashboardOf(state);
+  const activeDashboard = GetDashboard(state);
   if (!activeDashboard) {
     return [];
   }
