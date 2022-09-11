@@ -18,7 +18,9 @@ export function CardLibraryRow(props: {
   const { state, dispatch } = useContext(ReducerContext);
   const dashboardId = useActiveDashboardId();
   const isCardOpen =
-    GetDashboard(state)?.openCardIds?.includes(props.card.cardId) || false;
+    GetDashboard(state, dashboardId)?.openCardIds?.includes(
+      props.card.cardId
+    ) || false;
 
   const card = state.cardsById[props.card.cardId];
 

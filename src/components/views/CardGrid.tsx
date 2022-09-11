@@ -63,13 +63,17 @@ export function CardGrid(props: {
 
   const isPlayerView = useContext(ViewTypeContext) === ViewType.Player;
   const activeDashboardId = useActiveDashboardId();
-  const activeDashboardState = GetDashboard(state);
+  const activeDashboardState = GetDashboard(state, activeDashboardId);
 
   const [localDashboardState, localDashboardDispatch] = useStorageBackedReducer(
     DashboardReducer,
     (storedState) => {
       const storedActiveDashboardState =
-        storedState && GetDashboard(UpdateMissingOrLegacyAppState(storedState));
+        storedState &&
+        GetDashboard(
+          UpdateMissingOrLegacyAppState(storedState),
+          activeDashboardId
+        );
       const emptyDashboardState: DashboardState = {
         name: "Dashboard 1",
         openCardIds: [],
@@ -110,7 +114,7 @@ export function CardGrid(props: {
 
   const dashboard = matchGMLayout ? activeDashboardState : localDashboardState;
 
-  const cards = GetVisibleCards(state);
+  const cards = GetVisibleCards(state, activeDashboardId);
 
   // useMemo is used to take advantage of https://github.com/react-grid-layout/react-grid-layout#performance
   const gridItems = React.useMemo(

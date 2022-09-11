@@ -85,7 +85,7 @@ export function DashboardMenu(props: { dashboard: DashboardState }) {
             </Text>
           ),
           onClick: async () => {
-            if (await ShareDashboard(state)) {
+            if (dashboardId && (await ShareDashboard(state, dashboardId))) {
               window.open(`/d/${state.activeDashboardId}`, "_blank");
             }
           },

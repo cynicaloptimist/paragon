@@ -17,6 +17,7 @@ import {
   ExcalidrawAPIRefValue,
 } from "@excalidraw/excalidraw/types/types";
 import { GetDashboard } from "../../state/AppState";
+import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 
 type Size = { height: number; width: number };
 type ExcalidrawStateMemo = {
@@ -32,14 +33,14 @@ export function DrawingCard(props: {
   outerSize: Size;
 }) {
   const { state, dispatch } = React.useContext(ReducerContext);
-
+  const dashboardId = useActiveDashboardId();
   const viewType = useContext(ViewTypeContext);
   const excalidrawRef = useRef<ExcalidrawAPIRefValue>(null);
   const lastExcalidrawState: React.MutableRefObject<
     ExcalidrawStateMemo | undefined
   > = useRef();
 
-  const dashboard = GetDashboard(state);
+  const dashboard = GetDashboard(state, dashboardId);
   const allLayouts = Object.values(dashboard?.layoutsBySize || {}).flat();
   const layoutsForThisCard = allLayouts.filter(
     (l) => l.i === props.card.cardId

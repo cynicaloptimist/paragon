@@ -8,10 +8,12 @@ import { GetVisibleCards } from "../../state/AppState";
 import { CardState, RollTableCardState } from "../../state/CardState";
 import { RandomInt } from "../cards/roll-table/RollTableCard";
 import { GetRollTableModel } from "../cards/roll-table/GetRollTableModel";
+import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 
 export function RollAllTablesButton() {
   const { state, dispatch } = useContext(ReducerContext);
-  const openCards = GetVisibleCards(state);
+  const dashboardId = useActiveDashboardId();
+  const openCards = GetVisibleCards(state, dashboardId);
   const isRollTableCard = (card: CardState): card is RollTableCardState =>
     card.type === "roll-table-h";
   const tableCards: RollTableCardState[] =

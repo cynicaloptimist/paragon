@@ -8,6 +8,7 @@ import { Box, Button, Drop, Header, Heading, TextInput } from "grommet";
 import { useContext, useRef, useState } from "react";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { GetDashboard } from "../../state/AppState";
+import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 import { PlayerViewUserContext } from "../PlayerViewUserContext";
 
 export const PlayerViewTopBar = (props: {
@@ -15,6 +16,7 @@ export const PlayerViewTopBar = (props: {
   setMatchGMLayout: (matchGMLayout: boolean) => void;
 }) => {
   const { state } = useContext(ReducerContext);
+  const dashboardId = useActiveDashboardId();
   return (
     <Header
       fill="horizontal"
@@ -25,7 +27,7 @@ export const PlayerViewTopBar = (props: {
     >
       <Box align="center" direction="column" fill>
         <Heading level={1} size="small" margin="none">
-          {GetDashboard(state)?.name}
+          {GetDashboard(state, dashboardId)?.name}
         </Heading>
         <Heading level={2} size="small" margin="none">
           Paragon Campaign Dashboard: Player View

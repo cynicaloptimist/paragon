@@ -19,8 +19,12 @@ import { GetDashboard, AppState, GetVisibleCards } from "../../state/AppState";
 import { PlayerViewPermission } from "../../state/CardState";
 import { FirebaseUtils } from "../../FirebaseUtils";
 import { useUserId } from "./useAccountSync";
+import { useActiveDashboardId } from "./useActiveDashboardId";
 
-function omitClosedCardsFromState(fullState: AppState): AppState {
+function omitClosedCardsFromState(
+  fullState: AppState,
+  dashboardId: string | null
+): AppState {
   if (fullState.activeDashboardId == null) {
     return {
       ...fullState,
@@ -28,7 +32,7 @@ function omitClosedCardsFromState(fullState: AppState): AppState {
     };
   }
 
-  const dashboard = GetDashboard(fullState);
+  const dashboard = GetDashboard(fullState, dashboardId);
 
   if (!dashboard) {
     return {
@@ -39,7 +43,7 @@ function omitClosedCardsFromState(fullState: AppState): AppState {
   }
 
   const visibleCards =
-    GetVisibleCards(fullState).filter(
+    GetVisibleCards(fullState, dashboardId).filter(
       (card) => card.playerViewPermission !== PlayerViewPermission.Hidden
     ) || [];
 
@@ -69,6 +73,7 @@ export function usePlayerView(
   const previousState = useRef(state);
 
   const userId = useUserId();
+  const dashboardId = useActiveDashboardId();
 
   useEffect(() => {
     if (!userId) {
@@ -123,7 +128,8 @@ export function usePlayerView(
     }
 
     const playerViewState = omitClosedCardsFromState(
-      FirebaseUtils.removeUndefinedNodesFromTree(state)
+      FirebaseUtils.removeUndefinedNodesFromTree(state),
+      dashboardId
     );
 
     if (
@@ -137,5 +143,5 @@ export function usePlayerView(
       set(dbRef, playerViewState);
       previousState.current = playerViewState;
     }
-  }, [state, userId]);
+  }, [state, userId, dashboardId]);
 }

@@ -37,15 +37,15 @@ export const EmptyState = (): AppState => ({
   },
 });
 
-export function GetDashboard(state: AppState) {
-  if (!state.activeDashboardId) {
+export function GetDashboard(state: AppState, dashboardId: string | null) {
+  if (!dashboardId) {
     return null;
   }
-  return state.dashboardsById[state.activeDashboardId];
+  return state.dashboardsById[dashboardId];
 }
 
-export function GetVisibleCards(state: AppState) {
-  const activeDashboard = GetDashboard(state);
+export function GetVisibleCards(state: AppState, dashboardId: string | null) {
+  const activeDashboard = GetDashboard(state, dashboardId);
   if (!activeDashboard) {
     return [];
   }

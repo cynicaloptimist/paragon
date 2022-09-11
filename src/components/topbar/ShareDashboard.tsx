@@ -5,8 +5,8 @@ import { GetDashboard, AppState } from "../../state/AppState";
 import { FirebaseUtils } from "../../FirebaseUtils";
 import { app } from "../..";
 
-export async function ShareDashboard(state: AppState) {
-  const activeDashboard = GetDashboard(state);
+export async function ShareDashboard(state: AppState, dashboardId: string) {
+  const activeDashboard = GetDashboard(state, dashboardId);
   if (activeDashboard === null) {
     return false;
   }

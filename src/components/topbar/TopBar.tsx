@@ -12,8 +12,9 @@ import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 
 export const TopBar = () => {
   const { state } = useContext(ReducerContext);
+  const dashboardId = useActiveDashboardId();
 
-  const dashboard = GetDashboard(state);
+  const dashboard = GetDashboard(state, dashboardId);
   const headerProps: BoxProps = {
     background: "brand",
     pad: "small",
@@ -69,7 +70,7 @@ export const TopBar = () => {
 function DashboardNameWithEdit() {
   const { state, dispatch } = useContext(ReducerContext);
   const dashboardId = useActiveDashboardId();
-  const dashboardName = GetDashboard(state)?.name || "";
+  const dashboardName = GetDashboard(state, dashboardId)?.name || "";
   return (
     <EditableText
       text={dashboardName}
