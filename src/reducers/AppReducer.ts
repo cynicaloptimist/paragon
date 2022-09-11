@@ -136,7 +136,7 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     [oldState.activeDashboardId]: DashboardReducer(activeDashboard, action),
   };
 
-  if (isActionOf(CardActions.AddCard, action)) {
+  if (isActionOf(DashboardActions.AddCard, action)) {
     const cardId = action.payload.cardId;
     return {
       ...oldState,

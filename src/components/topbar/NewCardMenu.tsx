@@ -1,14 +1,16 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu } from "grommet";
-import React, { useContext } from "react";
-import { CardActions } from "../../actions/CardActions";
+import { useContext } from "react";
+import { DashboardActions } from "../../actions/DashboardActions";
 import { randomString } from "../../randomString";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { CardTypeFriendlyNames } from "../../state/CardTypeFriendlyNames";
+import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 
 export function NewCardMenu() {
   const { state, dispatch } = useContext(ReducerContext);
+  const dashboardId = useActiveDashboardId();
 
   const availableCardTypes = Object.keys(CardTypeFriendlyNames).filter(
     (cardType) => {
@@ -29,7 +31,15 @@ export function NewCardMenu() {
       label: CardTypeFriendlyNames[cardType],
       onClick: () => {
         const cardId = randomString();
-        dispatch(CardActions.AddCard({ cardId, cardType }));
+        if (dashboardId) {
+          dispatch(
+            DashboardActions.AddCard({
+              dashboardId,
+              cardId,
+              cardType,
+            })
+          );
+        }
       },
     };
   });

@@ -8,25 +8,35 @@ import { useCallback, useContext } from "react";
 import { DashboardActions } from "../../actions/DashboardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { DashboardState } from "../../state/AppState";
+import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 import { ShareDashboard } from "./ShareDashboard";
 
 export function DashboardMenu(props: { dashboard: DashboardState }) {
   const { state, dispatch } = useContext(ReducerContext);
+  const dashboardId = useActiveDashboardId();
 
   const setLayoutCompaction = useCallback(
     (compaction: "free" | "compact") =>
+      dashboardId &&
       dispatch(
-        DashboardActions.SetLayoutCompaction({ layoutCompaction: compaction })
+        DashboardActions.SetLayoutCompaction({
+          dashboardId,
+          layoutCompaction: compaction,
+        })
       ),
-    [dispatch]
+    [dispatch, dashboardId]
   );
 
   const setLayoutPushCards = useCallback(
     (pushCards: "none" | "preventcollision") =>
+      dashboardId &&
       dispatch(
-        DashboardActions.SetLayoutPushCards({ layoutPushCards: pushCards })
+        DashboardActions.SetLayoutPushCards({
+          dashboardId,
+          layoutPushCards: pushCards,
+        })
       ),
-    [dispatch]
+    [dispatch, dashboardId]
   );
 
   return (

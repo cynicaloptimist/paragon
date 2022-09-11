@@ -8,6 +8,7 @@ import { LibrarySidebarControls } from "../sidebar/LibrarySidebarControls";
 import { NewCardMenu } from "./NewCardMenu";
 import { RollAllTablesButton } from "./RollAllTablesButton";
 import { DashboardActions } from "../../actions/DashboardActions";
+import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 
 export const TopBar = () => {
   const { state } = useContext(ReducerContext);
@@ -67,13 +68,19 @@ export const TopBar = () => {
 
 function DashboardNameWithEdit() {
   const { state, dispatch } = useContext(ReducerContext);
+  const dashboardId = useActiveDashboardId();
   const dashboardName = ActiveDashboardOf(state)?.name || "";
   return (
     <EditableText
       text={dashboardName}
       trySubmit={(newName) => {
-        if (newName.length > 0) {
-          dispatch(DashboardActions.RenameActiveDashboard({ newName }));
+        if (dashboardId && newName.length > 0) {
+          dispatch(
+            DashboardActions.RenameActiveDashboard({
+              dashboardId: dashboardId,
+              newName,
+            })
+          );
           return true;
         }
         return false;

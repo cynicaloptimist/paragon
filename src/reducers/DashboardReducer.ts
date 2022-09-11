@@ -1,7 +1,6 @@
 import _, { union } from "lodash";
 import { isActionOf } from "typesafe-actions";
 import { RootAction } from "../actions/Actions";
-import { CardActions } from "../actions/CardActions";
 import { DashboardActions } from "../actions/DashboardActions";
 import { DashboardState } from "../state/AppState";
 import { InitialLayout } from "../state/InitialLayout";
@@ -24,7 +23,7 @@ export function DashboardReducer(
     };
   }
 
-  if (isActionOf(CardActions.AddCard, action)) {
+  if (isActionOf(DashboardActions.AddCard, action)) {
     const { cardId } = action.payload;
     return {
       ...oldState,
@@ -37,7 +36,7 @@ export function DashboardReducer(
     };
   }
 
-  if (isActionOf(CardActions.OpenCard, action)) {
+  if (isActionOf(DashboardActions.OpenCard, action)) {
     const cardIsAlreadyOpen = oldState.openCardIds?.includes(
       action.payload.cardId
     );
@@ -67,7 +66,7 @@ export function DashboardReducer(
     };
   }
 
-  if (isActionOf(CardActions.CloseCard, action)) {
+  if (isActionOf(DashboardActions.CloseCard, action)) {
     return {
       ...oldState,
       openCardIds: oldState.openCardIds?.filter(

@@ -1,12 +1,14 @@
 import { Text } from "grommet";
 import React from "react";
-import { CardActions } from "../../../actions/CardActions";
+import { DashboardActions } from "../../../actions/DashboardActions";
 import { ReducerContext } from "../../../reducers/ReducerContext";
+import { useActiveDashboardId } from "../../hooks/useActiveDashboardId";
 
 export const CardLink = (
   props: React.AnchorHTMLAttributes<HTMLAnchorElement>
 ) => {
   const { state, dispatch } = React.useContext(ReducerContext);
+  const dashboardId = useActiveDashboardId();
   const cardId = props.href || "";
   const card = state.cardsById[cardId];
   if (!card) {
@@ -21,7 +23,14 @@ export const CardLink = (
       color="link"
       style={{ textDecoration: "underline", cursor: "pointer" }}
       onClick={() => {
-        dispatch(CardActions.OpenCard({ cardId, cardType: card.type }));
+        dashboardId &&
+          dispatch(
+            DashboardActions.OpenCard({
+              dashboardId,
+              cardId,
+              cardType: card.type,
+            })
+          );
       }}
     >
       {props.children}

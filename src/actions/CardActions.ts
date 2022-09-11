@@ -7,12 +7,6 @@ import {
 import { LegacyCardState } from "../state/LegacyCardState";
 
 export const CardActions = {
-  AddCard: createAction("AddCard")<{
-    cardId: string;
-    cardType: string;
-  }>(),
-  OpenCard: createAction("OpenCard")<{ cardId: string; cardType: string }>(),
-  CloseCard: createAction("CloseCard")<{ cardId: string }>(),
   DeleteCard: createAction("DeleteCard")<{ cardId: string }>(),
   UpdateCardFromServer: createAction("UpdateCardFromServer")<{
     cardId: string;

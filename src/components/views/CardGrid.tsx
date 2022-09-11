@@ -25,6 +25,7 @@ import { useStorageBackedReducer } from "../hooks/useStorageBackedReducer";
 import { UpdateMissingOrLegacyAppState } from "../../state/LegacyAppState";
 import { InfoCard } from "../cards/article/InfoCard";
 import { DashboardActions } from "../../actions/DashboardActions";
+import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 
 type Size = { height: number; width: number };
 
@@ -61,6 +62,7 @@ export function CardGrid(props: {
     React.useState<string>("xxl");
 
   const isPlayerView = useContext(ViewTypeContext) === ViewType.Player;
+  const activeDashboardId = useActiveDashboardId();
   const activeDashboardState = ActiveDashboardOf(state);
 
   const [localDashboardState, localDashboardDispatch] = useStorageBackedReducer(
@@ -87,11 +89,12 @@ export function CardGrid(props: {
   );
 
   React.useEffect(() => {
-    if (activeDashboardState && !matchGMLayout) {
+    if (activeDashboardId && activeDashboardState && !matchGMLayout) {
       const setLayoutsActions = Object.keys(
         activeDashboardState.layoutsBySize
       ).map((size) => {
         return DashboardActions.SetLayouts({
+          dashboardId: activeDashboardId,
           gridSize: size,
           layouts: activeDashboardState.layoutsBySize[size],
         });
@@ -99,7 +102,12 @@ export function CardGrid(props: {
 
       setLayoutsActions.forEach(localDashboardDispatch);
     }
-  }, [matchGMLayout, activeDashboardState, localDashboardDispatch]);
+  }, [
+    matchGMLayout,
+    activeDashboardId,
+    activeDashboardState,
+    localDashboardDispatch,
+  ]);
 
   const dashboard = matchGMLayout ? activeDashboardState : localDashboardState;
 
@@ -143,8 +151,12 @@ export function CardGrid(props: {
   });
 
   const updateLayout = (newLayout: Layout[]) => {
-    if (!_.isEqual(dashboard.layoutsBySize[currentBreakpoint], newLayout)) {
+    if (
+      activeDashboardId &&
+      !_.isEqual(dashboard.layoutsBySize[currentBreakpoint], newLayout)
+    ) {
       const action = DashboardActions.SetLayouts({
+        dashboardId: activeDashboardId,
         gridSize: currentBreakpoint,
         layouts: newLayout,
       });
@@ -182,8 +194,9 @@ export function CardGrid(props: {
         onBreakpointChange={(newBreakpoint) => {
           const currentLayouts = dedupedLayouts[currentBreakpoint];
           setCurrentBreakpoint(newBreakpoint);
-          if (!dedupedLayouts[newBreakpoint]) {
+          if (activeDashboardId && !dedupedLayouts[newBreakpoint]) {
             DashboardActions.SetLayouts({
+              dashboardId: activeDashboardId,
               gridSize: newBreakpoint,
               layouts: currentLayouts,
             });

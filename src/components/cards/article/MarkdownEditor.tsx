@@ -2,12 +2,13 @@ import { Box, ThemeContext, ThemeType } from "grommet";
 import React from "react";
 import Editor from "rich-markdown-editor";
 import base from "rich-markdown-editor/dist/styles/theme";
-import { CardActions } from "../../../actions/CardActions";
 import { ReducerContext } from "../../../reducers/ReducerContext";
 import { ArticleCardState } from "../../../state/CardState";
 import { useThemeColor } from "../../hooks/useThemeColor";
 
 import styled from "styled-components";
+import { useActiveDashboardId } from "../../hooks/useActiveDashboardId";
+import { DashboardActions } from "../../../actions/DashboardActions";
 
 const StyledEditor = styled(Editor)`
   font-size: 18px;
@@ -22,6 +23,7 @@ export function MarkdownEditor(props: {
   setContent: (content: string) => void;
 }) {
   const { state, dispatch } = React.useContext(ReducerContext);
+  const dashboardId = useActiveDashboardId();
   const themeColors = {
     primary: useThemeColor("brand"),
     secondary: useThemeColor("brand-2"),
@@ -57,9 +59,13 @@ export function MarkdownEditor(props: {
           const url = new URL(href);
           const maybeCardId = url.pathname.replace(/^\//, "");
           const card = state.cardsById[maybeCardId];
-          if (card) {
+          if (dashboardId && card) {
             dispatch(
-              CardActions.OpenCard({ cardId: maybeCardId, cardType: card.type })
+              DashboardActions.OpenCard({
+                dashboardId,
+                cardId: maybeCardId,
+                cardType: card.type,
+              })
             );
           } else {
             window.open(href, "_blank");

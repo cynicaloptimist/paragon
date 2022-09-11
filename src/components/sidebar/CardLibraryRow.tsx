@@ -4,17 +4,19 @@ import { Box, Button, TextInput } from "grommet";
 import _ from "lodash";
 import React, { useCallback, useContext, useRef, useState } from "react";
 import { CardActions } from "../../actions/CardActions";
+import { DashboardActions } from "../../actions/DashboardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { ActiveDashboardOf } from "../../state/AppState";
 import { CardState } from "../../state/CardState";
 import { LongPressButton } from "../common/LongPressButton";
+import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 
 export function CardLibraryRow(props: {
   card: CardState;
   showFolder?: boolean;
 }) {
   const { state, dispatch } = useContext(ReducerContext);
-
+  const dashboardId = useActiveDashboardId();
   const isCardOpen =
     ActiveDashboardOf(state)?.openCardIds?.includes(props.card.cardId) || false;
 
@@ -22,10 +24,15 @@ export function CardLibraryRow(props: {
 
   const openCard = useCallback(
     () =>
+      dashboardId &&
       dispatch(
-        CardActions.OpenCard({ cardId: props.card.cardId, cardType: card.type })
+        DashboardActions.OpenCard({
+          dashboardId,
+          cardId: props.card.cardId,
+          cardType: card.type,
+        })
       ),
-    [dispatch, props.card.cardId, card.type]
+    [dispatch, dashboardId, props.card.cardId, card.type]
   );
 
   const deleteCard = useCallback(() => {

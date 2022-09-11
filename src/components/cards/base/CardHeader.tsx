@@ -9,12 +9,15 @@ import { ViewType, ViewTypeContext } from "../../ViewTypeContext";
 import { CardColorPickerButton } from "./CardColorPickerButton";
 import { PlayerViewButton } from "./PlayerViewButton";
 import { ComputeThemeProps } from "./ComputeThemeProps";
+import { DashboardActions } from "../../../actions/DashboardActions";
+import { useActiveDashboardId } from "../../hooks/useActiveDashboardId";
 
 export function CardHeader(props: {
   cardState: CardState;
   popToast: (toast: string) => void;
 }) {
   const { dispatch } = React.useContext(ReducerContext);
+  const dashboardId = useActiveDashboardId();
   const [isHeaderEditable, setHeaderEditable] = React.useState<boolean>(false);
   const [didSelectHeader, setDidSelectHeader] = React.useState<boolean>(false);
   const [headerInput, setHeaderInput] = React.useState<string>("");
@@ -88,8 +91,12 @@ export function CardHeader(props: {
           <Button
             icon={<FontAwesomeIcon icon={faTimes} />}
             onClick={() =>
+              dashboardId &&
               dispatch(
-                CardActions.CloseCard({ cardId: props.cardState.cardId })
+                DashboardActions.CloseCard({
+                  dashboardId,
+                  cardId: props.cardState.cardId,
+                })
               )
             }
           />
