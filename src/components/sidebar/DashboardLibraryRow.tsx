@@ -1,6 +1,6 @@
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box } from "grommet";
+import { Anchor, Box } from "grommet";
 import { useCallback, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Actions } from "../../actions/Actions";
@@ -44,6 +44,7 @@ export function DashboardLibraryRow(props: {
           onClick={() =>
             dispatch(Actions.SetLibraryMode({ libraryMode: "hidden" }))
           }
+          component={Anchor}
         >
           {props.dashboard.name}
         </Link>
