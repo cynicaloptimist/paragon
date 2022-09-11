@@ -2,7 +2,7 @@ import { mapValues, omit } from "lodash";
 import { isActionOf } from "typesafe-actions";
 import { Actions, RootAction } from "../actions/Actions";
 import { CardActions } from "../actions/CardActions";
-import { DashboardActions } from "../actions/DashboardActions";
+import { DashboardAction, DashboardActions } from "../actions/DashboardActions";
 import { AppState, DashboardState } from "../state/AppState";
 import { InitialCardState } from "../state/InitialCardState";
 import { LegacyDashboardState } from "../state/LegacyAppState";
@@ -133,8 +133,15 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
 
   const dashboardsById = {
     ...oldState.dashboardsById,
-    [oldState.activeDashboardId]: DashboardReducer(activeDashboard, action),
   };
+
+  const dashboardAction = action as DashboardAction;
+  if (dashboardAction.payload.dashboardId) {
+    dashboardsById[dashboardAction.payload.dashboardId] = DashboardReducer(
+      activeDashboard,
+      dashboardAction
+    );
+  }
 
   if (isActionOf(DashboardActions.AddCard, action)) {
     const cardId = action.payload.cardId;

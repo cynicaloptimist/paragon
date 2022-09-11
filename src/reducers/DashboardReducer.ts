@@ -1,13 +1,12 @@
 import _, { union } from "lodash";
 import { isActionOf } from "typesafe-actions";
-import { RootAction } from "../actions/Actions";
-import { DashboardActions } from "../actions/DashboardActions";
+import { DashboardAction, DashboardActions } from "../actions/DashboardActions";
 import { DashboardState } from "../state/AppState";
 import { InitialLayout } from "../state/InitialLayout";
 
 export function DashboardReducer(
   oldState: DashboardState,
-  action: RootAction
+  action: DashboardAction
 ): DashboardState {
   if (isActionOf(DashboardActions.SetLayoutCompaction, action)) {
     return {
