@@ -14,6 +14,8 @@ import { LibrarySidebar } from "../sidebar/LibrarySidebar";
 import { TopBar } from "../topbar/TopBar";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 import { useHistory } from "react-router-dom";
+import { randomString } from "../../randomString";
+import { DashboardActions } from "../../actions/DashboardActions";
 
 export function GameMasterView() {
   const [state, dispatch] = useStorageBackedReducer(
@@ -30,6 +32,16 @@ export function GameMasterView() {
   const onDashboardLoaded = useCallback(
     (dashboardIds) => {
       if (!dashboardId) {
+        const existingDashboardId = Object.keys(state.dashboardsById)[0];
+        if (existingDashboardId) {
+          history.replace(`/e/${existingDashboardId}`);
+        } else {
+          const newDashboardId = randomString();
+          dispatch(
+            DashboardActions.CreateDashboard({ dashboardId: newDashboardId })
+          );
+          history.replace(`/e/${newDashboardId}`);
+        }
         return;
       }
 
@@ -37,7 +49,7 @@ export function GameMasterView() {
         history.replace(`/d/${dashboardId}`);
       }
     },
-    [dashboardId, history]
+    [dashboardId, dispatch, history, state.dashboardsById]
   );
 
   useAccountSync(state, dispatch, onDashboardLoaded);
