@@ -129,14 +129,15 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     return oldState;
   }
 
-  const activeDashboard = oldState.dashboardsById[oldState.activeDashboardId];
-
   const dashboardsById = {
     ...oldState.dashboardsById,
   };
 
   const dashboardAction = action as DashboardAction;
   if (dashboardAction.payload.dashboardId) {
+    const activeDashboard =
+      oldState.dashboardsById[dashboardAction.payload.dashboardId];
+
     dashboardsById[dashboardAction.payload.dashboardId] = DashboardReducer(
       activeDashboard,
       dashboardAction
