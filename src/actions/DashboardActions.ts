@@ -29,7 +29,6 @@ export const DashboardActions = {
     layoutPushCards: "none" | "preventcollision";
   }>(),
   CreateDashboard: createDashboardAction("CreateDashboard")<{}>(),
-  ActivateDashboard: createDashboardAction("ActivateDashboard")<{}>(),
   DeleteDashboard: createDashboardAction("DeleteDashboard")<{}>(),
   RenameActiveDashboard: createDashboardAction("RenameActiveDashboard")<{
     newName: string;
