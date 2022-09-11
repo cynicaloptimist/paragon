@@ -15,7 +15,7 @@ import { isActionOf } from "typesafe-actions";
 import { app } from "../..";
 import { RootAction } from "../../actions/Actions";
 import { CardActions } from "../../actions/CardActions";
-import { GetDashboard, AppState, VisibleCardsOf } from "../../state/AppState";
+import { GetDashboard, AppState, GetVisibleCards } from "../../state/AppState";
 import { PlayerViewPermission } from "../../state/CardState";
 import { FirebaseUtils } from "../../FirebaseUtils";
 import { useUserId } from "./useAccountSync";
@@ -39,7 +39,7 @@ function omitClosedCardsFromState(fullState: AppState): AppState {
   }
 
   const visibleCards =
-    VisibleCardsOf(fullState).filter(
+    GetVisibleCards(fullState).filter(
       (card) => card.playerViewPermission !== PlayerViewPermission.Hidden
     ) || [];
 

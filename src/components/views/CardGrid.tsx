@@ -17,7 +17,7 @@ import { ViewType, ViewTypeContext } from "../ViewTypeContext";
 import {
   GetDashboard,
   DashboardState,
-  VisibleCardsOf,
+  GetVisibleCards,
 } from "../../state/AppState";
 import { LedgerCard } from "../cards/LedgerCard";
 import { BaseCard } from "../cards/base/BaseCard";
@@ -110,7 +110,7 @@ export function CardGrid(props: {
 
   const dashboard = matchGMLayout ? activeDashboardState : localDashboardState;
 
-  const cards = VisibleCardsOf(state);
+  const cards = GetVisibleCards(state);
 
   // useMemo is used to take advantage of https://github.com/react-grid-layout/react-grid-layout#performance
   const gridItems = React.useMemo(

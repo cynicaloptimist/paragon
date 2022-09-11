@@ -4,14 +4,14 @@ import { Button } from "grommet";
 import React, { useContext } from "react";
 import { CardActions } from "../../actions/CardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
-import { VisibleCardsOf } from "../../state/AppState";
+import { GetVisibleCards } from "../../state/AppState";
 import { CardState, RollTableCardState } from "../../state/CardState";
 import { RandomInt } from "../cards/roll-table/RollTableCard";
 import { GetRollTableModel } from "../cards/roll-table/GetRollTableModel";
 
 export function RollAllTablesButton() {
   const { state, dispatch } = useContext(ReducerContext);
-  const openCards = VisibleCardsOf(state);
+  const openCards = GetVisibleCards(state);
   const isRollTableCard = (card: CardState): card is RollTableCardState =>
     card.type === "roll-table-h";
   const tableCards: RollTableCardState[] =

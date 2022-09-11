@@ -44,7 +44,7 @@ export function GetDashboard(state: AppState) {
   return state.dashboardsById[state.activeDashboardId];
 }
 
-export function VisibleCardsOf(state: AppState) {
+export function GetVisibleCards(state: AppState) {
   const activeDashboard = GetDashboard(state);
   if (!activeDashboard) {
     return [];
