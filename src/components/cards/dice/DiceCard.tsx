@@ -12,7 +12,7 @@ import { PlayerViewUserContext } from "../../PlayerViewUserContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { DiceTextInput } from "./DiceTextInput";
-import { QuickRollsInput } from "./QuickRollsInput";
+import { DiceCardConfiguration } from "./DiceCardConfiguration";
 
 const dice = new Dice();
 export const defaultQuickRolls = [
@@ -53,7 +53,7 @@ export function DiceCard(props: { card: DiceCardState }) {
     [card.cardId, dispatch, playerViewUser.name]
   );
 
-  const [configuringQuickRolls, setConfiguringQuickRolls] = useState(false);
+  const [configuring, setConfiguring] = useState(false);
   const quickRolls = card.quickRolls ?? defaultQuickRolls;
   const quickRollButtons = quickRolls.map((quickRoll: string) => (
     <Button
@@ -69,8 +69,8 @@ export function DiceCard(props: { card: DiceCardState }) {
     <Button
       key="configure"
       icon={<FontAwesomeIcon icon={faPen} />}
-      onClick={() => setConfiguringQuickRolls(true)}
-      tip="Configure Quick Rolls"
+      onClick={() => setConfiguring(true)}
+      tip="Configure"
     />,
   ];
 
@@ -80,12 +80,9 @@ export function DiceCard(props: { card: DiceCardState }) {
   const nameInputVisible =
     viewType === ViewType.Player && canEdit && playerViewUser.name === null;
 
-  if (configuringQuickRolls) {
+  if (configuring) {
     return (
-      <QuickRollsInput
-        card={card}
-        done={() => setConfiguringQuickRolls(false)}
-      />
+      <DiceCardConfiguration card={card} done={() => setConfiguring(false)} />
     );
   }
 

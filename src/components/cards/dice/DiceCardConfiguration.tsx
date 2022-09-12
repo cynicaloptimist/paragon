@@ -1,4 +1,4 @@
-import { Button, TextArea } from "grommet";
+import { Button, Text, TextArea } from "grommet";
 import { useContext, useRef } from "react";
 import { CardActions } from "../../../actions/CardActions";
 import { ReducerContext } from "../../../reducers/ReducerContext";
@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faEraser } from "@fortawesome/free-solid-svg-icons";
 import { defaultQuickRolls } from "./DiceCard";
 
-export function QuickRollsInput(props: {
+export function DiceCardConfiguration(props: {
   card: DiceCardState;
   done: () => void;
 }) {
@@ -47,10 +47,11 @@ export function QuickRollsInput(props: {
             );
             props.done();
           }}
-          tip="Save Quick Rolls"
+          tip="Save"
         />,
       ]}
     >
+      <Text margin="xsmall">Quick Rolls</Text>
       <TextArea fill ref={inputRef} defaultValue={inputDefaultValue} />
     </BaseCard>
   );
