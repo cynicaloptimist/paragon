@@ -16,7 +16,7 @@ export const UIContext = createContext<UIContextValue>({
   setAppSettingsVisible: () => {},
 });
 
-export function useUIContext(): UIContextValue {
+export function useUIContextState(): UIContextValue {
   const [librarySidebarMode, setLibrarySidebarMode] =
     useState<LibrarySidebarMode>("hidden");
   const [appSettingsVisible, setAppSettingsVisible] = useState(false);

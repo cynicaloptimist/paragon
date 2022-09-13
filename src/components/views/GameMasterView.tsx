@@ -16,7 +16,7 @@ import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 import { useHistory } from "react-router-dom";
 import { randomString } from "../../randomString";
 import { DashboardActions } from "../../actions/DashboardActions";
-import { UIContext, useUIContext } from "../UIContext";
+import { UIContext, useUIContextState } from "../UIContext";
 
 export function GameMasterView() {
   const [state, dispatch] = useStorageBackedReducer(
@@ -29,7 +29,7 @@ export function GameMasterView() {
   useLogin(dispatch);
   usePlayerView(state, dispatch);
   const dashboardId = useActiveDashboardId();
-  const uiContext = useUIContext();
+  const uiContext = useUIContextState();
 
   const onDashboardLoaded = useCallback(
     (dashboardIds) => {
