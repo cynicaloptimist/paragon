@@ -16,10 +16,7 @@ import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 import { useHistory } from "react-router-dom";
 import { randomString } from "../../randomString";
 import { DashboardActions } from "../../actions/DashboardActions";
-import {
-  LibrarySidebarContext,
-  useLibrarySidebarContext,
-} from "../sidebar/LibrarySidebarContext";
+import { UIContext, useUIContext } from "../sidebar/UIContext";
 
 export function GameMasterView() {
   const [state, dispatch] = useStorageBackedReducer(
@@ -32,7 +29,7 @@ export function GameMasterView() {
   useLogin(dispatch);
   usePlayerView(state, dispatch);
   const dashboardId = useActiveDashboardId();
-  const librarySidebarContext = useLibrarySidebarContext();
+  const librarySidebarContext = useUIContext();
 
   const onDashboardLoaded = useCallback(
     (dashboardIds) => {
@@ -61,7 +58,7 @@ export function GameMasterView() {
 
   return (
     <ReducerContext.Provider value={{ state, dispatch }}>
-      <LibrarySidebarContext.Provider value={librarySidebarContext}>
+      <UIContext.Provider value={librarySidebarContext}>
         <Grommet style={{ minHeight: "100%" }} theme={Theme}>
           <Box fill align="center">
             <TopBar />
@@ -71,7 +68,7 @@ export function GameMasterView() {
             )}
           </Box>
         </Grommet>
-      </LibrarySidebarContext.Provider>
+      </UIContext.Provider>
     </ReducerContext.Provider>
   );
 }

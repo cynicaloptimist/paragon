@@ -2,12 +2,10 @@ import { Box, Button } from "grommet";
 import React, { useCallback, useContext } from "react";
 import { ReactComponent as CardStack } from "../../cards-regular.svg";
 import { ReactComponent as DMScreen } from "../../dm-screen-regular.svg";
-import { LibrarySidebarContext } from "./LibrarySidebarContext";
+import { UIContext } from "./UIContext";
 
 export function LibrarySidebarControls() {
-  const { librarySidebarMode, setLibrarySidebarMode } = useContext(
-    LibrarySidebarContext
-  );
+  const { librarySidebarMode, setLibrarySidebarMode } = useContext(UIContext);
 
   const toggleCardLibrary = useCallback(() => {
     if (librarySidebarMode === "cards") {

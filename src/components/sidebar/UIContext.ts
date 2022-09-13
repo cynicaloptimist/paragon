@@ -2,17 +2,17 @@ import { createContext, useState } from "react";
 
 export type LibrarySidebarMode = "hidden" | "cards" | "dashboards";
 
-type LibrarySidebarContextValue = {
+type UIContextValue = {
   librarySidebarMode: LibrarySidebarMode;
   setLibrarySidebarMode: (mode: LibrarySidebarMode) => void;
 };
 
-export const LibrarySidebarContext = createContext<LibrarySidebarContextValue>({
+export const UIContext = createContext<UIContextValue>({
   librarySidebarMode: "hidden",
   setLibrarySidebarMode: () => {},
 });
 
-export function useLibrarySidebarContext(): LibrarySidebarContextValue {
+export function useUIContext(): UIContextValue {
   const [librarySidebarMode, setLibrarySidebarMode] =
     useState<LibrarySidebarMode>("hidden");
 

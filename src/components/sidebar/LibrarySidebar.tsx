@@ -2,14 +2,12 @@ import { Box, Header, Heading, Layer } from "grommet";
 import React, { useCallback, useContext } from "react";
 import { CardLibrary } from "./CardLibrary";
 import { DashboardLibrary } from "./DashboardLibrary";
-import { LibrarySidebarContext } from "./LibrarySidebarContext";
+import { UIContext } from "./UIContext";
 import { LibrarySidebarControls } from "./LibrarySidebarControls";
 import { LoginLogout } from "./LoginLogout";
 
 export function LibrarySidebar() {
-  const { librarySidebarMode, setLibrarySidebarMode } = useContext(
-    LibrarySidebarContext
-  );
+  const { librarySidebarMode, setLibrarySidebarMode } = useContext(UIContext);
   const closeSidebar = useCallback(() => {
     setLibrarySidebarMode("hidden");
   }, [setLibrarySidebarMode]);
