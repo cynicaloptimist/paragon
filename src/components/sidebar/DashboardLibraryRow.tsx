@@ -8,7 +8,7 @@ import { ReducerContext } from "../../reducers/ReducerContext";
 import { DashboardState } from "../../state/AppState";
 import { LongPressButton } from "../common/LongPressButton";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
-import { UIContext } from "./UIContext";
+import { UIContext } from "../UIContext";
 
 export function DashboardLibraryRow(props: {
   dashboardId: string;

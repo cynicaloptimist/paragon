@@ -2,7 +2,7 @@ import { Box, Header, Heading, Layer } from "grommet";
 import React, { useCallback, useContext } from "react";
 import { CardLibrary } from "./CardLibrary";
 import { DashboardLibrary } from "./DashboardLibrary";
-import { UIContext } from "./UIContext";
+import { UIContext } from "../UIContext";
 import { LibrarySidebarControls } from "./LibrarySidebarControls";
 import { LoginLogout } from "./LoginLogout";
 
