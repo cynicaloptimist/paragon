@@ -64,10 +64,6 @@ export function UpdateMissingOrLegacyAppState(
     dashboardsById: {},
   };
 
-  appState.librarySidebarMode =
-    storedState.librarySidebarMode ??
-    (storedState.cardLibraryVisibility ? "cards" : "hidden");
-
   if (storedState.dashboardsById) {
     appState.dashboardsById = _.mapValues(
       storedState.dashboardsById,

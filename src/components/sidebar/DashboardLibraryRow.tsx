@@ -3,18 +3,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Anchor, Box } from "grommet";
 import { useCallback, useContext } from "react";
 import { Link } from "react-router-dom";
-import { Actions } from "../../actions/Actions";
 import { DashboardActions } from "../../actions/DashboardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { DashboardState } from "../../state/AppState";
 import { LongPressButton } from "../common/LongPressButton";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
+import { LibrarySidebarContext } from "./LibrarySidebarContext";
 
 export function DashboardLibraryRow(props: {
   dashboardId: string;
   dashboard: DashboardState;
 }) {
   const { dispatch } = useContext(ReducerContext);
+  const { setLibrarySidebarMode } = useContext(LibrarySidebarContext);
   const activeDashboardId = useActiveDashboardId();
 
   const isActiveDashboard = activeDashboardId === props.dashboardId;
@@ -41,9 +42,7 @@ export function DashboardLibraryRow(props: {
       >
         <Link
           to={`/e/${props.dashboardId}`}
-          onClick={() =>
-            dispatch(Actions.SetLibraryMode({ libraryMode: "hidden" }))
-          }
+          onClick={() => setLibrarySidebarMode("hidden")}
           component={Anchor}
         >
           {props.dashboard.name}

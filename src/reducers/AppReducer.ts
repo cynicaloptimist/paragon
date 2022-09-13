@@ -66,13 +66,6 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     };
   }
 
-  if (isActionOf(Actions.SetLibraryMode, action)) {
-    return {
-      ...oldState,
-      librarySidebarMode: action.payload.libraryMode,
-    };
-  }
-
   if (isActionOf(DashboardActions.CreateDashboard, action)) {
     let autoIndex = 0;
     let autoName: string;

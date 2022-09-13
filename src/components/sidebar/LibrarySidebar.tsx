@@ -1,17 +1,18 @@
 import { Box, Header, Heading, Layer } from "grommet";
 import React, { useCallback, useContext } from "react";
-import { Actions } from "../../actions/Actions";
-import { ReducerContext } from "../../reducers/ReducerContext";
 import { CardLibrary } from "./CardLibrary";
 import { DashboardLibrary } from "./DashboardLibrary";
+import { LibrarySidebarContext } from "./LibrarySidebarContext";
 import { LibrarySidebarControls } from "./LibrarySidebarControls";
 import { LoginLogout } from "./LoginLogout";
 
 export function LibrarySidebar() {
-  const { state, dispatch } = useContext(ReducerContext);
+  const { librarySidebarMode, setLibrarySidebarMode } = useContext(
+    LibrarySidebarContext
+  );
   const closeSidebar = useCallback(() => {
-    dispatch(Actions.SetLibraryMode({ libraryMode: "hidden" }));
-  }, [dispatch]);
+    setLibrarySidebarMode("hidden");
+  }, [setLibrarySidebarMode]);
 
   return (
     <Layer
@@ -28,11 +29,11 @@ export function LibrarySidebar() {
         <Header background="brand" pad="small" height="xsmall">
           <LibrarySidebarControls />
           <Heading level={3} margin="none">
-            {state.librarySidebarMode === "dashboards" ? "Dashboards" : "Cards"}
+            {librarySidebarMode === "dashboards" ? "Dashboards" : "Cards"}
           </Heading>
         </Header>
         <Box fill>
-          {state.librarySidebarMode === "dashboards" ? (
+          {librarySidebarMode === "dashboards" ? (
             <DashboardLibrary />
           ) : (
             <CardLibrary />

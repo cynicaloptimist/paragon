@@ -4,7 +4,6 @@ import { CardState } from "./CardState";
 export type AppState = {
   cardsById: CardsState;
   dashboardsById: Record<string, DashboardState>;
-  librarySidebarMode: "hidden" | "cards" | "dashboards";
   user: UserState;
 };
 
@@ -27,7 +26,6 @@ export type UserState = {
 export const EmptyState = (): AppState => ({
   cardsById: {},
   dashboardsById: {},
-  librarySidebarMode: "hidden",
   user: {
     isLoggedIn: false,
     hasStorage: false,

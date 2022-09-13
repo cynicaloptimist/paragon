@@ -1,28 +1,29 @@
 import { Box, Button } from "grommet";
 import React, { useCallback, useContext } from "react";
-import { Actions } from "../../actions/Actions";
 import { ReactComponent as CardStack } from "../../cards-regular.svg";
 import { ReactComponent as DMScreen } from "../../dm-screen-regular.svg";
-import { ReducerContext } from "../../reducers/ReducerContext";
+import { LibrarySidebarContext } from "./LibrarySidebarContext";
 
 export function LibrarySidebarControls() {
-  const { state, dispatch } = useContext(ReducerContext);
+  const { librarySidebarMode, setLibrarySidebarMode } = useContext(
+    LibrarySidebarContext
+  );
 
   const toggleCardLibrary = useCallback(() => {
-    if (state.librarySidebarMode === "cards") {
-      dispatch(Actions.SetLibraryMode({ libraryMode: "hidden" }));
+    if (librarySidebarMode === "cards") {
+      setLibrarySidebarMode("hidden");
     } else {
-      dispatch(Actions.SetLibraryMode({ libraryMode: "cards" }));
+      setLibrarySidebarMode("cards");
     }
-  }, [dispatch, state.librarySidebarMode]);
+  }, [librarySidebarMode, setLibrarySidebarMode]);
 
   const toggleDashboardLibrary = useCallback(() => {
-    if (state.librarySidebarMode === "dashboards") {
-      dispatch(Actions.SetLibraryMode({ libraryMode: "hidden" }));
+    if (librarySidebarMode === "dashboards") {
+      setLibrarySidebarMode("hidden");
     } else {
-      dispatch(Actions.SetLibraryMode({ libraryMode: "dashboards" }));
+      setLibrarySidebarMode("dashboards");
     }
-  }, [dispatch, state.librarySidebarMode]);
+  }, [librarySidebarMode, setLibrarySidebarMode]);
 
   return (
     <Box direction="row" gap="small">

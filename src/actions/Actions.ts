@@ -8,9 +8,6 @@ export const Actions = {
     hasEpic: boolean;
   }>(),
   LogOut: createAction("LogOut")(),
-  SetLibraryMode: createAction("SetLibraryMode")<{
-    libraryMode: "hidden" | "cards" | "dashboards";
-  }>(),
 };
 
 export type Action = ActionType<typeof Actions>;
