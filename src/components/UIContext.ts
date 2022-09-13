@@ -5,16 +5,26 @@ export type LibrarySidebarMode = "hidden" | "cards" | "dashboards";
 type UIContextValue = {
   librarySidebarMode: LibrarySidebarMode;
   setLibrarySidebarMode: (mode: LibrarySidebarMode) => void;
+  appSettingsVisible: boolean;
+  setAppSettingsVisible: (visible: boolean) => void;
 };
 
 export const UIContext = createContext<UIContextValue>({
   librarySidebarMode: "hidden",
+  appSettingsVisible: false,
   setLibrarySidebarMode: () => {},
+  setAppSettingsVisible: () => {},
 });
 
 export function useUIContext(): UIContextValue {
   const [librarySidebarMode, setLibrarySidebarMode] =
     useState<LibrarySidebarMode>("hidden");
+  const [appSettingsVisible, setAppSettingsVisible] = useState(false);
 
-  return { librarySidebarMode, setLibrarySidebarMode };
+  return {
+    librarySidebarMode,
+    setLibrarySidebarMode,
+    appSettingsVisible,
+    setAppSettingsVisible,
+  };
 }

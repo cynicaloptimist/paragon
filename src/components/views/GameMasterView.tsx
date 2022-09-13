@@ -1,6 +1,6 @@
 import "firebase/auth";
-import { Box, Grommet } from "grommet";
-import { useCallback } from "react";
+import { Box, Grommet, Layer } from "grommet";
+import { useCallback, useContext } from "react";
 import { AppReducer } from "../../reducers/AppReducer";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { UpdateMissingOrLegacyAppState } from "../../state/LegacyAppState";
@@ -29,7 +29,7 @@ export function GameMasterView() {
   useLogin(dispatch);
   usePlayerView(state, dispatch);
   const dashboardId = useActiveDashboardId();
-  const librarySidebarContext = useUIContext();
+  const uiContext = useUIContext();
 
   const onDashboardLoaded = useCallback(
     (dashboardIds) => {
@@ -58,17 +58,36 @@ export function GameMasterView() {
 
   return (
     <ReducerContext.Provider value={{ state, dispatch }}>
-      <UIContext.Provider value={librarySidebarContext}>
+      <UIContext.Provider value={uiContext}>
         <Grommet style={{ minHeight: "100%" }} theme={Theme}>
           <Box fill align="center">
             <TopBar />
             <CardGrid />
-            {librarySidebarContext.librarySidebarMode !== "hidden" && (
-              <LibrarySidebar />
-            )}
+            {uiContext.librarySidebarMode !== "hidden" && <LibrarySidebar />}
+            {uiContext.appSettingsVisible && <AppSettings />}
           </Box>
         </Grommet>
       </UIContext.Provider>
     </ReducerContext.Provider>
+  );
+}
+
+function AppSettings() {
+  const uiContext = useContext(UIContext);
+  const closeSettings = () => uiContext.setAppSettingsVisible(false);
+  return (
+    <Layer
+      onClickOutside={closeSettings}
+      onEsc={closeSettings}
+      position="center"
+    >
+      <Box
+        background="background"
+        style={{ width: "300px" }}
+        alignContent="center"
+      >
+        Settings
+      </Box>
+    </Layer>
   );
 }

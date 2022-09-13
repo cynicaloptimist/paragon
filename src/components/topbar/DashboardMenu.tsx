@@ -1,6 +1,7 @@
 import {
   faEllipsisV,
   faExternalLinkAlt,
+  faGears,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CheckBox, Menu, Text } from "grommet";
@@ -9,10 +10,12 @@ import { DashboardActions } from "../../actions/DashboardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { DashboardState } from "../../state/AppState";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
+import { UIContext } from "../UIContext";
 import { ShareDashboard } from "./ShareDashboard";
 
 export function DashboardMenu(props: { dashboard: DashboardState }) {
   const { state, dispatch } = useContext(ReducerContext);
+  const { setAppSettingsVisible } = useContext(UIContext);
   const dashboardId = useActiveDashboardId();
 
   const setLayoutCompaction = useCallback(
@@ -88,6 +91,21 @@ export function DashboardMenu(props: { dashboard: DashboardState }) {
             if (dashboardId && (await ShareDashboard(state, dashboardId))) {
               window.open(`/d/${dashboardId}`, "_blank");
             }
+          },
+        },
+        {
+          label: (
+            <Text>
+              <FontAwesomeIcon
+                icon={faGears}
+                style={{ padding: "0 5px 1px" }}
+              />
+              App Settings
+            </Text>
+          ),
+          onClick: () => {
+            setAppSettingsVisible(true);
+            console.log("asdfwefwe");
           },
         },
       ]}
