@@ -5,27 +5,26 @@ import { useContext } from "react";
 import { DashboardActions } from "../../actions/DashboardActions";
 import { randomString } from "../../randomString";
 import { ReducerContext } from "../../reducers/ReducerContext";
-import {
-  CardTypeFriendlyNames,
-  CardTypes,
-} from "../../state/CardTypeFriendlyNames";
+import { CardTypeFriendlyNames } from "../../state/CardTypeFriendlyNames";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 
 export function NewCardMenu() {
   const { state, dispatch } = useContext(ReducerContext);
   const dashboardId = useActiveDashboardId();
 
-  const availableCardTypes = CardTypes.filter((cardType) => {
-    if (cardType === "info") {
-      return false;
-    }
+  const availableCardTypes = state.appSettings.cardTypesInMenu.filter(
+    (cardType) => {
+      if (cardType === "info") {
+        return false;
+      }
 
-    if (cardType === "pdf") {
-      return state.user.hasStorage;
-    }
+      if (cardType === "pdf") {
+        return state.user.hasStorage;
+      }
 
-    return true;
-  });
+      return true;
+    }
+  );
 
   const menuItems = availableCardTypes.map((cardType) => {
     return {
