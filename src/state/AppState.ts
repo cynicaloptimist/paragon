@@ -1,3 +1,4 @@
+import _ from "lodash";
 import GridLayout from "react-grid-layout";
 import { CardState } from "./CardState";
 import { CardTypes } from "./CardTypeFriendlyNames";
@@ -33,7 +34,7 @@ export const EmptyState = (): AppState => ({
   cardsById: {},
   dashboardsById: {},
   appSettings: {
-    cardTypesInMenu: CardTypes,
+    cardTypesInMenu: _.difference(CardTypes, ["info", "ledger", "pdf"]),
   },
   user: {
     isLoggedIn: false,
