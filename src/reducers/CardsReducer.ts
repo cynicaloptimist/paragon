@@ -167,4 +167,9 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
     return mergeCardState(oldState, action, {
       isDecreasing: action.payload.isDecreasing,
     });
+  })
+  .handleAction(CardActions.SetFrameUrl, (oldState, action) => {
+    return mergeCardState(oldState, action, {
+      frameUrl: action.payload.frameUrl,
+    });
   });

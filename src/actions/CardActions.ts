@@ -109,6 +109,10 @@ export const CardActions = {
     cardId: string;
     isDecreasing: boolean;
   }>(),
+  SetFrameUrl: createAction("SetFrameUrl")<{
+    cardId: string;
+    frameUrl: string;
+  }>(),
 };
 
 export type CardAction = ActionType<typeof CardActions>;

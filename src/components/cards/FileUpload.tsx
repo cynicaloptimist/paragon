@@ -134,7 +134,7 @@ export function FileUpload(props: {
   );
 }
 
-function DirectUrlInput(props: {
+export function DirectUrlInput(props: {
   currentUrl: string;
   onSubmit: (url: string) => void;
 }) {
