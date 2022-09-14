@@ -10,7 +10,7 @@ import styled from "styled-components";
 import { useActiveDashboardId } from "../../hooks/useActiveDashboardId";
 import { DashboardActions } from "../../../actions/DashboardActions";
 
-const StyledEditor = styled(Editor)`
+const StyledEditor = styled(Editor as any)`
   font-size: 18px;
   p {
     line-height: 24px;
@@ -47,7 +47,7 @@ export function MarkdownEditor(props: {
         autoFocus
         defaultValue={props.card.content}
         placeholder=""
-        onChange={(getValue) => {
+        onChange={(getValue: () => string) => {
           try {
             props.setContent(getValue());
           } catch (e) {
@@ -55,7 +55,7 @@ export function MarkdownEditor(props: {
           }
         }}
         disableExtensions={["container_notice", "highlight"]}
-        onClickLink={(href) => {
+        onClickLink={(href: string) => {
           const url = new URL(href);
           const maybeCardId = url.pathname.replace(/^\//, "");
           const card = state.cardsById[maybeCardId];
