@@ -9,3 +9,5 @@ export const CardTypeFriendlyNames: Record<string, string> = {
   drawing: "Drawing",
   pdf: "PDF",
 };
+
+export const CardTypes = Object.keys(CardTypeFriendlyNames);
