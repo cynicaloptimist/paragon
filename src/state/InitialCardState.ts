@@ -84,6 +84,14 @@ export function InitialCardState(
     };
   }
 
+  if (type === "frame") {
+    return {
+      ...baseCard,
+      type,
+      frameUrl: "",
+    };
+  }
+
   return {
     ...baseCard,
     type: "article",
