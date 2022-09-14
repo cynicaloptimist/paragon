@@ -1,6 +1,6 @@
 import "firebase/auth";
-import { Box, Grommet, Layer } from "grommet";
-import { useCallback, useContext } from "react";
+import { Box, Grommet } from "grommet";
+import { useCallback } from "react";
 import { AppReducer } from "../../reducers/AppReducer";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { UpdateMissingOrLegacyAppState } from "../../state/LegacyAppState";
@@ -17,6 +17,7 @@ import { useHistory } from "react-router-dom";
 import { randomString } from "../../randomString";
 import { DashboardActions } from "../../actions/DashboardActions";
 import { UIContext, useUIContextState } from "../UIContext";
+import { AppSettings } from "./AppSettings";
 
 export function GameMasterView() {
   const [state, dispatch] = useStorageBackedReducer(
@@ -69,25 +70,5 @@ export function GameMasterView() {
         </Grommet>
       </UIContext.Provider>
     </ReducerContext.Provider>
-  );
-}
-
-function AppSettings() {
-  const uiContext = useContext(UIContext);
-  const closeSettings = () => uiContext.setAppSettingsVisible(false);
-  return (
-    <Layer
-      onClickOutside={closeSettings}
-      onEsc={closeSettings}
-      position="center"
-    >
-      <Box
-        background="background"
-        style={{ width: "300px" }}
-        alignContent="center"
-      >
-        Settings
-      </Box>
-    </Layer>
   );
 }
