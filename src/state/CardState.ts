@@ -7,7 +7,8 @@ export type CardState =
   | DiceCardState
   | DrawingCardState
   | PDFCardState
-  | LedgerCardState;
+  | LedgerCardState
+  | FrameCardState;
 
 export type ArticleCardState = BaseCardState & {
   type: "article";
@@ -79,6 +80,11 @@ export type LedgerCardState = BaseCardState & {
 export type LedgerEntry = {
   changeAmount: number;
   comment: string;
+};
+
+export type FrameCardState = BaseCardState & {
+  type: "frame";
+  frameUrl: string;
 };
 
 export enum PlayerViewPermission {

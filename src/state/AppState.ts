@@ -34,7 +34,12 @@ export const EmptyState = (): AppState => ({
   cardsById: {},
   dashboardsById: {},
   appSettings: {
-    cardTypesInMenu: _.difference(CardTypes, ["info", "ledger", "pdf"]),
+    cardTypesInMenu: _.difference(CardTypes, [
+      "info",
+      "ledger",
+      "pdf",
+      "frame",
+    ]),
   },
   user: {
     isLoggedIn: false,

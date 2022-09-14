@@ -8,6 +8,7 @@ export const CardTypeFriendlyNames: Record<string, string> = {
   image: "Image",
   drawing: "Drawing",
   pdf: "PDF",
+  frame: "Web Frame",
 };
 
 export const CardTypes = Object.keys(CardTypeFriendlyNames);

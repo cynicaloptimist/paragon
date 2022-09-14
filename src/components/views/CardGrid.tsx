@@ -26,6 +26,7 @@ import { UpdateMissingOrLegacyAppState } from "../../state/LegacyAppState";
 import { InfoCard } from "../cards/article/InfoCard";
 import { DashboardActions } from "../../actions/DashboardActions";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
+import { FrameCard } from "../cards/FrameCard";
 
 type Size = { height: number; width: number };
 
@@ -289,6 +290,9 @@ function getComponentForCard(card: CardState, outerSize: Size) {
   }
   if (card.type === "ledger") {
     return <LedgerCard card={card} />;
+  }
+  if (card.type === "frame") {
+    return <FrameCard card={card} />;
   }
 
   const unsupportedCard: any = card;
