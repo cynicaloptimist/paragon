@@ -9,8 +9,8 @@ export function AppSettings() {
   const { state } = useContext(ReducerContext);
   const closeSettings = () => uiContext.setAppSettingsVisible(false);
 
-  const availableCardTypes = Object.keys(CardTypeFriendlyNames).filter(
-    (cardType) => {
+  const availableCardTypes = Object.keys(CardTypeFriendlyNames)
+    .filter((cardType) => {
       if (cardType === "info") {
         return false;
       }
@@ -20,8 +20,12 @@ export function AppSettings() {
       }
 
       return true;
-    }
-  );
+    })
+    .map((cardType) => {
+      return {
+        label: CardTypeFriendlyNames[cardType],
+      };
+    });
 
   return (
     <Layer
@@ -37,15 +41,11 @@ export function AppSettings() {
         elevation="medium"
         overflow={{ vertical: "auto" }}
       >
-        <Heading level="3" margin="xsmall">
+        <Heading margin="xsmall" level="3">
           App Settings
         </Heading>
-        <Text>Display in New Card menu:</Text>
-        <CheckBoxGroup
-          margin="small"
-          options={availableCardTypes}
-          value={availableCardTypes}
-        />
+        <Text margin="xsmall">Display in New Card menu:</Text>
+        <CheckBoxGroup margin="xsmall" options={availableCardTypes} />
       </Box>
     </Layer>
   );
