@@ -7,6 +7,9 @@ export const Actions = {
     hasStorage: boolean;
     hasEpic: boolean;
   }>(),
+  SetCardTypesInMenu: createAction("SetCardTypesInMenu")<{
+    cardTypes: string[];
+  }>(),
   LogOut: createAction("LogOut")(),
 };
 

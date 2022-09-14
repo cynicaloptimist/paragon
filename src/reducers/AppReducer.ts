@@ -152,6 +152,16 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     };
   }
 
+  if (isActionOf(Actions.SetCardTypesInMenu, action)) {
+    return {
+      ...oldState,
+      appSettings: {
+        ...oldState.appSettings,
+        cardTypesInMenu: action.payload.cardTypes,
+      },
+    };
+  }
+
   return {
     ...oldState,
     cardsById: CardsReducer(oldState.cardsById, action),
