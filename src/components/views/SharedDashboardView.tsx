@@ -1,7 +1,6 @@
 import { getDatabase, off, onValue, ref } from "firebase/database";
 import { Box, Grommet } from "grommet";
 import { useEffect, useReducer, useState } from "react";
-import { useParams } from "react-router-dom";
 import { AppReducer } from "../../reducers/AppReducer";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { AppState } from "../../state/AppState";
