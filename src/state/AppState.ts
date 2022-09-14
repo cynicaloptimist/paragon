@@ -1,10 +1,16 @@
 import GridLayout from "react-grid-layout";
 import { CardState } from "./CardState";
+import { CardTypes } from "./CardTypeFriendlyNames";
 
 export type AppState = {
   cardsById: CardsState;
   dashboardsById: Record<string, DashboardState>;
+  appSettings: AppSettings;
   user: UserState;
+};
+
+export type AppSettings = {
+  cardTypesInMenu: string[];
 };
 
 export type DashboardState = {
@@ -26,6 +32,9 @@ export type UserState = {
 export const EmptyState = (): AppState => ({
   cardsById: {},
   dashboardsById: {},
+  appSettings: {
+    cardTypesInMenu: CardTypes,
+  },
   user: {
     isLoggedIn: false,
     hasStorage: false,
