@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { DashboardActions } from "../../actions/DashboardActions";
 import { randomString } from "../../randomString";
 import { ReducerContext } from "../../reducers/ReducerContext";
-import { CardTypeFriendlyNames } from "../../state/CardTypeFriendlyNames";
+import { CardTypeFriendlyNames } from "../../state/CardTypes";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 
 export function NewCardMenu() {

@@ -1,5 +1,5 @@
 import { CardState, PlayerViewPermission } from "./CardState";
-import { CardTypeFriendlyNames } from "./CardTypeFriendlyNames";
+import { CardTypeFriendlyNames } from "./CardTypes";
 
 export function InitialCardState(
   cardId: string,

@@ -14,7 +14,7 @@ import React, { useContext, useMemo, useState } from "react";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { AppState } from "../../state/AppState";
 import { CardState } from "../../state/CardState";
-import { CardTypeFriendlyNames } from "../../state/CardTypeFriendlyNames";
+import { CardTypeFriendlyNames } from "../../state/CardTypes";
 import { CardLibraryRow } from "./CardLibraryRow";
 
 type Grouping = {

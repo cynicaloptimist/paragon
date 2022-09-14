@@ -2,10 +2,7 @@ import { Box, CheckBoxGroup, Heading, Layer, Text } from "grommet";
 import { useContext } from "react";
 import { Actions } from "../../actions/Actions";
 import { ReducerContext } from "../../reducers/ReducerContext";
-import {
-  CardTypeFriendlyNames,
-  CardTypes,
-} from "../../state/CardTypeFriendlyNames";
+import { CardTypeFriendlyNames, CardTypes } from "../../state/CardTypes";
 import { UIContext } from "../UIContext";
 
 export function AppSettings() {

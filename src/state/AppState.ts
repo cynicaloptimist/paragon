@@ -1,7 +1,7 @@
 import _ from "lodash";
 import GridLayout from "react-grid-layout";
 import { CardState } from "./CardState";
-import { CardTypes } from "./CardTypeFriendlyNames";
+import { CardTypes } from "./CardTypes";
 
 export type AppState = {
   cardsById: CardsState;
