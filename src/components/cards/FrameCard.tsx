@@ -1,6 +1,6 @@
 import { faLink } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button } from "grommet";
+import { Text, Box, Button } from "grommet";
 import { useContext, useState } from "react";
 import styled from "styled-components";
 import { CardActions } from "../../actions/CardActions";
@@ -55,6 +55,9 @@ export function FrameCardConfig(props: {
           props.closeConfig();
         }}
       />
+      <Text margin="small" style={{ fontStyle: "italic" }}>
+        Some websites may disable iframe functionality.
+      </Text>
     </Box>
   );
 }
