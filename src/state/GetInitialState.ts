@@ -80,11 +80,21 @@ function GetCardTypesCard(): InfoCardState {
 
 **Clock Cards** are inspired by the Clock mechanic of various [PbtA](https://en.wikipedia.org/wiki/Powered_by_the_Apocalypse) games. They can be used for tracking progress toward a goal or event, for example.
 
-**Ledger Cards** help keep track of values that change over time. Try using them for experience points, currency, treasure, encumbrance, et cetera.
-
 **Image Cards** show an image. You can drag an image from another tab straight onto an image card.
 
 **Drawing Cards** are powered by [Excalidraw](https://excalidraw.com/). Epic Tier patrons can collaborate with their players.
+
+---
+
+*Additional card types can be enabled on the App Settings menu:*
+
+**Ledger Cards** help keep track of values that change over time. Try using them for experience points, currency, treasure, encumbrance, et cetera.
+
+**PDF Cards** are available for users with Account Sync. You can upload a PDF and share it on the Player View.
+
+**Web Frame Cards** allow you to embed another URL in an iframe.
+
+---
 
 All cards can be shared with your players in the Player View. If you're a [Patreon](https://www.patreon.com/improvedinitiative) supporter at the Epic tier, you can make cards fully interactable in the Player View.
 `,
