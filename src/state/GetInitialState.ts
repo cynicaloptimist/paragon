@@ -1,6 +1,8 @@
+import _ from "lodash";
 import { randomString } from "../randomString";
 import { AppState, EmptyState } from "./AppState";
 import { InfoCardState, PlayerViewPermission } from "./CardState";
+import { CardTypes } from "./CardTypes";
 
 export function GetInfoCards() {
   const welcomeCard = GetWelcomeCard();
@@ -14,8 +16,18 @@ export function GetInfoCards() {
 export const GetInitialState = (): AppState => {
   const firstDashboardId = randomString();
   const infoCards = GetInfoCards();
+  const emptyState = EmptyState();
   return {
-    ...EmptyState(),
+    ...emptyState,
+    appSettings: {
+      ...emptyState.appSettings,
+      cardTypesInMenu: _.difference(CardTypes, [
+        "info",
+        "ledger",
+        "pdf",
+        "frame",
+      ]),
+    },
     cardsById: infoCards,
     dashboardsById: {
       [firstDashboardId]: {
