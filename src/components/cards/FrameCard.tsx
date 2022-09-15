@@ -1,6 +1,6 @@
 import { faLink } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button } from "grommet";
+import { Box, Button } from "grommet";
 import { useContext, useState } from "react";
 import styled from "styled-components";
 import { CardActions } from "../../actions/CardActions";
@@ -11,6 +11,8 @@ import { DirectUrlInput } from "./FileUpload";
 
 export function FrameCard(props: { card: FrameCardState }) {
   const [configActive, setConfigActive] = useState(false);
+
+  const configVisible = configActive || props.card.frameUrl.length === 0;
   return (
     <BaseCard
       cardState={props.card}
@@ -22,7 +24,7 @@ export function FrameCard(props: { card: FrameCardState }) {
         />,
       ]}
     >
-      {configActive ? (
+      {configVisible ? (
         <FrameCardConfig
           card={props.card}
           closeConfig={() => setConfigActive(false)}
@@ -40,18 +42,20 @@ export function FrameCardConfig(props: {
 }) {
   const { dispatch } = useContext(ReducerContext);
   return (
-    <DirectUrlInput
-      currentUrl={props.card.frameUrl}
-      onSubmit={(newUrl) => {
-        dispatch(
-          CardActions.SetFrameUrl({
-            cardId: props.card.cardId,
-            frameUrl: newUrl,
-          })
-        );
-        props.closeConfig();
-      }}
-    />
+    <Box>
+      <DirectUrlInput
+        currentUrl={props.card.frameUrl}
+        onSubmit={(newUrl) => {
+          dispatch(
+            CardActions.SetFrameUrl({
+              cardId: props.card.cardId,
+              frameUrl: newUrl,
+            })
+          );
+          props.closeConfig();
+        }}
+      />
+    </Box>
   );
 }
 
