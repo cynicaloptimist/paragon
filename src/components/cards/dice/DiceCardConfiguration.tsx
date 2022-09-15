@@ -1,5 +1,5 @@
-import { Button, Text, TextArea } from "grommet";
-import { useContext, useRef } from "react";
+import { Box, Button, RangeInput, Text, TextArea } from "grommet";
+import { useContext, useRef, useState } from "react";
 import { CardActions } from "../../../actions/CardActions";
 import { ReducerContext } from "../../../reducers/ReducerContext";
 import { DiceCardState } from "../../../state/CardState";
@@ -13,6 +13,7 @@ export function DiceCardConfiguration(props: {
   done: () => void;
 }) {
   const { dispatch } = useContext(ReducerContext);
+  const [historyLength, setHistoryLength] = useState(20);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const quickRolls = props.card.quickRolls ?? defaultQuickRolls;
   const inputDefaultValue = quickRolls.join("\n");
@@ -51,8 +52,27 @@ export function DiceCardConfiguration(props: {
         />,
       ]}
     >
-      <Text margin="xsmall">Quick Rolls</Text>
-      <TextArea fill ref={inputRef} defaultValue={inputDefaultValue} />
+      <Box direction="row" align="center" gap="small">
+        <Text style={{ fontWeight: "bold" }} margin="small">
+          Lines of history shown
+        </Text>
+        <Box align="center" margin="small">
+          <Text>{historyLength === 20 ? "unlimited" : historyLength}</Text>
+          <RangeInput
+            max={20}
+            value={historyLength}
+            onChange={(changeEvent) =>
+              setHistoryLength(parseInt(changeEvent.target.value))
+            }
+          />
+        </Box>
+      </Box>
+      <Box direction="row" flex="grow">
+        <Text style={{ fontWeight: "bold" }} margin="small">
+          Quick Rolls
+        </Text>
+        <TextArea fill ref={inputRef} defaultValue={inputDefaultValue} />
+      </Box>
     </BaseCard>
   );
 }
