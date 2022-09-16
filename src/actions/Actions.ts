@@ -1,4 +1,5 @@
 import { ActionType, createAction } from "typesafe-actions";
+import { CardType } from "../state/CardTypes";
 import { CardAction } from "./CardActions";
 import { DashboardAction } from "./DashboardActions";
 
@@ -8,7 +9,7 @@ export const Actions = {
     hasEpic: boolean;
   }>(),
   SetCardTypesInMenu: createAction("SetCardTypesInMenu")<{
-    cardTypes: string[];
+    cardTypes: CardType[];
   }>(),
   LogOut: createAction("LogOut")(),
 };

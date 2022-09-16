@@ -1,4 +1,4 @@
-export const CardTypeFriendlyNames: Record<string, string> = {
+export const CardTypeFriendlyNames = {
   article: "Article",
   info: "Info",
   dice: "Dice",
@@ -9,6 +9,7 @@ export const CardTypeFriendlyNames: Record<string, string> = {
   drawing: "Drawing",
   pdf: "PDF",
   frame: "Web Frame",
-};
+} as const;
 
-export const CardTypes = Object.keys(CardTypeFriendlyNames);
+export const CardTypes = Object.keys(CardTypeFriendlyNames) as CardType[];
+export type CardType = keyof typeof CardTypeFriendlyNames;

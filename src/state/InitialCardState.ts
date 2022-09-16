@@ -1,9 +1,9 @@
 import { CardState, PlayerViewPermission } from "./CardState";
-import { CardTypeFriendlyNames } from "./CardTypes";
+import { CardType, CardTypeFriendlyNames } from "./CardTypes";
 
 export function InitialCardState(
   cardId: string,
-  type: string,
+  type: CardType,
   existingCardTitles: string[]
 ): CardState {
   const baseCard = {

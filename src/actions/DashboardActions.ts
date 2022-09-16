@@ -1,6 +1,7 @@
 import GridLayout from "react-grid-layout";
 import { createAction, ActionType } from "typesafe-actions";
 import { DashboardState } from "../state/AppState";
+import { CardType } from "../state/CardTypes";
 
 type BaseDashboardAction = { dashboardId: string };
 
@@ -11,11 +12,11 @@ function createDashboardAction(name: string) {
 export const DashboardActions = {
   AddCard: createDashboardAction("AddCard")<{
     cardId: string;
-    cardType: string;
+    cardType: CardType;
   }>(),
   OpenCard: createDashboardAction("OpenCard")<{
     cardId: string;
-    cardType: string;
+    cardType: CardType;
   }>(),
   CloseCard: createDashboardAction("CloseCard")<{ cardId: string }>(),
   SetLayouts: createDashboardAction("SetLayouts")<{

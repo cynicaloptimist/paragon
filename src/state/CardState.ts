@@ -1,3 +1,5 @@
+import { CardType } from "./CardTypes";
+
 export type CardState =
   | ArticleCardState
   | InfoCardState
@@ -95,6 +97,7 @@ export enum PlayerViewPermission {
 }
 
 type BaseCardState = {
+  type: CardType;
   cardId: string;
   title: string;
   playerViewPermission: PlayerViewPermission;

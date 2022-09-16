@@ -2,7 +2,11 @@ import { Box, CheckBoxGroup, Heading, Layer, Text } from "grommet";
 import { useContext } from "react";
 import { Actions } from "../../actions/Actions";
 import { ReducerContext } from "../../reducers/ReducerContext";
-import { CardTypeFriendlyNames, CardTypes } from "../../state/CardTypes";
+import {
+  CardType,
+  CardTypeFriendlyNames,
+  CardTypes,
+} from "../../state/CardTypes";
 import { UIContext } from "../UIContext";
 
 export function AppSettings() {
@@ -50,7 +54,7 @@ export function AppSettings() {
           options={availableCardTypes}
           value={state.appSettings.cardTypesInMenu}
           onChange={(changeEvent) => {
-            const selectedOptions = changeEvent?.value as unknown as string[];
+            const selectedOptions = changeEvent?.value as unknown as CardType[];
             dispatch(
               Actions.SetCardTypesInMenu({ cardTypes: selectedOptions })
             );
