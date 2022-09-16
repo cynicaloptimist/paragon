@@ -1,4 +1,4 @@
-import { faCheck, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faCog } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "grommet";
 import * as React from "react";
@@ -31,7 +31,7 @@ export function ClockCard(props: { card: ClockCardState }) {
         <Button
           aria-label="toggle-edit-mode"
           onClick={() => setConfigurable(!isConfigurable)}
-          icon={<FontAwesomeIcon icon={isConfigurable ? faCheck : faEdit} />}
+          icon={<FontAwesomeIcon icon={isConfigurable ? faCheck : faCog} />}
         />
       }
     >

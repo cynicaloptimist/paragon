@@ -10,7 +10,7 @@ import { ViewType, ViewTypeContext } from "../../ViewTypeContext";
 import { DiceRollRow } from "./DiceRollRow";
 import { PlayerViewUserContext } from "../../PlayerViewUserContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { faCog } from "@fortawesome/free-solid-svg-icons";
 import { DiceTextInput } from "./DiceTextInput";
 import { DiceCardConfiguration } from "./DiceCardConfiguration";
 import _ from "lodash";
@@ -69,7 +69,7 @@ export function DiceCard(props: { card: DiceCardState }) {
     ...quickRollButtons,
     <Button
       key="configure"
-      icon={<FontAwesomeIcon icon={faPen} />}
+      icon={<FontAwesomeIcon icon={faCog} />}
       onClick={() => setConfiguring(true)}
       tip="Configure"
     />,

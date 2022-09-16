@@ -1,4 +1,4 @@
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faCog } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, Image } from "grommet";
 import React, { useContext, useState } from "react";
@@ -55,7 +55,7 @@ export function ImageCard(props: { card: ImageCardState }) {
     <BaseCard
       commands={
         <Button
-          icon={<FontAwesomeIcon icon={faEdit} />}
+          icon={<FontAwesomeIcon icon={faCog} />}
           onClick={() => setInputVisible(true)}
         />
       }
@@ -84,11 +84,12 @@ export function ImageCard(props: { card: ImageCardState }) {
           }
           const imageUpload = dropEvent.dataTransfer.files?.[0];
           if (hasStorage && imageUpload) {
-            const imageUrl = await FirebaseUtils.UploadUserFileToStorageAndGetURL(
-              imageUpload,
-              userId,
-              "image"
-            );
+            const imageUrl =
+              await FirebaseUtils.UploadUserFileToStorageAndGetURL(
+                imageUpload,
+                userId,
+                "image"
+              );
             dispatch(
               CardActions.SetImageUrl({ cardId: card.cardId, imageUrl })
             );

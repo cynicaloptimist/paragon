@@ -1,7 +1,7 @@
 import {
   faCheck,
   faDice,
-  faEdit,
+  faCog,
   faHistory,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -53,13 +53,13 @@ export function RollTableCard(props: { card: RollTableCardState }) {
             icon={<FontAwesomeIcon icon={faDice} />}
           />
           <Button
-            aria-label="toggle-edit-mode"
+            tip="Edit Table"
             onClick={() =>
               setCurrentView(currentView === "edit" ? "table" : "edit")
             }
             icon={
               <FontAwesomeIcon
-                icon={currentView === "edit" ? faCheck : faEdit}
+                icon={currentView === "edit" ? faCheck : faCog}
               />
             }
           />
