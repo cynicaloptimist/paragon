@@ -24,46 +24,49 @@ export function DiceCardConfiguration(props: {
   return (
     <BaseCard
       cardState={props.card}
-      commands={[
-        <Button
-          icon={<FontAwesomeIcon icon={faEraser} />}
-          onClick={() => {
-            dispatch(
-              CardActions.RevertToDefaultQuickRolls({
-                cardId: props.card.cardId,
-              })
-            );
-            props.done();
-          }}
-          tip="Reset to default Quick Rolls"
-        />,
-        <Button
-          icon={<FontAwesomeIcon icon={faCheck} />}
-          onClick={() => {
-            if (!inputRef.current) {
-              return;
-            }
-            const newQuickRolls = inputRef.current.value.split("\n");
-            dispatch(
-              CardActions.SetQuickRolls({
-                cardId: props.card.cardId,
-                quickRolls: newQuickRolls,
-              })
-            );
+      commands={
+        <>
+          <Button
+            icon={<FontAwesomeIcon icon={faEraser} />}
+            onClick={() => {
+              dispatch(
+                CardActions.RevertToDefaultQuickRolls({
+                  cardId: props.card.cardId,
+                })
+              );
+              props.done();
+            }}
+            tip="Reset to default Quick Rolls"
+          />
+          <Button
+            icon={<FontAwesomeIcon icon={faCheck} />}
+            onClick={() => {
+              if (!inputRef.current) {
+                return;
+              }
+              const newQuickRolls = inputRef.current.value.split("\n");
+              dispatch(
+                CardActions.SetQuickRolls({
+                  cardId: props.card.cardId,
+                  quickRolls: newQuickRolls,
+                })
+              );
 
-            dispatch(
-              CardActions.SetShowHistoryLength({
-                cardId: props.card.cardId,
-                showHistoryLength:
-                  historyLength === 0 ? undefined : 20 - historyLength,
-                unlimited: historyLength === 0,
-              })
-            );
-            props.done();
-          }}
-          tip="Save"
-        />,
-      ]}
+              dispatch(
+                CardActions.SetShowHistoryLength({
+                  cardId: props.card.cardId,
+                  showHistoryLength:
+                    historyLength === 0 ? undefined : 20 - historyLength,
+                  unlimited: historyLength === 0,
+                })
+              );
+              props.done();
+            }}
+            tip="Save"
+          />
+          ,
+        </>
+      }
     >
       <Box direction="row" align="center" gap="small">
         <Text style={{ fontWeight: "bold" }} margin="small">
