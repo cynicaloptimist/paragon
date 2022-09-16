@@ -7,7 +7,7 @@ export function InfoCard(props: { card: InfoCardState }) {
   const { card } = props;
 
   return (
-    <BaseCard cardState={card} commands={[]}>
+    <BaseCard cardState={card} commands={null}>
       <Box fill pad="small" overflow={{ vertical: "auto" }}>
         <Markdown
           style={{ whiteSpace: "pre-wrap" }}
