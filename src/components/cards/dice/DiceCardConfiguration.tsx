@@ -13,7 +13,11 @@ export function DiceCardConfiguration(props: {
   done: () => void;
 }) {
   const { dispatch } = useContext(ReducerContext);
-  const [historyLength, setHistoryLength] = useState(20);
+  const [historyLength, setHistoryLength] = useState(
+    props.card.showHistoryLength === undefined
+      ? 0
+      : 20 - props.card.showHistoryLength
+  );
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const quickRolls = props.card.quickRolls ?? defaultQuickRolls;
   const inputDefaultValue = quickRolls.join("\n");
@@ -44,6 +48,15 @@ export function DiceCardConfiguration(props: {
               CardActions.SetQuickRolls({
                 cardId: props.card.cardId,
                 quickRolls: newQuickRolls,
+              })
+            );
+
+            dispatch(
+              CardActions.SetShowHistoryLength({
+                cardId: props.card.cardId,
+                showHistoryLength:
+                  historyLength === 0 ? undefined : 20 - historyLength,
+                unlimited: historyLength === 0,
               })
             );
             props.done();

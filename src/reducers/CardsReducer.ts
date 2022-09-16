@@ -119,6 +119,13 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
       quickRolls: undefined,
     });
   })
+  .handleAction(CardActions.SetShowHistoryLength, (oldState, action) => {
+    return mergeCardState(oldState, action, {
+      showHistoryLength: action.payload.unlimited
+        ? undefined
+        : action.payload.showHistoryLength,
+    });
+  })
   .handleAction(CardActions.SetSceneElements, (oldState, action) => {
     return mergeCardState(oldState, action, {
       sceneElementJSONs: action.payload.sceneElementJSONs,

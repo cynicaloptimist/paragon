@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { DiceTextInput } from "./DiceTextInput";
 import { DiceCardConfiguration } from "./DiceCardConfiguration";
+import _ from "lodash";
 
 const dice = new Dice();
 export const defaultQuickRolls = [
@@ -74,7 +75,10 @@ export function DiceCard(props: { card: DiceCardState }) {
     />,
   ];
 
-  const cardHistory = card.history || [];
+  const cardHistory = _.slice(
+    card.history || [],
+    -(card.showHistoryLength ?? 0)
+  );
   const scrollBottom = useScrollTo(cardHistory);
 
   const nameInputVisible =

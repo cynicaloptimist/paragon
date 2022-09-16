@@ -50,6 +50,7 @@ export type DiceCardState = BaseCardState & {
   type: "dice";
   history?: DiceRoll[];
   quickRolls?: string[];
+  showHistoryLength?: number;
 };
 
 export type DiceRoll = {

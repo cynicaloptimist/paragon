@@ -79,6 +79,11 @@ export const CardActions = {
   RevertToDefaultQuickRolls: createAction("RevertToDefaultQuickRolls")<{
     cardId: string;
   }>(),
+  SetShowHistoryLength: createAction("SetShowHistoryLength")<{
+    cardId: string;
+    showHistoryLength?: number;
+    unlimited?: boolean;
+  }>(),
   SetSceneElements: createAction("SetSceneElements")<{
     cardId: string;
     sceneElementJSONs: string[];
