@@ -69,6 +69,7 @@ export function DashboardMenu(props: { dashboard: DashboardState }) {
           label: (
             <Text>
               <FontAwesomeIcon
+                fixedWidth
                 icon={faExternalLinkAlt}
                 style={{ padding: "0 5px 1px" }}
               />
@@ -81,6 +82,7 @@ export function DashboardMenu(props: { dashboard: DashboardState }) {
           label: (
             <Text>
               <FontAwesomeIcon
+                fixedWidth
                 icon={faExternalLinkAlt}
                 style={{ padding: "0 5px 1px" }}
               />
@@ -97,6 +99,7 @@ export function DashboardMenu(props: { dashboard: DashboardState }) {
           label: (
             <Text>
               <FontAwesomeIcon
+                fixedWidth
                 icon={faGears}
                 style={{ padding: "0 5px 1px" }}
               />
