@@ -16,13 +16,13 @@ export function FrameCard(props: { card: FrameCardState }) {
   return (
     <BaseCard
       cardState={props.card}
-      commands={[
+      commands={
         <Button
           icon={<FontAwesomeIcon icon={faLink} />}
           onClick={() => setConfigActive(true)}
           tip="Set iframe URL"
-        />,
-      ]}
+        />
+      }
     >
       {configVisible ? (
         <FrameCardConfig
