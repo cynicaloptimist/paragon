@@ -57,9 +57,10 @@ export function DiceCardConfiguration(props: {
           Lines of history shown
         </Text>
         <Box align="center" margin="small">
-          <Text>{historyLength === 20 ? "unlimited" : historyLength}</Text>
+          <Text>{historyLength === 0 ? "unlimited" : 20 - historyLength}</Text>
           <RangeInput
-            max={20}
+            min={0}
+            max={19}
             value={historyLength}
             onChange={(changeEvent) =>
               setHistoryLength(parseInt(changeEvent.target.value))
