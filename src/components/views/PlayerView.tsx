@@ -16,23 +16,21 @@ import { useStorageBackedState } from "../hooks/useStorageBackedState";
 import { PlayerViewUserContext } from "../PlayerViewUserContext";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 
-function useRemoteState(
-  playerViewId: string
-): [AppState, React.Dispatch<RootAction>] {
+function useRemoteState(): [AppState, React.Dispatch<RootAction>] {
   const [state, setState] = useState(EmptyState());
   const [playerViewUserId, setPlayerViewUserId] = useState<string | null>(null);
   const dashboardId = useActiveDashboardId();
 
   useEffect(() => {
     const database = getDatabase(app);
-    const idDbRef = ref(database, `playerViews/${playerViewId}`);
+    const idDbRef = ref(database, `playerViews/${dashboardId}`);
 
     onValue(idDbRef, (id) => {
       setPlayerViewUserId(id.val());
     });
 
     return () => off(idDbRef);
-  }, [playerViewId]);
+  }, [dashboardId]);
 
   useEffect(() => {
     if (!playerViewUserId) {
@@ -42,7 +40,7 @@ function useRemoteState(
     const database = getDatabase(app);
     const playerViewRef = ref(
       database,
-      `users/${playerViewUserId}/playerViews/${playerViewId}`
+      `users/${playerViewUserId}/playerViews/${dashboardId}`
     );
     onValue(playerViewRef, (appState) => {
       const networkAppState: Partial<AppState> = appState.val();
@@ -57,7 +55,7 @@ function useRemoteState(
     return () => {
       off(playerViewRef);
     };
-  }, [playerViewId, playerViewUserId]);
+  }, [dashboardId, playerViewUserId]);
 
   const dispatch = (action: RootAction) => {
     const cleanAction = FirebaseUtils.removeUndefinedNodesFromTree(action);
@@ -70,8 +68,7 @@ function useRemoteState(
 }
 
 export function PlayerView() {
-  const { playerViewId } = useParams<{ playerViewId: string }>();
-  const [state, dispatch] = useRemoteState(playerViewId);
+  const [state, dispatch] = useRemoteState();
   const [matchGMLayout, setMatchGMLayout] = useStorageBackedState(
     "matchGmLayout",
     true

@@ -12,7 +12,7 @@ const App = () => {
   return (
     <Router>
       <Switch>
-        <Route path="/p/:playerViewId">
+        <Route path="/p/:dashboardId">
           <PlayerView />
         </Route>
         <Route path="/d/:dashboardId">
