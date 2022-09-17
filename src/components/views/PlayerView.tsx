@@ -2,7 +2,6 @@ import { getDatabase, off, onValue, push, ref } from "firebase/database";
 import "firebase/database";
 import { Box, Grommet } from "grommet";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { RootAction } from "../../actions/Actions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { AppState, EmptyState } from "../../state/AppState";
