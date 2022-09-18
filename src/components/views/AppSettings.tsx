@@ -48,7 +48,7 @@ export function AppSettings() {
         <Heading margin="xsmall" level="3">
           App Settings
         </Heading>
-        <Text margin="xsmall">Display in New Card menu:</Text>
+        <Text margin="xsmall">Card Types in New Card menu:</Text>
         <CheckBoxGroup
           margin="xsmall"
           options={availableCardTypes}
