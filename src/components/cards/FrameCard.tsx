@@ -30,7 +30,12 @@ export function FrameCard(props: { card: FrameCardState }) {
           closeConfig={() => setConfigActive(false)}
         />
       ) : (
-        <Frame title={props.card.title} src={props.card.frameUrl} />
+        <Frame
+          title={props.card.title}
+          src={props.card.frameUrl}
+          sandbox=""
+          loading="lazy"
+        />
       )}
     </BaseCard>
   );
