@@ -33,7 +33,7 @@ export function FrameCard(props: { card: FrameCardState }) {
         <Frame
           title={props.card.title}
           src={props.card.frameUrl}
-          sandbox=""
+          sandbox="allow-scripts allow-same-origin"
           loading="lazy"
         />
       )}
