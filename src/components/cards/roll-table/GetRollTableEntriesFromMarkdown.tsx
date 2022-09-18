@@ -41,3 +41,16 @@ function GetWeight(diceRange: string) {
     return 1;
   }
 }
+
+export function GetRollTableEntriesFromCommaSeparatedList(
+  inputString: string
+): RollTableEntry[] {
+  const entries = inputString.split(",").map((entry) => {
+    return {
+      weight: 1,
+      content: entry,
+    };
+  });
+
+  return entries;
+}
