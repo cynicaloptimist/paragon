@@ -35,6 +35,7 @@ export function FrameCard(props: { card: FrameCardState }) {
           src={props.card.frameUrl}
           sandbox="allow-scripts allow-same-origin"
           loading="lazy"
+          name={`framecard_${props.card.cardId}`}
         />
       )}
     </BaseCard>
