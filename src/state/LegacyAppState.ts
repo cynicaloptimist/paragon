@@ -1,7 +1,13 @@
 import _ from "lodash";
 import GridLayout from "react-grid-layout";
 import { randomString } from "../randomString";
-import { AppState, CardsState, EmptyState, UserState } from "./AppState";
+import {
+  AppSettings,
+  AppState,
+  CardsState,
+  EmptyState,
+  UserState,
+} from "./AppState";
 import { GetInfoCards, GetInitialState } from "./GetInitialState";
 import { LegacyCardState, UpdateCardState } from "./LegacyCardState";
 
@@ -12,6 +18,7 @@ export type LegacyAppState = {
   librarySidebarMode?: "hidden" | "cards" | "dashboards";
   user?: UserState;
   layoutPushCards?: "none" | "preventcollision";
+  appSettings?: AppSettings;
 
   //current
   cardsById: LegacyCardsState;
@@ -43,8 +50,9 @@ type LegacyCardsState = Record<string, LegacyCardState>;
 export function UpdateMissingOrLegacyAppState(
   storedState: Partial<LegacyAppState> | null
 ): AppState {
+  const initialState = GetInitialState();
   if (!storedState) {
-    return GetInitialState();
+    return initialState;
   }
 
   const convertedCards: CardsState = {};
@@ -62,6 +70,10 @@ export function UpdateMissingOrLegacyAppState(
       ...GetInfoCards(),
     },
     dashboardsById: {},
+    appSettings: {
+      cardTypesInMenu: initialState.appSettings.cardTypesInMenu,
+      ...storedState.appSettings,
+    },
   };
 
   if (storedState.dashboardsById) {
