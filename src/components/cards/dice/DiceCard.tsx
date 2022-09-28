@@ -1,5 +1,5 @@
 import { Dice } from "dice-typescript";
-import { Box, Button, TextInput } from "grommet";
+import { Box, Button, Text, TextInput } from "grommet";
 import { useCallback, useContext, useState } from "react";
 import { CardActions } from "../../../actions/CardActions";
 import { ReducerContext } from "../../../reducers/ReducerContext";
@@ -14,6 +14,7 @@ import { faCog } from "@fortawesome/free-solid-svg-icons";
 import { DiceTextInput } from "./DiceTextInput";
 import { DiceCardConfiguration } from "./DiceCardConfiguration";
 import _ from "lodash";
+import styled from "styled-components";
 
 const dice = new Dice();
 export const defaultQuickRolls = [
@@ -79,6 +80,9 @@ export function DiceCard(props: { card: DiceCardState }) {
     card.history || [],
     -(card.showHistoryLength ?? 0)
   );
+
+  const hiddenRollCount = (card.history?.length ?? 0) - cardHistory.length;
+
   const scrollBottom = useScrollTo(cardHistory);
 
   const nameInputVisible =
@@ -93,6 +97,9 @@ export function DiceCard(props: { card: DiceCardState }) {
   return (
     <BaseCard cardState={card} commands={commands}>
       <Box overflow={{ vertical: "auto" }} flex justify="start">
+        {hiddenRollCount > 0 && (
+          <HiddenInfo>{hiddenRollCount} rolls are hidden</HiddenInfo>
+        )}
         {cardHistory.map((roll, index) => (
           <DiceRollRow key={index} roll={roll} rollDice={rollDice} />
         ))}
@@ -119,3 +126,10 @@ export function DiceCard(props: { card: DiceCardState }) {
     </BaseCard>
   );
 }
+
+const HiddenInfo = styled(Text)`
+  font-style: italic;
+  color: gray;
+  text-align: center;
+  font-size: smaller;G
+`;
