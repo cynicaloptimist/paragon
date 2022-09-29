@@ -6,6 +6,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CheckBox, Menu, Text } from "grommet";
 import { useCallback, useContext } from "react";
+import styled from "styled-components";
 import { DashboardActions } from "../../actions/DashboardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { DashboardState } from "../../state/AppState";
@@ -68,11 +69,7 @@ export function DashboardMenu(props: { dashboard: DashboardState }) {
         {
           label: (
             <Text>
-              <FontAwesomeIcon
-                fixedWidth
-                icon={faExternalLinkAlt}
-                style={{ padding: "0 5px 1px" }}
-              />
+              <MenuIcon icon={faExternalLinkAlt} />
               {"Player View: " + dashboardId}
             </Text>
           ),
@@ -81,11 +78,7 @@ export function DashboardMenu(props: { dashboard: DashboardState }) {
         {
           label: (
             <Text>
-              <FontAwesomeIcon
-                fixedWidth
-                icon={faExternalLinkAlt}
-                style={{ padding: "0 5px 1px" }}
-              />
+              <MenuIcon icon={faExternalLinkAlt} />
               Share Dashboard
             </Text>
           ),
@@ -98,11 +91,7 @@ export function DashboardMenu(props: { dashboard: DashboardState }) {
         {
           label: (
             <Text>
-              <FontAwesomeIcon
-                fixedWidth
-                icon={faGears}
-                style={{ padding: "0 5px 1px" }}
-              />
+              <MenuIcon icon={faGears} />
               App Settings
             </Text>
           ),
@@ -115,3 +104,7 @@ export function DashboardMenu(props: { dashboard: DashboardState }) {
     />
   );
 }
+
+const MenuIcon = styled(FontAwesomeIcon).attrs({ fixedWidth: true })`
+  padding: 0 5px 1px;
+`;
