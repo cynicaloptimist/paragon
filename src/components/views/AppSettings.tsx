@@ -1,5 +1,6 @@
 import { Box, CheckBoxGroup, Heading, Layer, Text } from "grommet";
 import { useContext } from "react";
+import styled from "styled-components";
 import { Actions } from "../../actions/Actions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import {
@@ -60,7 +61,30 @@ export function AppSettings() {
             );
           }}
         />
+        <AppInfo />
       </Box>
     </Layer>
   );
 }
+
+function AppInfo() {
+  return (
+    <InfoText>
+      {"Paragon Campaign Dashboard is funded on "}
+      <LinkOut href="https://www.patreon.com/improvedinitiative">
+        Patreon
+      </LinkOut>
+      {" and developed on "}
+      <LinkOut href="https://github.com/cynicaloptimist/paragon/">
+        Github
+      </LinkOut>
+      .
+    </InfoText>
+  );
+}
+
+const LinkOut = styled.a.attrs({ target: "_blank", rel: "noreferrer" })``;
+
+const InfoText = styled(Text).attrs({ color: "text-fade" })`
+  font-size: medium;
+`;
