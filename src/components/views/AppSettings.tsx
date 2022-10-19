@@ -52,6 +52,7 @@ export function AppSettings() {
         <Text margin="xsmall">Card Types in New Card menu:</Text>
         <CheckBoxGroup
           margin="xsmall"
+          flex={false}
           options={availableCardTypes}
           value={state.appSettings.cardTypesInMenu}
           onChange={(changeEvent) => {
@@ -87,4 +88,5 @@ const LinkOut = styled.a.attrs({ target: "_blank", rel: "noreferrer" })``;
 
 const InfoText = styled(Text).attrs({ color: "text-fade" })`
   font-size: medium;
+  flex-shrink: 0;
 `;
