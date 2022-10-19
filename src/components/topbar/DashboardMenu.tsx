@@ -97,7 +97,6 @@ export function DashboardMenu(props: { dashboard: DashboardState }) {
           ),
           onClick: () => {
             setAppSettingsVisible(true);
-            console.log("asdfwefwe");
           },
         },
       ]}
