@@ -18,6 +18,7 @@ import { PDFCardState, PlayerViewPermission } from "../../state/CardState";
 import { BaseCard } from "./base/BaseCard";
 import { FileUpload } from "./FileUpload";
 import { ViewType, ViewTypeContext } from "../ViewTypeContext";
+import { RootAction } from "../../actions/Actions";
 
 type Size = {
   width: number;
@@ -193,7 +194,7 @@ export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
 
 function setCardPDF(
   card: PDFCardState,
-  dispatch: React.Dispatch<any>,
+  dispatch: React.Dispatch<RootAction>,
   fileName: string,
   pdfURL: string
 ) {
@@ -202,7 +203,10 @@ function setCardPDF(
   );
 }
 
-function clearCardPDF(card: PDFCardState, dispatch: React.Dispatch<any>) {
+function clearCardPDF(
+  card: PDFCardState,
+  dispatch: React.Dispatch<RootAction>
+) {
   dispatch(
     CardActions.SetPDF({ cardId: card.cardId, pdfURL: "", pdfTitle: "" })
   );
