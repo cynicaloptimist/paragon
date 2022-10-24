@@ -1,8 +1,12 @@
-import { Box, CheckBoxGroup, Heading, Layer, Text } from "grommet";
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import saveAs from "file-saver";
+import { Box, Button, CheckBoxGroup, Heading, Layer, Text } from "grommet";
 import { useContext } from "react";
 import styled from "styled-components";
 import { Actions } from "../../actions/Actions";
 import { ReducerContext } from "../../reducers/ReducerContext";
+import { AppState } from "../../state/AppState";
 import {
   CardType,
   CardTypeFriendlyNames,
@@ -62,9 +66,35 @@ export function AppSettings() {
             );
           }}
         />
+        <ExportImportControls />
         <AppInfo />
       </Box>
     </Layer>
+  );
+}
+
+function exportAppData(state: AppState) {
+  const data = {
+    dashboardsById: state.dashboardsById,
+    cardsById: state.cardsById,
+  };
+  const jsonData = JSON.stringify(data, null, "\t");
+  const file = new Blob([jsonData]);
+  const date = new Date().toISOString();
+
+  saveAs(file, `paragon-dashboard-data_${date}.json`);
+}
+
+function ExportImportControls() {
+  const { state } = useContext(ReducerContext);
+  return (
+    <Box flex={false} pad="small" gap="small">
+      <Button
+        icon={<FontAwesomeIcon icon={faDownload} />}
+        label="Export app data"
+        onClick={() => exportAppData(state)}
+      />
+    </Box>
   );
 }
 
