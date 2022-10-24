@@ -73,7 +73,7 @@ export function AppSettings() {
   );
 }
 
-function exportAppData(state: AppState) {
+function exportCardsAndDashboards(state: AppState) {
   const data = {
     dashboardsById: state.dashboardsById,
     cardsById: state.cardsById,
@@ -91,8 +91,8 @@ function ExportImportControls() {
     <Box flex={false} pad="small" gap="small">
       <Button
         icon={<FontAwesomeIcon icon={faDownload} />}
-        label="Export app data"
-        onClick={() => exportAppData(state)}
+        label="Export cards and dashboards"
+        onClick={() => exportCardsAndDashboards(state)}
       />
     </Box>
   );
