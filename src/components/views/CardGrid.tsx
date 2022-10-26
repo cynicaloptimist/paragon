@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { Box } from "grommet";
+import { Box, Text } from "grommet";
 import React, { CSSProperties, useContext } from "react";
 
 import { Layout, Responsive, WidthProvider } from "react-grid-layout";
@@ -27,6 +27,7 @@ import { InfoCard } from "../cards/article/InfoCard";
 import { DashboardActions } from "../../actions/DashboardActions";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 import { FrameCard } from "../cards/FrameCard";
+import { ErrorBoundary } from "react-error-boundary";
 
 type Size = { height: number; width: number };
 
@@ -246,8 +247,19 @@ const GridItem = React.forwardRef(
 
     return (
       <div ref={ref} {...attributes}>
-        {getComponentForCard(props.card, outerSize) || null}
-        {props.children?.slice(1)}
+        <ErrorBoundary
+          fallbackRender={(props: { error: { message: string } }) => {
+            return (
+              <BaseCard commands={[]} cardState={card}>
+                <Text>There was a problem loading this card:</Text>
+                <pre>{props.error.message}</pre>
+              </BaseCard>
+            );
+          }}
+        >
+          {getComponentForCard(props.card, outerSize) || null}
+          {props.children?.slice(1)}
+        </ErrorBoundary>
       </div>
     );
   }
