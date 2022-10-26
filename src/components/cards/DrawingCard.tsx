@@ -1,7 +1,7 @@
 import { Box } from "grommet";
 import _ from "lodash";
 import React, { useContext, useEffect, useRef } from "react";
-import Excalidraw, { restoreElements } from "@excalidraw/excalidraw";
+import { Excalidraw, restoreElements } from "@excalidraw/excalidraw";
 
 import { CardActions } from "../../actions/CardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
