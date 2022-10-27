@@ -4,7 +4,7 @@ import saveAs from "file-saver";
 import { Box, Button, Text } from "grommet";
 import React, { useContext, useRef, useState } from "react";
 import styled from "styled-components";
-import { RootAction } from "../../actions/Actions";
+import { Actions, RootAction } from "../../actions/Actions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { AppState } from "../../state/AppState";
 
@@ -33,7 +33,7 @@ export function ExportImportControls() {
           if (file) {
             const json = await file.text();
             try {
-              importCardsAndDashboards(json, dispatch);
+              importCardsAndDashboards(json, state, dispatch);
             } catch (exception) {
               const error = exception as Error;
               setFileError(error.message);
@@ -62,11 +62,48 @@ function exportCardsAndDashboards(state: AppState) {
 }
 
 function importCardsAndDashboards(
-  json: unknown,
+  json: string,
+  state: AppState,
   dispatch: React.Dispatch<RootAction>
 ) {
-  console.log(json);
-  throw new Error("Not Implemented");
+  const data = JSON.parse(json);
+  const incomingCardIds = Object.keys(data?.cardsById ?? {});
+  const incomingDashboardIds = Object.keys(data?.dashboardsById ?? {});
+
+  if (incomingCardIds.length + incomingDashboardIds.length === 0) {
+    throw new Error("Did not find any cards or dashboards in the file.");
+  }
+
+  const cardsPendingOverwrite = Object.keys(state.cardsById).filter(
+    (cardId) => {
+      return incomingCardIds.includes(cardId);
+    }
+  );
+
+  const dashboardsPendingOverwrite = Object.keys(state.dashboardsById).filter(
+    (dashboardId) => {
+      return incomingDashboardIds.includes(dashboardId);
+    }
+  );
+
+  if (
+    cardsPendingOverwrite.length > 0 ||
+    dashboardsPendingOverwrite.length > 0
+  ) {
+    const doOverwrite = window.confirm(
+      `This will overwrite ${cardsPendingOverwrite.length} cards and ${dashboardsPendingOverwrite.length} dashboards. Continue?`
+    );
+    if (!doOverwrite) {
+      return;
+    }
+  }
+
+  dispatch(
+    Actions.ImportCardsAndDashboards({
+      cardsById: data.cardsById,
+      dashboardsById: data.dashboardsById,
+    })
+  );
 }
 
 const ErrorText = styled(Text)`
