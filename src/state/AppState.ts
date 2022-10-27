@@ -55,6 +55,11 @@ export function GetVisibleCards(state: AppState, dashboardId: string | null) {
     return [];
   }
   const openCards =
-    activeDashboard.openCardIds?.map((id) => state.cardsById[id]) || [];
+    activeDashboard.openCardIds?.map((id) => {
+      return {
+        ...state.cardsById[id],
+        cardId: id, // This helps to ensure that CardActions will work in case of a malformed CardState
+      };
+    }) || [];
   return openCards.filter((card) => card);
 }

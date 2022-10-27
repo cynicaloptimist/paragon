@@ -10,6 +10,7 @@ import {
   Heading,
   TextInput,
 } from "grommet";
+import _ from "lodash";
 import React, { useContext, useMemo, useState } from "react";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { AppState } from "../../state/AppState";
@@ -108,7 +109,12 @@ export function CardLibrary() {
   const { state } = useContext(ReducerContext);
   const [groupingIndex, setGroupingIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
-  const cards = Object.values(state.cardsById);
+  const cards = Object.keys(state.cardsById).map((cardId) => {
+    return {
+      ...state.cardsById[cardId],
+      cardId, // This helps to ensure that CardActions will work in case of a malformed CardState
+    };
+  });
   const fuse = useMemo(
     () => new Fuse(cards, { keys: ["title"], fieldNormWeight: 0 }),
     [cards]
