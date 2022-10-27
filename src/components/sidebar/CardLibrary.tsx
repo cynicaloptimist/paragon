@@ -10,7 +10,6 @@ import {
   Heading,
   TextInput,
 } from "grommet";
-import _ from "lodash";
 import React, { useContext, useMemo, useState } from "react";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { AppState } from "../../state/AppState";
