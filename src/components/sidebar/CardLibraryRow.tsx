@@ -22,8 +22,6 @@ export function CardLibraryRow(props: {
       props.card.cardId
     ) || false;
 
-  const card = state.cardsById[props.card.cardId];
-
   const openCard = useCallback(
     () =>
       dashboardId &&
@@ -31,10 +29,10 @@ export function CardLibraryRow(props: {
         DashboardActions.OpenCard({
           dashboardId,
           cardId: props.card.cardId,
-          cardType: card.type,
+          cardType: props.card.type,
         })
       ),
-    [dispatch, dashboardId, props.card.cardId, card.type]
+    [dispatch, dashboardId, props.card.cardId, props.card.type]
   );
 
   const deleteCard = useCallback(() => {
