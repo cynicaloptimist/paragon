@@ -14,6 +14,7 @@ import {
   UpdateMissingOrLegacyAppState,
 } from "../../state/LegacyAppState";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
+import { usePageTitleFromActiveDashboardName } from "../hooks/usePageTitle";
 
 function useStateFromSharedDashboard(dashboardId: string | null) {
   const [state, setState] = useState<AppState | null>(null);
@@ -50,6 +51,7 @@ export function SharedDashboardView() {
   const dashboardId = useActiveDashboardId();
 
   const state = useStateFromSharedDashboard(dashboardId);
+
   if (!state) {
     return (
       <Grommet style={{ minHeight: "100%" }} theme={Theme}>
@@ -65,6 +67,8 @@ export function SharedDashboardView() {
 
 export function SharedDashboardViewWithState(props: { loadedState: AppState }) {
   const [state, dispatch] = useReducer(AppReducer, props.loadedState);
+
+  usePageTitleFromActiveDashboardName(state);
 
   return (
     <ReducerContext.Provider value={{ state, dispatch }}>

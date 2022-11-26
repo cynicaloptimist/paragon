@@ -18,6 +18,7 @@ import { randomString } from "../../randomString";
 import { DashboardActions } from "../../actions/DashboardActions";
 import { UIContext, useUIContextState } from "../UIContext";
 import { AppSettings } from "./AppSettings";
+import { usePageTitleFromActiveDashboardName } from "../hooks/usePageTitle";
 
 export function GameMasterView() {
   const [state, dispatch] = useStorageBackedReducer(
@@ -30,6 +31,9 @@ export function GameMasterView() {
   useLogin(dispatch);
   usePlayerView(state, dispatch);
   const dashboardId = useActiveDashboardId();
+
+  usePageTitleFromActiveDashboardName(state);
+
   const uiContext = useUIContextState();
 
   const onDashboardLoaded = useCallback(

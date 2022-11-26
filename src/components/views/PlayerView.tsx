@@ -14,6 +14,7 @@ import { app } from "../..";
 import { useStorageBackedState } from "../hooks/useStorageBackedState";
 import { PlayerViewUserContext } from "../PlayerViewUserContext";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
+import { usePageTitleFromActiveDashboardName } from "../hooks/usePageTitle";
 
 function useRemoteState(): [AppState, React.Dispatch<RootAction>] {
   const [state, setState] = useState(EmptyState());
@@ -76,6 +77,8 @@ export function PlayerView() {
     "playerName",
     null
   );
+
+  usePageTitleFromActiveDashboardName(state);
 
   return (
     <ReducerContext.Provider value={{ state, dispatch }}>
