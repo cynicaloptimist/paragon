@@ -1,6 +1,6 @@
 {
   "name": "paragon",
-  "version": "0.7.4",
+  "version": "0.7.5",
   "private": true,
   "dependencies": {
     "@excalidraw/excalidraw": "^0.12.0",
