@@ -20,6 +20,8 @@ import { FileUpload } from "./FileUpload";
 import { ViewType, ViewTypeContext } from "../ViewTypeContext";
 import { RootAction } from "../../actions/Actions";
 
+import "react-pdf/dist/esm/Page/TextLayer.css";
+
 type Size = {
   width: number;
   height: number;
