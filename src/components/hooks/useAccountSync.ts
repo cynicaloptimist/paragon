@@ -19,7 +19,7 @@ import { FirebaseUtils } from "../../FirebaseUtils";
 import { ViewType, ViewTypeContext } from "../ViewTypeContext";
 import { DashboardActions } from "../../actions/DashboardActions";
 
-const environment = process.env;
+const environment = import.meta.env;
 
 type ServerProfile = {
   lastUpdateTime: string;
@@ -32,7 +32,7 @@ export function useAccountSync(
   dispatch: React.Dispatch<RootAction>,
   onDashboardsLoaded: (dashboardIds: string[]) => void
 ) {
-  if (!environment.REACT_APP_ENABLE_ACCOUNT_SYNC) {
+  if (!environment.VITE_ENABLE_ACCOUNT_SYNC) {
     return;
   }
   /* eslint-disable react-hooks/rules-of-hooks */

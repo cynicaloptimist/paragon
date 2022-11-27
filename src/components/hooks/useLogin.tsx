@@ -53,7 +53,7 @@ export function useLogin(dispatch: React.Dispatch<RootAction>) {
               user.current = auth.currentUser;
             }
 
-            if (process.env.REACT_APP_ALL_CLAIMS === "true") {
+            if (import.meta.env.VITE_ALL_CLAIMS === "true") {
               dispatch(
                 Actions.SetUserClaims({
                   hasStorage: true,

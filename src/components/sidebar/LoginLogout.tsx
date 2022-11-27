@@ -10,12 +10,12 @@ import { ReducerContext } from "../../reducers/ReducerContext";
 
 export function LoginLogout() {
   const { state, dispatch } = useContext(ReducerContext);
-  const environment = process.env;
+  const environment = import.meta.env;
   if (
     !(
-      environment.REACT_APP_PATREON_CLIENT_ID &&
-      environment.REACT_APP_PATREON_LOGIN_REDIRECT_URI &&
-      environment.REACT_APP_ENABLE_ACCOUNT_SYNC
+      environment.VITE_PATREON_CLIENT_ID &&
+      environment.VITE_PATREON_LOGIN_REDIRECT_URI &&
+      environment.VITE_ENABLE_ACCOUNT_SYNC
     )
   ) {
     return null;
@@ -44,13 +44,10 @@ export function LoginLogout() {
 
   const loginUrl = new URL("https://www.patreon.com/oauth2/authorize");
   loginUrl.searchParams.append("response_type", "code");
-  loginUrl.searchParams.append(
-    "client_id",
-    environment.REACT_APP_PATREON_CLIENT_ID
-  );
+  loginUrl.searchParams.append("client_id", environment.VITE_PATREON_CLIENT_ID);
   loginUrl.searchParams.append(
     "redirect_uri",
-    environment.REACT_APP_PATREON_LOGIN_REDIRECT_URI
+    environment.VITE_PATREON_LOGIN_REDIRECT_URI
   );
   loginUrl.searchParams.append(
     "state",
