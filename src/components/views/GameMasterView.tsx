@@ -37,7 +37,7 @@ export function GameMasterView() {
   const uiContext = useUIContextState();
 
   const onDashboardLoaded = useCallback(
-    (dashboardIds) => {
+    (dashboardIds: string[]) => {
       if (!dashboardId) {
         const existingDashboardId = Object.keys(state.dashboardsById)[0];
         if (existingDashboardId) {
