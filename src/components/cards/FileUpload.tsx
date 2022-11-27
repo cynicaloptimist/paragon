@@ -109,7 +109,7 @@ export function FileUpload(props: {
       {uploadedFilesList || <Paragraph>Loading...</Paragraph>}
       <FileInput
         onChange={async (event) => {
-          const files = event.target.files;
+          const files = event?.target.files;
           if (!files) {
             return;
           }
