@@ -11,7 +11,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, TextInput, Paragraph } from "grommet";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Document, Outline, Page } from "react-pdf/dist/esm/entry.webpack";
+import { Document, Outline, Page } from "react-pdf";
 import { CardActions } from "../../actions/CardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { PDFCardState, PlayerViewPermission } from "../../state/CardState";
