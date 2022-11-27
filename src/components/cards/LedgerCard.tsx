@@ -143,16 +143,18 @@ export function LedgerCard(props: { card: LedgerCardState }) {
         justify="start"
       >
         <List data={entries} pad="xxsmall" show={entries.length - 1}>
-          {(entry: LedgerEntry, index: number) => {
-            return (
-              <LedgerEntryRow
-                key={`${card.cardId}_${index}_${entry.comment}_${entry.changeAmount}`}
-                card={card}
-                entry={entry}
-                index={index}
-              />
-            );
-          }}
+          {
+            ((entry: LedgerEntry, index: number) => {
+              return (
+                <LedgerEntryRow
+                  key={`${card.cardId}_${index}_${entry.comment}_${entry.changeAmount}`}
+                  card={card}
+                  entry={entry}
+                  index={index}
+                />
+              );
+            }) as any
+          }
         </List>
         <div ref={scrollBottom} />
       </Box>
