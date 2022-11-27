@@ -14,7 +14,7 @@ export function ArticleEditor(props: {
   const { state, dispatch } = React.useContext(ReducerContext);
 
   const saveCardContent = React.useCallback(
-    (currentContent) => {
+    (currentContent: string) => {
       const updatedContent = ConvertDoubleBracketsToWikiLinks(
         currentContent,
         state.cardsById
