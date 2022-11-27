@@ -1,6 +1,6 @@
 {
   "name": "paragon",
-  "version": "0.7.5",
+  "version": "0.7.6",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",
