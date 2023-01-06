@@ -115,7 +115,14 @@ export function CardLibrary() {
     };
   });
   const fuse = useMemo(
-    () => new Fuse(cards, { keys: ["title", "content"] }),
+    () =>
+      new Fuse(cards, {
+        keys: [
+          { name: "title", weight: 1 },
+          { name: "content", weight: 0.5 },
+        ],
+        ignoreLocation: true,
+      }),
     [cards]
   );
   const boxProps: BoxExtendedProps = {
@@ -136,7 +143,12 @@ export function CardLibrary() {
         {searchResults.map((searchResult) => {
           const cardState = searchResult.item;
 
-          return <CardLibraryRow key={cardState.cardId} card={cardState} />;
+          return (
+            <div>
+              s{searchResult.score}
+              <CardLibraryRow key={cardState.cardId} card={cardState} />
+            </div>
+          );
         })}
       </Box>
     );
