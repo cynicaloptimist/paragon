@@ -115,7 +115,7 @@ export function CardLibrary() {
     };
   });
   const fuse = useMemo(
-    () => new Fuse(cards, { keys: ["title"], fieldNormWeight: 0 }),
+    () => new Fuse(cards, { keys: ["title", "content"], fieldNormWeight: 0 }),
     [cards]
   );
   const boxProps: BoxExtendedProps = {
