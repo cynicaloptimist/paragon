@@ -115,7 +115,7 @@ export function CardLibrary() {
     };
   });
   const fuse = useMemo(
-    () => new Fuse(cards, { keys: ["title", "content"], fieldNormWeight: 0 }),
+    () => new Fuse(cards, { keys: ["title", "content"] }),
     [cards]
   );
   const boxProps: BoxExtendedProps = {
@@ -135,6 +135,7 @@ export function CardLibrary() {
         />
         {searchResults.map((searchResult) => {
           const cardState = searchResult.item;
+
           return <CardLibraryRow key={cardState.cardId} card={cardState} />;
         })}
       </Box>
