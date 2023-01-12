@@ -40,7 +40,7 @@ export function CardHeader(props: {
   const themeProps = ComputeThemeProps(props.cardState);
 
   return (
-    <Header pad="xsmall" height="3.4rem" {...themeProps}>
+    <Header {...themeProps}>
       <Box
         fill
         className={isHeaderEditable ? "" : "drag-handle"}

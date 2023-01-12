@@ -42,6 +42,12 @@ export const Theme: ThemeType = {
           height: "26px",
         },
       },
+      "3": {
+        medium: {
+          size: "20px",
+          height: "20px",
+        },
+      },
     },
   },
   paragraph: {
