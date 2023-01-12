@@ -1,4 +1,9 @@
-import { faCheck, faFolder, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheck,
+  faFolder,
+  faTimes,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, TextInput } from "grommet";
 import _ from "lodash";
@@ -34,6 +39,18 @@ export function CardLibraryRow(props: {
       ),
     [dispatch, dashboardId, props.card.cardId, props.card.type]
   );
+
+  const closeCard = useCallback(() => {
+    if (!dashboardId) {
+      return console.error("No dashboard open");
+    }
+    dispatch(
+      DashboardActions.CloseCard({
+        cardId: props.card.cardId,
+        dashboardId: dashboardId,
+      })
+    );
+  }, [dispatch, dashboardId, props.card.cardId]);
 
   const deleteCard = useCallback(() => {
     dispatch(CardActions.DeleteCard({ cardId: props.card.cardId }));
@@ -113,6 +130,13 @@ export function CardLibraryRow(props: {
       >
         {props.card.title}
       </Button>
+      {isCardOpen && (
+        <Button
+          tip="Close Card"
+          onClick={closeCard}
+          icon={<FontAwesomeIcon icon={faTimes} />}
+        />
+      )}
       {props.showFolder && (
         <Button
           tip="Move to Folder"
