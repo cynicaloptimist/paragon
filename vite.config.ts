@@ -11,4 +11,7 @@ export default defineConfig({
     port: 3000,
   },
   plugins: [react(), viteTsconfigPaths(), svgrPlugin()],
+  build: {
+    outDir: "build",
+  },
 });
