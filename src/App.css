@@ -4,8 +4,9 @@ body,
   height: 100%;
 }
 
-p {
-  margin-block-start: 0;
+p, ul, ol {
+  margin-block-start: 4px;
+  margin-block-end: 4px;
 }
 
 .react-grid-item.react-grid-placeholder {
