@@ -12,9 +12,12 @@ import { DashboardActions } from "../../../actions/DashboardActions";
 
 const StyledEditor = styled(Editor as any)`
   font-size: 18px;
-  p {
-    line-height: 24px;
-    margin-block-end: 1em;
+  h2,
+  h3,
+  p,
+  ul,
+  ol {
+    margin-block: 4px;
   }
 `;
 
