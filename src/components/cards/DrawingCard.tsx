@@ -28,7 +28,7 @@ type ExcalidrawStateMemo = {
   nonDeletedElementCount: number;
 };
 
-export function DrawingCard(props: {
+export default function DrawingCard(props: {
   card: DrawingCardState;
   outerSize: Size;
 }) {

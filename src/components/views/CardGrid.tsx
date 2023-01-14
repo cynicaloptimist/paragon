@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { Box, Text } from "grommet";
-import React, { CSSProperties, useContext } from "react";
+import React, { CSSProperties, Suspense, useContext } from "react";
 
 import { Layout, Responsive, WidthProvider } from "react-grid-layout";
 import { ReducerContext } from "../../reducers/ReducerContext";
@@ -9,7 +9,6 @@ import { CardState } from "../../state/CardState";
 import { ArticleCard } from "../cards/article/ArticleCard";
 import { ClockCard } from "../cards/clock/ClockCard";
 import { DiceCard } from "../cards/dice/DiceCard";
-import { DrawingCard } from "../cards/DrawingCard";
 import { ImageCard } from "../cards/ImageCard";
 import { PDFCard } from "../cards/PDFCard";
 import { RollTableCard } from "../cards/roll-table/RollTableCard";
@@ -29,6 +28,8 @@ import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 import { FrameCard } from "../cards/FrameCard";
 import { ErrorBoundary } from "react-error-boundary";
 import styled from "styled-components";
+
+const DrawingCard = React.lazy(() => import("../cards/DrawingCard"));
 
 type Size = { height: number; width: number };
 
@@ -248,19 +249,27 @@ const GridItem = React.forwardRef(
 
     return (
       <div ref={ref} {...attributes}>
-        <ErrorBoundary
-          fallbackRender={(props: { error: { message: string } }) => {
-            return (
-              <BaseCard commands={[]} cardState={card}>
-                <Text>There was a problem loading this card:</Text>
-                <ErrorText>{props.error.message}</ErrorText>
-              </BaseCard>
-            );
-          }}
+        <Suspense
+          fallback={
+            <BaseCard commands={[]} cardState={card}>
+              <Text>Loading...</Text>
+            </BaseCard>
+          }
         >
-          {getComponentForCard(props.card, outerSize) || null}
-          {props.children?.slice(1)}
-        </ErrorBoundary>
+          <ErrorBoundary
+            fallbackRender={(props: { error: { message: string } }) => {
+              return (
+                <BaseCard commands={[]} cardState={card}>
+                  <Text>There was a problem loading this card:</Text>
+                  <ErrorText>{props.error.message}</ErrorText>
+                </BaseCard>
+              );
+            }}
+          >
+            {getComponentForCard(props.card, outerSize) || null}
+            {props.children?.slice(1)}
+          </ErrorBoundary>
+        </Suspense>
       </div>
     );
   }
