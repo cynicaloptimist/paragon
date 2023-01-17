@@ -4,6 +4,7 @@ import {
   getDatabase,
   off,
   onChildAdded,
+  onDisconnect,
   ref,
   remove,
   set,
@@ -138,4 +139,14 @@ export function usePlayerView(
       previousState.current = playerViewState;
     }
   }, [state, userId, dashboardId]);
+
+  useEffect(() => {
+    if (!userId) {
+      return;
+    }
+    const database = getDatabase(app);
+    const dbRef = ref(database, `status/${userId}`);
+    set(dbRef, "online");
+    onDisconnect(dbRef).set("offline");
+  }, [userId]);
 }

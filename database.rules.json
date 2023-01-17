@@ -12,6 +12,12 @@
         }
       }
     },
+    "status": {
+      "$userId": {
+        ".read": true,
+        ".write": "$userId === auth.uid"
+      }
+    },
     "playerViews": {
       "$playerViewId": {
         ".read": true,
