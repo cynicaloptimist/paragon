@@ -4,12 +4,30 @@ import {
   faUserPen,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { getDatabase, ref, onValue, off } from "firebase/database";
 import { Box, Button, Drop, Header, Heading, TextInput } from "grommet";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { app } from "../..";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { GetDashboard } from "../../state/AppState";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 import { PlayerViewUserContext } from "../PlayerViewUserContext";
+import { usePlayerViewUserId } from "../views/usePlayerViewUserId";
+
+function usePresence(userId: string | null) {
+  const [presence, setPresence] = useState("offline");
+  useEffect(() => {
+    const database = getDatabase(app);
+    if (userId) {
+      const dbRef = ref(database, `status/${userId}`);
+      onValue(dbRef, (data) => {
+        setPresence(data.val());
+      });
+      return () => off(dbRef);
+    }
+  }, [userId]);
+  return presence;
+}
 
 export const PlayerViewTopBar = (props: {
   matchGMLayout: boolean;
@@ -17,6 +35,11 @@ export const PlayerViewTopBar = (props: {
 }) => {
   const { state } = useContext(ReducerContext);
   const dashboardId = useActiveDashboardId();
+  const playerViewUserId = usePlayerViewUserId();
+
+  const presence = usePresence(playerViewUserId);
+  const presenceText = presence === "offline" ? " [Offline]" : "";
+
   return (
     <Header
       fill="horizontal"
@@ -31,6 +54,7 @@ export const PlayerViewTopBar = (props: {
         </Heading>
         <Heading level={2} size="small" margin="none">
           Paragon Campaign Dashboard: Player View
+          {presenceText}
         </Heading>
       </Box>
       <SetPlayerNameButton />
