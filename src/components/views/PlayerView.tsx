@@ -15,23 +15,7 @@ import { useStorageBackedState } from "../hooks/useStorageBackedState";
 import { PlayerViewUserContext } from "../PlayerViewUserContext";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 import { usePageTitleFromActiveDashboardName } from "../hooks/usePageTitle";
-
-function usePlayerViewUserId() {
-  const dashboardId = useActiveDashboardId();
-  const [playerViewUserId, setPlayerViewUserId] = useState<string | null>(null);
-  useEffect(() => {
-    const database = getDatabase(app);
-    const idDbRef = ref(database, `playerViews/${dashboardId}`);
-
-    onValue(idDbRef, (id) => {
-      setPlayerViewUserId(id.val());
-    });
-
-    return () => off(idDbRef);
-  }, [dashboardId]);
-
-  return playerViewUserId;
-}
+import { usePlayerViewUserId } from "./usePlayerViewUserId";
 
 function useRemoteState(
   playerViewUserId: string | null
