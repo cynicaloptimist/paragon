@@ -16,11 +16,9 @@ import { PlayerViewUserContext } from "../PlayerViewUserContext";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 import { usePageTitleFromActiveDashboardName } from "../hooks/usePageTitle";
 
-function useRemoteState(): [AppState, React.Dispatch<RootAction>] {
-  const [state, setState] = useState(EmptyState());
-  const [playerViewUserId, setPlayerViewUserId] = useState<string | null>(null);
+function usePlayerViewUserId() {
   const dashboardId = useActiveDashboardId();
-
+  const [playerViewUserId, setPlayerViewUserId] = useState<string | null>(null);
   useEffect(() => {
     const database = getDatabase(app);
     const idDbRef = ref(database, `playerViews/${dashboardId}`);
@@ -31,6 +29,15 @@ function useRemoteState(): [AppState, React.Dispatch<RootAction>] {
 
     return () => off(idDbRef);
   }, [dashboardId]);
+
+  return playerViewUserId;
+}
+
+function useRemoteState(
+  playerViewUserId: string | null
+): [AppState, React.Dispatch<RootAction>] {
+  const [state, setState] = useState(EmptyState());
+  const dashboardId = useActiveDashboardId();
 
   useEffect(() => {
     if (!playerViewUserId) {
@@ -68,7 +75,9 @@ function useRemoteState(): [AppState, React.Dispatch<RootAction>] {
 }
 
 export function PlayerView() {
-  const [state, dispatch] = useRemoteState();
+  const playerViewUserId = usePlayerViewUserId();
+
+  const [state, dispatch] = useRemoteState(playerViewUserId);
   const [matchGMLayout, setMatchGMLayout] = useStorageBackedState(
     "matchGmLayout",
     true
