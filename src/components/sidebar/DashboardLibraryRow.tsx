@@ -8,14 +8,12 @@ import { ReducerContext } from "../../reducers/ReducerContext";
 import { DashboardState } from "../../state/DashboardState";
 import { LongPressButton } from "../common/LongPressButton";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
-import { UIContext } from "../UIContext";
 
 export function DashboardLibraryRow(props: {
   dashboardId: string;
   dashboard: DashboardState;
 }) {
   const { dispatch } = useContext(ReducerContext);
-  const { setLibrarySidebarMode } = useContext(UIContext);
   const activeDashboardId = useActiveDashboardId();
 
   const isActiveDashboard = activeDashboardId === props.dashboardId;
@@ -40,11 +38,7 @@ export function DashboardLibraryRow(props: {
         margin="xsmall"
         style={{ overflowX: "hidden" }}
       >
-        <Link
-          to={`/e/${props.dashboardId}`}
-          onClick={() => setLibrarySidebarMode("hidden")}
-          component={Anchor}
-        >
+        <Link to={`/e/${props.dashboardId}`} component={Anchor}>
           {props.dashboard.name}
         </Link>
       </Box>
