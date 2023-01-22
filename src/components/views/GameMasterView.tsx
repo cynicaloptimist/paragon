@@ -1,6 +1,6 @@
 import "firebase/auth";
 import { Box, Grommet } from "grommet";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { AppReducer } from "../../reducers/AppReducer";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { UpdateMissingOrLegacyAppState } from "../../state/LegacyAppState";
@@ -31,8 +31,18 @@ export function GameMasterView() {
   useLogin(dispatch);
   usePlayerView(state, dispatch);
   const dashboardId = useActiveDashboardId();
-
   usePageTitleFromActiveDashboardName(state);
+
+  useEffect(() => {
+    if (dashboardId) {
+      dispatch(
+        DashboardActions.ActivateDashboard({
+          dashboardId: dashboardId,
+          currentTimeMs: Date.now(),
+        })
+      );
+    }
+  }, [dashboardId, dispatch]);
 
   const uiContext = useUIContextState();
 
