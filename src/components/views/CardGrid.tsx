@@ -13,11 +13,8 @@ import { ImageCard } from "../cards/ImageCard";
 import { PDFCard } from "../cards/PDFCard";
 import { RollTableCard } from "../cards/roll-table/RollTableCard";
 import { ViewType, ViewTypeContext } from "../ViewTypeContext";
-import {
-  GetDashboard,
-  DashboardState,
-  GetVisibleCards,
-} from "../../state/AppState";
+import { GetDashboard, GetVisibleCards } from "../../state/AppState";
+import { DashboardState } from "../../state/DashboardState";
 import { LedgerCard } from "../cards/LedgerCard";
 import { BaseCard } from "../cards/base/BaseCard";
 import { useStorageBackedReducer } from "../hooks/useStorageBackedReducer";

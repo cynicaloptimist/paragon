@@ -9,7 +9,7 @@ import { useCallback, useContext } from "react";
 import styled from "styled-components";
 import { DashboardActions } from "../../actions/DashboardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
-import { DashboardState } from "../../state/AppState";
+import { DashboardState } from "../../state/DashboardState";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 import { UIContext } from "../UIContext";
 import { ShareDashboard } from "./ShareDashboard";

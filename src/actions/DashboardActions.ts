@@ -1,6 +1,6 @@
 import GridLayout from "react-grid-layout";
 import { createAction, ActionType } from "typesafe-actions";
-import { DashboardState } from "../state/AppState";
+import { DashboardState } from "../state/DashboardState";
 import { CardType } from "../state/CardTypes";
 
 type BaseDashboardAction = { dashboardId: string };

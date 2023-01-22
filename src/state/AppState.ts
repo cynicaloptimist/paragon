@@ -1,6 +1,6 @@
-import GridLayout from "react-grid-layout";
 import { CardState } from "./CardState";
 import { CardType } from "./CardTypes";
+import { DashboardState } from "./DashboardState";
 
 export type AppState = {
   cardsById: CardsState;
@@ -11,14 +11,6 @@ export type AppState = {
 
 export type AppSettings = {
   cardTypesInMenu: CardType[];
-};
-
-export type DashboardState = {
-  name: string;
-  openCardIds?: string[];
-  layoutsBySize: GridLayout.Layouts;
-  layoutCompaction: "free" | "compact";
-  layoutPushCards: "none" | "preventcollision";
 };
 
 export type CardsState = Record<string, CardState>;

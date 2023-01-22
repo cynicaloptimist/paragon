@@ -1,5 +1,6 @@
 import { ActionType, createAction } from "typesafe-actions";
-import { CardsState, DashboardState } from "../state/AppState";
+import { CardsState } from "../state/AppState";
+import { DashboardState } from "../state/DashboardState";
 import { CardType } from "../state/CardTypes";
 import { CardAction } from "./CardActions";
 import { DashboardAction } from "./DashboardActions";

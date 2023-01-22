@@ -1,7 +1,7 @@
 import _, { union } from "lodash";
 import { isActionOf } from "typesafe-actions";
 import { DashboardAction, DashboardActions } from "../actions/DashboardActions";
-import { DashboardState } from "../state/AppState";
+import { DashboardState } from "../state/DashboardState";
 import { InitialLayout } from "../state/InitialLayout";
 
 export function DashboardReducer(

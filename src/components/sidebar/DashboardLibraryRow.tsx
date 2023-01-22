@@ -5,7 +5,7 @@ import { useCallback, useContext } from "react";
 import { Link } from "react-router-dom";
 import { DashboardActions } from "../../actions/DashboardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
-import { DashboardState } from "../../state/AppState";
+import { DashboardState } from "../../state/DashboardState";
 import { LongPressButton } from "../common/LongPressButton";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 import { UIContext } from "../UIContext";
