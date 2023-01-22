@@ -1,19 +1,12 @@
 import { Box } from "grommet";
-import React, { useEffect, useRef } from "react";
+import { useScrollTo } from "../../hooks/useScrollTo";
 import { RollTableModel } from "./GetRollTableModel";
 
 export function RollTableHistory(props: {
   rollTableModel: RollTableModel;
   rollHistory: number[];
 }) {
-  const scrollBottom = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    scrollBottom.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest",
-    });
-  }, [props.rollHistory]);
+  const scrollBottom = useScrollTo(props.rollHistory);
 
   return (
     <Box>
