@@ -8,6 +8,13 @@ export function DashboardReducer(
   oldState: DashboardState,
   action: DashboardAction
 ): DashboardState {
+  if (isActionOf(DashboardActions.ActivateDashboard, action)) {
+    return {
+      ...oldState,
+      lastOpenedTimeMs: action.payload.currentTimeMs,
+    };
+  }
+
   if (isActionOf(DashboardActions.SetLayoutCompaction, action)) {
     return {
       ...oldState,

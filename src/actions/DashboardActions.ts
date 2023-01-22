@@ -30,6 +30,9 @@ export const DashboardActions = {
     layoutPushCards: "none" | "preventcollision";
   }>(),
   CreateDashboard: createDashboardAction("CreateDashboard")<{}>(),
+  ActivateDashboard: createDashboardAction("ActivateDashboard")<{
+    currentTimeMs: number;
+  }>(),
   DeleteDashboard: createDashboardAction("DeleteDashboard")<{}>(),
   RenameActiveDashboard: createDashboardAction("RenameActiveDashboard")<{
     newName: string;
