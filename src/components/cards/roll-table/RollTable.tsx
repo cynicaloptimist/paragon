@@ -13,13 +13,16 @@ export function RollTable(props: { rollTableModel: RollTableModel }) {
     if (!(rolledElement.current && scrollContainer.current)) {
       return;
     }
-    const scrollDifference =
-      rolledElement.current.offsetTop - scrollContainer.current.scrollTop;
+    const originalOffset = scrollContainer.current.scrollTop;
     rolledElement.current.scrollIntoView({
       block: "center",
     });
+    const scrollDifference = scrollContainer.current.scrollTop - originalOffset;
 
-    springApi.start({ from: { y: scrollDifference }, to: { y: 0 } });
+    springApi.start({
+      from: { y: scrollDifference },
+      to: { y: 0 },
+    });
   }, [rolledElement, props.rollTableModel.rollResult, springApi]);
   return (
     <Box>
