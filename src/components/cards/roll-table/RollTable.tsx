@@ -21,7 +21,6 @@ export function RollTable(props: { rollTableModel: RollTableModel }) {
 
     springApi.start({ from: { y: scrollDifference }, to: { y: 0 } });
   }, [rolledElement, props.rollTableModel.rollResult, springApi]);
-
   return (
     <Box>
       <Box
@@ -36,7 +35,12 @@ export function RollTable(props: { rollTableModel: RollTableModel }) {
         <Box>Result</Box>
       </Box>
       <Box overflow="auto" ref={scrollContainer}>
-        <SpinBox style={springs}>
+        <SpinBox
+          style={{
+            ...springs,
+            position: "relative",
+          }}
+        >
           {props.rollTableModel.entries.map((entry, index) => {
             return (
               <Box
