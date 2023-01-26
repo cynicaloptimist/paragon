@@ -1,7 +1,9 @@
-import { Box } from "grommet";
+import { Box, Image } from "grommet";
 import { useEffect, useRef } from "react";
 import { RollTableModel } from "./GetRollTableModel";
-import { animated, useSpring } from "@react-spring/web";
+import { animated, config, useSpring } from "@react-spring/web";
+import { ReactComponent as Logo } from "../../../dm-screen-regular.svg";
+import { useThemeColor } from "../../hooks/useThemeColor";
 
 export function RollTable(props: { rollTableModel: RollTableModel }) {
   const [springs, springApi] = useSpring(() => ({}));
@@ -22,8 +24,12 @@ export function RollTable(props: { rollTableModel: RollTableModel }) {
     springApi.start({
       from: { y: scrollDifference },
       to: { y: 0 },
+      config: config.gentle,
     });
   }, [rolledElement, props.rollTableModel.rollResult, springApi]);
+
+  const color = useThemeColor("brand");
+
   return (
     <Box>
       <Box
@@ -60,6 +66,9 @@ export function RollTable(props: { rollTableModel: RollTableModel }) {
               </Box>
             );
           })}
+          <Box direction="row" flex="grow" justify="center" margin="20px">
+            <Logo color={color} height={50} />
+          </Box>
         </SpinBox>
       </Box>
     </Box>
