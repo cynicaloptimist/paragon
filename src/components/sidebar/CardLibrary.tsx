@@ -145,7 +145,6 @@ export function CardLibrary() {
 
           return (
             <div>
-              s{searchResult.score}
               <CardLibraryRow key={cardState.cardId} card={cardState} />
             </div>
           );
