@@ -19,6 +19,7 @@ import { DashboardActions } from "../../actions/DashboardActions";
 import { UIContext, useUIContextState } from "../UIContext";
 import { AppSettings } from "./AppSettings";
 import { usePageTitleFromActiveDashboardName } from "../hooks/usePageTitle";
+import _ from "lodash";
 
 export function GameMasterView() {
   const [state, dispatch] = useStorageBackedReducer(
@@ -49,9 +50,14 @@ export function GameMasterView() {
   const onDashboardsLoaded = useCallback(
     (dashboardIds: string[]) => {
       if (!dashboardId) {
-        const existingDashboardId = Object.keys(state.dashboardsById)[0];
-        if (existingDashboardId) {
-          history.replace(`/e/${existingDashboardId}`);
+        const sortedIds = _.sortBy(
+          Object.keys(state.dashboardsById),
+          (d) => -(state.dashboardsById[d].lastOpenedTimeMs || 0)
+        );
+        const mostRecentDashboardId = sortedIds[0];
+
+        if (mostRecentDashboardId) {
+          history.replace(`/e/${mostRecentDashboardId}`);
         } else {
           const newDashboardId = randomString();
           dispatch(
