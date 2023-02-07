@@ -46,7 +46,7 @@ export function GameMasterView() {
 
   const uiContext = useUIContextState();
 
-  const onDashboardLoaded = useCallback(
+  const onDashboardsLoaded = useCallback(
     (dashboardIds: string[]) => {
       if (!dashboardId) {
         const existingDashboardId = Object.keys(state.dashboardsById)[0];
@@ -69,7 +69,7 @@ export function GameMasterView() {
     [dashboardId, dispatch, history, state.dashboardsById]
   );
 
-  useAccountSync(state, dispatch, onDashboardLoaded);
+  useAccountSync(state, dispatch, onDashboardsLoaded);
 
   return (
     <ReducerContext.Provider value={{ state, dispatch }}>
