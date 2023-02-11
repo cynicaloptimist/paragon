@@ -43,6 +43,8 @@ export function LedgerCard(props: { card: LedgerCardState }) {
 
   // Firebase will strip empty arrays so we need to be defensive here.
   const entries = card.entries || [];
+  // Workaround for grommet providing negative indexes when adding items to an empty List
+  const showList = entries.length > 0;
 
   const scrollBottom = useScrollTo(entries);
   const amountInputRef = useRef<HTMLInputElement>(null);
@@ -142,20 +144,22 @@ export function LedgerCard(props: { card: LedgerCardState }) {
         overflow={{ vertical: "auto", horizontal: "hidden" }}
         justify="start"
       >
-        <List data={entries} pad="xxsmall" show={entries.length - 1}>
-          {
-            ((entry: LedgerEntry, index: number) => {
-              return (
-                <LedgerEntryRow
-                  key={`${card.cardId}_${index}_${entry.comment}_${entry.changeAmount}`}
-                  card={card}
-                  entry={entry}
-                  index={index}
-                />
-              );
-            }) as any
-          }
-        </List>
+        {showList && (
+          <List data={entries} pad="xxsmall" show={entries.length - 1}>
+            {
+              ((entry: LedgerEntry, index: number) => {
+                return (
+                  <LedgerEntryRow
+                    key={`${card.cardId}_${index}_${entry.comment}_${entry.changeAmount}`}
+                    card={card}
+                    entry={entry}
+                    index={index}
+                  />
+                );
+              }) as any
+            }
+          </List>
+        )}
         <div ref={scrollBottom} />
       </Box>
 
