@@ -9,7 +9,7 @@ import { ClockFace } from "./ClockFace";
 import { ConfigureClock } from "./ConfigureClock";
 import { VerticalClock } from "./VerticalClock";
 
-export function ClockCard(props: { card: ClockCardState }) {
+export default function ClockCard(props: { card: ClockCardState }) {
   const [isConfigurable, setConfigurable] = React.useState(false);
 
   let innerComponent = <HorizontalClock card={props.card} />;

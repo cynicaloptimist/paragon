@@ -16,7 +16,7 @@ import { RollTable } from "./RollTable";
 import { RollTableConfiguration } from "./RollTableConfiguration";
 import { RollTableHistory } from "./RollTableHistory";
 
-export function RollTableCard(props: { card: RollTableCardState }) {
+export default function RollTableCard(props: { card: RollTableCardState }) {
   const { dispatch } = useContext(ReducerContext);
   const { card } = props;
 

@@ -9,7 +9,7 @@ import { FrameCardState } from "../../state/CardState";
 import BaseCard from "./base/BaseCard";
 import { DirectUrlInput } from "./FileUpload";
 
-export function FrameCard(props: { card: FrameCardState }) {
+export default function FrameCard(props: { card: FrameCardState }) {
   const [configActive, setConfigActive] = useState(false);
 
   const configVisible = configActive || props.card.frameUrl.length === 0;

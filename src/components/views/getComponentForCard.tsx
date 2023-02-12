@@ -1,17 +1,19 @@
 import React from "react";
 import { CardState } from "../../state/CardState";
-import { ArticleCard } from "../cards/article/ArticleCard";
-import { ClockCard } from "../cards/clock/ClockCard";
-import { DiceCard } from "../cards/dice/DiceCard";
-import { ImageCard } from "../cards/ImageCard";
-import { PDFCard } from "../cards/PDFCard";
-import { RollTableCard } from "../cards/roll-table/RollTableCard";
-import { LedgerCard } from "../cards/LedgerCard";
-import BaseCard from "../cards/base/BaseCard";
-import { InfoCard } from "../cards/article/InfoCard";
-import { FrameCard } from "../cards/FrameCard";
 
 const DrawingCard = React.lazy(() => import("../cards/DrawingCard"));
+const ArticleCard = React.lazy(() => import("../cards/article/ArticleCard"));
+const InfoCard = React.lazy(() => import("../cards/article/InfoCard"));
+const ClockCard = React.lazy(() => import("../cards/clock/ClockCard"));
+const RollTableCard = React.lazy(
+  () => import("../cards/roll-table/RollTableCard")
+);
+const ImageCard = React.lazy(() => import("../cards/ImageCard"));
+const DiceCard = React.lazy(() => import("../cards/dice/DiceCard"));
+const PDFCard = React.lazy(() => import("../cards/PDFCard"));
+const LedgerCard = React.lazy(() => import("../cards/LedgerCard"));
+const FrameCard = React.lazy(() => import("../cards/FrameCard"));
+const BaseCard = React.lazy(() => import("../cards/base/BaseCard"));
 
 export type Size = { height: number; width: number };
 

@@ -10,7 +10,7 @@ import { useUserId } from "../hooks/useAccountSync";
 import BaseCard from "./base/BaseCard";
 import { FileUpload } from "./FileUpload";
 
-export function ImageCard(props: { card: ImageCardState }) {
+export default function ImageCard(props: { card: ImageCardState }) {
   const { state, dispatch } = useContext(ReducerContext);
   const userId = useUserId();
   const hasStorage = userId && state.user.hasStorage;

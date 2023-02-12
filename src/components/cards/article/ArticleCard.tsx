@@ -16,7 +16,7 @@ import { ViewType, ViewTypeContext } from "../../ViewTypeContext";
 import { ArticleEditor } from "./ArticleEditor";
 import { CardLink } from "./CardLink";
 
-export function ArticleCard(props: { card: ArticleCardState }) {
+export default function ArticleCard(props: { card: ArticleCardState }) {
   const { card } = props;
 
   const [isMarkdownEditorActive, setMarkdownEditorActive] =

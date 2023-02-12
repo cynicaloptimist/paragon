@@ -28,7 +28,7 @@ export const defaultQuickRolls = [
   "d100",
 ];
 
-export function DiceCard(props: { card: DiceCardState }) {
+export default function DiceCard(props: { card: DiceCardState }) {
   const { dispatch } = useContext(ReducerContext);
   const { card } = props;
 

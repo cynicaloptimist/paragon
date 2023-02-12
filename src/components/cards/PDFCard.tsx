@@ -27,7 +27,10 @@ type Size = {
   height: number;
 };
 
-export function PDFCard(props: { card: PDFCardState; outerSize: Size }) {
+export default function PDFCard(props: {
+  card: PDFCardState;
+  outerSize: Size;
+}) {
   const [fitType, setFitType] = useState("width");
   const [pageCount, setPageCount] = useState(1);
   const [outlineVisible, setOutlineVisible] = useState(false);

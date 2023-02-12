@@ -30,7 +30,7 @@ import { ViewType, ViewTypeContext } from "../ViewTypeContext";
 
 const AMOUNT_COLUMN_WIDTH = "80px";
 
-export function LedgerCard(props: { card: LedgerCardState }) {
+export default function LedgerCard(props: { card: LedgerCardState }) {
   const { dispatch } = useContext(ReducerContext);
   const { card } = props;
 

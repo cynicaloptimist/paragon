@@ -3,7 +3,7 @@ import { InfoCardState } from "../../../state/CardState";
 import BaseCard from "../base/BaseCard";
 import { CardLink } from "./CardLink";
 
-export function InfoCard(props: { card: InfoCardState }) {
+export default function InfoCard(props: { card: InfoCardState }) {
   const { card } = props;
 
   return (
