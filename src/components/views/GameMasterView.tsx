@@ -21,7 +21,7 @@ import { AppSettings } from "./AppSettings";
 import { usePageTitleFromActiveDashboardName } from "../hooks/usePageTitle";
 import _ from "lodash";
 
-export function GameMasterView() {
+export default function GameMasterView() {
   const [state, dispatch] = useStorageBackedReducer(
     AppReducer,
     UpdateMissingOrLegacyAppState,

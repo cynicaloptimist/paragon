@@ -47,7 +47,7 @@ function useStateFromSharedDashboard(dashboardId: string | null) {
   return state;
 }
 
-export function SharedDashboardView() {
+export default function SharedDashboardView() {
   const dashboardId = useActiveDashboardId();
 
   const state = useStateFromSharedDashboard(dashboardId);

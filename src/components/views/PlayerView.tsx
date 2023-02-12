@@ -58,7 +58,7 @@ function useRemoteState(
   return [state, dispatch];
 }
 
-export function PlayerView() {
+export default function PlayerView() {
   const playerViewUserId = usePlayerViewUserId();
 
   const [state, dispatch] = useRemoteState(playerViewUserId);

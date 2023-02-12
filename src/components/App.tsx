@@ -4,9 +4,12 @@ import "react-resizable/css/styles.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "../App.css";
-import { SharedDashboardView } from "./views/SharedDashboardView";
-import { GameMasterView } from "./views/GameMasterView";
-import { PlayerView } from "./views/PlayerView";
+
+const PlayerView = React.lazy(() => import("./views/PlayerView"));
+const SharedDashboardView = React.lazy(
+  () => import("./views/SharedDashboardView")
+);
+const GameMasterView = React.lazy(() => import("./views/GameMasterView"));
 
 const App = () => {
   return (
