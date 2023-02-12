@@ -6,29 +6,17 @@ import { Layout, Responsive, WidthProvider } from "react-grid-layout";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { DashboardReducer } from "../../reducers/DashboardReducer";
 import { CardState } from "../../state/CardState";
-import { ArticleCard } from "../cards/article/ArticleCard";
-import { ClockCard } from "../cards/clock/ClockCard";
-import { DiceCard } from "../cards/dice/DiceCard";
-import { ImageCard } from "../cards/ImageCard";
-import { PDFCard } from "../cards/PDFCard";
-import { RollTableCard } from "../cards/roll-table/RollTableCard";
 import { ViewType, ViewTypeContext } from "../ViewTypeContext";
 import { GetDashboard, GetVisibleCards } from "../../state/AppState";
 import { DashboardState } from "../../state/DashboardState";
-import { LedgerCard } from "../cards/LedgerCard";
 import { BaseCard } from "../cards/base/BaseCard";
 import { useStorageBackedReducer } from "../hooks/useStorageBackedReducer";
 import { UpdateMissingOrLegacyAppState } from "../../state/LegacyAppState";
-import { InfoCard } from "../cards/article/InfoCard";
 import { DashboardActions } from "../../actions/DashboardActions";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
-import { FrameCard } from "../cards/FrameCard";
 import { ErrorBoundary } from "react-error-boundary";
 import styled from "styled-components";
-
-const DrawingCard = React.lazy(() => import("../cards/DrawingCard"));
-
-type Size = { height: number; width: number };
+import { getComponentForCard, Size } from "./getComponentForCard";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 const MIN_GRID_UNITS_CARD_HEIGHT = 3;
@@ -284,44 +272,4 @@ function CSSToNumber(item: number | string | undefined) {
     return item;
   }
   return parseInt(item);
-}
-
-function getComponentForCard(card: CardState, outerSize: Size) {
-  if (card.type === "article") {
-    return <ArticleCard card={card} />;
-  }
-  if (card.type === "info") {
-    return <InfoCard card={card} />;
-  }
-  if (card.type === "clock") {
-    return <ClockCard card={card} />;
-  }
-  if (card.type === "roll-table-h") {
-    return <RollTableCard card={card} />;
-  }
-  if (card.type === "image") {
-    return <ImageCard card={card} />;
-  }
-  if (card.type === "dice") {
-    return <DiceCard card={card} />;
-  }
-  if (card.type === "drawing") {
-    return <DrawingCard card={card} outerSize={outerSize} />;
-  }
-  if (card.type === "pdf") {
-    return <PDFCard card={card} outerSize={outerSize} />;
-  }
-  if (card.type === "ledger") {
-    return <LedgerCard card={card} />;
-  }
-  if (card.type === "frame") {
-    return <FrameCard card={card} />;
-  }
-
-  const unsupportedCard: any = card;
-  return (
-    <BaseCard cardState={unsupportedCard as CardState} commands={null}>
-      Unsupported card type: {unsupportedCard.type}
-    </BaseCard>
-  );
 }
