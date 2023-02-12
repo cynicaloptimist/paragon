@@ -7,7 +7,7 @@ import { ImageCard } from "../cards/ImageCard";
 import { PDFCard } from "../cards/PDFCard";
 import { RollTableCard } from "../cards/roll-table/RollTableCard";
 import { LedgerCard } from "../cards/LedgerCard";
-import { BaseCard } from "../cards/base/BaseCard";
+import BaseCard from "../cards/base/BaseCard";
 import { InfoCard } from "../cards/article/InfoCard";
 import { FrameCard } from "../cards/FrameCard";
 

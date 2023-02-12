@@ -15,7 +15,7 @@ import { Document, Outline, Page } from "react-pdf/dist/esm/entry.vite";
 import { CardActions } from "../../actions/CardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { PDFCardState, PlayerViewPermission } from "../../state/CardState";
-import { BaseCard } from "./base/BaseCard";
+import BaseCard from "./base/BaseCard";
 import { FileUpload } from "./FileUpload";
 import { ViewType, ViewTypeContext } from "../ViewTypeContext";
 import { RootAction } from "../../actions/Actions";

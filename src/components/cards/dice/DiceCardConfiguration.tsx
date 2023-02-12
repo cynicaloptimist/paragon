@@ -3,7 +3,7 @@ import { useContext, useRef, useState } from "react";
 import { CardActions } from "../../../actions/CardActions";
 import { ReducerContext } from "../../../reducers/ReducerContext";
 import { DiceCardState } from "../../../state/CardState";
-import { BaseCard } from "../base/BaseCard";
+import BaseCard from "../base/BaseCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faEraser } from "@fortawesome/free-solid-svg-icons";
 import { defaultQuickRolls } from "./DiceCard";

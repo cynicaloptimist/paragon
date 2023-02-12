@@ -9,7 +9,7 @@ import { CardState } from "../../state/CardState";
 import { ViewType, ViewTypeContext } from "../ViewTypeContext";
 import { GetDashboard, GetVisibleCards } from "../../state/AppState";
 import { DashboardState } from "../../state/DashboardState";
-import { BaseCard } from "../cards/base/BaseCard";
+import BaseCard from "../cards/base/BaseCard";
 import { useStorageBackedReducer } from "../hooks/useStorageBackedReducer";
 import { UpdateMissingOrLegacyAppState } from "../../state/LegacyAppState";
 import { DashboardActions } from "../../actions/DashboardActions";

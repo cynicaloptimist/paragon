@@ -7,7 +7,7 @@ import { useToast } from "../../hooks/useToast";
 import { CardFooter } from "./CardFooter";
 import { CardHeader } from "./CardHeader";
 
-export function BaseCard(props: {
+export default function BaseCard(props: {
   commands: React.ReactNode;
   cardState: CardState;
   children: React.ReactNode;

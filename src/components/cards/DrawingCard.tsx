@@ -6,7 +6,7 @@ import { Excalidraw, restoreElements } from "@excalidraw/excalidraw";
 import { CardActions } from "../../actions/CardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { DrawingCardState, PlayerViewPermission } from "../../state/CardState";
-import { BaseCard } from "./base/BaseCard";
+import BaseCard from "./base/BaseCard";
 import { ViewTypeContext, ViewType } from "../ViewTypeContext";
 import {
   ExcalidrawElement,

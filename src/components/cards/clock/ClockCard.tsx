@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "grommet";
 import * as React from "react";
 import { ClockCardState } from "../../../state/CardState";
-import { BaseCard } from "../base/BaseCard";
+import BaseCard from "../base/BaseCard";
 import { HorizontalClock } from "./HorizontalClock";
 import { ClockFace } from "./ClockFace";
 import { ConfigureClock } from "./ConfigureClock";

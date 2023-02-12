@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { CardActions } from "../../actions/CardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { FrameCardState } from "../../state/CardState";
-import { BaseCard } from "./base/BaseCard";
+import BaseCard from "./base/BaseCard";
 import { DirectUrlInput } from "./FileUpload";
 
 export function FrameCard(props: { card: FrameCardState }) {

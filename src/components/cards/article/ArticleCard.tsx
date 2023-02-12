@@ -11,7 +11,7 @@ import {
   ArticleCardState,
   PlayerViewPermission,
 } from "../../../state/CardState";
-import { BaseCard } from "../base/BaseCard";
+import BaseCard from "../base/BaseCard";
 import { ViewType, ViewTypeContext } from "../../ViewTypeContext";
 import { ArticleEditor } from "./ArticleEditor";
 import { CardLink } from "./CardLink";
@@ -19,9 +19,8 @@ import { CardLink } from "./CardLink";
 export function ArticleCard(props: { card: ArticleCardState }) {
   const { card } = props;
 
-  const [isMarkdownEditorActive, setMarkdownEditorActive] = React.useState(
-    false
-  );
+  const [isMarkdownEditorActive, setMarkdownEditorActive] =
+    React.useState(false);
 
   const viewType = useContext(ViewTypeContext);
 
