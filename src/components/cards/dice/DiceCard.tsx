@@ -131,5 +131,5 @@ const HiddenInfo = styled(Text)`
   font-style: italic;
   color: gray;
   text-align: center;
-  font-size: smaller;G
+  font-size: smaller;
 `;
