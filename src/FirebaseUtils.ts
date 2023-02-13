@@ -3,8 +3,10 @@ import pickBy from "lodash/pickBy";
 import {
   ref,
   getStorage,
+  getBlob,
   listAll,
   deleteObject,
+  uploadString,
   uploadBytesResumable,
   getDownloadURL,
 } from "@firebase/storage";
@@ -100,5 +102,25 @@ export namespace FirebaseUtils {
     const storage = getStorage(app);
     const fileRef = ref(storage, `users/${userId}/${fileType}s/${fileName}`);
     return deleteObject(fileRef);
+  }
+
+  export async function SetCardFiles(
+    userId: string,
+    cardId: string,
+    files: any
+  ) {
+    const storage = getStorage(app);
+    const cardsRef = ref(storage, `users/${userId}/cardFiles/${cardId}`);
+    const filesString = JSON.stringify(files);
+    return await uploadString(cardsRef, filesString);
+  }
+
+  export async function GetCardFiles(userId: string, cardId: string) {
+    const storage = getStorage(app);
+    const cardsRef = ref(storage, `users/${userId}/cardFiles/${cardId}`);
+    const blob = await getBlob(cardsRef);
+    const text = await blob.text();
+    const files = JSON.parse(text);
+    return files;
   }
 }

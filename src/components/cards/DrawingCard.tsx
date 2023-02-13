@@ -1,6 +1,6 @@
 import { Box } from "grommet";
 import _ from "lodash";
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Excalidraw, restoreElements } from "@excalidraw/excalidraw";
 
 import { CardActions } from "../../actions/CardActions";
@@ -14,10 +14,13 @@ import {
 } from "@excalidraw/excalidraw/types/element/types";
 import {
   AppState as ExcalidrawState,
+  BinaryFiles,
   ExcalidrawAPIRefValue,
 } from "@excalidraw/excalidraw/types/types";
 import { GetDashboard } from "../../state/AppState";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
+import { FirebaseUtils } from "../../FirebaseUtils";
+import { useUserId } from "../hooks/useAccountSync";
 
 type Size = { height: number; width: number };
 type ExcalidrawStateMemo = {
@@ -26,6 +29,7 @@ type ExcalidrawStateMemo = {
   selectionElement: NonDeletedExcalidrawElement | null;
   editingElement: NonDeletedExcalidrawElement | null;
   nonDeletedElementCount: number;
+  fileCount: number;
 };
 
 export default function DrawingCard(props: {
@@ -34,11 +38,13 @@ export default function DrawingCard(props: {
 }) {
   const { state, dispatch } = React.useContext(ReducerContext);
   const dashboardId = useActiveDashboardId();
+  const userId = useUserId();
   const viewType = useContext(ViewTypeContext);
   const excalidrawRef = useRef<ExcalidrawAPIRefValue>(null);
   const lastExcalidrawState: React.MutableRefObject<
     ExcalidrawStateMemo | undefined
   > = useRef();
+  useCardDrawingFiles(excalidrawRef.current, props.card.cardId);
 
   const dashboard = GetDashboard(state, dashboardId);
   const allLayouts = Object.values(dashboard?.layoutsBySize || {}).flat();
@@ -95,21 +101,21 @@ export default function DrawingCard(props: {
           }}
           onChange={(
             allElements: readonly ExcalidrawElement[],
-            appState: ExcalidrawState
+            appState: ExcalidrawState,
+            files: BinaryFiles
           ) => {
             if (!excalidrawRef.current?.ready) {
               return;
             }
-
-            const elements = allElements.filter((e) => e.type !== "image");
 
             const newExcalidrawState: ExcalidrawStateMemo = {
               editingElement: appState.editingElement,
               draggingElement: appState.draggingElement,
               resizingElement: appState.resizingElement,
               selectionElement: appState.selectionElement,
-              nonDeletedElementCount: elements.filter((e) => e.isDeleted)
+              nonDeletedElementCount: allElements.filter((e) => e.isDeleted)
                 .length,
+              fileCount: Object.keys(files).length,
             };
 
             if (!_.isEqual(lastExcalidrawState.current, newExcalidrawState)) {
@@ -118,9 +124,12 @@ export default function DrawingCard(props: {
               dispatch(
                 CardActions.SetSceneElements({
                   cardId: props.card.cardId,
-                  sceneElementJSONs: elements.map((e) => JSON.stringify(e)),
+                  sceneElementJSONs: allElements.map((e) => JSON.stringify(e)),
                 })
               );
+              if (userId) {
+                FirebaseUtils.SetCardFiles(userId, props.card.cardId, files);
+              }
             }
           }}
         />
@@ -144,4 +153,25 @@ function getSceneElements(card: DrawingCardState): ExcalidrawElement[] {
       }
     })
     .filter((element) => element !== null);
+}
+
+function useCardDrawingFiles(
+  excalidrawRef: ExcalidrawAPIRefValue | null,
+  cardId: string
+) {
+  const userId = useUserId();
+  useEffect(() => {
+    if (!userId) {
+      return;
+    }
+
+    const getFiles = async () => {
+      const filesData = await FirebaseUtils.GetCardFiles(userId, cardId);
+      if (excalidrawRef?.ready) {
+        excalidrawRef.addFiles(Object.values(filesData));
+      }
+    };
+
+    getFiles();
+  }, [userId, cardId, excalidrawRef]);
 }
