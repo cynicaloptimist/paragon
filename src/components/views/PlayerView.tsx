@@ -15,7 +15,7 @@ import { useStorageBackedState } from "../hooks/useStorageBackedState";
 import { PlayerViewUserContext } from "../PlayerViewUserContext";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 import { usePageTitleFromActiveDashboardName } from "../hooks/usePageTitle";
-import { usePlayerViewUserId } from "./usePlayerViewUserId";
+import { useUserIdFromActiveDashboard } from "./useUserIdFromActiveDashboard";
 
 function useRemoteState(
   playerViewUserId: string | null
@@ -59,7 +59,7 @@ function useRemoteState(
 }
 
 export default function PlayerView() {
-  const playerViewUserId = usePlayerViewUserId();
+  const playerViewUserId = useUserIdFromActiveDashboard();
 
   const [state, dispatch] = useRemoteState(playerViewUserId);
   const [matchGMLayout, setMatchGMLayout] = useStorageBackedState(

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { app } from "../..";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 
-export function usePlayerViewUserId() {
+export function useUserIdFromActiveDashboard() {
   const dashboardId = useActiveDashboardId();
   const [playerViewUserId, setPlayerViewUserId] = useState<string | null>(null);
   useEffect(() => {

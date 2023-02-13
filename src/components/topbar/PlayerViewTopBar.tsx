@@ -12,7 +12,7 @@ import { ReducerContext } from "../../reducers/ReducerContext";
 import { GetDashboard } from "../../state/AppState";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 import { PlayerViewUserContext } from "../PlayerViewUserContext";
-import { usePlayerViewUserId } from "../views/usePlayerViewUserId";
+import { useUserIdFromActiveDashboard } from "../views/useUserIdFromActiveDashboard";
 
 function usePresence(userId: string | null) {
   const [presence, setPresence] = useState("offline");
@@ -35,7 +35,7 @@ export const PlayerViewTopBar = (props: {
 }) => {
   const { state } = useContext(ReducerContext);
   const dashboardId = useActiveDashboardId();
-  const playerViewUserId = usePlayerViewUserId();
+  const playerViewUserId = useUserIdFromActiveDashboard();
 
   const presence = usePresence(playerViewUserId);
   const presenceText = presence === "offline" ? " [Offline]" : "";
