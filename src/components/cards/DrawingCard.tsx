@@ -1,6 +1,6 @@
 import { Box } from "grommet";
 import _ from "lodash";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { Excalidraw, restoreElements } from "@excalidraw/excalidraw";
 
 import { CardActions } from "../../actions/CardActions";
@@ -21,6 +21,7 @@ import { GetDashboard } from "../../state/AppState";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 import { FirebaseUtils } from "../../FirebaseUtils";
 import { useUserId } from "../hooks/useAccountSync";
+import { useUserIdFromActiveDashboard } from "../views/useUserIdFromActiveDashboard";
 
 type Size = { height: number; width: number };
 type ExcalidrawStateMemo = {
@@ -159,7 +160,7 @@ function useCardDrawingFiles(
   excalidrawRef: ExcalidrawAPIRefValue | null,
   cardId: string
 ) {
-  const userId = useUserId();
+  const userId = useUserIdFromActiveDashboard();
   useEffect(() => {
     if (!userId) {
       return;
