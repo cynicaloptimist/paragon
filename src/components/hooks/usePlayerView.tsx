@@ -82,7 +82,7 @@ export function usePlayerView(
     }
 
     const database = getDatabase(app);
-    const dbRef = ref(database, `playerViews/${dashboardId}`);
+    const dbRef = ref(database, `ownerByDashboardId/${dashboardId}`);
     set(dbRef, userId);
 
     const pendingActionsRef = ref(database, `pendingActions/${dashboardId}`);

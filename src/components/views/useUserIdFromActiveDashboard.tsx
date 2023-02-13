@@ -8,7 +8,7 @@ export function useUserIdFromActiveDashboard() {
   const [playerViewUserId, setPlayerViewUserId] = useState<string | null>(null);
   useEffect(() => {
     const database = getDatabase(app);
-    const idDbRef = ref(database, `playerViews/${dashboardId}`);
+    const idDbRef = ref(database, `ownerByDashboardId/${dashboardId}`);
 
     onValue(idDbRef, (id) => {
       setPlayerViewUserId(id.val());

@@ -25,6 +25,13 @@
         ".validate": "newData.isString() || newData.isNumber()"
       }
     },
+    "ownerByDashboardId": {
+      "$dashboardId": {
+        ".read": true,
+        ".write": true,
+        ".validate": "newData.isString() || newData.isNumber()"
+      }
+    },
     "shared": {
       "$dashboardId": {
         ".read": true,
