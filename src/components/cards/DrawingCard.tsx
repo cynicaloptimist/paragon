@@ -120,7 +120,6 @@ export default function DrawingCard(props: {
             };
 
             if (!_.isEqual(lastExcalidrawState.current, newExcalidrawState)) {
-              console.log("excalidraw onChange: excalidrawState changed");
               lastExcalidrawState.current = newExcalidrawState;
               dispatch(
                 CardActions.SetSceneElements({
