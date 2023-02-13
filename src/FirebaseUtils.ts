@@ -116,11 +116,15 @@ export namespace FirebaseUtils {
   }
 
   export async function GetCardFiles(userId: string, cardId: string) {
-    const storage = getStorage(app);
-    const cardsRef = ref(storage, `users/${userId}/cardFiles/${cardId}`);
-    const blob = await getBlob(cardsRef);
-    const text = await blob.text();
-    const files = JSON.parse(text);
-    return files;
+    try {
+      const storage = getStorage(app);
+      const cardsRef = ref(storage, `users/${userId}/cardFiles/${cardId}`);
+      const blob = await getBlob(cardsRef);
+      const text = await blob.text();
+      const files = JSON.parse(text);
+      return files;
+    } catch (e) {
+      return {};
+    }
   }
 }
