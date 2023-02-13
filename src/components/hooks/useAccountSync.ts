@@ -224,10 +224,10 @@ function useUpdatesToServer(
           );
 
           if (newItemPruned) {
-            console.log(`Updating item ${itemId} on server`);
+            console.log(`Updating ${collection}/${itemId} on server`);
             set(itemRef, newItemPruned);
           } else {
-            console.log(`Deleting item ${itemId} on server`);
+            console.log(`Deleting ${collection}/${itemId} on server`);
             remove(itemRef);
           }
         }
