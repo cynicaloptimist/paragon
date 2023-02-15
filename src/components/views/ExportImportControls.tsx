@@ -33,7 +33,16 @@ export function ExportImportControls() {
           if (file) {
             const json = await file.text();
             try {
-              importCardsAndDashboards(json, state, dispatch);
+              const importedCounts = importCardsAndDashboards(
+                json,
+                state,
+                dispatch
+              );
+              if (importedCounts) {
+                alert(
+                  `Imported data: ${importedCounts.cardsCount} cards, ${importedCounts.dashboardsCount} dashboards`
+                );
+              }
             } catch (exception) {
               const error = exception as Error;
               setFileError(error.message);
@@ -94,7 +103,7 @@ function importCardsAndDashboards(
       `This will overwrite ${cardsPendingOverwrite.length} cards and ${dashboardsPendingOverwrite.length} dashboards. Continue?`
     );
     if (!doOverwrite) {
-      return;
+      return false;
     }
   }
 
@@ -104,6 +113,11 @@ function importCardsAndDashboards(
       dashboardsById: data.dashboardsById,
     })
   );
+
+  return {
+    cardsCount: Object.keys(data.cardsById).length,
+    dashboardsCount: Object.keys(data.dashboardsById).length,
+  };
 }
 
 const ErrorText = styled(Text)`
