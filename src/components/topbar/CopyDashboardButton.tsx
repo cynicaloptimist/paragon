@@ -43,5 +43,5 @@ function SaveStateToLocalStorageAndRedirect(
   };
 
   localStorage.setItem("appState", JSON.stringify(mergedState));
-  window.location.href = "../../";
+  window.location.href = `/e/${newDashboardId}`;
 }
