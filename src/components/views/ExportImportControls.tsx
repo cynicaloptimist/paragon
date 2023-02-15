@@ -7,11 +7,14 @@ import styled from "styled-components";
 import { Actions, RootAction } from "../../actions/Actions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { AppState } from "../../state/AppState";
+import { UIContext } from "../UIContext";
 
 export function ExportImportControls() {
   const { state, dispatch } = useContext(ReducerContext);
+  const uiContext = useContext(UIContext);
   const fileInput = useRef<HTMLInputElement>(null);
   const [fileError, setFileError] = useState<string>();
+  const closeSettings = () => uiContext.setAppSettingsVisible(false);
 
   return (
     <Box flex={false} pad="small" gap="small">
@@ -42,6 +45,7 @@ export function ExportImportControls() {
                 alert(
                   `Imported data: ${importedCounts.cardsCount} cards, ${importedCounts.dashboardsCount} dashboards`
                 );
+                closeSettings();
               }
             } catch (exception) {
               const error = exception as Error;
