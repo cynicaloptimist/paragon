@@ -127,7 +127,8 @@ export default function DrawingCard(props: {
                   sceneElementJSONs: allElements.map((e) => JSON.stringify(e)),
                 })
               );
-              if (userId) {
+              const filesCount = Object.keys(files).length;
+              if (userId && filesCount > 0) {
                 FirebaseUtils.SetCardFiles(userId, props.card.cardId, files);
               }
             }
