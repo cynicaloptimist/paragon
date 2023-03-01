@@ -12,6 +12,28 @@ export const CardActions = {
     cardId: string;
     cardState: LegacyCardState;
   }>(),
+  SetCardTitle: createAction("SetCardTitle")<{
+    cardId: string;
+    title: string;
+  }>(),
+  SetCardPath: createAction("SetCardPath")<{
+    cardId: string;
+    path: string;
+  }>(),
+  SetPlayerViewPermission: createAction("SetPlayerViewPermission")<{
+    cardId: string;
+    playerViewPermission: PlayerViewPermission;
+  }>(),
+  SetThemeColor: createAction("SetThemeColor")<{
+    cardId: string;
+    themeColor: string;
+  }>(),
+  SetCustomColor: createAction("SetCustomColor")<{
+    cardId: string;
+    customColor: string;
+  }>(),
+
+  // Type-specific actions
   SetCardContent: createAction("SetCardContent")<{
     cardId: string;
     content: string;
@@ -32,26 +54,6 @@ export const CardActions = {
     cardId: string;
     detail: string;
     detailIndex: number;
-  }>(),
-  SetCardTitle: createAction("SetCardTitle")<{
-    cardId: string;
-    title: string;
-  }>(),
-  SetCardPath: createAction("SetCardPath")<{
-    cardId: string;
-    path: string;
-  }>(),
-  SetPlayerViewPermission: createAction("SetPlayerViewPermission")<{
-    cardId: string;
-    playerViewPermission: PlayerViewPermission;
-  }>(),
-  SetThemeColor: createAction("SetThemeColor")<{
-    cardId: string;
-    themeColor: string;
-  }>(),
-  SetCustomColor: createAction("SetCustomColor")<{
-    cardId: string;
-    customColor: string;
   }>(),
   SetRollTableEntries: createAction("SetRollTableEntries")<{
     cardId: string;
