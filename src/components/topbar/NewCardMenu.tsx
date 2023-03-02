@@ -26,7 +26,7 @@ export function NewCardMenu() {
     }
   );
 
-  const menuItems = availableCardTypes.map((cardType) => {
+  const cardTypes = availableCardTypes.map((cardType) => {
     return {
       label: CardTypeFriendlyNames[cardType],
       onClick: () => {
@@ -43,6 +43,29 @@ export function NewCardMenu() {
       },
     };
   });
+
+  const templateTypes = Object.values(state.templatesById).map((template) => {
+    return {
+      label: template.title,
+      onClick: () => {
+        const cardId = randomString();
+        if (dashboardId) {
+          dispatch(
+            DashboardActions.AddCardFromTemplate({
+              dashboardId,
+              cardId,
+              templateId: template.cardId,
+              cardType: template.type,
+            })
+          );
+        }
+      },
+    };
+  });
+
+  const menuItems = templateTypes.length
+    ? [cardTypes, templateTypes]
+    : cardTypes;
 
   return (
     <Menu
