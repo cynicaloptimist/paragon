@@ -143,11 +143,7 @@ export function CardLibrary() {
         {searchResults.map((searchResult) => {
           const cardState = searchResult.item;
 
-          return (
-            <div>
-              <CardLibraryRow key={cardState.cardId} card={cardState} />
-            </div>
-          );
+          return <CardLibraryRow key={cardState.cardId} card={cardState} />;
         })}
       </Box>
     );
