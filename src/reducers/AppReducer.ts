@@ -1,4 +1,4 @@
-import { mapValues, omit } from "lodash";
+import { cloneDeep, mapValues, omit } from "lodash";
 import { isActionOf } from "typesafe-actions";
 import { Actions, RootAction } from "../actions/Actions";
 import { CardActions } from "../actions/CardActions";
@@ -153,6 +153,21 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     };
   }
 
+  if (isActionOf(CardActions.CreateTemplateFromCard, action)) {
+    const cardCopy = cloneDeep(oldState.cardsById[action.payload.cardId]);
+    const template: CardState = {
+      ...cardCopy,
+      cardId: action.payload.templateId,
+    };
+
+    return {
+      ...oldState,
+      templatesById: {
+        ...oldState.templatesById,
+        [action.payload.templateId]: template,
+      },
+    };
+  }
   if (isActionOf(Actions.SetCardTypesInMenu, action)) {
     return {
       ...oldState,
