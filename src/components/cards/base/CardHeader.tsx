@@ -1,6 +1,10 @@
-import { faGripLines, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEllipsisV,
+  faGripLines,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, Header, Heading, TextInput } from "grommet";
+import { Box, Button, Header, Heading, Menu, TextInput } from "grommet";
 import React, { useContext } from "react";
 import { CardActions } from "../../../actions/CardActions";
 import { ReducerContext } from "../../../reducers/ReducerContext";
@@ -11,6 +15,7 @@ import { PlayerViewButton } from "./PlayerViewButton";
 import { ComputeThemeProps } from "./ComputeThemeProps";
 import { DashboardActions } from "../../../actions/DashboardActions";
 import { useActiveDashboardId } from "../../hooks/useActiveDashboardId";
+import { randomString } from "../../../randomString";
 
 export function CardHeader(props: {
   cardState: CardState;
@@ -87,6 +92,7 @@ export function CardHeader(props: {
             popToast={props.popToast}
           />
         )}
+        {isGmView && <CardMenu cardId={props.cardState.cardId} />}
         {(isGmView || isDashboardView) && (
           <Button
             icon={<FontAwesomeIcon icon={faTimes} />}
@@ -103,6 +109,31 @@ export function CardHeader(props: {
         )}
       </Box>
     </Header>
+  );
+}
+
+function CardMenu(props: { cardId: string }) {
+  const { dispatch } = React.useContext(ReducerContext);
+
+  return (
+    <Menu
+      dropAlign={{ right: "right", top: "bottom" }}
+      icon={<FontAwesomeIcon icon={faEllipsisV} />}
+      items={[
+        {
+          label: "Create a Template from this Card",
+          onClick: () => {
+            const templateId = randomString();
+            return dispatch(
+              CardActions.CreateTemplateFromCard({
+                cardId: props.cardId,
+                templateId: templateId,
+              })
+            );
+          },
+        },
+      ]}
+    />
   );
 }
 
