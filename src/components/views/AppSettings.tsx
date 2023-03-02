@@ -24,7 +24,7 @@ export function AppSettings() {
       <Box
         background="background"
         pad="small"
-        style={{ width: "300px" }}
+        style={{ width: "400px", height: "600px" }}
         alignContent="center"
         elevation="medium"
         overflow={{ vertical: "auto" }}
@@ -36,6 +36,7 @@ export function AppSettings() {
           <Tab title="Card Types">
             <CardTypesSettings />
           </Tab>
+          <Tab title="Templates"></Tab>
         </Tabs>
       </Box>
     </Layer>
@@ -44,10 +45,10 @@ export function AppSettings() {
 
 function DataSettingsAndInfo() {
   return (
-    <Box>
+    <InnerBox>
       <ExportImportControls />
       <AppInfo />
-    </Box>
+    </InnerBox>
   );
 }
 
@@ -71,7 +72,7 @@ function CardTypesSettings() {
   });
 
   return (
-    <Box>
+    <InnerBox>
       <Text margin="xsmall">Show in New Card menu:</Text>
       <CheckBoxGroup
         margin="xsmall"
@@ -83,7 +84,7 @@ function CardTypesSettings() {
           dispatch(Actions.SetCardTypesInMenu({ cardTypes: selectedOptions }));
         }}
       />
-    </Box>
+    </InnerBox>
   );
 }
 
@@ -108,4 +109,9 @@ const LinkOut = styled.a.attrs({ target: "_blank", rel: "noreferrer" })``;
 const InfoText = styled(Text).attrs({ color: "text-fade" })`
   font-size: medium;
   flex-shrink: 0;
+`;
+
+const InnerBox = styled(Box)`
+  width: 300px;
+  margin: auto;
 `;
