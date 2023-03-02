@@ -13,9 +13,21 @@ import { ExportImportControls } from "./ExportImportControls";
 
 export function AppSettings() {
   const uiContext = useContext(UIContext);
-  const { state, dispatch } = useContext(ReducerContext);
   const closeSettings = () => uiContext.setAppSettingsVisible(false);
 
+  return (
+    <Layer
+      onClickOutside={closeSettings}
+      onEsc={closeSettings}
+      position="center"
+    >
+      <DataSettingsAndInfo />
+    </Layer>
+  );
+}
+
+function DataSettingsAndInfo() {
+  const { state, dispatch } = useContext(ReducerContext);
   const availableCardTypes = CardTypes.filter((cardType) => {
     if (cardType === "info") {
       return false;
@@ -34,39 +46,31 @@ export function AppSettings() {
   });
 
   return (
-    <Layer
-      onClickOutside={closeSettings}
-      onEsc={closeSettings}
-      position="center"
+    <Box
+      background="background"
+      pad="small"
+      style={{ width: "300px" }}
+      alignContent="center"
+      elevation="medium"
+      overflow={{ vertical: "auto" }}
     >
-      <Box
-        background="background"
-        pad="small"
-        style={{ width: "300px" }}
-        alignContent="center"
-        elevation="medium"
-        overflow={{ vertical: "auto" }}
-      >
-        <Heading margin="xsmall" level="3">
-          App Settings
-        </Heading>
-        <Text margin="xsmall">Card Types in New Card menu:</Text>
-        <CheckBoxGroup
-          margin="xsmall"
-          flex={false}
-          options={availableCardTypes}
-          value={state.appSettings.cardTypesInMenu}
-          onChange={(changeEvent) => {
-            const selectedOptions = changeEvent?.value as unknown as CardType[];
-            dispatch(
-              Actions.SetCardTypesInMenu({ cardTypes: selectedOptions })
-            );
-          }}
-        />
-        <ExportImportControls />
-        <AppInfo />
-      </Box>
-    </Layer>
+      <Heading margin="xsmall" level="3">
+        App Settings
+      </Heading>
+      <Text margin="xsmall">Card Types in New Card menu:</Text>
+      <CheckBoxGroup
+        margin="xsmall"
+        flex={false}
+        options={availableCardTypes}
+        value={state.appSettings.cardTypesInMenu}
+        onChange={(changeEvent) => {
+          const selectedOptions = changeEvent?.value as unknown as CardType[];
+          dispatch(Actions.SetCardTypesInMenu({ cardTypes: selectedOptions }));
+        }}
+      />
+      <ExportImportControls />
+      <AppInfo />
+    </Box>
   );
 }
 
