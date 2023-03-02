@@ -1,4 +1,4 @@
-import { Box, CheckBoxGroup, Heading, Layer, Text } from "grommet";
+import { Box, CheckBoxGroup, Layer, Tab, Tabs, Text } from "grommet";
 import { useContext } from "react";
 import styled from "styled-components";
 import { Actions } from "../../actions/Actions";
@@ -21,12 +21,37 @@ export function AppSettings() {
       onEsc={closeSettings}
       position="center"
     >
-      <DataSettingsAndInfo />
+      <Box
+        background="background"
+        pad="small"
+        style={{ width: "300px" }}
+        alignContent="center"
+        elevation="medium"
+        overflow={{ vertical: "auto" }}
+      >
+        <Tabs>
+          <Tab title="Data and Info">
+            <DataSettingsAndInfo />
+          </Tab>
+          <Tab title="Card Types">
+            <CardTypesSettings />
+          </Tab>
+        </Tabs>
+      </Box>
     </Layer>
   );
 }
 
 function DataSettingsAndInfo() {
+  return (
+    <Box>
+      <ExportImportControls />
+      <AppInfo />
+    </Box>
+  );
+}
+
+function CardTypesSettings() {
   const { state, dispatch } = useContext(ReducerContext);
   const availableCardTypes = CardTypes.filter((cardType) => {
     if (cardType === "info") {
@@ -46,18 +71,8 @@ function DataSettingsAndInfo() {
   });
 
   return (
-    <Box
-      background="background"
-      pad="small"
-      style={{ width: "300px" }}
-      alignContent="center"
-      elevation="medium"
-      overflow={{ vertical: "auto" }}
-    >
-      <Heading margin="xsmall" level="3">
-        App Settings
-      </Heading>
-      <Text margin="xsmall">Card Types in New Card menu:</Text>
+    <Box>
+      <Text margin="xsmall">Show in New Card menu:</Text>
       <CheckBoxGroup
         margin="xsmall"
         flex={false}
@@ -68,8 +83,6 @@ function DataSettingsAndInfo() {
           dispatch(Actions.SetCardTypesInMenu({ cardTypes: selectedOptions }));
         }}
       />
-      <ExportImportControls />
-      <AppInfo />
     </Box>
   );
 }
