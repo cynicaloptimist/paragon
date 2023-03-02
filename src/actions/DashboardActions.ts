@@ -14,6 +14,11 @@ export const DashboardActions = {
     cardId: string;
     cardType: CardType;
   }>(),
+  AddCardFromTemplate: createDashboardAction("AddCardFromTemplate")<{
+    cardId: string;
+    templateId: string;
+    cardType: CardType;
+  }>(),
   OpenCard: createDashboardAction("OpenCard")<{
     cardId: string;
     cardType: CardType;
