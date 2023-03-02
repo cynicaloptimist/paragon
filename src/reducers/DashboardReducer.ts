@@ -29,15 +29,17 @@ export function DashboardReducer(
     };
   }
 
-  if (isActionOf(DashboardActions.AddCard, action)) {
-    const { cardId } = action.payload;
+  if (
+    isActionOf(DashboardActions.AddCard, action) ||
+    isActionOf(DashboardActions.AddCardFromTemplate, action)
+  ) {
+    const { cardId, cardType } = action.payload;
+    console.log(action.type);
     return {
       ...oldState,
       openCardIds: (oldState.openCardIds || []).concat([cardId]),
       layoutsBySize: _.mapValues(oldState.layoutsBySize, (layout) => {
-        return _.union(layout, [
-          InitialLayout(cardId, action.payload.cardType),
-        ]);
+        return _.union(layout, [InitialLayout(cardId, cardType)]);
       }),
     };
   }

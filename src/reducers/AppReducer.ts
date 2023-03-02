@@ -4,6 +4,7 @@ import { Actions, RootAction } from "../actions/Actions";
 import { CardActions } from "../actions/CardActions";
 import { DashboardAction, DashboardActions } from "../actions/DashboardActions";
 import { AppState } from "../state/AppState";
+import { CardState } from "../state/CardState";
 import { DashboardState } from "../state/DashboardState";
 import { InitialCardState } from "../state/InitialCardState";
 import { LegacyDashboardState } from "../state/LegacyAppState";
@@ -168,6 +169,38 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
       },
     };
   }
+
+  if (isActionOf(DashboardActions.AddCardFromTemplate, action)) {
+    const templateCopy = cloneDeep(
+      oldState.templatesById[action.payload.templateId]
+    );
+
+    let title = templateCopy.title;
+    let index = 1;
+    const existingCardTitles = Object.values(oldState.cardsById).map(
+      (c) => c.title
+    );
+
+    while (existingCardTitles.includes(title)) {
+      title = `${templateCopy.title} ${++index}`;
+    }
+
+    const card: CardState = {
+      ...templateCopy,
+      cardId: action.payload.cardId,
+      title,
+    };
+
+    return {
+      ...oldState,
+      cardsById: {
+        ...oldState.cardsById,
+        [action.payload.cardId]: card,
+      },
+      dashboardsById,
+    };
+  }
+
   if (isActionOf(Actions.SetCardTypesInMenu, action)) {
     return {
       ...oldState,
