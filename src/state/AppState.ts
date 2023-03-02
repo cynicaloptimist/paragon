@@ -5,6 +5,7 @@ import { DashboardState } from "./DashboardState";
 export type AppState = {
   cardsById: CardsState;
   dashboardsById: Record<string, DashboardState>;
+  templatesById: CardsState;
   appSettings: AppSettings;
   user: UserState;
 };
@@ -24,6 +25,7 @@ export type UserState = {
 export const EmptyState = (): AppState => ({
   cardsById: {},
   dashboardsById: {},
+  templatesById: {},
   appSettings: {
     cardTypesInMenu: [],
   },
