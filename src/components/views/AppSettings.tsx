@@ -136,6 +136,7 @@ function TemplatesSettings() {
             {template.title}{" "}
             <LongPressButton
               tip="Delete"
+              shortHeight
               onLongPress={() => {
                 dispatch(
                   CardActions.DeleteTemplate({ templateId: template.cardId })

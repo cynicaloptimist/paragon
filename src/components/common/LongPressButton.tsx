@@ -8,6 +8,7 @@ export function LongPressButton(
     onLongPress: () => void;
     icon: JSX.Element;
     timeout?: number;
+    shortHeight?: boolean;
   } & ButtonExtendedProps &
     JSX.IntrinsicElements["a"]
 ) {
@@ -43,7 +44,10 @@ export function LongPressButton(
   }, [onLongPress, timeout, unPress]);
 
   return (
-    <Stack anchor="center">
+    <Stack
+      anchor="center"
+      margin={props.shortHeight ? { vertical: "-30px" } : undefined}
+    >
       <Meter
         type="circle"
         max={timeout}
