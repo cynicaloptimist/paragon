@@ -2,6 +2,7 @@ import { Box, ThemeContext } from "grommet";
 import _ from "lodash";
 import React from "react";
 import { CardState } from "../../../state/CardState";
+import { useHover } from "../../hooks/useHover";
 import { themeColor } from "../../hooks/useThemeColor";
 import { useToast } from "../../hooks/useToast";
 import { CardFooter } from "./CardFooter";
@@ -18,6 +19,7 @@ export default function BaseCard(props: {
 }) {
   const [toast, popToast] = useToast(5000);
   const [isFocused, setFocused] = React.useState(false);
+  const { ref: hoverRef, hovered: isHovered } = useHover<HTMLDivElement>();
 
   const cardColor = props.cardState.themeColor;
   const theme = _.cloneDeep(React.useContext(ThemeContext));
@@ -46,8 +48,13 @@ export default function BaseCard(props: {
         onKeyDown={props.onKeyDown}
         onPaste={props.onPaste}
         className={`card__${props.cardState.type}`}
+        ref={hoverRef}
       >
-        <CardHeader popToast={popToast} cardState={props.cardState} />
+        <CardHeader
+          popToast={popToast}
+          cardState={props.cardState}
+          showAllButtons={isFocused || isHovered}
+        />
         <Box
           ref={props.innerBoxRef}
           flex

@@ -20,6 +20,7 @@ import { randomString } from "../../../randomString";
 export function CardHeader(props: {
   cardState: CardState;
   popToast: (toast: string) => void;
+  showAllButtons: boolean;
 }) {
   const { dispatch } = React.useContext(ReducerContext);
   const dashboardId = useActiveDashboardId();
@@ -85,8 +86,10 @@ export function CardHeader(props: {
             </Heading>
           </Box>
         )}
-        {isGmView && <CardColorPickerButton cardId={props.cardState.cardId} />}
-        {isGmView && (
+        {isGmView && props.showAllButtons && (
+          <CardColorPickerButton cardId={props.cardState.cardId} />
+        )}
+        {isGmView && props.showAllButtons && (
           <PlayerViewButton
             cardState={props.cardState}
             popToast={props.popToast}
