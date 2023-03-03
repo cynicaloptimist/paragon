@@ -47,6 +47,10 @@ export function NewCardMenu() {
   const templateTypes = Object.values(state.appSettings.templateIdsInMenu).map(
     (templateId) => {
       const template = state.templatesById[templateId];
+      if (!template) {
+        console.error(`Template ${templateId} not found`);
+        return {};
+      }
       return {
         label: template.title,
         onClick: () => {
