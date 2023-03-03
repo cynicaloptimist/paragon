@@ -16,6 +16,7 @@ export const CardActions = {
     cardId: string;
     templateId: string;
   }>(),
+  DeleteTemplate: createAction("DeleteTemplate")<{ templateId: string }>(),
   SetCardTitle: createAction("SetCardTitle")<{
     cardId: string;
     title: string;

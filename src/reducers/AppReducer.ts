@@ -1,4 +1,4 @@
-import { cloneDeep, mapValues, omit } from "lodash";
+import { cloneDeep, mapValues, omit, remove } from "lodash";
 import { isActionOf } from "typesafe-actions";
 import { Actions, RootAction } from "../actions/Actions";
 import { CardActions } from "../actions/CardActions";
@@ -166,6 +166,20 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
       templatesById: {
         ...oldState.templatesById,
         [action.payload.templateId]: template,
+      },
+    };
+  }
+
+  if (isActionOf(CardActions.DeleteTemplate, action)) {
+    return {
+      ...oldState,
+      templatesById: omit(oldState.templatesById, action.payload.templateId),
+      appSettings: {
+        ...oldState.appSettings,
+        templateIdsInMenu: remove(
+          oldState.appSettings.templateIdsInMenu,
+          action.payload.templateId
+        ),
       },
     };
   }

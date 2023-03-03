@@ -1,3 +1,5 @@
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
   CheckBoxGroup,
@@ -10,12 +12,14 @@ import {
 import { useContext } from "react";
 import styled from "styled-components";
 import { Actions } from "../../actions/Actions";
+import { CardActions } from "../../actions/CardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import {
   CardType,
   CardTypeFriendlyNames,
   CardTypes,
 } from "../../state/CardTypes";
+import { LongPressButton } from "../common/LongPressButton";
 import { UIContext } from "../UIContext";
 import { ExportImportControls } from "./ExportImportControls";
 
@@ -116,6 +120,7 @@ function AppInfo() {
 
 function TemplatesSettings() {
   const { state, dispatch } = useContext(ReducerContext);
+
   const templates = Object.values(state.templatesById);
   if (templates.length === 0) {
     return (
@@ -126,7 +131,20 @@ function TemplatesSettings() {
   } else {
     const templateOptions: CheckBoxType[] = templates.map((template) => {
       return {
-        label: template.title,
+        label: (
+          <Box direction="row" align="center">
+            {template.title}{" "}
+            <LongPressButton
+              tip="Delete"
+              onLongPress={() => {
+                dispatch(
+                  CardActions.DeleteTemplate({ templateId: template.cardId })
+                );
+              }}
+              icon={<FontAwesomeIcon icon={faTrash} />}
+            />
+          </Box>
+        ),
         value: template.cardId,
       };
     });
