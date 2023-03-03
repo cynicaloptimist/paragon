@@ -12,6 +12,7 @@ export type AppState = {
 
 export type AppSettings = {
   cardTypesInMenu: CardType[];
+  templateIdsInMenu: string[];
 };
 
 export type CardsState = Record<string, CardState>;
@@ -28,6 +29,7 @@ export const EmptyState = (): AppState => ({
   templatesById: {},
   appSettings: {
     cardTypesInMenu: [],
+    templateIdsInMenu: [],
   },
   user: {
     isLoggedIn: false,

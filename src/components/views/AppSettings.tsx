@@ -1,4 +1,12 @@
-import { Box, CheckBoxGroup, Layer, Tab, Tabs, Text } from "grommet";
+import {
+  Box,
+  CheckBoxGroup,
+  CheckBoxType,
+  Layer,
+  Tab,
+  Tabs,
+  Text,
+} from "grommet";
 import { useContext } from "react";
 import styled from "styled-components";
 import { Actions } from "../../actions/Actions";
@@ -36,7 +44,9 @@ export function AppSettings() {
           <Tab title="Card Types">
             <CardTypesSettings />
           </Tab>
-          <Tab title="Templates"></Tab>
+          <Tab title="Templates">
+            <TemplatesSettings />
+          </Tab>
         </Tabs>
       </Box>
     </Layer>
@@ -102,6 +112,46 @@ function AppInfo() {
       .
     </InfoText>
   );
+}
+
+function TemplatesSettings() {
+  const { state, dispatch } = useContext(ReducerContext);
+  const templates = Object.values(state.templatesById);
+  if (templates.length === 0) {
+    return (
+      <Text>
+        You can create a template from an existing Card from the Card Menu.
+      </Text>
+    );
+  } else {
+    const templateOptions: CheckBoxType[] = templates.map((template) => {
+      return {
+        label: template.title,
+        value: template.cardId,
+      };
+    });
+
+    return (
+      <InnerBox>
+        <Text margin="xsmall">Templates in New Card menu:</Text>
+        <CheckBoxGroup
+          margin="xsmall"
+          flex={false}
+          options={templateOptions}
+          value={state.appSettings.templateIdsInMenu}
+          onChange={(changeEvent) => {
+            const selectedTemplateIds =
+              changeEvent?.value as unknown as string[];
+            dispatch(
+              Actions.SetTemplateIdsInMenu({
+                templateIds: selectedTemplateIds,
+              })
+            );
+          }}
+        />
+      </InnerBox>
+    );
+  }
 }
 
 const LinkOut = styled.a.attrs({ target: "_blank", rel: "noreferrer" })``;

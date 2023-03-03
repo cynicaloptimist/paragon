@@ -211,6 +211,16 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     };
   }
 
+  if (isActionOf(Actions.SetTemplateIdsInMenu, action)) {
+    return {
+      ...oldState,
+      appSettings: {
+        ...oldState.appSettings,
+        templateIdsInMenu: action.payload.templateIds,
+      },
+    };
+  }
+
   if (isActionOf(Actions.ImportCardsAndDashboards, action)) {
     return {
       ...oldState,

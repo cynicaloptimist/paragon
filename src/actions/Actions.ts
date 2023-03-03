@@ -13,6 +13,9 @@ export const Actions = {
   SetCardTypesInMenu: createAction("SetCardTypesInMenu")<{
     cardTypes: CardType[];
   }>(),
+  SetTemplateIdsInMenu: createAction("SetTemplateIdsInMenu")<{
+    templateIds: string[];
+  }>(),
   ImportCardsAndDashboards: createAction("ImportCardsAndDashboards")<{
     cardsById: CardsState;
     dashboardsById: Record<string, DashboardState>;
