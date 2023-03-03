@@ -167,6 +167,13 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
         ...oldState.templatesById,
         [action.payload.templateId]: template,
       },
+      appSettings: {
+        ...oldState.appSettings,
+        templateIdsInMenu: [
+          ...oldState.appSettings.templateIdsInMenu,
+          action.payload.templateId,
+        ],
+      },
     };
   }
 
