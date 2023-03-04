@@ -12,7 +12,6 @@ import {
 import { useContext } from "react";
 import styled from "styled-components";
 import { Actions } from "../../actions/Actions";
-import { CardActions } from "../../actions/CardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import {
   CardType,
@@ -139,7 +138,7 @@ function TemplatesSettings() {
               shortHeight
               onLongPress={() => {
                 dispatch(
-                  CardActions.DeleteTemplate({ templateId: template.cardId })
+                  Actions.DeleteTemplate({ templateId: template.cardId })
                 );
               }}
               icon={<FontAwesomeIcon icon={faTrash} />}

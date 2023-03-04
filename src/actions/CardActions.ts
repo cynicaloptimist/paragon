@@ -12,11 +12,6 @@ export const CardActions = {
     cardId: string;
     cardState: LegacyCardState;
   }>(),
-  CreateTemplateFromCard: createAction("CreateTemplateFromCard")<{
-    cardId: string;
-    templateId: string;
-  }>(),
-  DeleteTemplate: createAction("DeleteTemplate")<{ templateId: string }>(),
   SetCardTitle: createAction("SetCardTitle")<{
     cardId: string;
     title: string;

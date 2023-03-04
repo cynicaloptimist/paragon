@@ -154,7 +154,7 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     };
   }
 
-  if (isActionOf(CardActions.CreateTemplateFromCard, action)) {
+  if (isActionOf(Actions.CreateTemplateFromCard, action)) {
     const cardCopy = cloneDeep(oldState.cardsById[action.payload.cardId]);
     const template: CardState = {
       ...cardCopy,
@@ -177,7 +177,7 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     };
   }
 
-  if (isActionOf(CardActions.DeleteTemplate, action)) {
+  if (isActionOf(Actions.DeleteTemplate, action)) {
     return {
       ...oldState,
       templatesById: omit(oldState.templatesById, action.payload.templateId),

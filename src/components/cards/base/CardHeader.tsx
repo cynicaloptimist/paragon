@@ -16,6 +16,7 @@ import { ComputeThemeProps } from "./ComputeThemeProps";
 import { DashboardActions } from "../../../actions/DashboardActions";
 import { useActiveDashboardId } from "../../hooks/useActiveDashboardId";
 import { randomString } from "../../../randomString";
+import { Actions } from "../../../actions/Actions";
 
 export function CardHeader(props: {
   cardState: CardState;
@@ -131,7 +132,7 @@ function CardMenu(props: { cardId: string }) {
           onClick: () => {
             const templateId = randomString();
             return dispatch(
-              CardActions.CreateTemplateFromCard({
+              Actions.CreateTemplateFromCard({
                 cardId: props.cardId,
                 templateId: templateId,
               })

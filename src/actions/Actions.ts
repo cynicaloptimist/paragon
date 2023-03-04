@@ -20,6 +20,11 @@ export const Actions = {
     cardsById: CardsState;
     dashboardsById: Record<string, DashboardState>;
   }>(),
+  CreateTemplateFromCard: createAction("CreateTemplateFromCard")<{
+    cardId: string;
+    templateId: string;
+  }>(),
+  DeleteTemplate: createAction("DeleteTemplate")<{ templateId: string }>(),
   LogOut: createAction("LogOut")(),
 };
 
