@@ -38,8 +38,8 @@ export function DashboardReducer(
     return {
       ...oldState,
       openCardIds: (oldState.openCardIds || []).concat([cardId]),
-      layoutsBySize: _.mapValues(oldState.layoutsBySize, (layout) => {
-        return _.union(layout, [InitialLayout(cardId, cardType)]);
+      layoutsBySize: _.mapValues(oldState.layoutsBySize, (layout, size) => {
+        return _.union(layout, [InitialLayout(cardId, cardType, size)]);
       }),
     };
   }
@@ -66,9 +66,9 @@ export function DashboardReducer(
     return {
       ...oldState,
       openCardIds: union(oldState.openCardIds, [action.payload.cardId]),
-      layoutsBySize: _.mapValues(oldState.layoutsBySize, (layouts) => {
+      layoutsBySize: _.mapValues(oldState.layoutsBySize, (layouts, size) => {
         return union(layouts, [
-          InitialLayout(action.payload.cardId, action.payload.cardType),
+          InitialLayout(action.payload.cardId, action.payload.cardType, size),
         ]);
       }),
     };
