@@ -72,6 +72,7 @@ export function UpdateMissingOrLegacyAppState(
     dashboardsById: {},
     appSettings: {
       cardTypesInMenu: initialState.appSettings.cardTypesInMenu,
+      templateIdsInMenu: initialState.appSettings.templateIdsInMenu,
       ...storedState.appSettings,
     },
   };

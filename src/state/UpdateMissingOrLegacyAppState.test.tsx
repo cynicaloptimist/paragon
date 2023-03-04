@@ -29,6 +29,7 @@ test("updates legacy empty state", () => {
     },
     appSettings: {
       cardTypesInMenu: GetInitialState().appSettings.cardTypesInMenu,
+      templateIdsInMenu: GetInitialState().appSettings.templateIdsInMenu,
     },
   };
 
