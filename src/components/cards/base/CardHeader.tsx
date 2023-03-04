@@ -45,6 +45,10 @@ export function CardHeader(props: {
 
   const themeProps = ComputeThemeProps(props.cardState);
 
+  const hideableButtonsStyle: React.CSSProperties = {
+    visibility: isGmView && props.showAllButtons ? "visible" : "hidden",
+  };
+
   return (
     <Header {...themeProps}>
       <Box
@@ -86,15 +90,14 @@ export function CardHeader(props: {
             </Heading>
           </Box>
         )}
-        {isGmView && props.showAllButtons && (
+
+        <Box direction="row" flex="grow" style={hideableButtonsStyle}>
           <CardColorPickerButton cardId={props.cardState.cardId} />
-        )}
-        {isGmView && props.showAllButtons && (
           <PlayerViewButton
             cardState={props.cardState}
             popToast={props.popToast}
           />
-        )}
+        </Box>
         {isGmView && <CardMenu cardId={props.cardState.cardId} />}
         {(isGmView || isDashboardView) && (
           <Button
