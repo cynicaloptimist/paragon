@@ -47,7 +47,7 @@ export function CardHeader(props: {
   const themeProps = ComputeThemeProps(props.cardState);
 
   const hideableButtonsStyle: React.CSSProperties = {
-    visibility: isGmView && props.showAllButtons ? "visible" : "hidden",
+    display: isGmView && props.showAllButtons ? undefined : "none",
   };
 
   return (
