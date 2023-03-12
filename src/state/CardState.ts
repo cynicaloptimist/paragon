@@ -1,5 +1,7 @@
 import { CardType } from "./CardTypes";
 
+export type CardsState = Record<string, CardState>;
+
 export type CardState =
   | ArticleCardState
   | InfoCardState

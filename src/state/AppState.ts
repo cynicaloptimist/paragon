@@ -1,4 +1,5 @@
-import { CardState } from "./CardState";
+import { CampaignState } from "./CampaignState";
+import { CardsState } from "./CardState";
 import { CardType } from "./CardTypes";
 import { DashboardState } from "./DashboardState";
 
@@ -6,6 +7,7 @@ export type AppState = {
   cardsById: CardsState;
   dashboardsById: Record<string, DashboardState>;
   templatesById: CardsState;
+  campaignsById: Record<string, CampaignState>;
   appSettings: AppSettings;
   user: UserState;
 };
@@ -14,8 +16,6 @@ export type AppSettings = {
   cardTypesInMenu: CardType[];
   templateIdsInMenu: string[];
 };
-
-export type CardsState = Record<string, CardState>;
 
 export type UserState = {
   isLoggedIn: boolean;
@@ -27,6 +27,7 @@ export const EmptyState = (): AppState => ({
   cardsById: {},
   dashboardsById: {},
   templatesById: {},
+  campaignsById: {},
   appSettings: {
     cardTypesInMenu: [],
     templateIdsInMenu: [],
