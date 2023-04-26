@@ -103,6 +103,7 @@ type BaseCardState = {
   cardId: string;
   title: string;
   playerViewPermission: PlayerViewPermission;
+  campaignId?: string;
   path?: string;
   themeColor?: string;
   customColor?: string;
