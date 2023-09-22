@@ -1,15 +1,10 @@
 import _ from "lodash";
 import GridLayout from "react-grid-layout";
 import { randomString } from "../randomString";
-import {
-  AppSettings,
-  AppState,
-  CardsState,
-  EmptyState,
-  UserState,
-} from "./AppState";
+import { AppSettings, AppState, EmptyState, UserState } from "./AppState";
 import { GetInfoCards, GetInitialState } from "./GetInitialState";
 import { LegacyCardState, UpdateCardState } from "./LegacyCardState";
+import { CardsState } from "./CardState";
 
 export type LegacyAppState = {
   //new
