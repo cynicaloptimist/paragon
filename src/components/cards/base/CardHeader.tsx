@@ -52,13 +52,7 @@ export function CardHeader(props: {
 
   return (
     <Header {...themeProps}>
-      <Box
-        fill
-        className={isHeaderEditable ? "" : "drag-handle"}
-        direction="row"
-        gap="xxsmall"
-        align="center"
-      >
+      <Box fill direction="row" gap="xxsmall" align="center">
         <DragHandleButton />
         {isHeaderEditable ? (
           <TextInput
@@ -81,6 +75,7 @@ export function CardHeader(props: {
           <Box
             fill
             direction="row"
+            className="drag-handle"
             onDoubleClick={() =>
               (isGmView || isDashboardView) && setHeaderEditable(true)
             }
