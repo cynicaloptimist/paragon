@@ -1,5 +1,5 @@
 import { ActionType, createAction } from "typesafe-actions";
-import { CardsState } from "../state/AppState";
+import { CardsState } from "../state/CardState";
 import { DashboardState } from "../state/DashboardState";
 import { CardType } from "../state/CardTypes";
 import { CardAction } from "./CardActions";
@@ -25,6 +25,16 @@ export const Actions = {
     templateId: string;
   }>(),
   DeleteTemplate: createAction("DeleteTemplate")<{ templateId: string }>(),
+  CreateCampaign: createAction("CreateCampaign")<{
+    campaignId: string;
+    title: string;
+  }>(),
+  DeleteCampaign: createAction("DeleteCampaign")<{
+    campaignId: string;
+  }>(),
+  SetCampaignActive: createAction("SetCampaignActive")<{
+    campaignId?: string;
+  }>(),
   LogOut: createAction("LogOut")(),
 };
 

@@ -191,6 +191,38 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     };
   }
 
+  if (isActionOf(Actions.CreateCampaign, action)) {
+    return {
+      ...oldState,
+      campaignsById: {
+        ...oldState.campaignsById,
+        [action.payload.campaignId]: {
+          id: action.payload.campaignId,
+          title: action.payload.title,
+        },
+      },
+    };
+  }
+
+  if (isActionOf(Actions.SetCampaignActive, action)) {
+    return {
+      ...oldState,
+      activeCampaignId: action.payload.campaignId,
+    };
+  }
+
+  if (isActionOf(Actions.DeleteCampaign, action)) {
+    let activeCampaignId = oldState.activeCampaignId;
+    if (activeCampaignId === action.payload.campaignId) {
+      activeCampaignId = undefined;
+    }
+    return {
+      ...oldState,
+      activeCampaignId,
+      campaignsById: omit(oldState.campaignsById, action.payload.campaignId),
+    };
+  }
+
   if (isActionOf(DashboardActions.AddCardFromTemplate, action)) {
     const templateCopy = cloneDeep(
       oldState.templatesById[action.payload.templateId]

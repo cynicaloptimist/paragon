@@ -10,6 +10,7 @@ export type AppState = {
   campaignsById: Record<string, CampaignState>;
   appSettings: AppSettings;
   user: UserState;
+  activeCampaignId?: string;
 };
 
 export type AppSettings = {
