@@ -5,6 +5,7 @@ import { DashboardLibrary } from "./DashboardLibrary";
 import { UIContext } from "../UIContext";
 import { LibrarySidebarControls } from "./LibrarySidebarControls";
 import { LoginLogout } from "./LoginLogout";
+import { CampaignLibrary } from "./CampaignLibrary";
 
 export function LibrarySidebar() {
   const { librarySidebarMode, setLibrarySidebarMode } = useContext(UIContext);
@@ -27,15 +28,15 @@ export function LibrarySidebar() {
         <Header background="brand" pad="small" height="xsmall">
           <LibrarySidebarControls />
           <Heading level={3} margin="none">
-            {librarySidebarMode === "dashboards" ? "Dashboards" : "Cards"}
+            {librarySidebarMode === "cards" && "Cards"}
+            {librarySidebarMode === "dashboards" && "Dashboards"}
+            {librarySidebarMode === "campaigns" && "Campaigns"}
           </Heading>
         </Header>
         <Box fill>
-          {librarySidebarMode === "dashboards" ? (
-            <DashboardLibrary />
-          ) : (
-            <CardLibrary />
-          )}
+          {librarySidebarMode === "cards" && <CardLibrary />}
+          {librarySidebarMode === "dashboards" && <DashboardLibrary />}
+          {librarySidebarMode === "campaigns" && <CampaignLibrary />}
         </Box>
         <Box alignSelf="stretch">
           <LoginLogout />

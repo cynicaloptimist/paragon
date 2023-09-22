@@ -1,6 +1,10 @@
 import { createContext, useState } from "react";
 
-export type LibrarySidebarMode = "hidden" | "cards" | "dashboards";
+export type LibrarySidebarMode =
+  | "hidden"
+  | "cards"
+  | "dashboards"
+  | "campaigns";
 
 type UIContextValue = {
   librarySidebarMode: LibrarySidebarMode;

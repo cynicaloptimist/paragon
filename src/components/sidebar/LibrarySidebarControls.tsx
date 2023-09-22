@@ -3,6 +3,8 @@ import React, { useCallback, useContext } from "react";
 import { ReactComponent as CardStack } from "../../cards-regular.svg";
 import { ReactComponent as DMScreen } from "../../dm-screen-regular.svg";
 import { UIContext } from "../UIContext";
+import { faGlobe } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function LibrarySidebarControls() {
   const { librarySidebarMode, setLibrarySidebarMode } = useContext(UIContext);
@@ -23,6 +25,14 @@ export function LibrarySidebarControls() {
     }
   }, [librarySidebarMode, setLibrarySidebarMode]);
 
+  const toggleCampaignLibrary = useCallback(() => {
+    if (librarySidebarMode === "campaigns") {
+      setLibrarySidebarMode("hidden");
+    } else {
+      setLibrarySidebarMode("campaigns");
+    }
+  }, [librarySidebarMode, setLibrarySidebarMode]);
+
   return (
     <Box direction="row" gap="small">
       <Button
@@ -34,6 +44,11 @@ export function LibrarySidebarControls() {
         tip="Dashboards"
         icon={<DMScreen title="Dashboards" height="22px" />}
         onClick={toggleDashboardLibrary}
+      />
+      <Button
+        tip="Campaigns"
+        icon={<FontAwesomeIcon icon={faGlobe} />}
+        onClick={toggleCampaignLibrary}
       />
     </Box>
   );
