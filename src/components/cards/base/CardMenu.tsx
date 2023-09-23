@@ -1,11 +1,12 @@
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, Drop, Menu, Text } from "grommet";
+import { Button, Drop, Menu, Text } from "grommet";
 import React from "react";
 import { ReducerContext } from "../../../reducers/ReducerContext";
 import { randomString } from "../../../randomString";
 import { Actions } from "../../../actions/Actions";
 import { CampaignState } from "../../../state/CampaignState";
+import { CardActions } from "../../../actions/CardActions";
 
 export function CardMenu(props: { cardId: string }) {
   const { state, dispatch } = React.useContext(ReducerContext);
@@ -35,7 +36,14 @@ export function CardMenu(props: { cardId: string }) {
             <Button
               style={{ border: "none" }}
               label={c.title}
-              onClick={() => c.id}
+              onClick={() =>
+                dispatch(
+                  CardActions.SetCardCampaign({
+                    cardId: cardState.cardId,
+                    campaignId: c.id,
+                  })
+                )
+              }
               active={cardState.campaignId === c.id}
             />
           ))}

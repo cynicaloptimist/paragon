@@ -32,6 +32,10 @@ export const CardActions = {
     cardId: string;
     customColor: string;
   }>(),
+  SetCardCampaign: createAction("SetCardCampaign")<{
+    cardId: string;
+    campaignId: string | undefined;
+  }>(),
 
   // Type-specific actions
   SetCardContent: createAction("SetCardContent")<{
