@@ -1,7 +1,7 @@
 import { createReducer } from "typesafe-actions";
 import { RootAction } from "../actions/Actions";
 import { CardAction, CardActions } from "../actions/CardActions";
-import { CardsState } from "../state/AppState";
+import { CardsState } from "../state/CardState";
 import {
   CardState,
   ClockCardState,
