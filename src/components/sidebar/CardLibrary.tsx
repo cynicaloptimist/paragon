@@ -1,4 +1,4 @@
-import { faSort } from "@fortawesome/free-solid-svg-icons";
+import { faGlobe, faSort } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Fuse from "fuse.js";
 import {
@@ -8,7 +8,9 @@ import {
   BoxExtendedProps,
   Button,
   Heading,
+  Text,
   TextInput,
+  Tip,
 } from "grommet";
 import React, { useContext, useMemo, useState } from "react";
 import { ReducerContext } from "../../reducers/ReducerContext";
@@ -108,12 +110,19 @@ export function CardLibrary() {
   const { state } = useContext(ReducerContext);
   const [groupingIndex, setGroupingIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
-  const cards = Object.keys(state.cardsById).map((cardId) => {
-    return {
-      ...state.cardsById[cardId],
-      cardId, // This helps to ensure that CardActions will work in case of a malformed CardState
-    };
-  });
+  const cards = Object.keys(state.cardsById)
+    .map<CardState>((cardId) => {
+      return {
+        ...state.cardsById[cardId],
+        cardId, // This helps to ensure that CardActions will work in case of a malformed CardState
+      };
+    })
+    .filter((card) => {
+      if (!card.campaignId) {
+        return true;
+      }
+      return card.campaignId === state.activeCampaignId;
+    });
   const fuse = useMemo(
     () =>
       new Fuse(cards, {
@@ -135,6 +144,7 @@ export function CardLibrary() {
     const searchResults = fuse.search(searchTerm);
     return (
       <Box {...boxProps}>
+        <CampaignHeader />
         <TextInput
           placeholder="Search..."
           value={searchTerm}
@@ -185,6 +195,7 @@ export function CardLibrary() {
 
   return (
     <Box {...boxProps}>
+      <CampaignHeader />
       <TextInput
         placeholder="Search..."
         value={searchTerm}
@@ -223,4 +234,20 @@ export function CardLibrary() {
       <Accordion key={selectedGrouping.Name}>{headersAndCards}</Accordion>
     </Box>
   );
+}
+
+function CampaignHeader() {
+  const { state } = useContext(ReducerContext);
+  if (state.activeCampaignId) {
+    return (
+      <Text>
+        <Tip content="Cards shown for Active Campaign">
+          <Button icon={<FontAwesomeIcon icon={faGlobe} />} />
+        </Tip>
+        {state.campaignsById[state.activeCampaignId].title}
+      </Text>
+    );
+  } else {
+    return null;
+  }
 }
