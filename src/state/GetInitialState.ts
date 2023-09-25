@@ -7,9 +7,11 @@ import { CardTypes } from "./CardTypes";
 export function GetInfoCards() {
   const welcomeCard = GetWelcomeCard();
   const cardTypesCard = GetCardTypesCard();
+  const campaignsCard = GetCampaignsCard();
   return {
     [welcomeCard.cardId]: welcomeCard,
     [cardTypesCard.cardId]: cardTypesCard,
+    [campaignsCard.cardId]: campaignsCard,
   };
 }
 
@@ -99,6 +101,20 @@ function GetCardTypesCard(): InfoCardState {
 All cards can be shared with your players in the Player View. If you're a [Patreon](https://www.patreon.com/improvedinitiative) supporter at the Epic tier, you can make cards fully interactable in the Player View.
 `,
 
+    playerViewPermission: PlayerViewPermission.Hidden,
+  };
+}
+
+function GetCampaignsCard(): InfoCardState {
+  return {
+    cardId: "campaigns",
+    type: "info",
+    title: "Campaigns",
+    content:
+      `If you use Paragon Campaign Dashboard for multiple campaigns, you can associate Cards and Dashboards with an individual campaign.\n\n` +
+      `If a Card or Dashboard has a Campaign set, it will only appear in the Library Sidebar if that Campaign is currently active.\n\n` +
+      `If you have a Campaign active, new Cards and Dashboards will automatically be associated with that Campaign.\n\n` +
+      `A Card or Dashboard with no Campaign set is part of the "default campaign" and will be visible and available in all your Campaigns.`,
     playerViewPermission: PlayerViewPermission.Hidden,
   };
 }
