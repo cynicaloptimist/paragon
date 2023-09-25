@@ -1,6 +1,6 @@
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faGlobe, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button } from "grommet";
+import { Box, Button, Text, Tip } from "grommet";
 import _ from "lodash";
 import { useContext } from "react";
 import { DashboardActions } from "../../actions/DashboardActions";
@@ -14,10 +14,16 @@ export function DashboardLibrary() {
   const dashboardPairsSorted = _.sortBy(
     dashboardPairs,
     ([, dashboard]) => -(dashboard.lastOpenedTimeMs ?? 0)
-  );
+  ).filter(([, dashboard]) => {
+    if (!dashboard.campaignId) {
+      return true;
+    }
+    return dashboard.campaignId === state.activeCampaignId;
+  });
 
   return (
     <Box pad="xsmall" overflow={{ vertical: "auto" }}>
+      <CampaignHeader />
       {dashboardPairsSorted.map(([dashboardId, dashboard]) => {
         return (
           <DashboardLibraryRow
@@ -39,4 +45,20 @@ export function DashboardLibrary() {
       />
     </Box>
   );
+}
+
+function CampaignHeader() {
+  const { state } = useContext(ReducerContext);
+  if (state.activeCampaignId) {
+    return (
+      <Text>
+        <Tip content="Dashboards shown for Active Campaign">
+          <Button icon={<FontAwesomeIcon icon={faGlobe} />} />
+        </Tip>
+        {state.campaignsById[state.activeCampaignId].title}
+      </Text>
+    );
+  } else {
+    return null;
+  }
 }
