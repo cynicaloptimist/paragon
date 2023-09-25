@@ -5,7 +5,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CheckBox, Menu, Text } from "grommet";
-import { useCallback, useContext } from "react";
+import { useCallback, useContext, useState } from "react";
 import styled from "styled-components";
 import { DashboardActions } from "../../actions/DashboardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
@@ -13,11 +13,14 @@ import { DashboardState } from "../../state/DashboardState";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 import { UIContext } from "../UIContext";
 import { ShareDashboard } from "./ShareDashboard";
+import { CampaignChooser } from "../common/CampaignChooser";
 
 export function DashboardMenu(props: { dashboard: DashboardState }) {
   const { state, dispatch } = useContext(ReducerContext);
   const { setAppSettingsVisible } = useContext(UIContext);
   const dashboardId = useActiveDashboardId();
+  const dashboardState = dashboardId && state.dashboardsById[dashboardId];
+  const [campaignChooserActive, setCampaignChooserActive] = useState(false);
 
   const setLayoutCompaction = useCallback(
     (compaction: "free" | "compact") =>
@@ -43,6 +46,23 @@ export function DashboardMenu(props: { dashboard: DashboardState }) {
     [dispatch, dashboardId]
   );
 
+  if (campaignChooserActive && dashboardState) {
+    return (
+      <CampaignChooser
+        close={() => setCampaignChooserActive(false)}
+        activeCampaignId={dashboardState.campaignId}
+        selectCampaign={(campaignId) =>
+          dispatch(
+            DashboardActions.SetDashboardCampaign({
+              dashboardId,
+              campaignId,
+            })
+          )
+        }
+      />
+    );
+  }
+
   return (
     <Menu
       dropAlign={{ right: "right", top: "bottom" }}
@@ -66,6 +86,11 @@ export function DashboardMenu(props: { dashboard: DashboardState }) {
               label: <CheckBox label="Push Cards" checked />,
               onClick: () => setLayoutPushCards("preventcollision"),
             },
+        {
+          label: "Change Campaign...",
+          onClick: () => setCampaignChooserActive(true),
+          disabled: !dashboardState,
+        },
         {
           label: (
             <Text>

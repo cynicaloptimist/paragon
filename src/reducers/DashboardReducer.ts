@@ -29,6 +29,13 @@ export function DashboardReducer(
     };
   }
 
+  if (isActionOf(DashboardActions.SetDashboardCampaign, action)) {
+    return {
+      ...oldState,
+      campaignId: action.payload.campaignId,
+    };
+  }
+
   if (
     isActionOf(DashboardActions.AddCard, action) ||
     isActionOf(DashboardActions.AddCardFromTemplate, action)

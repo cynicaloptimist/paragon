@@ -34,6 +34,9 @@ export const DashboardActions = {
   SetLayoutPushCards: createDashboardAction("SetLayoutPushCards")<{
     layoutPushCards: "none" | "preventcollision";
   }>(),
+  SetDashboardCampaign: createDashboardAction("SetDashboardCampaign")<{
+    campaignId: string | undefined;
+  }>(),
   CreateDashboard: createDashboardAction("CreateDashboard")<{}>(),
   ActivateDashboard: createDashboardAction("ActivateDashboard")<{
     currentTimeMs: number;
