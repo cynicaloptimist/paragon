@@ -89,7 +89,9 @@ export function CardHeader(props: {
             popToast={props.popToast}
           />
         </Box>
-        {isGmView && <CardMenu cardId={props.cardState.cardId} />}
+        {isGmView && props.cardState.type !== "info" && (
+          <CardMenu cardId={props.cardState.cardId} />
+        )}
         {(isGmView || isDashboardView) && (
           <Button
             icon={<FontAwesomeIcon icon={faTimes} />}
