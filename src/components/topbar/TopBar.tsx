@@ -35,6 +35,11 @@ export const TopBar = () => {
     );
   }
 
+  let subheader = "Paragon Campaign Dashboard";
+  if (dashboard.campaignId) {
+    subheader = state.campaignsById[dashboard.campaignId].title;
+  }
+
   return (
     <Header {...headerProps}>
       <LibrarySidebarControls />
@@ -55,7 +60,7 @@ export const TopBar = () => {
           margin="none"
           style={{ whiteSpace: "nowrap" }}
         >
-          Paragon Campaign Dashboard
+          {subheader}
         </Heading>
       </Box>
       <Box direction="row" gap="small">
