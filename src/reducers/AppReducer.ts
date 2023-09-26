@@ -88,6 +88,7 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
           layoutPushCards: "none",
           openCardIds: [],
           layoutsBySize: { xxl: [] },
+          campaignId: oldState.activeCampaignId,
         },
       },
     };
