@@ -121,6 +121,8 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
 
   if (isActionOf(DashboardActions.AddCard, action)) {
     const cardId = action.payload.cardId;
+    const dashboardCampaignId =
+      dashboardsById[action.payload.dashboardId].campaignId;
     return {
       ...oldState,
       cardsById: {
@@ -128,7 +130,8 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
         [cardId]: InitialCardState(
           cardId,
           action.payload.cardType,
-          Object.values(oldState.cardsById).map((card) => card.title)
+          Object.values(oldState.cardsById).map((card) => card.title),
+          dashboardCampaignId
         ),
       },
       dashboardsById,
@@ -238,10 +241,14 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
       title = `${templateCopy.title} ${++index}`;
     }
 
+    const dashboardCampaignId =
+      dashboardsById[action.payload.dashboardId].campaignId;
+
     const card: CardState = {
       ...templateCopy,
       cardId: action.payload.cardId,
       title,
+      campaignId: dashboardCampaignId,
     };
 
     return {

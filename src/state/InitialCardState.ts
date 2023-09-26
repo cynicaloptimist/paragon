@@ -4,12 +4,14 @@ import { CardType, CardTypeFriendlyNames } from "./CardTypes";
 export function InitialCardState(
   cardId: string,
   type: CardType,
-  existingCardTitles: string[]
+  existingCardTitles: string[],
+  campaignId: string | undefined
 ): CardState {
   const baseCard = {
     cardId,
     playerViewPermission: PlayerViewPermission.Visible,
     title: CardTypeFriendlyNames[type],
+    campaignId,
   };
 
   if (existingCardTitles.includes(baseCard.title)) {
