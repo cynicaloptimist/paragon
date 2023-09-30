@@ -69,62 +69,74 @@ export function DashboardMenu(props: { dashboard: DashboardState }) {
       dropAlign={{ right: "right", top: "bottom" }}
       icon={<FontAwesomeIcon icon={faEllipsisV} />}
       items={[
-        props.dashboard.layoutCompaction === "free"
-          ? {
-              label: <CheckBox label="Auto-Compact Cards" />,
-              onClick: () => setLayoutCompaction("compact"),
-            }
-          : {
-              label: <CheckBox label="Auto-Compact Cards" checked />,
-              onClick: () => setLayoutCompaction("free"),
-            },
-        props.dashboard.layoutPushCards === "preventcollision"
-          ? {
-              label: <CheckBox label="Push Cards" />,
-              onClick: () => setLayoutPushCards("none"),
-            }
-          : {
-              label: <CheckBox label="Push Cards" checked />,
-              onClick: () => setLayoutPushCards("preventcollision"),
-            },
-        {
-          label: "Change Campaign...",
-          onClick: () => setCampaignChooserActive(true),
-          disabled: !dashboardState,
-        },
-        {
-          label: (
-            <Text>
-              <MenuIcon icon={faExternalLinkAlt} />
-              {"Player View: " + dashboardId}
-            </Text>
-          ),
-          onClick: () => window.open(`/p/${dashboardId}`, "_blank"),
-        },
-        {
-          label: (
-            <Text>
-              <MenuIcon icon={faExternalLinkAlt} />
-              Share Dashboard
-            </Text>
-          ),
-          onClick: async () => {
-            if (dashboardId && (await ShareDashboard(state, dashboardId))) {
-              window.open(`/d/${dashboardId}`, "_blank");
-            }
+        [
+          {
+            label: "Dashboard Menu",
+            justify: "center",
+            style: { fontStyle: "italic", cursor: "default" },
+            hoverIndicator: false,
           },
-        },
-        {
-          label: (
-            <Text>
-              <MenuIcon icon={faGears} />
-              App Settings
-            </Text>
-          ),
-          onClick: () => {
-            setAppSettingsVisible(true);
+        ],
+        [
+          props.dashboard.layoutCompaction === "free"
+            ? {
+                label: <CheckBox label="Auto-Compact Cards" />,
+                onClick: () => setLayoutCompaction("compact"),
+              }
+            : {
+                label: <CheckBox label="Auto-Compact Cards" checked />,
+                onClick: () => setLayoutCompaction("free"),
+              },
+          props.dashboard.layoutPushCards === "preventcollision"
+            ? {
+                label: <CheckBox label="Push Cards" />,
+                onClick: () => setLayoutPushCards("none"),
+              }
+            : {
+                label: <CheckBox label="Push Cards" checked />,
+                onClick: () => setLayoutPushCards("preventcollision"),
+              },
+          {
+            label: "Change Campaign...",
+            onClick: () => setCampaignChooserActive(true),
+            disabled: !dashboardState,
           },
-        },
+          {
+            label: (
+              <Text>
+                <MenuIcon icon={faExternalLinkAlt} />
+                {"Player View: " + dashboardId}
+              </Text>
+            ),
+            onClick: () => window.open(`/p/${dashboardId}`, "_blank"),
+          },
+          {
+            label: (
+              <Text>
+                <MenuIcon icon={faExternalLinkAlt} />
+                Share Dashboard
+              </Text>
+            ),
+            onClick: async () => {
+              if (dashboardId && (await ShareDashboard(state, dashboardId))) {
+                window.open(`/d/${dashboardId}`, "_blank");
+              }
+            },
+          },
+        ],
+        [
+          {
+            label: (
+              <Text>
+                <MenuIcon icon={faGears} />
+                App Settings
+              </Text>
+            ),
+            onClick: () => {
+              setAppSettingsVisible(true);
+            },
+          },
+        ],
       ]}
     />
   );
