@@ -35,6 +35,10 @@ export const Actions = {
   SetCampaignActive: createAction("SetCampaignActive")<{
     campaignId?: string;
   }>(),
+  RenameCampaign: createAction("RenameCampaign")<{
+    campaignId: string;
+    title: string;
+  }>(),
   LogOut: createAction("LogOut")(),
 };
 

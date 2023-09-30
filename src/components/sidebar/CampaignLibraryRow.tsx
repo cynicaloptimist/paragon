@@ -1,10 +1,11 @@
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button } from "grommet";
-import { useCallback, useContext } from "react";
+import { useCallback, useContext, useState } from "react";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { LongPressButton } from "../common/LongPressButton";
 import { Actions } from "../../actions/Actions";
+import { RenameCampaign } from "./RenameCampaign";
 
 export function CampaignLibraryRow(props: {
   // Default campaign has an undefined Id.
@@ -12,6 +13,7 @@ export function CampaignLibraryRow(props: {
   campaignTitle: string;
 }) {
   const { state, dispatch } = useContext(ReducerContext);
+  const [isRenaming, setIsRenaming] = useState(false);
   const activeCampaignId = state.activeCampaignId;
 
   const isActiveCampaign = activeCampaignId === props.campaignId;
@@ -26,6 +28,15 @@ export function CampaignLibraryRow(props: {
   const setCampaignActive = useCallback(() => {
     dispatch(Actions.SetCampaignActive({ campaignId: props.campaignId }));
   }, [dispatch, props.campaignId]);
+
+  if (isRenaming && props.campaignId) {
+    return (
+      <RenameCampaign
+        campaignId={props.campaignId}
+        onComplete={() => setIsRenaming(false)}
+      />
+    );
+  }
 
   return (
     <Box
@@ -51,11 +62,18 @@ export function CampaignLibraryRow(props: {
         </Button>
       </Box>
       {props.campaignId && (
-        <LongPressButton
-          tip="Delete Campaign"
-          onLongPress={deleteCampaign}
-          icon={<FontAwesomeIcon icon={faTrash} />}
-        />
+        <>
+          <Button
+            tip="Rename Campaign"
+            onClick={() => setIsRenaming(true)}
+            icon={<FontAwesomeIcon icon={faEdit} />}
+          />
+          <LongPressButton
+            tip="Delete Campaign"
+            onLongPress={deleteCampaign}
+            icon={<FontAwesomeIcon icon={faTrash} />}
+          />
+        </>
       )}
     </Box>
   );
