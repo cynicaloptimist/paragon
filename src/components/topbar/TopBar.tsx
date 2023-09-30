@@ -1,4 +1,4 @@
-import { Box, BoxProps, Header, Heading } from "grommet";
+import { Box, BoxProps, Text, Button, Header, Heading, Tip } from "grommet";
 import { useContext } from "react";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { GetDashboard } from "../../state/AppState";
@@ -9,6 +9,8 @@ import { NewCardMenu } from "./NewCardMenu";
 import { RollAllTablesButton } from "./RollAllTablesButton";
 import { DashboardActions } from "../../actions/DashboardActions";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWarning } from "@fortawesome/free-solid-svg-icons";
 
 export const TopBar = () => {
   const { state } = useContext(ReducerContext);
@@ -61,6 +63,7 @@ export const TopBar = () => {
           style={{ whiteSpace: "nowrap" }}
         >
           {subheader}
+          <CampaignMismatchWarning />
         </Heading>
       </Box>
       <Box direction="row" gap="small">
@@ -71,6 +74,29 @@ export const TopBar = () => {
     </Header>
   );
 };
+
+function CampaignMismatchWarning() {
+  const { state } = useContext(ReducerContext);
+  const dashboardId = useActiveDashboardId();
+  if (!dashboardId || !state.activeCampaignId) {
+    return null;
+  }
+  const dashboard = state.dashboardsById[dashboardId];
+  if (!dashboard.campaignId) {
+    return null;
+  }
+  if (dashboard.campaignId === state.activeCampaignId) {
+    return null;
+  }
+  const activeCampaign = state.campaignsById[state.activeCampaignId];
+  return (
+    <Tip content={`Your active Campaign is ${activeCampaign.title}.`}>
+      <Button margin={{ left: "small" }}>
+        <FontAwesomeIcon icon={faWarning} />
+      </Button>
+    </Tip>
+  );
+}
 
 function DashboardNameWithEdit() {
   const { state, dispatch } = useContext(ReducerContext);
