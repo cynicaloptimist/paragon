@@ -49,6 +49,7 @@ export function DashboardMenu(props: { dashboard: DashboardState }) {
   if (campaignChooserActive && dashboardState) {
     return (
       <CampaignChooser
+        headerText="Move Dashboard to Campaign"
         close={() => setCampaignChooserActive(false)}
         activeCampaignId={dashboardState.campaignId}
         selectCampaign={(campaignId) =>

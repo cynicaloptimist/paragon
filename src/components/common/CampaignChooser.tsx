@@ -7,6 +7,7 @@ import { CampaignState } from "../../state/CampaignState";
 import { ChooseCampaignText } from "../cards/base/CardMenu";
 
 export function CampaignChooser(props: {
+  headerText: string;
   close: () => void;
   activeCampaignId: string | undefined;
   selectCampaign: (campaignId: string | undefined) => void;
@@ -29,8 +30,9 @@ export function CampaignChooser(props: {
         align={{ right: "right", top: "bottom" }}
         onClickOutside={props.close}
         pad="xsmall"
+        style={{ minWidth: "280px" }}
       >
-        <ChooseCampaignText />
+        <ChooseCampaignText headerText={props.headerText} />
         {campaigns.map((c) => (
           <Button
             style={{ border: "none" }}

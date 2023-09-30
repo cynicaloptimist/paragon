@@ -17,6 +17,7 @@ export function CardMenu(props: { cardId: string }) {
   if (campaignChooserActive) {
     return (
       <CampaignChooser
+        headerText="Move Card to Campaign"
         close={() => setCampaignChooserActive(false)}
         activeCampaignId={cardState.campaignId}
         selectCampaign={(campaignId) =>
@@ -57,10 +58,10 @@ export function CardMenu(props: { cardId: string }) {
   );
 }
 
-export function ChooseCampaignText() {
+export function ChooseCampaignText(props: { headerText: string }) {
   return (
     <Text alignSelf="center" margin="small" style={{ fontStyle: "italic" }}>
-      Choose Campaign
+      {props.headerText}
     </Text>
   );
 }
