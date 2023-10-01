@@ -23,7 +23,7 @@ export default function RollTableCard(props: { card: RollTableCardState }) {
   const [currentView, setCurrentView] = useState("table");
   const rollHistory = card.rollHistory || [];
   const lastRoll =
-    rollHistory.length > 0 ? rollHistory[rollHistory.length - 1] : 0;
+    rollHistory.length > 0 ? rollHistory[rollHistory.length - 1] ?? 0 : 0;
   const rollTableModel = GetRollTableModel(card, lastRoll);
 
   return (

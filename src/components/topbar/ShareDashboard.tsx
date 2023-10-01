@@ -7,7 +7,7 @@ import { app } from "../..";
 
 export async function ShareDashboard(state: AppState, dashboardId: string) {
   const activeDashboard = GetDashboard(state, dashboardId);
-  if (activeDashboard === null) {
+  if (activeDashboard === undefined) {
     return false;
   }
 

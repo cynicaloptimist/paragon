@@ -29,7 +29,7 @@ export function RenameCampaign(props: {
   return (
     <Box flex={false} direction="row">
       <TextInput
-        defaultValue={campaign.title}
+        defaultValue={campaign?.title}
         ref={inputRef}
         onKeyDown={(event) => {
           if (event.key === "Enter") {

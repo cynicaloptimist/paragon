@@ -110,7 +110,7 @@ export function FileUpload(props: {
       <FileInput
         onChange={async (event) => {
           const files = event?.target.files;
-          if (!files) {
+          if (!files || !files[0]) {
             return;
           }
           const file = files[0];

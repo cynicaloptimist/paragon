@@ -39,7 +39,10 @@ export const TopBar = () => {
 
   let subheader = "Paragon Campaign Dashboard";
   if (dashboard.campaignId) {
-    subheader = state.campaignsById[dashboard.campaignId].title;
+    const campaign = state.campaignsById[dashboard.campaignId];
+    if (campaign) {
+      subheader = campaign.title;
+    }
   }
 
   return (
@@ -82,13 +85,16 @@ function CampaignMismatchWarning() {
     return null;
   }
   const dashboard = state.dashboardsById[dashboardId];
-  if (!dashboard.campaignId) {
+  if (!dashboard || !dashboard.campaignId) {
     return null;
   }
   if (dashboard.campaignId === state.activeCampaignId) {
     return null;
   }
   const activeCampaign = state.campaignsById[state.activeCampaignId];
+  if (!activeCampaign) {
+    return null;
+  }
   return (
     <Tip content={`Your active Campaign is ${activeCampaign.title}.`}>
       <Button margin={{ left: "small" }}>

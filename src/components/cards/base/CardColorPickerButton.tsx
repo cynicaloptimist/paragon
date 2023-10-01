@@ -10,17 +10,17 @@ import React from "react";
 import SketchPicker from "react-color/lib/components/sketch/Sketch";
 import { CardActions } from "../../../actions/CardActions";
 import { ReducerContext } from "../../../reducers/ReducerContext";
+import { CardState } from "../../../state/CardState";
 
 const themeColors = ["brand", "accent-1", "accent-2", "accent-3"];
 
 export function CardColorPickerButton(props: {
-  cardId: string;
+  card: CardState;
 }): React.ReactElement {
   const { state, dispatch } = React.useContext(ReducerContext);
   const buttonRef = React.useRef(null);
   const [isColorPickerOpen, setColorPickerOpen] =
     React.useState<boolean>(false);
-  const card = state.cardsById[props.cardId];
 
   return (
     <>
@@ -47,7 +47,7 @@ export function CardColorPickerButton(props: {
                 onClick={() =>
                   dispatch(
                     CardActions.SetThemeColor({
-                      cardId: props.cardId,
+                      cardId: props.card.cardId,
                       themeColor,
                     })
                   )
@@ -56,11 +56,11 @@ export function CardColorPickerButton(props: {
             ))}
             {state.user.hasEpic && (
               <CustomColorPicker
-                color={card.customColor ?? "#000000"}
+                color={props.card.customColor ?? "#000000"}
                 setColor={(color) => {
                   dispatch(
                     CardActions.SetCustomColor({
-                      cardId: props.cardId,
+                      cardId: props.card.cardId,
                       customColor: color,
                     })
                   );

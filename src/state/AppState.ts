@@ -1,5 +1,5 @@
 import { CampaignState } from "./CampaignState";
-import { CardsState } from "./CardState";
+import { CardState, CardsState } from "./CardState";
 import { CardType } from "./CardTypes";
 import { DashboardState } from "./DashboardState";
 
@@ -42,22 +42,33 @@ export const EmptyState = (): AppState => ({
 
 export function GetDashboard(state: AppState, dashboardId: string | null) {
   if (!dashboardId) {
-    return null;
+    return undefined;
   }
   return state.dashboardsById[dashboardId];
 }
 
-export function GetVisibleCards(state: AppState, dashboardId: string | null) {
+export function GetVisibleCards(
+  state: AppState,
+  dashboardId: string | null
+): CardState[] {
   const activeDashboard = GetDashboard(state, dashboardId);
   if (!activeDashboard) {
     return [];
   }
   const openCards =
-    activeDashboard.openCardIds?.map((id) => {
-      return {
-        ...state.cardsById[id],
-        cardId: id, // This helps to ensure that CardActions will work in case of a malformed CardState
-      };
-    }) || [];
-  return openCards.filter((card) => card);
+    activeDashboard.openCardIds
+      ?.map((id) => {
+        const cardState = state.cardsById[id];
+        if (cardState) {
+          // This helps to ensure that CardActions will work in case of a malformed CardState
+          cardState.cardId = id;
+        }
+        return cardState;
+      })
+      .filter(isDefined) || [];
+  return openCards;
+}
+
+export function isDefined<T>(obj: T | undefined): obj is T {
+  return obj !== undefined;
 }

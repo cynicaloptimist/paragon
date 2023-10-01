@@ -17,10 +17,14 @@ function mergeCardState<T extends CardState>(
   stateUpdate: Partial<T>
 ): CardsState {
   const cardId = action.payload.cardId;
+  const oldCardState = oldState[cardId];
+  if (!oldCardState) {
+    return oldState;
+  }
   return {
     ...oldState,
     [cardId]: {
-      ...oldState[cardId],
+      ...oldCardState,
       ...stateUpdate,
     },
   };
@@ -137,12 +141,14 @@ export const CardsReducer = createReducer<CardsState, RootAction>({})
     });
   })
   .handleAction(CardActions.SetPDF, (oldState, action) => {
+    const oldCardState = oldState[action.payload.cardId];
+    if (!oldCardState) {
+      return oldState;
+    }
     return mergeCardState<PDFCardState>(oldState, action, {
       pdfUrl: action.payload.pdfURL,
       currentPage: 1,
-      title: oldState.pdfUrl
-        ? action.payload.pdfTitle
-        : oldState[action.payload.cardId].title,
+      title: oldState.pdfUrl ? action.payload.pdfTitle : oldCardState.title,
     });
   })
   .handleAction(CardActions.SetPDFPage, (oldState, action) => {

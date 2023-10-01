@@ -24,16 +24,18 @@ export function DiceTextInput(props: {
           setLookback(0);
         }
         if (e.key === "ArrowUp" && lookback < cardHistory.length) {
-          input.value =
-            cardHistory[cardHistory.length - (lookback + 1)].expression;
-
-          setLookback(lookback + 1);
+          const historyEntry = cardHistory[cardHistory.length - (lookback + 1)];
+          if (historyEntry) {
+            input.value = historyEntry.expression;
+            setLookback(lookback + 1);
+          }
         }
         if (e.key === "ArrowDown" && lookback - 1 > 0) {
-          input.value =
-            cardHistory[cardHistory.length - (lookback - 1)].expression;
-
-          setLookback(lookback - 1);
+          const historyEntry = cardHistory[cardHistory.length - (lookback - 1)];
+          if (historyEntry) {
+            input.value = historyEntry.expression;
+            setLookback(lookback - 1);
+          }
         }
       }}
     />

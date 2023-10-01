@@ -52,7 +52,7 @@ export default function GameMasterView() {
       if (!dashboardId) {
         const sortedIds = _.sortBy(
           Object.keys(state.dashboardsById),
-          (d) => -(state.dashboardsById[d].lastOpenedTimeMs || 0)
+          (d) => -(state.dashboardsById[d]?.lastOpenedTimeMs || 0)
         );
         const mostRecentDashboardId = sortedIds[0];
 

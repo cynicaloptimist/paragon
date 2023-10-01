@@ -35,8 +35,12 @@ function SaveStateToLocalStorageAndRedirect(
   const mergedState: AppState = merge(GetInitialState(), storedState);
 
   const newDashboardId = randomString();
-  mergedState.dashboardsById[newDashboardId] =
-    state.dashboardsById[dashboardId];
+  const dashboard = state.dashboardsById[dashboardId];
+
+  if (dashboard) {
+    mergedState.dashboardsById[newDashboardId] = dashboard;
+  }
+
   mergedState.cardsById = {
     ...mergedState.cardsById,
     ...state.cardsById,

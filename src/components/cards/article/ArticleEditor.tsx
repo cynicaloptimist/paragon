@@ -2,7 +2,7 @@ import { TextArea } from "grommet";
 import React from "react";
 import { CardActions } from "../../../actions/CardActions";
 import { ReducerContext } from "../../../reducers/ReducerContext";
-import { CardsState } from "../../../state/AppState";
+import { CardsState } from "../../../state/CardState";
 import { ArticleCardState } from "../../../state/CardState";
 import { MarkdownEditor } from "./MarkdownEditor";
 import { useThrottledTrailing } from "../../hooks/useThrottled";

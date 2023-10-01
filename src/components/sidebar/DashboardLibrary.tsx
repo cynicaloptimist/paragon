@@ -55,7 +55,7 @@ function CampaignHeader() {
         <Tip content="Dashboards shown for Active Campaign">
           <Button icon={<FontAwesomeIcon icon={faGlobe} />} />
         </Tip>
-        {state.campaignsById[state.activeCampaignId].title}
+        {state.campaignsById[state.activeCampaignId]?.title}
       </Text>
     );
   } else {

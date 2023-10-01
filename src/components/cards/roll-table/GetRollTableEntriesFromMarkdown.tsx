@@ -9,7 +9,11 @@ export function GetRollTableEntriesFromMarkdown(
       //Parse this format, from a markdown table: |range|content|
       const lineMatches = line.match(/\|([^|]+)\|([^|]+)\|/);
 
-      if (lineMatches === null || lineMatches[2] === null) {
+      if (
+        lineMatches === null ||
+        lineMatches[1] === undefined ||
+        lineMatches[2] === undefined
+      ) {
         return null;
       }
 
@@ -29,7 +33,7 @@ function GetWeight(diceRange: string) {
     return 1;
   }
 
-  if (rangeMatches[3] === undefined) {
+  if (rangeMatches[1] === undefined || rangeMatches[3] === undefined) {
     return 1;
   }
 

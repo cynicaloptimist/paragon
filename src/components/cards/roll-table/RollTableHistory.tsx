@@ -39,7 +39,7 @@ export function RollTableHistory(props: {
               <Box flex={false} width="xsmall" align="center">
                 {roll}
               </Box>
-              <Box>{props.rollTableModel.entries[roll - 1].content}</Box>
+              <Box>{props.rollTableModel.entries[roll - 1]?.content}</Box>
             </Box>
           );
         })}

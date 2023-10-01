@@ -53,8 +53,8 @@ export function UpdateMissingOrLegacyAppState(
   const convertedCards: CardsState = {};
 
   const cardsById = storedState.cardsById || {};
-  for (const cardId of Object.keys(cardsById)) {
-    convertedCards[cardId] = UpdateCardState(cardsById[cardId]);
+  for (const cardState of Object.values(cardsById)) {
+    convertedCards[cardState.cardId] = UpdateCardState(cardState);
   }
 
   const appState: AppState = {

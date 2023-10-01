@@ -14,7 +14,7 @@ import {
 } from "grommet";
 import React, { useContext, useMemo, useState } from "react";
 import { ReducerContext } from "../../reducers/ReducerContext";
-import { AppState } from "../../state/AppState";
+import { AppState, isDefined } from "../../state/AppState";
 import { CardState } from "../../state/CardState";
 import { CardTypeFriendlyNames } from "../../state/CardTypes";
 import { CardLibraryRow } from "./CardLibraryRow";
@@ -54,10 +54,11 @@ export const Groupings: Grouping[] = [
     Name: "Dashboard",
     GetGroupsForCard: (cardState: CardState, appState: AppState) => {
       const dashboardIds = Object.keys(appState.dashboardsById).filter(
-        (dashboardId) =>
-          appState.dashboardsById[dashboardId].openCardIds?.includes(
+        (dashboardId) => {
+          return appState.dashboardsById[dashboardId]?.openCardIds?.includes(
             cardState.cardId
-          )
+          );
+        }
       );
       return dashboardIds;
     },
@@ -111,12 +112,17 @@ export function CardLibrary() {
   const [groupingIndex, setGroupingIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const cards = Object.keys(state.cardsById)
-    .map<CardState>((cardId) => {
+    .map<CardState | undefined>((cardId) => {
+      const cardState = state.cardsById[cardId];
+      if (!cardState) {
+        return undefined;
+      }
       return {
-        ...state.cardsById[cardId],
+        ...cardState,
         cardId, // This helps to ensure that CardActions will work in case of a malformed CardState
       };
     })
+    .filter(isDefined)
     .filter((card) => {
       if (!card.campaignId) {
         return true;
@@ -161,19 +167,22 @@ export function CardLibrary() {
 
   const selectedGrouping = Groupings[groupingIndex];
 
-  const cardsByGroup = Object.values(state.cardsById).reduce(
-    (hash: Record<string, CardState[]>, cardState) => {
+  if (!selectedGrouping) {
+    return null;
+  }
+
+  const cardsByGroup = Object.values(state.cardsById)
+    .filter(isDefined)
+    .reduce((hash: Record<string, CardState[]>, cardState) => {
       const cardGroups = selectedGrouping.GetGroupsForCard(cardState, state);
       for (const group of cardGroups) {
         if (!hash[group]) {
           hash[group] = [];
         }
-        hash[group].push(cardState);
+        hash[group]!.push(cardState);
       }
       return hash;
-    },
-    {}
-  );
+    }, {});
 
   const headersAndCards = Object.keys(cardsByGroup)
     .sort((a, b) => {
@@ -185,13 +194,17 @@ export function CardLibrary() {
       }
       return a.localeCompare(b);
     })
-    .map((cardGroup) =>
-      React.createElement(selectedGrouping.GetSection, {
+    .map((cardGroup) => {
+      const cards = cardsByGroup[cardGroup];
+      if (!cards) {
+        return null;
+      }
+      return React.createElement(selectedGrouping.GetSection, {
         groupName: cardGroup,
-        cards: cardsByGroup[cardGroup],
+        cards,
         key: cardGroup,
-      })
-    );
+      });
+    });
 
   return (
     <Box {...boxProps}>
@@ -239,15 +252,17 @@ export function CardLibrary() {
 function CampaignHeader() {
   const { state } = useContext(ReducerContext);
   if (state.activeCampaignId) {
-    return (
-      <Text>
-        <Tip content="Cards shown for Active Campaign">
-          <Button icon={<FontAwesomeIcon icon={faGlobe} />} />
-        </Tip>
-        {state.campaignsById[state.activeCampaignId].title}
-      </Text>
-    );
-  } else {
-    return null;
+    const activeCampaign = state.campaignsById[state.activeCampaignId];
+    if (activeCampaign) {
+      return (
+        <Text>
+          <Tip content="Cards shown for Active Campaign">
+            <Button icon={<FontAwesomeIcon icon={faGlobe} />} />
+          </Tip>
+          {activeCampaign.title}
+        </Text>
+      );
+    }
   }
+  return null;
 }

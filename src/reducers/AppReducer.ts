@@ -114,16 +114,18 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     const activeDashboard =
       oldState.dashboardsById[dashboardAction.payload.dashboardId];
 
-    dashboardsById[dashboardAction.payload.dashboardId] = DashboardReducer(
-      activeDashboard,
-      dashboardAction
-    );
+    if (activeDashboard) {
+      dashboardsById[dashboardAction.payload.dashboardId] = DashboardReducer(
+        activeDashboard,
+        dashboardAction
+      );
+    }
   }
 
   if (isActionOf(DashboardActions.AddCard, action)) {
     const cardId = action.payload.cardId;
     const dashboardCampaignId =
-      dashboardsById[action.payload.dashboardId].campaignId;
+      dashboardsById[action.payload.dashboardId]?.campaignId;
     return {
       ...oldState,
       cardsById: {
@@ -160,6 +162,9 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
 
   if (isActionOf(Actions.CreateTemplateFromCard, action)) {
     const cardCopy = cloneDeep(oldState.cardsById[action.payload.cardId]);
+    if (!cardCopy) {
+      return oldState;
+    }
     const template: CardState = {
       ...cardCopy,
       cardId: action.payload.templateId,
@@ -244,6 +249,9 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     const templateCopy = cloneDeep(
       oldState.templatesById[action.payload.templateId]
     );
+    if (!templateCopy) {
+      return oldState;
+    }
 
     let title = templateCopy.title;
     let index = 1;
@@ -256,7 +264,7 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     }
 
     const dashboardCampaignId =
-      dashboardsById[action.payload.dashboardId].campaignId;
+      dashboardsById[action.payload.dashboardId]?.campaignId;
 
     const card: CardState = {
       ...templateCopy,

@@ -19,7 +19,7 @@ export function FoldersWithListings(props: { listings: Listing[] }) {
       listingsByFolder[listing.folder] = [];
     }
 
-    listingsByFolder[listing.folder].push(listing);
+    listingsByFolder[listing.folder]?.push(listing);
   }
 
   const rootListingElements = listingsInRoot.map((l) => {
@@ -27,7 +27,7 @@ export function FoldersWithListings(props: { listings: Listing[] }) {
   });
 
   const folderElements = Object.keys(listingsByFolder).map((folderName) => {
-    const innerListingElements = listingsByFolder[folderName].map((l) => {
+    const innerListingElements = listingsByFolder[folderName]?.map((l) => {
       return <li key={l.name}>{l.name}</li>;
     });
     return (

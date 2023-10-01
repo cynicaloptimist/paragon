@@ -34,7 +34,8 @@ const breakpoints: { [breakpoint: string]: number } = {
 
 function breakpointForSize(size: number) {
   for (const breakpoint in breakpoints) {
-    if (size >= breakpoints[breakpoint]) {
+    const breakpointSize = breakpoints[breakpoint];
+    if (breakpointSize !== undefined && size >= breakpointSize) {
       return breakpoint;
     }
   }
@@ -88,7 +89,7 @@ export function CardGrid(props: {
         return DashboardActions.SetLayouts({
           dashboardId: activeDashboardId,
           gridSize: size,
-          layouts: activeDashboardState.layoutsBySize[size],
+          layouts: activeDashboardState.layoutsBySize[size] ?? [],
         });
       });
 
@@ -184,7 +185,7 @@ export function CardGrid(props: {
         onDragStop={updateLayout}
         onResizeStop={updateLayout}
         onBreakpointChange={(newBreakpoint) => {
-          const currentLayouts = dedupedLayouts[currentBreakpoint];
+          const currentLayouts = dedupedLayouts[currentBreakpoint] ?? [];
           setCurrentBreakpoint(newBreakpoint);
           if (activeDashboardId && !dedupedLayouts[newBreakpoint]) {
             DashboardActions.SetLayouts({

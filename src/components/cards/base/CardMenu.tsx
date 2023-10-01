@@ -7,10 +7,10 @@ import { randomString } from "../../../randomString";
 import { Actions } from "../../../actions/Actions";
 import { CardActions } from "../../../actions/CardActions";
 import { CampaignChooser } from "../../common/CampaignChooser";
+import { CardState } from "../../../state/CardState";
 
-export function CardMenu(props: { cardId: string }) {
-  const { state, dispatch } = React.useContext(ReducerContext);
-  const cardState = state.cardsById[props.cardId];
+export function CardMenu(props: { card: CardState }) {
+  const { dispatch } = React.useContext(ReducerContext);
   const [campaignChooserActive, setCampaignChooserActive] =
     React.useState(false);
 
@@ -19,11 +19,11 @@ export function CardMenu(props: { cardId: string }) {
       <CampaignChooser
         headerText="Move Card to Campaign"
         close={() => setCampaignChooserActive(false)}
-        activeCampaignId={cardState.campaignId}
+        activeCampaignId={props.card.campaignId}
         selectCampaign={(campaignId) =>
           dispatch(
             CardActions.SetCardCampaign({
-              cardId: cardState.cardId,
+              cardId: props.card.cardId,
               campaignId: campaignId,
             })
           )
@@ -43,7 +43,7 @@ export function CardMenu(props: { cardId: string }) {
             const templateId = randomString();
             return dispatch(
               Actions.CreateTemplateFromCard({
-                cardId: props.cardId,
+                cardId: props.card.cardId,
                 templateId: templateId,
               })
             );

@@ -83,14 +83,14 @@ export function CardHeader(props: {
         )}
 
         <Box direction="row" flex="grow" style={hideableButtonsStyle}>
-          <CardColorPickerButton cardId={props.cardState.cardId} />
+          <CardColorPickerButton card={props.cardState} />
           <PlayerViewButton
             cardState={props.cardState}
             popToast={props.popToast}
           />
         </Box>
         {isGmView && props.cardState.type !== "info" && (
-          <CardMenu cardId={props.cardState.cardId} />
+          <CardMenu card={props.cardState} />
         )}
         {(isGmView || isDashboardView) && (
           <Button
