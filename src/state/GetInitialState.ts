@@ -63,6 +63,9 @@ function GetWelcomeCard(): InfoCardState {
       `Welcome to **Paragon Campaign Dashboard!** Add new cards from the '+' menu. There are several [card types](${
         GetCardTypesCard().cardId
       }) available.\n\n` +
+      `You can organize your Cards and Dashboards into [Campaigns](${
+        GetCampaignsCard().cardId
+      }).\n\n` +
       `Love the app? Get account sync and more for your support [on Patreon](https://www.patreon.com/improvedinitiative)!`,
     playerViewPermission: PlayerViewPermission.Hidden,
   };
@@ -114,7 +117,8 @@ function GetCampaignsCard(): InfoCardState {
       `If you use Paragon Campaign Dashboard for multiple campaigns, you can associate Cards and Dashboards with an individual campaign.\n\n` +
       `If a Card or Dashboard has a Campaign set, it will only appear in the Library Sidebar if that Campaign is currently active.\n\n` +
       `If you have a Campaign active, new Cards and Dashboards will automatically be associated with that Campaign.\n\n` +
-      `A Card or Dashboard with no Campaign set is part of the "default campaign" and will be visible and available in all your Campaigns.`,
+      `A Card or Dashboard with no Campaign set is part of the "default campaign" and will be visible and available in all your Campaigns.\n\n` +
+      `Deleting a Campaign will return all of its Cards and Dashboards to the default campaign.`,
     playerViewPermission: PlayerViewPermission.Hidden,
   };
 }
