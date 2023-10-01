@@ -242,6 +242,14 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
       ...oldState,
       activeCampaignId,
       campaignsById: omit(oldState.campaignsById, action.payload.campaignId),
+      cardsById: mapValues(oldState.cardsById, (cardState) => ({
+        ...cardState,
+        campaignId: undefined,
+      })),
+      dashboardsById: mapValues(oldState.dashboardsById, (dashboardState) => ({
+        ...dashboardState,
+        campaignId: undefined,
+      })),
     };
   }
 
