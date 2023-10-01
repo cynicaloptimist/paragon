@@ -38,7 +38,10 @@ function SaveStateToLocalStorageAndRedirect(
   const dashboard = state.dashboardsById[dashboardId];
 
   if (dashboard) {
-    mergedState.dashboardsById[newDashboardId] = dashboard;
+    mergedState.dashboardsById[newDashboardId] = {
+      ...dashboard,
+      campaignId: undefined,
+    };
   }
 
   mergedState.cardsById = {
