@@ -18,6 +18,9 @@ export function DashboardLibrary() {
     if (!dashboard.campaignId) {
       return true;
     }
+    if (!state.campaignsById[dashboard.campaignId]) {
+      return true;
+    }
     return dashboard.campaignId === state.activeCampaignId;
   });
 

@@ -127,6 +127,9 @@ export function CardLibrary() {
       if (!card.campaignId) {
         return true;
       }
+      if (!state.campaignsById[card.campaignId]) {
+        return true;
+      }
       return card.campaignId === state.activeCampaignId;
     });
   const fuse = useMemo(
