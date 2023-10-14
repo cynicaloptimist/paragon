@@ -49,9 +49,9 @@ export function getComponentForCard(card: CardState, outerSize: Size) {
     return <FrameCard card={card} />;
   }
 
-  const unsupportedCard: any = card;
+  const unsupportedCard = card as CardState;
   return (
-    <BaseCard cardState={unsupportedCard as CardState} commands={null}>
+    <BaseCard cardState={unsupportedCard} commands={null}>
       Unsupported card type: {unsupportedCard.type}
     </BaseCard>
   );
