@@ -21,7 +21,7 @@ import { GetDashboard } from "../../state/AppState";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 import { FirebaseUtils } from "../../FirebaseUtils";
 import { useUserId } from "../hooks/useAccountSync";
-import { useUserIdFromActiveDashboard } from "../views/useUserIdFromActiveDashboard";
+import { useUserIdFromActiveDashboard } from "../hooks/useUserIdFromActiveDashboard";
 
 type Size = { height: number; width: number };
 type ExcalidrawStateMemo = {

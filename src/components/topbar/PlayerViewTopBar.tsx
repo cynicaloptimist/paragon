@@ -12,7 +12,7 @@ import { ReducerContext } from "../../reducers/ReducerContext";
 import { GetDashboard } from "../../state/AppState";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 import { PlayerViewUserContext } from "../PlayerViewUserContext";
-import { useUserIdFromActiveDashboard } from "../views/useUserIdFromActiveDashboard";
+import { useUserIdFromActiveDashboard } from "../hooks/useUserIdFromActiveDashboard";
 
 function usePresence(userId: string | null) {
   const [presence, setPresence] = useState("offline");

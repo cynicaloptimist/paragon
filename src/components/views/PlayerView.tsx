@@ -15,7 +15,7 @@ import { useStorageBackedState } from "../hooks/useStorageBackedState";
 import { PlayerViewUserContext } from "../PlayerViewUserContext";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 import { usePageTitleFromActiveDashboardName } from "../hooks/usePageTitle";
-import { useUserIdFromActiveDashboard } from "./useUserIdFromActiveDashboard";
+import { useUserIdFromActiveDashboard } from "../hooks/useUserIdFromActiveDashboard";
 
 function useRemoteState(
   playerViewUserId: string | null

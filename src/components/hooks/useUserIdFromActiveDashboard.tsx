@@ -1,7 +1,7 @@
 import { getDatabase, off, onValue, ref } from "firebase/database";
 import { useEffect, useState } from "react";
 import { app } from "../..";
-import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
+import { useActiveDashboardId } from "./useActiveDashboardId";
 
 export function useUserIdFromActiveDashboard() {
   const dashboardId = useActiveDashboardId();
