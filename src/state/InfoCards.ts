@@ -61,10 +61,10 @@ export function GetCampaignsCard(): InfoCardState {
     type: "info",
     title: "Campaigns",
     content:
-      `If you use Paragon Campaign Dashboard for multiple campaigns, you can associate Cards and Dashboards with an individual campaign.\n\n` +
-      `If a Card or Dashboard has a Campaign set, it will only appear in the Library Sidebar if that Campaign is currently active.\n\n` +
-      `If you have a Campaign active, new Cards and Dashboards will automatically be associated with that Campaign.\n\n` +
-      `A Card or Dashboard with no Campaign set is part of the "default campaign" and will be visible and available in all your Campaigns.\n\n` +
+      `If you use Paragon Campaign Dashboard for multiple TTRPG campaigns, you can organize your Cards and Dashboards by Campaign.\n\n` +
+      `A Card or Dashboard with no Campaign set is part of the "default Campaign" and will always be visible and available.\n\n` +
+      `If you have a Campaign active, the Card and Dashboard libraries will filter to cards in that Campaign.\n\n` +
+      `New Cards and Dashboards will automatically be associated with the active Campaign.\n\n` +
       `Deleting a Campaign will return all of its Cards and Dashboards to the default campaign.`,
     playerViewPermission: PlayerViewPermission.Hidden,
   };
