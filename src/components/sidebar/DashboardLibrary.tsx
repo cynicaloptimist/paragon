@@ -15,6 +15,9 @@ export function DashboardLibrary() {
     dashboardPairs,
     ([, dashboard]) => -(dashboard.lastOpenedTimeMs ?? 0)
   ).filter(([, dashboard]) => {
+    if (!state.activeCampaignId) {
+      return true;
+    }
     if (!dashboard.campaignId) {
       return true;
     }

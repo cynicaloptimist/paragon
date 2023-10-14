@@ -124,6 +124,9 @@ export function CardLibrary() {
     })
     .filter(isDefined)
     .filter((card) => {
+      if (!state.activeCampaignId) {
+        return true;
+      }
       if (!card.campaignId) {
         return true;
       }
