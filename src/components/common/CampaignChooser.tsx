@@ -35,6 +35,7 @@ export function CampaignChooser(props: {
         <ChooseCampaignText headerText={props.headerText} />
         {campaigns.map((c) => (
           <Button
+            key={c.id}
             style={{ border: "none" }}
             label={c.title}
             onClick={() => props.selectCampaign(c.id)}
