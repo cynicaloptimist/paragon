@@ -177,7 +177,7 @@ export function CardLibrary() {
     return null;
   }
 
-  const cardsByGroup = Object.values(state.cardsById)
+  const cardsByGroup = Object.values(cards)
     .filter(isDefined)
     .reduce((hash: Record<string, CardState[]>, cardState) => {
       const cardGroups = selectedGrouping.GetGroupsForCard(cardState, state);
