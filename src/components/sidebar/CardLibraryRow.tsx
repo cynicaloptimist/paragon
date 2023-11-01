@@ -138,13 +138,6 @@ export function CardLibraryRow(props: {
       >
         {props.card.title}
       </Box>
-      {isCardOpen && (
-        <Button
-          tip="Close Card"
-          onClick={closeCard}
-          icon={<FontAwesomeIcon icon={faTimes} />}
-        />
-      )}
       {showActiveCampaignButton && (
         <Button
           tip="Move to Active Campaign"
@@ -164,6 +157,13 @@ export function CardLibraryRow(props: {
           tip="Move to Folder"
           onClick={() => setEditingPath(true)}
           icon={<FontAwesomeIcon icon={faFolder} />}
+        />
+      )}
+      {isCardOpen && (
+        <Button
+          tip="Close Card"
+          onClick={closeCard}
+          icon={<FontAwesomeIcon icon={faTimes} />}
         />
       )}
       {props.card.type !== "info" && (
