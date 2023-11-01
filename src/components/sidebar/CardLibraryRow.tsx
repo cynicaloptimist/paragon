@@ -36,7 +36,9 @@ export function CardLibraryRow(props: {
     ) || false;
 
   const showActiveCampaignButton =
-    state.activeCampaignId && !props.card.campaignId;
+    state.activeCampaignId &&
+    !props.card.campaignId &&
+    props.card.type !== "info";
 
   const openCard = useCallback(
     () =>
