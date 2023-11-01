@@ -140,6 +140,7 @@ export function CardLibraryRow(props: {
       </Box>
       {showActiveCampaignButton && (
         <Button
+          style={{ padding: "6px" }}
           tip="Move to Active Campaign"
           onClick={() =>
             dispatch(
@@ -154,6 +155,7 @@ export function CardLibraryRow(props: {
       )}
       {props.showFolder && (
         <Button
+          style={{ padding: "6px" }}
           tip="Move to Folder"
           onClick={() => setEditingPath(true)}
           icon={<FontAwesomeIcon icon={faFolder} />}
@@ -161,6 +163,7 @@ export function CardLibraryRow(props: {
       )}
       {isCardOpen && (
         <Button
+          style={{ padding: "6px" }}
           tip="Close Card"
           onClick={closeCard}
           icon={<FontAwesomeIcon icon={faTimes} />}
