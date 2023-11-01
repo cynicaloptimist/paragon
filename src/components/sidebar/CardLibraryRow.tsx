@@ -3,8 +3,6 @@ import {
   faFolder,
   faTimes,
   faTrash,
-  faGlobe,
-  faShare,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, TextInput } from "grommet";
@@ -17,6 +15,7 @@ import { GetDashboard } from "../../state/AppState";
 import { CardState } from "../../state/CardState";
 import { LongPressButton } from "../common/LongPressButton";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
+import { AddToCampaignIcon } from "./AddToCampaignIcon";
 
 export function CardLibraryRow(props: {
   card: CardState;
@@ -177,21 +176,5 @@ export function CardLibraryRow(props: {
         />
       )}
     </Box>
-  );
-}
-function AddToCampaignIcon(): JSX.Element {
-  return (
-    <span className="fa-layers fa-fw">
-      <FontAwesomeIcon icon={faGlobe} />
-      <FontAwesomeIcon
-        icon={faShare}
-        transform={{
-          size: 12,
-          x: -12,
-          y: -8,
-          rotate: 24,
-        }}
-      />
-    </span>
   );
 }
