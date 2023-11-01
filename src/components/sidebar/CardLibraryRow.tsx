@@ -129,14 +129,15 @@ export function CardLibraryRow(props: {
         color: isCardOpen ? "brand-2" : "transparent",
       }}
     >
-      <Button
+      <Box
         onClick={openCard}
-        fill="horizontal"
+        flex
+        justify="center"
         margin="xsmall"
         style={{ overflowX: "hidden" }}
       >
         {props.card.title}
-      </Button>
+      </Box>
       {isCardOpen && (
         <Button
           tip="Close Card"
