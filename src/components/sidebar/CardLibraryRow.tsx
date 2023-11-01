@@ -4,17 +4,12 @@ import {
   faTimes,
   faTrash,
   faGlobe,
-  faCaretRight,
-  faRightLong,
-  faRightToBracket,
-  faArrowRight,
   faShare,
 } from "@fortawesome/free-solid-svg-icons";
-import { faSquareCaretRight } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, TextInput } from "grommet";
 import _ from "lodash";
-import React, { useCallback, useContext, useRef, useState } from "react";
+import { useCallback, useContext, useRef, useState } from "react";
 import { CardActions } from "../../actions/CardActions";
 import { DashboardActions } from "../../actions/DashboardActions";
 import { ReducerContext } from "../../reducers/ReducerContext";
@@ -22,7 +17,6 @@ import { GetDashboard } from "../../state/AppState";
 import { CardState } from "../../state/CardState";
 import { LongPressButton } from "../common/LongPressButton";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
-import { useThemeColor } from "../hooks/useThemeColor";
 
 export function CardLibraryRow(props: {
   card: CardState;
