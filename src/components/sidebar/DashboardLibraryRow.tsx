@@ -42,7 +42,11 @@ export function DashboardLibraryRow(props: {
         margin="xsmall"
         style={{ overflowX: "hidden" }}
       >
-        <Link to={`/e/${props.dashboardId}`} component={Anchor}>
+        <Link
+          to={`/e/${props.dashboardId}`}
+          component={Anchor}
+          style={{ fontWeight: "normal" }}
+        >
           {props.dashboard.name}
         </Link>
       </Box>
