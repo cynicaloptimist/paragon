@@ -3,7 +3,14 @@ import {
   faFolder,
   faTimes,
   faTrash,
+  faGlobe,
+  faCaretRight,
+  faRightLong,
+  faRightToBracket,
+  faArrowRight,
+  faShare,
 } from "@fortawesome/free-solid-svg-icons";
+import { faSquareCaretRight } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, TextInput } from "grommet";
 import _ from "lodash";
@@ -15,6 +22,7 @@ import { GetDashboard } from "../../state/AppState";
 import { CardState } from "../../state/CardState";
 import { LongPressButton } from "../common/LongPressButton";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
+import { useThemeColor } from "../hooks/useThemeColor";
 
 export function CardLibraryRow(props: {
   card: CardState;
@@ -26,6 +34,9 @@ export function CardLibraryRow(props: {
     GetDashboard(state, dashboardId)?.openCardIds?.includes(
       props.card.cardId
     ) || false;
+
+  const showActiveCampaignButton =
+    state.activeCampaignId && !props.card.campaignId;
 
   const openCard = useCallback(
     () =>
@@ -137,6 +148,20 @@ export function CardLibraryRow(props: {
           icon={<FontAwesomeIcon icon={faTimes} />}
         />
       )}
+      {showActiveCampaignButton && (
+        <Button
+          tip="Move to Active Campaign"
+          onClick={() =>
+            dispatch(
+              CardActions.SetCardCampaign({
+                cardId: props.card.cardId,
+                campaignId: state.activeCampaignId,
+              })
+            )
+          }
+          icon={<AddToCampaignIcon />}
+        />
+      )}
       {props.showFolder && (
         <Button
           tip="Move to Folder"
@@ -152,5 +177,21 @@ export function CardLibraryRow(props: {
         />
       )}
     </Box>
+  );
+}
+function AddToCampaignIcon(): JSX.Element {
+  return (
+    <span className="fa-layers fa-fw">
+      <FontAwesomeIcon icon={faGlobe} />
+      <FontAwesomeIcon
+        icon={faShare}
+        transform={{
+          size: 12,
+          x: -12,
+          y: -8,
+          rotate: 24,
+        }}
+      />
+    </span>
   );
 }
