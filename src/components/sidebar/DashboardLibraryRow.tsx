@@ -37,7 +37,7 @@ export function DashboardLibraryRow(props: {
       }}
     >
       <Box
-        fill="horizontal"
+        flex
         justify="center"
         margin="xsmall"
         style={{ overflowX: "hidden" }}
