@@ -1,13 +1,11 @@
-import { faGlobe, faSort } from "@fortawesome/free-solid-svg-icons";
+import { faSort } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Fuse from "fuse.js";
 import {
   Accordion,
   Box,
   BoxExtendedProps,
-  Button,
   Heading,
-  Text,
   TextInput,
   Tip,
 } from "grommet";
@@ -17,6 +15,7 @@ import { AppState, isDefined } from "../../../state/AppState";
 import { CardState } from "../../../state/CardState";
 import { CardLibraryRow } from "./CardLibraryRow";
 import { CardGroupings } from "./CardGroupings";
+import { CampaignHeader } from "./CampaignHeader";
 
 export function CardLibrary() {
   const { state } = useContext(ReducerContext);
@@ -168,22 +167,4 @@ function getCardsForActiveCampaign(state: AppState) {
       }
       return card.campaignId === state.activeCampaignId;
     });
-}
-
-function CampaignHeader() {
-  const { state } = useContext(ReducerContext);
-  if (state.activeCampaignId) {
-    const activeCampaign = state.campaignsById[state.activeCampaignId];
-    if (activeCampaign) {
-      return (
-        <Text>
-          <Tip content="Cards shown for Active Campaign">
-            <Button icon={<FontAwesomeIcon icon={faGlobe} />} />
-          </Tip>
-          {activeCampaign.title}
-        </Text>
-      );
-    }
-  }
-  return null;
 }
