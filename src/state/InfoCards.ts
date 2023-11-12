@@ -51,10 +51,10 @@ export function GetCampaignsCard(): InfoCardState {
     title: "Campaigns",
     content: [
       `Would you like to use Paragon Campaign Dashboard for multiple TTRPG campaigns? [Epic Tier](https://www.patreon.com/join/improvedinitiative/checkout?rid=8749940) patrons can organize Cards and Dashboards by Campaign.`,
-      `A Card or Dashboard with no Campaign set is part of the "default Campaign" and will always be visible and available.`,
+      `A Card or Dashboard with no Campaign set is part of the *default campaign* and will always be visible and available.`,
       `If you have a Campaign active, the Card and Dashboard libraries will filter to cards in that Campaign.`,
       `New Cards and Dashboards will automatically be associated with the active Campaign.`,
-      `Deleting a Campaign will return all of its Cards and Dashboards to the default campaign.`,
+      `**Deleting** a Campaign will return all of its Cards and Dashboards to the *default campaign*.`,
     ].join("\n\n"),
     playerViewPermission: PlayerViewPermission.Hidden,
   };
