@@ -19,7 +19,7 @@ import { CardState } from "../../../state/CardState";
 import { CardTypeFriendlyNames } from "../../../state/CardTypes";
 import { CardLibraryRow } from "./CardLibraryRow";
 
-type Grouping = {
+type CardGrouping = {
   Name: string;
   GetGroupsForCard: (cardState: CardState, appState: AppState) => string[];
   GetSection: React.FunctionComponent<{
@@ -32,7 +32,7 @@ const accordionBoxProps: BoxExtendedProps = {
   gap: "xsmall",
 };
 
-export const Groupings: Grouping[] = [
+export const CardGroupings: CardGrouping[] = [
   {
     Name: "Card Type",
     GetGroupsForCard: (cardState: CardState) => [
@@ -171,7 +171,7 @@ export function CardLibrary() {
     );
   }
 
-  const selectedGrouping = Groupings[groupingIndex];
+  const selectedGrouping = CardGroupings[groupingIndex];
 
   if (!selectedGrouping) {
     return null;
@@ -238,7 +238,7 @@ export function CardLibrary() {
           pad={{ horizontal: "xsmall" }}
           border={{ side: "bottom" }}
           onClick={() => {
-            const nextGrouping = (groupingIndex + 1) % Groupings.length;
+            const nextGrouping = (groupingIndex + 1) % CardGroupings.length;
             setGroupingIndex(nextGrouping);
           }}
         >
