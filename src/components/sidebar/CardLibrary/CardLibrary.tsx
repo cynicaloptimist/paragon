@@ -13,7 +13,7 @@ import {
 } from "grommet";
 import React, { useContext, useMemo, useState } from "react";
 import { ReducerContext } from "../../../reducers/ReducerContext";
-import { isDefined } from "../../../state/AppState";
+import { AppState, isDefined } from "../../../state/AppState";
 import { CardState } from "../../../state/CardState";
 import { CardLibraryRow } from "./CardLibraryRow";
 import { CardGroupings } from "./CardGroupings";
@@ -22,30 +22,9 @@ export function CardLibrary() {
   const { state } = useContext(ReducerContext);
   const [groupingIndex, setGroupingIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
-  const cards = Object.keys(state.cardsById)
-    .map<CardState | undefined>((cardId) => {
-      const cardState = state.cardsById[cardId];
-      if (!cardState) {
-        return undefined;
-      }
-      return {
-        ...cardState,
-        cardId, // This helps to ensure that CardActions will work in case of a malformed CardState
-      };
-    })
-    .filter(isDefined)
-    .filter((card) => {
-      if (!state.activeCampaignId) {
-        return true;
-      }
-      if (!card.campaignId) {
-        return true;
-      }
-      if (!state.campaignsById[card.campaignId]) {
-        return true;
-      }
-      return card.campaignId === state.activeCampaignId;
-    });
+
+  const cards = getCardsForActiveCampaign(state);
+
   const fuse = useMemo(
     () =>
       new Fuse(cards, {
@@ -162,6 +141,33 @@ export function CardLibrary() {
       <Accordion key={selectedGrouping.Name}>{headersAndCards}</Accordion>
     </Box>
   );
+}
+
+function getCardsForActiveCampaign(state: AppState) {
+  return Object.keys(state.cardsById)
+    .map<CardState | undefined>((cardId) => {
+      const cardState = state.cardsById[cardId];
+      if (!cardState) {
+        return undefined;
+      }
+      return {
+        ...cardState,
+        cardId, // This helps to ensure that CardActions will work in case of a malformed CardState
+      };
+    })
+    .filter(isDefined)
+    .filter((card) => {
+      if (!state.activeCampaignId) {
+        return true;
+      }
+      if (!card.campaignId) {
+        return true;
+      }
+      if (!state.campaignsById[card.campaignId]) {
+        return true;
+      }
+      return card.campaignId === state.activeCampaignId;
+    });
 }
 
 function CampaignHeader() {
