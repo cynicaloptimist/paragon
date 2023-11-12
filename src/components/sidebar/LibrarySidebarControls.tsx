@@ -5,9 +5,11 @@ import { ReactComponent as DMScreen } from "../../dm-screen-regular.svg";
 import { UIContext } from "../UIContext";
 import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ReducerContext } from "../../reducers/ReducerContext";
 
 export function LibrarySidebarControls() {
   const { librarySidebarMode, setLibrarySidebarMode } = useContext(UIContext);
+  const { state } = useContext(ReducerContext);
 
   const toggleCardLibrary = useCallback(() => {
     if (librarySidebarMode === "cards") {
@@ -45,11 +47,13 @@ export function LibrarySidebarControls() {
         icon={<DMScreen title="Dashboards" height="22px" />}
         onClick={toggleDashboardLibrary}
       />
-      <Button
-        tip="Campaigns"
-        icon={<FontAwesomeIcon icon={faGlobe} />}
-        onClick={toggleCampaignLibrary}
-      />
+      {state.user.hasEpic && (
+        <Button
+          tip="Campaigns"
+          icon={<FontAwesomeIcon icon={faGlobe} />}
+          onClick={toggleCampaignLibrary}
+        />
+      )}
     </Box>
   );
 }

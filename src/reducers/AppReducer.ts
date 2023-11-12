@@ -1,4 +1,4 @@
-import { cloneDeep, mapValues, omit, without } from "lodash";
+import { cloneDeep, mapValues, omit, unescape, without } from "lodash";
 import { isActionOf } from "typesafe-actions";
 import { Actions, RootAction } from "../actions/Actions";
 import { CardActions } from "../actions/CardActions";
@@ -14,7 +14,7 @@ import { DashboardReducer } from "./DashboardReducer";
 
 export function AppReducer(oldState: AppState, action: RootAction): AppState {
   if (isActionOf(Actions.SetUserClaims, action)) {
-    return {
+    const newState = {
       ...oldState,
       user: {
         isLoggedIn: true,
@@ -22,6 +22,12 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
         hasEpic: action.payload.hasEpic,
       },
     };
+
+    if (!action.payload.hasEpic) {
+      newState.activeCampaignId = undefined;
+    }
+
+    return newState;
   }
 
   if (isActionOf(Actions.LogOut, action)) {
@@ -32,6 +38,7 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
         hasStorage: false,
         hasEpic: false,
       },
+      activeCampaignId: undefined,
     };
   }
 
