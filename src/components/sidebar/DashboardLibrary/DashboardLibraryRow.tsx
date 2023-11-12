@@ -3,12 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Anchor, Box, Button } from "grommet";
 import { useCallback, useContext } from "react";
 import { Link } from "react-router-dom";
-import { DashboardActions } from "../../actions/DashboardActions";
-import { ReducerContext } from "../../reducers/ReducerContext";
-import { DashboardState } from "../../state/DashboardState";
-import { LongPressButton } from "../common/LongPressButton";
-import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
-import { AddToCampaignIcon } from "./AddToCampaignIcon";
+import { DashboardActions } from "../../../actions/DashboardActions";
+import { ReducerContext } from "../../../reducers/ReducerContext";
+import { DashboardState } from "../../../state/DashboardState";
+import { LongPressButton } from "../../common/LongPressButton";
+import { useActiveDashboardId } from "../../hooks/useActiveDashboardId";
+import { AddToCampaignIcon } from "../AddToCampaignIcon";
 
 export function DashboardLibraryRow(props: {
   dashboardId: string;

@@ -2,9 +2,9 @@ import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button } from "grommet";
 import { useCallback, useContext, useState } from "react";
-import { ReducerContext } from "../../reducers/ReducerContext";
-import { LongPressButton } from "../common/LongPressButton";
-import { Actions } from "../../actions/Actions";
+import { ReducerContext } from "../../../reducers/ReducerContext";
+import { LongPressButton } from "../../common/LongPressButton";
+import { Actions } from "../../../actions/Actions";
 import { RenameCampaign } from "./RenameCampaign";
 
 export function CampaignLibraryRow(props: {

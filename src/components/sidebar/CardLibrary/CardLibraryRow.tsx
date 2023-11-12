@@ -8,14 +8,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, TextInput } from "grommet";
 import _ from "lodash";
 import { useCallback, useContext, useRef, useState } from "react";
-import { CardActions } from "../../actions/CardActions";
-import { DashboardActions } from "../../actions/DashboardActions";
-import { ReducerContext } from "../../reducers/ReducerContext";
-import { GetDashboard } from "../../state/AppState";
-import { CardState } from "../../state/CardState";
-import { LongPressButton } from "../common/LongPressButton";
-import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
-import { AddToCampaignIcon } from "./AddToCampaignIcon";
+import { CardActions } from "../../../actions/CardActions";
+import { DashboardActions } from "../../../actions/DashboardActions";
+import { ReducerContext } from "../../../reducers/ReducerContext";
+import { GetDashboard } from "../../../state/AppState";
+import { CardState } from "../../../state/CardState";
+import { LongPressButton } from "../../common/LongPressButton";
+import { useActiveDashboardId } from "../../hooks/useActiveDashboardId";
+import { AddToCampaignIcon } from "../AddToCampaignIcon";
 
 export function CardLibraryRow(props: {
   card: CardState;

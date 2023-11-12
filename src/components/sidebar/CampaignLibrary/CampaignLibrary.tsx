@@ -3,9 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button } from "grommet";
 import _ from "lodash";
 import { useContext } from "react";
-import { Actions } from "../../actions/Actions";
-import { randomString } from "../../randomString";
-import { ReducerContext } from "../../reducers/ReducerContext";
+import { Actions } from "../../../actions/Actions";
+import { randomString } from "../../../randomString";
+import { ReducerContext } from "../../../reducers/ReducerContext";
 import { CampaignLibraryRow } from "./CampaignLibraryRow";
 
 export function CampaignLibrary() {

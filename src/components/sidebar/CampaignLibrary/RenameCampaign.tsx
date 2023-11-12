@@ -2,8 +2,8 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, TextInput } from "grommet";
 import { useCallback, useContext, useRef } from "react";
-import { ReducerContext } from "../../reducers/ReducerContext";
-import { Actions } from "../../actions/Actions";
+import { ReducerContext } from "../../../reducers/ReducerContext";
+import { Actions } from "../../../actions/Actions";
 
 export function RenameCampaign(props: {
   campaignId: string;

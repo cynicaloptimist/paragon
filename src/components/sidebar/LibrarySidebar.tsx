@@ -1,11 +1,11 @@
 import { Box, Header, Heading, Layer } from "grommet";
 import React, { useCallback, useContext } from "react";
-import { CardLibrary } from "./CardLibrary";
-import { DashboardLibrary } from "./DashboardLibrary";
+import { CardLibrary } from "./CardLibrary/CardLibrary";
+import { DashboardLibrary } from "./DashboardLibrary/DashboardLibrary";
 import { UIContext } from "../UIContext";
 import { LibrarySidebarControls } from "./LibrarySidebarControls";
 import { LoginLogout } from "./LoginLogout";
-import { CampaignLibrary } from "./CampaignLibrary";
+import { CampaignLibrary } from "./CampaignLibrary/CampaignLibrary";
 
 export function LibrarySidebar() {
   const { librarySidebarMode, setLibrarySidebarMode } = useContext(UIContext);

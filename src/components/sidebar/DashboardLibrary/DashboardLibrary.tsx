@@ -3,9 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, Text, Tip } from "grommet";
 import _ from "lodash";
 import { useContext } from "react";
-import { DashboardActions } from "../../actions/DashboardActions";
-import { randomString } from "../../randomString";
-import { ReducerContext } from "../../reducers/ReducerContext";
+import { DashboardActions } from "../../../actions/DashboardActions";
+import { randomString } from "../../../randomString";
+import { ReducerContext } from "../../../reducers/ReducerContext";
 import { DashboardLibraryRow } from "./DashboardLibraryRow";
 
 export function DashboardLibrary() {
