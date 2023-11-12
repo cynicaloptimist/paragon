@@ -14,7 +14,7 @@ import { ReducerContext } from "../../../reducers/ReducerContext";
 import { AppState, isDefined } from "../../../state/AppState";
 import { CardState } from "../../../state/CardState";
 import { CardLibraryRow } from "./CardLibraryRow";
-import { CardGroupings } from "./CardGroupings";
+import { CardGrouping, CardGroupings } from "./CardGroupings";
 import { CampaignHeader } from "./CampaignHeader";
 
 export function CardLibrary() {
@@ -66,40 +66,7 @@ export function CardLibrary() {
     return null;
   }
 
-  const cardsByGroup = Object.values(cards)
-    .filter(isDefined)
-    .reduce((hash: Record<string, CardState[]>, cardState) => {
-      const cardGroups = selectedGrouping.GetGroupsForCard(cardState, state);
-      for (const group of cardGroups) {
-        if (!hash[group]) {
-          hash[group] = [];
-        }
-        hash[group]!.push(cardState);
-      }
-      return hash;
-    }, {});
-
-  const headersAndCards = Object.keys(cardsByGroup)
-    .sort((a, b) => {
-      if (a === "") {
-        return 1;
-      }
-      if (b === "") {
-        return -1;
-      }
-      return a.localeCompare(b);
-    })
-    .map((cardGroup) => {
-      const cards = cardsByGroup[cardGroup];
-      if (!cards) {
-        return null;
-      }
-      return React.createElement(selectedGrouping.GetSection, {
-        groupName: cardGroup,
-        cards,
-        key: cardGroup,
-      });
-    });
+  const headersAndCards = getHeadersAndCards(cards, selectedGrouping, state);
 
   return (
     <Box {...boxProps}>
@@ -167,4 +134,46 @@ function getCardsForActiveCampaign(state: AppState) {
       }
       return card.campaignId === state.activeCampaignId;
     });
+}
+
+function getHeadersAndCards(
+  cards: CardState[],
+  selectedGrouping: CardGrouping,
+  state: AppState
+) {
+  const cardsByGroup = Object.values(cards)
+    .filter(isDefined)
+    .reduce((hash: Record<string, CardState[]>, cardState) => {
+      const cardGroups = selectedGrouping.GetGroupsForCard(cardState, state);
+      for (const group of cardGroups) {
+        if (!hash[group]) {
+          hash[group] = [];
+        }
+        hash[group]!.push(cardState);
+      }
+      return hash;
+    }, {});
+
+  const headersAndCards = Object.keys(cardsByGroup)
+    .sort((a, b) => {
+      if (a === "") {
+        return 1;
+      }
+      if (b === "") {
+        return -1;
+      }
+      return a.localeCompare(b);
+    })
+    .map((cardGroup) => {
+      const cards = cardsByGroup[cardGroup];
+      if (!cards) {
+        return null;
+      }
+      return React.createElement(selectedGrouping.GetSection, {
+        groupName: cardGroup,
+        cards,
+        key: cardGroup,
+      });
+    });
+  return headersAndCards;
 }
