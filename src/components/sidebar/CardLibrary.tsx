@@ -220,36 +220,34 @@ export function CardLibrary() {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <Box
-        flex={false}
-        direction="row"
-        align="center"
-        justify="between"
-        pad={{ horizontal: "xsmall" }}
-        border={{ side: "bottom" }}
+      <Tip
+        content="Change Sorting"
+        dropProps={{
+          stretch: false,
+          align: {
+            bottom: "top",
+            right: "right",
+          },
+        }}
       >
-        <Heading level={4} style={{ fontStyle: "italic" }}>
-          Sorted by {selectedGrouping.Name}
-        </Heading>
-        <Button
-          margin="none"
-          tip={{
-            content: "Change sorting",
-            dropProps: {
-              stretch: false,
-              align: {
-                bottom: "top",
-                right: "right",
-              },
-            },
-          }}
-          icon={<FontAwesomeIcon icon={faSort} />}
+        <Box
+          flex={false}
+          direction="row"
+          align="center"
+          justify="between"
+          pad={{ horizontal: "xsmall" }}
+          border={{ side: "bottom" }}
           onClick={() => {
             const nextGrouping = (groupingIndex + 1) % Groupings.length;
             setGroupingIndex(nextGrouping);
           }}
-        />
-      </Box>
+        >
+          <Heading level={4} style={{ fontStyle: "italic" }}>
+            Sorted by {selectedGrouping.Name}
+          </Heading>
+          <FontAwesomeIcon icon={faSort} />
+        </Box>
+      </Tip>
       <Accordion key={selectedGrouping.Name}>{headersAndCards}</Accordion>
     </Box>
   );
