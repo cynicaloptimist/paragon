@@ -17,7 +17,7 @@ export function CampaignLibrary() {
     <Box pad="xsmall" overflow={{ vertical: "auto" }}>
       <CampaignLibraryRow
         key="_default"
-        campaignTitle="(default)"
+        campaignTitle="(default campaign)"
         campaignId={undefined}
       />
       {campaignsSorted.map((c) => {
