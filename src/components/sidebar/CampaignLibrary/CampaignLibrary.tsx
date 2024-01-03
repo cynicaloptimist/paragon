@@ -6,7 +6,10 @@ import { useContext } from "react";
 import { Actions } from "../../../actions/Actions";
 import { randomString } from "../../../randomString";
 import { ReducerContext } from "../../../reducers/ReducerContext";
-import { CampaignLibraryRow } from "./CampaignLibraryRow";
+import {
+  CampaignLibraryDefaultRow,
+  CampaignLibraryRow,
+} from "./CampaignLibraryRow";
 
 export function CampaignLibrary() {
   const { state, dispatch } = useContext(ReducerContext);
@@ -15,11 +18,7 @@ export function CampaignLibrary() {
 
   return (
     <Box pad="xsmall" overflow={{ vertical: "auto" }}>
-      <CampaignLibraryRow
-        key="_default"
-        campaignTitle="(default campaign)"
-        campaignId={undefined}
-      />
+      <CampaignLibraryDefaultRow />
       {campaignsSorted.map((c) => {
         return (
           <CampaignLibraryRow

@@ -10,6 +10,7 @@ const SharedDashboardView = React.lazy(
   () => import("./views/SharedDashboardView")
 );
 const GameMasterView = React.lazy(() => import("./views/GameMasterView"));
+const CampaignView = React.lazy(() => import("./views/CampaignView"));
 
 const App = () => {
   return (
@@ -23,6 +24,9 @@ const App = () => {
         </Route>
         <Route path="/e/:dashboardId">
           <GameMasterView />
+        </Route>
+        <Route path="/c/:campaignId">
+          <CampaignView />
         </Route>
         <Route path="/">
           <GameMasterView />
