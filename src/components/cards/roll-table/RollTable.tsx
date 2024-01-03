@@ -16,9 +16,14 @@ export function RollTable(props: { rollTableModel: RollTableModel }) {
       return;
     }
     const originalOffset = scrollContainer.current.scrollTop;
-    rolledElement.current.scrollIntoView({
-      block: "center",
-    });
+
+    const scrollTarget =
+      rolledElement.current.offsetTop +
+      rolledElement.current.clientHeight / 2 -
+      scrollContainer.current.clientHeight / 2;
+
+    scrollContainer.current.scrollTop = scrollTarget;
+
     const scrollDifference = scrollContainer.current.scrollTop - originalOffset;
 
     springApi.start({
