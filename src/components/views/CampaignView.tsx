@@ -29,7 +29,8 @@ export default function CampaignView() {
     if (state.activeCampaignId !== campaignId) {
       dispatch(Actions.SetCampaignActive({ campaignId }));
     }
-  }, [campaignId, dispatch, state.activeCampaignId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [campaignId, dispatch]);
 
   return (
     <ReducerContext.Provider value={{ state, dispatch }}>
