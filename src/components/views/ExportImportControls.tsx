@@ -1,7 +1,7 @@
 import { faDownload, faUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import saveAs from "file-saver";
-import { Box, Button, Text } from "grommet";
+import { Box, Button, Heading, Text } from "grommet";
 import React, { useContext, useRef, useState } from "react";
 import styled from "styled-components";
 import { Actions, RootAction } from "../../actions/Actions";
@@ -18,14 +18,15 @@ export function ExportImportControls() {
 
   return (
     <Box flex={false} pad="small" gap="small">
+      <Text>Cards, Dashboards, and Campaigns</Text>
       <Button
         icon={<FontAwesomeIcon icon={faDownload} />}
-        label="Export cards and dashboards"
-        onClick={() => exportCardsAndDashboards(state)}
+        label="Export to .JSON"
+        onClick={() => exportCardsAndDashboardsAndCampaigns(state)}
       />
       <Button
         icon={<FontAwesomeIcon icon={faUpload} />}
-        label="Import cards and dashboards"
+        label="Import from .JSON"
         onClick={() => fileInput.current?.click()}
       />
       <input
@@ -36,7 +37,7 @@ export function ExportImportControls() {
           if (file) {
             const json = await file.text();
             try {
-              const importedCounts = importCardsAndDashboards(
+              const importedCounts = importCardsAndDashboardsAndCampaigns(
                 json,
                 state,
                 dispatch
@@ -62,10 +63,11 @@ export function ExportImportControls() {
   );
 }
 
-function exportCardsAndDashboards(state: AppState) {
+function exportCardsAndDashboardsAndCampaigns(state: AppState) {
   const data = {
     dashboardsById: state.dashboardsById,
     cardsById: state.cardsById,
+    campaignsById: state.campaignsById,
   };
   const jsonData = JSON.stringify(data, null, "\t");
   const file = new Blob([jsonData]);
@@ -74,7 +76,7 @@ function exportCardsAndDashboards(state: AppState) {
   saveAs(file, `paragon-dashboard-data_${date}.json`);
 }
 
-function importCardsAndDashboards(
+function importCardsAndDashboardsAndCampaigns(
   json: string,
   state: AppState,
   dispatch: React.Dispatch<RootAction>
@@ -115,12 +117,14 @@ function importCardsAndDashboards(
     Actions.ImportCardsAndDashboards({
       cardsById: data.cardsById,
       dashboardsById: data.dashboardsById,
+      campaignsById: data.campaignsById,
     })
   );
 
   return {
     cardsCount: Object.keys(data.cardsById).length,
     dashboardsCount: Object.keys(data.dashboardsById).length,
+    campaignsCount: Object.keys(data.campaignsById).length,
   };
 }
 
