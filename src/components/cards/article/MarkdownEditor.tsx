@@ -30,7 +30,7 @@ export function MarkdownEditor(props: {
   const themeColors = {
     primary: useThemeColor("brand"),
     secondary: useThemeColor("brand-2"),
-    text: useThemeColor("text"),
+    text: useThemeColor("text-dark"),
     background: useThemeColor("background"),
   };
   const theme: ThemeType = React.useContext(ThemeContext);

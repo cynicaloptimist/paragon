@@ -13,6 +13,9 @@ export const Theme: ThemeType = {
       text: {
         light: "rgba(68, 68, 68, 1)",
       },
+      "text-dark": {
+        light: "rgba(20, 20, 20, 1)",
+      },
       link: {
         light: "#358600",
       },
