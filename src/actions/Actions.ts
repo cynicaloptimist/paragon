@@ -4,6 +4,7 @@ import { DashboardState } from "../state/DashboardState";
 import { CardType } from "../state/CardTypes";
 import { CardAction } from "./CardActions";
 import { DashboardAction } from "./DashboardActions";
+import { CampaignState } from "../state/CampaignState";
 
 export const Actions = {
   SetUserClaims: createAction("SetUserClaims")<{
@@ -19,6 +20,7 @@ export const Actions = {
   ImportCardsAndDashboards: createAction("ImportCardsAndDashboards")<{
     cardsById: CardsState;
     dashboardsById: Record<string, DashboardState>;
+    campaignsById: Record<string, CampaignState>;
   }>(),
   CreateTemplateFromCard: createAction("CreateTemplateFromCard")<{
     cardId: string;

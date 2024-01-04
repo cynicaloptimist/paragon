@@ -329,6 +329,10 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
         ...oldState.cardsById,
         ...action.payload.cardsById,
       },
+      campaignsById: {
+        ...oldState.campaignsById,
+        ...action.payload.campaignsById,
+      },
     };
   }
 
