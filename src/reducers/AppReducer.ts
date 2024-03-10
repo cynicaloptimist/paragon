@@ -75,6 +75,19 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     };
   }
 
+  if (isActionOf(Actions.UpdateCampaignFromServer, action)) {
+    if (!action.payload.campaignState.id) {
+      return oldState;
+    }
+    return {
+      ...oldState,
+      campaignsById: {
+        ...oldState.campaignsById,
+        [action.payload.campaignState.id]: action.payload.campaignState,
+      },
+    };
+  }
+
   if (isActionOf(DashboardActions.CreateDashboard, action)) {
     let autoIndex = 0;
     let autoName: string;

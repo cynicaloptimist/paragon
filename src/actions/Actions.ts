@@ -41,6 +41,9 @@ export const Actions = {
     campaignId: string;
     title: string;
   }>(),
+  UpdateCampaignFromServer: createAction("UpdateCampaignFromServer")<{
+    campaignState: CampaignState;
+  }>(),
   LogOut: createAction("LogOut")(),
 };
 

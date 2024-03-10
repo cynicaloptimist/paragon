@@ -11,7 +11,7 @@ import { getDatabase, off, onValue, ref, remove, set } from "firebase/database";
 import { isEqual, union } from "lodash";
 import { useContext, useEffect, useRef, useState } from "react";
 import { app } from "../..";
-import { RootAction } from "../../actions/Actions";
+import { Actions, RootAction } from "../../actions/Actions";
 import { CardActions } from "../../actions/CardActions";
 import { AppState } from "../../state/AppState";
 import { DashboardState } from "../../state/DashboardState";
@@ -19,6 +19,7 @@ import { CardState } from "../../state/CardState";
 import { FirebaseUtils } from "../../FirebaseUtils";
 import { ViewType, ViewTypeContext } from "../ViewTypeContext";
 import { DashboardActions } from "../../actions/DashboardActions";
+import { CampaignState } from "../../state/CampaignState";
 
 const environment = import.meta.env;
 
@@ -26,6 +27,7 @@ type ServerProfile = {
   lastUpdateTime: string;
   cardsById: Record<string, CardState>;
   dashboardsById: Record<string, DashboardState>;
+  campaignsById: Record<string, CampaignState>;
 };
 
 export function useAccountSync(
@@ -122,7 +124,11 @@ function useTwoWayDataSync(
 }
 
 type SyncedCollection = keyof ServerProfile & keyof AppState;
-const collections: SyncedCollection[] = ["cardsById", "dashboardsById"];
+const collections: SyncedCollection[] = [
+  "cardsById",
+  "dashboardsById",
+  "campaignsById",
+];
 const actionCreators: Record<
   SyncedCollection,
   (id: string, item: any) => RootAction
@@ -136,6 +142,10 @@ const actionCreators: Record<
     DashboardActions.UpdateDashboardFromServer({
       dashboardId: id,
       dashboardState: item,
+    }),
+  campaignsById: (item: any) =>
+    Actions.UpdateCampaignFromServer({
+      campaignState: item,
     }),
 };
 
