@@ -143,7 +143,7 @@ const actionCreators: Record<
       dashboardId: id,
       dashboardState: item,
     }),
-  campaignsById: (item: any) =>
+  campaignsById: (_id: string, item: any) =>
     Actions.UpdateCampaignFromServer({
       campaignState: item,
     }),
