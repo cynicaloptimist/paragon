@@ -100,6 +100,7 @@ export function DashboardMenu(props: { dashboard: DashboardState }) {
             label: "Change Campaign...",
             onClick: () => setCampaignChooserActive(true),
             disabled: !dashboardState,
+            style: { display: state.user.hasEpic ? "unset" : "none" },
           },
           {
             label: (

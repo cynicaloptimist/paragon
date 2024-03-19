@@ -10,7 +10,7 @@ import { CampaignChooser } from "../../common/CampaignChooser";
 import { CardState } from "../../../state/CardState";
 
 export function CardMenu(props: { card: CardState }) {
-  const { dispatch } = React.useContext(ReducerContext);
+  const { state, dispatch } = React.useContext(ReducerContext);
   const [campaignChooserActive, setCampaignChooserActive] =
     React.useState(false);
 
@@ -52,6 +52,7 @@ export function CardMenu(props: { card: CardState }) {
         {
           label: "Change Campaign...",
           onClick: () => setCampaignChooserActive(true),
+          style: { display: state.user.hasEpic ? "unset" : "none" },
         },
       ]}
     />
