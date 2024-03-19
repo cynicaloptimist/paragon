@@ -1,6 +1,6 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button } from "grommet";
+import { Box, Button, Text } from "grommet";
 import _ from "lodash";
 import { useContext } from "react";
 import { Actions } from "../../../actions/Actions";
@@ -15,6 +15,28 @@ export function CampaignLibrary() {
   const { state, dispatch } = useContext(ReducerContext);
   const campaigns = Object.values(state.campaignsById);
   const campaignsSorted = _.sortBy(campaigns, (c) => c.title);
+
+  if (!state.user.isLoggedIn) {
+    return (
+      <Box pad="medium">
+        <Text>
+          Logged in users who are pledged at the <EpicTierLink /> can organize
+          their Cards and Dashboards into separate Campaigns.
+        </Text>
+      </Box>
+    );
+  }
+
+  if (!state.user.hasEpic) {
+    return (
+      <Box pad="medium">
+        <Text>
+          Users who are pledged at the <EpicTierLink /> can organize their Cards
+          and Dashboards into separate Campaigns.
+        </Text>
+      </Box>
+    );
+  }
 
   return (
     <Box pad="xsmall" overflow={{ vertical: "auto" }}>
@@ -42,5 +64,17 @@ export function CampaignLibrary() {
         icon={<FontAwesomeIcon icon={faPlus} />}
       />
     </Box>
+  );
+}
+
+function EpicTierLink() {
+  return (
+    <a
+      href="https://www.patreon.com/improvedinitiative/membership"
+      target="_blank"
+      rel="noreferrer"
+    >
+      Epic Tier
+    </a>
   );
 }

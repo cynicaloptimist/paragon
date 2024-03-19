@@ -47,13 +47,11 @@ export function LibrarySidebarControls() {
         icon={<DMScreen title="Dashboards" height="22px" />}
         onClick={toggleDashboardLibrary}
       />
-      {state.user.hasEpic && (
-        <Button
-          tip="Campaigns"
-          icon={<FontAwesomeIcon icon={faGlobe} />}
-          onClick={toggleCampaignLibrary}
-        />
-      )}
+      <Button
+        tip="Campaigns"
+        icon={<FontAwesomeIcon icon={faGlobe} />}
+        onClick={toggleCampaignLibrary}
+      />
     </Box>
   );
 }
