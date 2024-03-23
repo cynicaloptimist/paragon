@@ -1,3 +1,6 @@
+// Api keys for Firebase are not sensitive data.
+// https://firebase.google.com/docs/projects/api-keys?hl=en&authuser=0#api-keys-for-firebase-are-different
+
 export const firebaseConfig = {
   apiKey: "AIzaSyB_rK2M4U6Jff9f1tZwPmH7rkrFYQ4nX8k",
   authDomain: "paragon-25f54.firebaseapp.com",
