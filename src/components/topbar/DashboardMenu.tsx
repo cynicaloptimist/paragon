@@ -53,6 +53,7 @@ export function DashboardMenu(props: { dashboard: DashboardState }) {
         close={() => setCampaignChooserActive(false)}
         activeCampaignId={dashboardState.campaignId}
         selectCampaign={(campaignId) =>
+          // TODO: Add an option to also set card campaigns.
           dispatch(
             DashboardActions.SetDashboardCampaign({
               dashboardId,
