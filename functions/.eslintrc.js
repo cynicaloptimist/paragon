@@ -13,6 +13,7 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   parserOptions: {
     sourceType: "module",
+    project: "./package.json",
   },
   plugins: ["@typescript-eslint", "import"],
   rules: {
