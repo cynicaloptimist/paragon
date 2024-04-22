@@ -82,7 +82,12 @@ export function CardGrid(props: {
   );
 
   React.useEffect(() => {
-    if (activeDashboardId && activeDashboardState && !matchGMLayout) {
+    if (
+      activeDashboardId &&
+      activeDashboardState &&
+      matchGMLayout &&
+      isPlayerView
+    ) {
       const setLayoutsActions = Object.keys(
         activeDashboardState.layoutsBySize
       ).map((size) => {
@@ -100,6 +105,7 @@ export function CardGrid(props: {
     activeDashboardId,
     activeDashboardState,
     localDashboardDispatch,
+    isPlayerView,
   ]);
 
   const dashboard = matchGMLayout ? activeDashboardState : localDashboardState;
