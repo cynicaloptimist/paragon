@@ -76,7 +76,12 @@ export function CardHeader(props: {
             }
             align="center"
           >
-            <Heading level={3} margin="none" truncate>
+            <Heading
+              level={3}
+              margin="none"
+              truncate
+              title={props.cardState.title}
+            >
               {props.cardState.title}
             </Heading>
           </Box>
