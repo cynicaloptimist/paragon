@@ -121,6 +121,7 @@ function DragHandleButton() {
 
   return (
     <Button
+      className="drag-handle"
       style={{ cursor: isDragging ? "grabbing" : "grab" }}
       onMouseDown={() => setDragging(true)}
       onMouseUp={() => setDragging(false)}
