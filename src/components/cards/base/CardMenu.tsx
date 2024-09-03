@@ -9,7 +9,7 @@ import { CardActions } from "../../../actions/CardActions";
 import { CampaignChooser } from "../../common/CampaignChooser";
 import { CardState } from "../../../state/CardState";
 
-export function CardMenu(props: { card: CardState }) {
+export function CardMenu(props: { card: CardState; renameCard: () => void }) {
   const { state, dispatch } = React.useContext(ReducerContext);
   const [campaignChooserActive, setCampaignChooserActive] =
     React.useState(false);
@@ -37,6 +37,11 @@ export function CardMenu(props: { card: CardState }) {
       dropAlign={{ right: "right", top: "bottom" }}
       icon={<FontAwesomeIcon icon={faEllipsisV} />}
       items={[
+        {
+          label: "Rename Card",
+          // setTimeout to prevent onBlur from immediately firing saveAndClose
+          onClick: () => setTimeout(props.renameCard, 1),
+        },
         {
           label: "Create a Template from this Card",
           onClick: () => {

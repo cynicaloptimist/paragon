@@ -95,7 +95,10 @@ export function CardHeader(props: {
           />
         </Box>
         {isGmView && props.cardState.type !== "info" && (
-          <CardMenu card={props.cardState} />
+          <CardMenu
+            card={props.cardState}
+            renameCard={() => setHeaderEditable(true)}
+          />
         )}
         {(isGmView || isDashboardView) && (
           <Button
