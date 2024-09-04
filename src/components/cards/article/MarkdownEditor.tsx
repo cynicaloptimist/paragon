@@ -1,6 +1,5 @@
 import { Box, ThemeContext, ThemeType } from "grommet";
 import React from "react";
-import Editor from "rich-markdown-editor";
 import base from "rich-markdown-editor/dist/styles/theme";
 import { ReducerContext } from "../../../reducers/ReducerContext";
 import { ArticleCardState } from "../../../state/CardState";
@@ -9,6 +8,9 @@ import { useThemeColor } from "../../hooks/useThemeColor";
 import styled from "styled-components";
 import { useActiveDashboardId } from "../../hooks/useActiveDashboardId";
 import { DashboardActions } from "../../../actions/DashboardActions";
+import RichMarkdownEditor from "rich-markdown-editor";
+
+const Editor = React.lazy(() => import("rich-markdown-editor"));
 
 const StyledEditor = styled(Editor as any)`
   font-size: 18px;
@@ -34,7 +36,7 @@ export function MarkdownEditor(props: {
     background: useThemeColor("background"),
   };
   const theme: ThemeType = React.useContext(ThemeContext);
-  const markdownEditor = React.useRef<Editor>(null);
+  const markdownEditor = React.useRef<RichMarkdownEditor>(null);
 
   return (
     <Box
