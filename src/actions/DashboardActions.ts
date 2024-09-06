@@ -24,6 +24,10 @@ export const DashboardActions = {
     cardType: CardType;
   }>(),
   CloseCard: createDashboardAction("CloseCard")<{ cardId: string }>(),
+  SetCardPinned: createDashboardAction("SetCardPinned")<{
+    cardId: string;
+    pinned: boolean;
+  }>(),
   SetLayouts: createDashboardAction("SetLayouts")<{
     gridSize: string;
     layouts: GridLayout.Layout[];

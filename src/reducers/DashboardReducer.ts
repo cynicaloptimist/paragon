@@ -90,6 +90,22 @@ export function DashboardReducer(
     };
   }
 
+  if (isActionOf(DashboardActions.SetCardPinned, action)) {
+    if (action.payload.pinned) {
+      return {
+        ...oldState,
+        pinnedCardIds: union(oldState.pinnedCardIds, [action.payload.cardId]),
+      };
+    } else {
+      return {
+        ...oldState,
+        pinnedCardIds: oldState.pinnedCardIds?.filter(
+          (cardId) => cardId !== action.payload.cardId
+        ),
+      };
+    }
+  }
+
   if (isActionOf(DashboardActions.SetLayouts, action)) {
     const updatedLayoutIds = action.payload.layouts.map((layout) => layout.i);
     const activeLayout = oldState.layoutsBySize[action.payload.gridSize] || [];
