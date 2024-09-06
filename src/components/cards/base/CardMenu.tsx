@@ -8,11 +8,15 @@ import { Actions } from "../../../actions/Actions";
 import { CardActions } from "../../../actions/CardActions";
 import { CampaignChooser } from "../../common/CampaignChooser";
 import { CardState } from "../../../state/CardState";
+import { DashboardActions } from "../../../actions/DashboardActions";
+import { useActiveDashboardId } from "../../hooks/useActiveDashboardId";
 
 export function CardMenu(props: { card: CardState; renameCard: () => void }) {
   const { state, dispatch } = React.useContext(ReducerContext);
   const [campaignChooserActive, setCampaignChooserActive] =
     React.useState(false);
+
+  const activeDashboardId = useActiveDashboardId();
 
   if (campaignChooserActive) {
     return (
@@ -37,6 +41,18 @@ export function CardMenu(props: { card: CardState; renameCard: () => void }) {
       dropAlign={{ right: "right", top: "bottom" }}
       icon={<FontAwesomeIcon icon={faEllipsisV} />}
       items={[
+        {
+          label: "Pin Card",
+          onClick: () =>
+            activeDashboardId &&
+            dispatch(
+              DashboardActions.SetCardPinned({
+                dashboardId: activeDashboardId,
+                cardId: props.card.cardId,
+                pinned: true,
+              })
+            ),
+        },
         {
           label: "Rename Card",
           // setTimeout to prevent onBlur from immediately firing saveAndClose
