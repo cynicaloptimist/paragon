@@ -3,18 +3,34 @@ import React, { useContext } from "react";
 import { CardState, PlayerViewPermission } from "../../../state/CardState";
 import { ViewType, ViewTypeContext } from "../../ViewTypeContext";
 import { ComputeThemeProps } from "./ComputeThemeProps";
+import { GetDashboard } from "../../../state/AppState";
+import { ReducerContext } from "../../../reducers/ReducerContext";
+import { useActiveDashboardId } from "../../hooks/useActiveDashboardId";
 
 export function CardFooter(props: {
   toast: string | null;
   commands: React.ReactNode;
   cardState: CardState;
 }) {
+  const { state } = useContext(ReducerContext);
   const viewType = useContext(ViewTypeContext);
   const canEdit =
     viewType !== ViewType.Player ||
     props.cardState.playerViewPermission === PlayerViewPermission.Interact;
 
   const themeProps = ComputeThemeProps(props.cardState);
+
+  const dashboardId = useActiveDashboardId();
+  const activeDashboard = GetDashboard(state, dashboardId);
+  const isPinned = activeDashboard?.pinnedCardIds?.includes(
+    props.cardState.cardId
+  );
+
+  const hasContent = props.toast || (canEdit && props.commands);
+
+  if (isPinned || !hasContent) {
+    return null;
+  }
 
   return (
     <Footer
