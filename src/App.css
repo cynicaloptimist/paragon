@@ -17,6 +17,7 @@ ol {
 }
 
 .react-grid-item.react-grid-item > .react-resizable-handle::after {
+  mix-blend-mode: difference;
   border-color: white;
 }
 
