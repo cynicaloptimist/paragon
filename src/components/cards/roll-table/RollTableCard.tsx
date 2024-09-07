@@ -6,7 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "grommet";
-import React, { useContext, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { CardActions } from "../../../actions/CardActions";
 import { ReducerContext } from "../../../reducers/ReducerContext";
 import { RollTableCardState } from "../../../state/CardState";
@@ -15,9 +15,11 @@ import { GetRollTableModel } from "./GetRollTableModel";
 import { RollTable } from "./RollTable";
 import { RollTableConfiguration } from "./RollTableConfiguration";
 import { RollTableHistory } from "./RollTableHistory";
+import { GetDashboard } from "../../../state/AppState";
+import { useActiveDashboardId } from "../../hooks/useActiveDashboardId";
 
 export default function RollTableCard(props: { card: RollTableCardState }) {
-  const { dispatch } = useContext(ReducerContext);
+  const { state, dispatch } = useContext(ReducerContext);
   const { card } = props;
 
   const [currentView, setCurrentView] = useState("table");
@@ -25,6 +27,20 @@ export default function RollTableCard(props: { card: RollTableCardState }) {
   const lastRoll =
     rollHistory.length > 0 ? rollHistory[rollHistory.length - 1] ?? 0 : 0;
   const rollTableModel = GetRollTableModel(card, lastRoll);
+
+  const doTableRoll = useCallback(
+    () =>
+      dispatch(
+        CardActions.PushRollTableHistory({
+          cardId: card.cardId,
+          rollResult: RandomInt(rollTableModel.dieSize),
+        })
+      ),
+    [card.cardId, dispatch, rollTableModel.dieSize]
+  );
+
+  const activeDashboard = GetDashboard(state, useActiveDashboardId());
+  const isPinned = activeDashboard?.pinnedCardIds?.includes(props.card.cardId);
 
   return (
     <BaseCard
@@ -43,14 +59,7 @@ export default function RollTableCard(props: { card: RollTableCardState }) {
             }
           />
           <Button
-            onClick={() =>
-              dispatch(
-                CardActions.PushRollTableHistory({
-                  cardId: card.cardId,
-                  rollResult: RandomInt(rollTableModel.dieSize),
-                })
-              )
-            }
+            onClick={doTableRoll}
             icon={<FontAwesomeIcon icon={faDice} />}
             tip="Roll"
           />
@@ -76,6 +85,19 @@ export default function RollTableCard(props: { card: RollTableCardState }) {
         <RollTableHistory
           rollTableModel={rollTableModel}
           rollHistory={rollHistory}
+        />
+      )}
+      {isPinned && (
+        <Button
+          hoverIndicator
+          style={{
+            position: "absolute",
+            bottom: 4,
+            right: 24,
+          }}
+          onClick={doTableRoll}
+          icon={<FontAwesomeIcon icon={faDice} />}
+          tip="Roll"
         />
       )}
     </BaseCard>
