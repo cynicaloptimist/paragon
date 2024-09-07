@@ -1,4 +1,4 @@
-import { Box, Image } from "grommet";
+import { Box } from "grommet";
 import { useEffect, useRef } from "react";
 import { RollTableModel } from "./GetRollTableModel";
 import { animated, config, useSpring } from "@react-spring/web";
