@@ -62,11 +62,12 @@ export function CardHeader(props: {
         <Box
           style={{
             position: "absolute",
-            top: 0,
-            right: 0,
+            top: 5,
+            right: 5,
           }}
         >
           <Button
+            hoverIndicator
             icon={<FontAwesomeIcon icon={faThumbtack} />}
             tip="Unpin card"
             onClick={() => {
