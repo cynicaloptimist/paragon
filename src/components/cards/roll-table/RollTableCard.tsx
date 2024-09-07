@@ -35,6 +35,7 @@ export default function RollTableCard(props: { card: RollTableCardState }) {
             onClick={() =>
               setCurrentView(currentView === "history" ? "table" : "history")
             }
+            tip={currentView === "history" ? "View Table" : "View Roll History"}
             icon={
               <FontAwesomeIcon
                 icon={currentView === "history" ? faCheck : faHistory}
@@ -51,6 +52,7 @@ export default function RollTableCard(props: { card: RollTableCardState }) {
               )
             }
             icon={<FontAwesomeIcon icon={faDice} />}
+            tip="Roll"
           />
           <Button
             tip="Edit Table"
