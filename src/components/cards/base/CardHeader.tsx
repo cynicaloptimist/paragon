@@ -68,6 +68,7 @@ export function CardHeader(props: {
         >
           <Button
             icon={<FontAwesomeIcon icon={faThumbtack} />}
+            tip="Unpin card"
             onClick={() => {
               if (dashboardId) {
                 dispatch(
