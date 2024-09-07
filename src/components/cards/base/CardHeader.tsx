@@ -57,28 +57,31 @@ export function CardHeader(props: {
 
   if (isPinned) {
     return (
-      <Box
-        style={{
-          position: "absolute",
-          top: 0,
-          right: 0,
-        }}
-      >
-        <Button
-          icon={<FontAwesomeIcon icon={faThumbtack} />}
-          onClick={() => {
-            if (dashboardId) {
-              dispatch(
-                DashboardActions.SetCardPinned({
-                  dashboardId,
-                  cardId: props.cardState.cardId,
-                  pinned: false,
-                })
-              );
-            }
+      <>
+        <Box height={{ height: "4px" }} background="brand" />
+        <Box
+          style={{
+            position: "absolute",
+            top: 0,
+            right: 0,
           }}
-        />
-      </Box>
+        >
+          <Button
+            icon={<FontAwesomeIcon icon={faThumbtack} />}
+            onClick={() => {
+              if (dashboardId) {
+                dispatch(
+                  DashboardActions.SetCardPinned({
+                    dashboardId,
+                    cardId: props.cardState.cardId,
+                    pinned: false,
+                  })
+                );
+              }
+            }}
+          />
+        </Box>
+      </>
     );
   }
 
