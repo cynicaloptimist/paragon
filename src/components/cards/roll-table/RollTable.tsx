@@ -4,6 +4,7 @@ import { RollTableModel } from "./GetRollTableModel";
 import { animated, config, useSpring } from "@react-spring/web";
 import { ReactComponent as Logo } from "../../../dm-screen-regular.svg";
 import { useThemeColor } from "../../hooks/useThemeColor";
+import { useIsCardPinned } from "../../hooks/useIsCardPinned";
 
 export function RollTable(props: { rollTableModel: RollTableModel }) {
   const [springs, springApi] = useSpring(() => ({}));
@@ -35,6 +36,8 @@ export function RollTable(props: { rollTableModel: RollTableModel }) {
 
   const color = useThemeColor("brand");
 
+  const isPinned = useIsCardPinned(props.rollTableModel.cardId);
+
   return (
     <Box>
       <Box
@@ -46,7 +49,7 @@ export function RollTable(props: { rollTableModel: RollTableModel }) {
         <Box width="xsmall" align="center">
           1d{props.rollTableModel.dieSize}
         </Box>
-        <Box>Result</Box>
+        <Box>{isPinned ? props.rollTableModel.cardTitle : "Result"}</Box>
       </Box>
       <Box overflow="auto" ref={scrollContainer}>
         <SpinBox

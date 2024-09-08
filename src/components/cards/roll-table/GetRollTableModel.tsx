@@ -26,6 +26,7 @@ export function GetRollTableModel(
   });
   return {
     cardId: card.cardId,
+    cardTitle: card.title,
     dieSize: runningTotal,
     rollResult,
     entries,
@@ -33,6 +34,7 @@ export function GetRollTableModel(
 }
 export type RollTableModel = {
   cardId: string;
+  cardTitle: string;
   dieSize: number;
   rollResult: number;
   entries: {
