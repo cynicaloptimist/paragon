@@ -16,14 +16,14 @@ import { ComputeThemeProps } from "./ComputeThemeProps";
 import { DashboardActions } from "../../../actions/DashboardActions";
 import { useActiveDashboardId } from "../../hooks/useActiveDashboardId";
 import { CardMenu } from "./CardMenu";
-import { GetDashboard } from "../../../state/AppState";
+import { useIsCardPinned } from "../../hooks/useIsCardPinned";
 
 export function CardHeader(props: {
   cardState: CardState;
   popToast: (toast: string) => void;
   showAllButtons: boolean;
 }) {
-  const { state, dispatch } = React.useContext(ReducerContext);
+  const { dispatch } = React.useContext(ReducerContext);
   const dashboardId = useActiveDashboardId();
   const [isHeaderEditable, setHeaderEditable] = React.useState<boolean>(false);
   const [didSelectHeader, setDidSelectHeader] = React.useState<boolean>(false);
@@ -41,10 +41,7 @@ export function CardHeader(props: {
     setDidSelectHeader(false);
   };
   const viewType = useContext(ViewTypeContext);
-  const activeDashboard = GetDashboard(state, dashboardId);
-  const isPinned = activeDashboard?.pinnedCardIds?.includes(
-    props.cardState.cardId
-  );
+  const isPinned = useIsCardPinned(props.cardState.cardId);
 
   const isGmView = viewType === ViewType.GameMaster;
   const isDashboardView = viewType === ViewType.Dashboard;

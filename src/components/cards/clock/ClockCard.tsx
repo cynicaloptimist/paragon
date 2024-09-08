@@ -8,12 +8,9 @@ import { HorizontalClock } from "./HorizontalClock";
 import { ClockFace } from "./ClockFace";
 import { ConfigureClock } from "./ConfigureClock";
 import { VerticalClock } from "./VerticalClock";
-import { useActiveDashboardId } from "../../hooks/useActiveDashboardId";
-import { GetDashboard } from "../../../state/AppState";
-import { ReducerContext } from "../../../reducers/ReducerContext";
+import { useIsCardPinned } from "../../hooks/useIsCardPinned";
 
 export default function ClockCard(props: { card: ClockCardState }) {
-  const { state } = React.useContext(ReducerContext);
   const [isConfigurable, setConfigurable] = React.useState(false);
 
   let innerComponent = <HorizontalClock card={props.card} />;
@@ -28,8 +25,7 @@ export default function ClockCard(props: { card: ClockCardState }) {
     innerComponent = <VerticalClock card={props.card} />;
   }
 
-  const activeDashboard = GetDashboard(state, useActiveDashboardId());
-  const isPinned = activeDashboard?.pinnedCardIds?.includes(props.card.cardId);
+  const isPinned = useIsCardPinned(props.card.cardId);
 
   return (
     <BaseCard

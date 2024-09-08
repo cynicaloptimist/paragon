@@ -15,11 +15,10 @@ import { GetRollTableModel } from "./GetRollTableModel";
 import { RollTable } from "./RollTable";
 import { RollTableConfiguration } from "./RollTableConfiguration";
 import { RollTableHistory } from "./RollTableHistory";
-import { GetDashboard } from "../../../state/AppState";
-import { useActiveDashboardId } from "../../hooks/useActiveDashboardId";
+import { useIsCardPinned } from "../../hooks/useIsCardPinned";
 
 export default function RollTableCard(props: { card: RollTableCardState }) {
-  const { state, dispatch } = useContext(ReducerContext);
+  const { dispatch } = useContext(ReducerContext);
   const { card } = props;
 
   const [currentView, setCurrentView] = useState("table");
@@ -39,8 +38,7 @@ export default function RollTableCard(props: { card: RollTableCardState }) {
     [card.cardId, dispatch, rollTableModel.dieSize]
   );
 
-  const activeDashboard = GetDashboard(state, useActiveDashboardId());
-  const isPinned = activeDashboard?.pinnedCardIds?.includes(props.card.cardId);
+  const isPinned = useIsCardPinned(card.cardId);
 
   return (
     <BaseCard
