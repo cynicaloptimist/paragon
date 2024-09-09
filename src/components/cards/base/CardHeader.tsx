@@ -137,6 +137,7 @@ export function CardHeader(props: {
           <CardMenu
             card={props.cardState}
             renameCard={() => setHeaderEditable(true)}
+            popToast={props.popToast}
           />
         )}
         {(isGmView || isDashboardView) && (

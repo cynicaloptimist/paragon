@@ -11,7 +11,11 @@ import { CardState } from "../../../state/CardState";
 import { DashboardActions } from "../../../actions/DashboardActions";
 import { useActiveDashboardId } from "../../hooks/useActiveDashboardId";
 
-export function CardMenu(props: { card: CardState; renameCard: () => void }) {
+export function CardMenu(props: {
+  card: CardState;
+  renameCard: () => void;
+  popToast: (toast: string) => void;
+}) {
   const { state, dispatch } = React.useContext(ReducerContext);
   const [campaignChooserActive, setCampaignChooserActive] =
     React.useState(false);
@@ -24,14 +28,19 @@ export function CardMenu(props: { card: CardState; renameCard: () => void }) {
         headerText="Move Card to Campaign"
         close={() => setCampaignChooserActive(false)}
         activeCampaignId={props.card.campaignId}
-        selectCampaign={(campaignId) =>
+        selectCampaign={(campaignId) => {
+          if (!campaignId) {
+            return;
+          }
           dispatch(
             CardActions.SetCardCampaign({
               cardId: props.card.cardId,
               campaignId: campaignId,
             })
-          )
-        }
+          );
+          const campaignTitle = state.campaignsById[campaignId]?.title;
+          props.popToast(`Card moved to ${campaignTitle}.`);
+        }}
       />
     );
   }
@@ -62,11 +71,14 @@ export function CardMenu(props: { card: CardState; renameCard: () => void }) {
           label: "Create a Template from this Card",
           onClick: () => {
             const templateId = randomString();
-            return dispatch(
+            dispatch(
               Actions.CreateTemplateFromCard({
                 cardId: props.card.cardId,
                 templateId: templateId,
               })
+            );
+            props.popToast(
+              "Template created. You can find it in the New Card menu."
             );
           },
         },
