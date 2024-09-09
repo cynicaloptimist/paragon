@@ -23,7 +23,8 @@ export function RollAllTablesButton() {
   }
   return (
     <Button
-      icon={<FontAwesomeIcon icon={faDice} title="Roll on all Tables" />}
+      tip="Roll on all Table Cards"
+      icon={<FontAwesomeIcon icon={faDice} />}
       onClick={() => {
         for (const tableCard of tableCards) {
           const rollTableModel = GetRollTableModel(tableCard, 0);
