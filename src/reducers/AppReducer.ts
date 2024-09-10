@@ -161,6 +161,44 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     };
   }
 
+  if (isActionOf(DashboardActions.AddCardFromTemplate, action)) {
+    const templateCopy = cloneDeep(
+      oldState.templatesById[action.payload.templateId]
+    );
+    if (!templateCopy) {
+      return oldState;
+    }
+
+    let title = templateCopy.title;
+    let index = 1;
+    const existingCardTitles = Object.values(oldState.cardsById).map(
+      (c) => c.title
+    );
+
+    while (existingCardTitles.includes(title)) {
+      title = `${templateCopy.title} ${++index}`;
+    }
+
+    const dashboardCampaignId =
+      dashboardsById[action.payload.dashboardId]?.campaignId;
+
+    const card: CardState = {
+      ...templateCopy,
+      cardId: action.payload.cardId,
+      title,
+      campaignId: dashboardCampaignId,
+    };
+
+    return {
+      ...oldState,
+      cardsById: {
+        ...oldState.cardsById,
+        [action.payload.cardId]: card,
+      },
+      dashboardsById,
+    };
+  }
+
   if (isActionOf(CardActions.DeleteCard, action)) {
     return {
       ...oldState,
@@ -270,44 +308,6 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
         ...dashboardState,
         campaignId: undefined,
       })),
-    };
-  }
-
-  if (isActionOf(DashboardActions.AddCardFromTemplate, action)) {
-    const templateCopy = cloneDeep(
-      oldState.templatesById[action.payload.templateId]
-    );
-    if (!templateCopy) {
-      return oldState;
-    }
-
-    let title = templateCopy.title;
-    let index = 1;
-    const existingCardTitles = Object.values(oldState.cardsById).map(
-      (c) => c.title
-    );
-
-    while (existingCardTitles.includes(title)) {
-      title = `${templateCopy.title} ${++index}`;
-    }
-
-    const dashboardCampaignId =
-      dashboardsById[action.payload.dashboardId]?.campaignId;
-
-    const card: CardState = {
-      ...templateCopy,
-      cardId: action.payload.cardId,
-      title,
-      campaignId: dashboardCampaignId,
-    };
-
-    return {
-      ...oldState,
-      cardsById: {
-        ...oldState.cardsById,
-        [action.payload.cardId]: card,
-      },
-      dashboardsById,
     };
   }
 
