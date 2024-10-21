@@ -63,22 +63,24 @@ export function CardHeader(props: {
             right: 5,
           }}
         >
-          <Button
-            hoverIndicator
-            icon={<FontAwesomeIcon icon={faThumbtack} />}
-            tip="Unpin card"
-            onClick={() => {
-              if (dashboardId) {
-                dispatch(
-                  DashboardActions.SetCardPinned({
-                    dashboardId,
-                    cardId: props.cardState.cardId,
-                    pinned: false,
-                  })
-                );
-              }
-            }}
-          />
+          {isGmView && (
+            <Button
+              hoverIndicator
+              icon={<FontAwesomeIcon icon={faThumbtack} />}
+              tip="Unpin card"
+              onClick={() => {
+                if (dashboardId) {
+                  dispatch(
+                    DashboardActions.SetCardPinned({
+                      dashboardId,
+                      cardId: props.cardState.cardId,
+                      pinned: false,
+                    })
+                  );
+                }
+              }}
+            />
+          )}
         </Box>
       </>
     );
