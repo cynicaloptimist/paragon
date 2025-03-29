@@ -28,6 +28,7 @@ const EditorContainer = styled(Box)<{ theme: ThemeType }>`
   border-style: dotted;
   .editor-content {
     font-family: ${(p) => p.theme.global?.font?.family || "inherit"};
+    color: ${(p) => p.theme.global?.colors?.text?.light || "inherit"};
     ${(p) => {
       const headerStyles = _.range(1, 7).map((level) => {
         const headingTheme = p.theme.heading;
