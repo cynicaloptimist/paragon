@@ -31,9 +31,15 @@ import {
 import "@mdxeditor/editor/style.css";
 import _ from "lodash";
 
-const EditorContainer = styled(Box)<{ theme: ThemeType }>`
+const EditorContainer = styled(Box)<{ theme: ThemeType; themeColor: string }>`
   cursor: text;
   border-style: dotted;
+  .editor-toolbar {
+    background-color: ${(p) => p.theme.global?.colors?.background || "inherit"};
+    border-bottom: 1px solid ${(p) => p.themeColor};
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px;
+  }
+
   .editor-content {
     font-family: ${(p) => p.theme.global?.font?.family || "inherit"};
     color: ${(p) => p.theme.global?.colors?.text?.light || "inherit"};
@@ -71,6 +77,7 @@ export function MarkdownEditor(props: {
   return (
     <EditorContainer
       theme={theme}
+      themeColor={themeColors.primary}
       fill
       onClick={() => {
         if (markdownEditor.current) {
@@ -92,6 +99,7 @@ export function MarkdownEditor(props: {
           codeBlockPlugin(),
           markdownShortcutPlugin(),
           toolbarPlugin({
+            toolbarClassName: "editor-toolbar",
             toolbarContents: () => (
               <>
                 <UndoRedo />
