@@ -32,8 +32,6 @@ import "@mdxeditor/editor/style.css";
 import _ from "lodash";
 
 const EditorContainer = styled(Box)<{ theme: ThemeType; themeColor: string }>`
-  cursor: text;
-  border-style: dotted;
   .editor-toolbar {
     background-color: ${(p) => p.theme.global?.colors?.background || "inherit"};
     border-bottom: 1px solid ${(p) => p.themeColor};
@@ -56,6 +54,9 @@ const EditorContainer = styled(Box)<{ theme: ThemeType; themeColor: string }>`
       });
       return headerStyles.join("\n");
     }}
+
+    border-bottom: 2px dotted ${(p) =>
+      p.theme.global?.colors?.["text-fade"]?.light || "inherit"};
   }
 `;
 
@@ -75,16 +76,7 @@ export function MarkdownEditor(props: {
   const markdownEditor = React.useRef<MDXEditorMethods>(null);
 
   return (
-    <EditorContainer
-      theme={theme}
-      themeColor={themeColors.primary}
-      fill
-      onClick={() => {
-        if (markdownEditor.current) {
-          markdownEditor.current.focus();
-        }
-      }}
-    >
+    <EditorContainer theme={theme} themeColor={themeColors.primary} fill>
       <MDXEditor
         autoFocus
         markdown={props.card.content}
