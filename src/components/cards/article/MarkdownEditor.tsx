@@ -8,14 +8,39 @@ import styled from "styled-components";
 import { useActiveDashboardId } from "../../hooks/useActiveDashboardId";
 import { DashboardActions } from "../../../actions/DashboardActions";
 
-const StyledEditor = styled.div`
-  font-size: 18px;
-  h2,
-  h3,
-  p,
-  ul,
-  ol {
-    margin-block: 4px;
+import {
+  codeBlockPlugin,
+  headingsPlugin,
+  imagePlugin,
+  linkPlugin,
+  listsPlugin,
+  markdownShortcutPlugin,
+  MDXEditor,
+  quotePlugin,
+  tablePlugin,
+  thematicBreakPlugin,
+} from "@mdxeditor/editor";
+import "@mdxeditor/editor/style.css";
+import _ from "lodash";
+
+const EditorContainer = styled(Box)<{ theme: ThemeType }>`
+  cursor: text;
+  border-style: dotted;
+  .editor-content {
+    font-family: ${(p) => p.theme.global?.font?.family || "inherit"};
+    ${(p) => {
+      const headerStyles = _.range(1, 7).map((level) => {
+        const headingTheme = p.theme.heading;
+        const levelTheme = p.theme.heading?.level?.[level].medium;
+        return `h${level} {
+          font-family: ${headingTheme?.font?.family || "inherit"};
+          font-weight: ${headingTheme?.weight || "inherit"};
+          font-size: ${levelTheme?.size || "inherit"};
+          line-height: ${levelTheme?.height || "inherit"};
+        }`;
+      });
+      return headerStyles.join("\n");
+    }}
   }
 `;
 
@@ -32,61 +57,59 @@ export function MarkdownEditor(props: {
     background: useThemeColor("background"),
   };
   const theme: ThemeType = React.useContext(ThemeContext);
-  const markdownEditor = React.useRef<HTMLDivElement>(null);
+  const markdownEditor = React.useRef<HTMLTextAreaElement>(null);
 
   return (
-    <Box
+    <EditorContainer
+      theme={theme}
       fill
-      style={{ cursor: "text", borderStyle: "dotted", padding: "8px 0" }}
       onClick={() => {
         // if (markdownEditor.current && markdownEditor.current.isBlurred) {
         //   markdownEditor.current.focusAtEnd();
         // }
       }}
     >
-      <StyledEditor
-      // autoFocus
-      // defaultValue={props.card.content}
-      // placeholder=""
-      // onChange={(getValue: () => string) => {
-      //   try {
-      //     props.setContent(getValue());
-      //   } catch (e) {
-      //     console.warn("Editor onChange threw: ", e);
-      //   }
-      // }}
-      // disableExtensions={["container_notice", "highlight"]}
-      // onClickLink={(href: string) => {
-      //   const url = new URL(href);
-      //   const maybeCardId = url.pathname.replace(/^\//, "");
-      //   const card = state.cardsById[maybeCardId];
-      //   if (dashboardId && card) {
-      //     dispatch(
-      //       DashboardActions.OpenCard({
-      //         dashboardId,
-      //         cardId: maybeCardId,
-      //         cardType: card.type,
-      //       })
-      //     );
-      //   } else {
-      //     window.open(href, "_blank");
-      //   }
-      // }}
-      // theme={{
-      //   ...base,
-      //   toolbarBackground: themeColors.secondary,
-      //   toolbarHoverBackground: themeColors.secondary,
-      //   toolbarItem: themeColors.text,
-      //   toolbarInput: themeColors.text,
-      //   background: themeColors.background,
-      //   codeBackground: themeColors.background,
-      //   blockToolbarBackground: themeColors.background,
-      // }}
-      // style={{
-      //   font: theme.global?.font?.family || "inherit",
-      // }}
-      // ref={markdownEditor}
+      <MDXEditor
+        autoFocus
+        // defaultValue={props.card.content}
+        markdown={props.card.content}
+        plugins={[
+          headingsPlugin(),
+          listsPlugin(),
+          quotePlugin(),
+          thematicBreakPlugin(),
+          linkPlugin(),
+          imagePlugin(),
+          tablePlugin(),
+          codeBlockPlugin(),
+          markdownShortcutPlugin(),
+        ]}
+        onChange={(markdown: string) => {
+          props.setContent(markdown);
+        }}
+        // onClickLink={(href: string) => {
+        //   const url = new URL(href);
+        //   const maybeCardId = url.pathname.replace(/^\//, "");
+        //   const card = state.cardsById[maybeCardId];
+        //   if (dashboardId && card) {
+        //     dispatch(
+        //       DashboardActions.OpenCard({
+        //         dashboardId,
+        //         cardId: maybeCardId,
+        //         cardType: card.type,
+        //       })
+        //     );
+        //   } else {
+        //     window.open(href, "_blank");
+        //   }
+        // }}
+        // style={{
+        //   font: theme.global?.font?.family || "inherit",
+        // }}
+        contentEditableClassName="editor-content"
+
+        // ref={markdownEditor}
       />
-    </Box>
+    </EditorContainer>
   );
 }
