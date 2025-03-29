@@ -16,6 +16,7 @@ import {
   listsPlugin,
   markdownShortcutPlugin,
   MDXEditor,
+  MDXEditorMethods,
   quotePlugin,
   tablePlugin,
   thematicBreakPlugin,
@@ -58,16 +59,16 @@ export function MarkdownEditor(props: {
     background: useThemeColor("background"),
   };
   const theme: ThemeType = React.useContext(ThemeContext);
-  const markdownEditor = React.useRef<HTMLTextAreaElement>(null);
+  const markdownEditor = React.useRef<MDXEditorMethods>(null);
 
   return (
     <EditorContainer
       theme={theme}
       fill
       onClick={() => {
-        // if (markdownEditor.current && markdownEditor.current.isBlurred) {
-        //   markdownEditor.current.focusAtEnd();
-        // }
+        if (markdownEditor.current) {
+          markdownEditor.current.focus();
+        }
       }}
     >
       <MDXEditor
@@ -104,12 +105,8 @@ export function MarkdownEditor(props: {
         //     window.open(href, "_blank");
         //   }
         // }}
-        // style={{
-        //   font: theme.global?.font?.family || "inherit",
-        // }}
         contentEditableClassName="editor-content"
-
-        // ref={markdownEditor}
+        ref={markdownEditor}
       />
     </EditorContainer>
   );
