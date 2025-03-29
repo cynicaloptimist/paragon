@@ -1,7 +1,7 @@
 import { Box, Button } from "grommet";
 import React, { useCallback, useContext } from "react";
-import { ReactComponent as CardStack } from "../../cards-regular.svg";
-import { ReactComponent as DMScreen } from "../../dm-screen-regular.svg";
+import CardStack from "../../cards-regular.svg?react";
+import DMScreen from "../../dm-screen-regular.svg?react";
 import { UIContext } from "../UIContext";
 import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

@@ -2,7 +2,7 @@ import { Box } from "grommet";
 import { useEffect, useRef } from "react";
 import { RollTableModel } from "./GetRollTableModel";
 import { animated, config, useSpring } from "@react-spring/web";
-import { ReactComponent as Logo } from "../../../dm-screen-regular.svg";
+import Logo from "../../../dm-screen-regular.svg?react";
 import { useThemeColor } from "../../hooks/useThemeColor";
 import { useIsCardPinned } from "../../hooks/useIsCardPinned";
 
