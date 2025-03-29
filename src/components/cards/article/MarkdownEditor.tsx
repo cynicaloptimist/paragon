@@ -9,17 +9,24 @@ import { useActiveDashboardId } from "../../hooks/useActiveDashboardId";
 import { DashboardActions } from "../../../actions/DashboardActions";
 
 import {
+  BlockTypeSelect,
+  BoldItalicUnderlineToggles,
   codeBlockPlugin,
+  CreateLink,
   headingsPlugin,
   imagePlugin,
   linkPlugin,
   listsPlugin,
+  ListsToggle,
   markdownShortcutPlugin,
   MDXEditor,
   MDXEditorMethods,
   quotePlugin,
+  Separator,
   tablePlugin,
   thematicBreakPlugin,
+  toolbarPlugin,
+  UndoRedo,
 } from "@mdxeditor/editor";
 import "@mdxeditor/editor/style.css";
 import _ from "lodash";
@@ -73,7 +80,6 @@ export function MarkdownEditor(props: {
     >
       <MDXEditor
         autoFocus
-        // defaultValue={props.card.content}
         markdown={props.card.content}
         plugins={[
           headingsPlugin(),
@@ -85,6 +91,19 @@ export function MarkdownEditor(props: {
           tablePlugin(),
           codeBlockPlugin(),
           markdownShortcutPlugin(),
+          toolbarPlugin({
+            toolbarContents: () => (
+              <>
+                <UndoRedo />
+                <Separator />
+                <BoldItalicUnderlineToggles />
+                <Separator />
+                <BlockTypeSelect />
+                <Separator />
+                <ListsToggle />
+              </>
+            ),
+          }),
         ]}
         onChange={(markdown: string) => {
           props.setContent(markdown);
