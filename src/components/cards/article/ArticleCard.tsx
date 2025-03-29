@@ -46,6 +46,11 @@ export default function ArticleCard(props: { card: ArticleCardState }) {
                   icon={isMarkdownEditorActive ? faFont : faCode}
                 />
               }
+              tip={
+                isMarkdownEditorActive
+                  ? "Edit Formatted Text"
+                  : "Edit Markdown Source"
+              }
             />
           )}
           <Button
@@ -54,6 +59,7 @@ export default function ArticleCard(props: { card: ArticleCardState }) {
             icon={
               <FontAwesomeIcon icon={isContentEditable ? faCheck : faEdit} />
             }
+            tip={isContentEditable ? "Save" : "Edit"}
           />
         </>
       }
