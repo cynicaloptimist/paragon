@@ -72,8 +72,6 @@ export default function ArticleCard(props: { card: ArticleCardState }) {
             fill={isMarkdownEditorActive ? "vertical" : false}
             style={{ minHeight: isMarkdownEditorActive ? 0 : "unset" }}
             className="article-card-content"
-            // Pad for the width of the Markdown add button
-            pad={{ horizontal: "24px" }}
           >
             <ArticleEditor
               card={card}
