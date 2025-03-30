@@ -4,8 +4,9 @@ import { CardActions } from "../../../actions/CardActions";
 import { ReducerContext } from "../../../reducers/ReducerContext";
 import { CardsState } from "../../../state/CardState";
 import { ArticleCardState } from "../../../state/CardState";
-import { MarkdownEditor } from "./MarkdownEditor";
 import { useThrottledTrailing } from "../../hooks/useThrottled";
+
+const MarkdownEditor = React.lazy(() => import("./MarkdownEditor"));
 
 export function ArticleEditor(props: {
   card: ArticleCardState;

@@ -59,7 +59,7 @@ const EditorContainer = styled(Box)<{ theme: ThemeType; themeColor: string }>`
   }
 `;
 
-export function MarkdownEditor(props: {
+export default function MarkdownEditor(props: {
   card: ArticleCardState;
   setContent: (content: string) => void;
 }) {
