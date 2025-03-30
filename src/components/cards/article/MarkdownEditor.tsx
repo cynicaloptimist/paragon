@@ -6,7 +6,6 @@ import { useThemeColor } from "../../hooks/useThemeColor";
 
 import styled from "styled-components";
 import { useActiveDashboardId } from "../../hooks/useActiveDashboardId";
-import { DashboardActions } from "../../../actions/DashboardActions";
 
 import {
   BlockTypeSelect,
@@ -15,6 +14,7 @@ import {
   CreateLink,
   headingsPlugin,
   imagePlugin,
+  linkDialogPlugin,
   linkPlugin,
   listsPlugin,
   ListsToggle,
@@ -30,6 +30,7 @@ import {
 } from "@mdxeditor/editor";
 import "@mdxeditor/editor/style.css";
 import _ from "lodash";
+import { LinkDialog } from "./LinkDialog";
 
 const EditorContainer = styled(Box)<{ theme: ThemeType; themeColor: string }>`
   .editor-toolbar {
@@ -86,6 +87,7 @@ export function MarkdownEditor(props: {
           quotePlugin(),
           thematicBreakPlugin(),
           linkPlugin(),
+          linkDialogPlugin({ LinkDialog }),
           imagePlugin(),
           tablePlugin(),
           codeBlockPlugin(),
@@ -101,6 +103,8 @@ export function MarkdownEditor(props: {
                 <BlockTypeSelect />
                 <Separator />
                 <ListsToggle />
+                <Separator />
+                <CreateLink />
               </>
             ),
           }),
@@ -108,22 +112,6 @@ export function MarkdownEditor(props: {
         onChange={(markdown: string) => {
           props.setContent(markdown);
         }}
-        // onClickLink={(href: string) => {
-        //   const url = new URL(href);
-        //   const maybeCardId = url.pathname.replace(/^\//, "");
-        //   const card = state.cardsById[maybeCardId];
-        //   if (dashboardId && card) {
-        //     dispatch(
-        //       DashboardActions.OpenCard({
-        //         dashboardId,
-        //         cardId: maybeCardId,
-        //         cardType: card.type,
-        //       })
-        //     );
-        //   } else {
-        //     window.open(href, "_blank");
-        //   }
-        // }}
         contentEditableClassName="editor-content"
         ref={markdownEditor}
       />
