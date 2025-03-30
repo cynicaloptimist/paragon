@@ -40,7 +40,13 @@ export const LinkDialog = ({
 
   if (linkDialogState.type === "edit") {
     return createPortal(
-      <Box flex direction="row" fill="horizontal" pad="small">
+      <Box
+        flex
+        direction="row"
+        fill="horizontal"
+        pad={{ top: "small", horizontal: "small" }}
+        align="center"
+      >
         <TextInput
           ref={textInput}
           defaultValue={linkDialogState.url}
@@ -65,7 +71,13 @@ export const LinkDialog = ({
 
   if (linkDialogState.type === "preview") {
     return createPortal(
-      <Box flex direction="row" fill="horizontal" pad="small" align="center">
+      <Box
+        flex
+        direction="row"
+        fill="horizontal"
+        pad={{ top: "small", horizontal: "small" }}
+        align="center"
+      >
         {linkDialogState.url}
         <Button
           onClick={() => {
