@@ -41,7 +41,11 @@ export const LinkDialog = ({
   if (linkDialogState.type === "edit") {
     return createPortal(
       <Box flex direction="row" fill="horizontal" pad="small">
-        <TextInput ref={textInput} defaultValue={linkDialogState.url} />
+        <TextInput
+          ref={textInput}
+          defaultValue={linkDialogState.url}
+          placeholder="Link URL"
+        />
         <Button
           onClick={() => {
             if (textInput.current) {
@@ -52,6 +56,7 @@ export const LinkDialog = ({
             }
           }}
           icon={<FontAwesomeIcon icon={faCheck} />}
+          tip="Update Link"
         />
       </Box>,
       toolbarPortalRef.current
@@ -60,13 +65,14 @@ export const LinkDialog = ({
 
   if (linkDialogState.type === "preview") {
     return createPortal(
-      <Box flex direction="row" fill="horizontal" pad="small">
+      <Box flex direction="row" fill="horizontal" pad="small" align="center">
         {linkDialogState.url}
         <Button
           onClick={() => {
             removeLink();
           }}
           icon={<FontAwesomeIcon icon={faEraser} />}
+          tip="Remove Link"
         />
         <Button
           onClick={() => {
@@ -75,6 +81,7 @@ export const LinkDialog = ({
             switchFromPreviewToLinkEdit();
           }}
           icon={<FontAwesomeIcon icon={faEdit} />}
+          tip="Edit Link"
         />
       </Box>,
       toolbarPortalRef.current
