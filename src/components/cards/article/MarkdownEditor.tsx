@@ -1,11 +1,9 @@
 import { Box, ThemeContext, ThemeType } from "grommet";
 import React from "react";
-import { ReducerContext } from "../../../reducers/ReducerContext";
 import { ArticleCardState } from "../../../state/CardState";
 import { useThemeColor } from "../../hooks/useThemeColor";
 
 import styled from "styled-components";
-import { useActiveDashboardId } from "../../hooks/useActiveDashboardId";
 
 import {
   BlockTypeSelect,
@@ -65,8 +63,6 @@ export function MarkdownEditor(props: {
   card: ArticleCardState;
   setContent: (content: string) => void;
 }) {
-  const { state, dispatch } = React.useContext(ReducerContext);
-  const dashboardId = useActiveDashboardId();
   const themeColors = {
     primary: useThemeColor("brand"),
     secondary: useThemeColor("brand-2"),
