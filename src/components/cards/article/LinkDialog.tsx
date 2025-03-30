@@ -11,8 +11,13 @@ import {
 } from "@mdxeditor/editor";
 import { Box, TextInput, Button } from "grommet";
 import { useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 
-export const LinkDialog = () => {
+export const LinkDialog = ({
+  toolbarPortalRef,
+}: {
+  toolbarPortalRef: React.RefObject<HTMLDivElement>;
+}) => {
   const [linkDialogState, rootEditor] = useCellValues(
     linkDialogState$,
     rootEditor$
@@ -29,8 +34,12 @@ export const LinkDialog = () => {
     console.log({ linkDialogState });
   }, [linkDialogState]);
 
+  if (!toolbarPortalRef.current) {
+    return null;
+  }
+
   if (linkDialogState.type === "edit") {
-    return (
+    return createPortal(
       <Box flex direction="row" fill="horizontal" pad="small">
         <TextInput ref={textInput} defaultValue={linkDialogState.url} />
         <Button
@@ -44,12 +53,13 @@ export const LinkDialog = () => {
           }}
           icon={<FontAwesomeIcon icon={faCheck} />}
         />
-      </Box>
+      </Box>,
+      toolbarPortalRef.current
     );
   }
 
   if (linkDialogState.type === "preview") {
-    return (
+    return createPortal(
       <Box flex direction="row" fill="horizontal" pad="small">
         {linkDialogState.url}
         <Button
@@ -66,7 +76,8 @@ export const LinkDialog = () => {
           }}
           icon={<FontAwesomeIcon icon={faEdit} />}
         />
-      </Box>
+      </Box>,
+      toolbarPortalRef.current
     );
   }
 

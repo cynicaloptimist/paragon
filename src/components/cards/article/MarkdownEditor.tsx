@@ -75,6 +75,7 @@ export function MarkdownEditor(props: {
   };
   const theme: ThemeType = React.useContext(ThemeContext);
   const markdownEditor = React.useRef<MDXEditorMethods>(null);
+  const toolbarPortalRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <EditorContainer theme={theme} themeColor={themeColors.primary} fill>
@@ -87,7 +88,11 @@ export function MarkdownEditor(props: {
           quotePlugin(),
           thematicBreakPlugin(),
           linkPlugin(),
-          linkDialogPlugin({ LinkDialog }),
+          linkDialogPlugin({
+            LinkDialog: () => (
+              <LinkDialog toolbarPortalRef={toolbarPortalRef} />
+            ),
+          }),
           imagePlugin(),
           tablePlugin(),
           codeBlockPlugin(),
@@ -96,15 +101,20 @@ export function MarkdownEditor(props: {
             toolbarClassName: "editor-toolbar",
             toolbarContents: () => (
               <>
-                <UndoRedo />
-                <Separator />
-                <BoldItalicUnderlineToggles />
-                <Separator />
-                <BlockTypeSelect />
-                <Separator />
-                <ListsToggle />
-                <Separator />
-                <CreateLink />
+                <Box>
+                  <Box flex direction="row">
+                    <UndoRedo />
+                    <Separator />
+                    <BoldItalicUnderlineToggles />
+                    <Separator />
+                    <BlockTypeSelect />
+                    <Separator />
+                    <ListsToggle />
+                    <Separator />
+                    <CreateLink />
+                  </Box>
+                  <div ref={toolbarPortalRef} />
+                </Box>
               </>
             ),
           }),
