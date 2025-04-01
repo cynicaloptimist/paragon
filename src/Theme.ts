@@ -17,7 +17,7 @@ export const Theme: ThemeType = {
         light: "rgba(20, 20, 20, 1)",
       },
       link: {
-        light: "#358600",
+        light: "#3EB666",
       },
       "text-fade": {
         light: "rgba(68, 68, 68, 0.6)",
