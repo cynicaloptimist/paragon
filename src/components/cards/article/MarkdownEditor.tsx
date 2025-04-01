@@ -57,6 +57,11 @@ const EditorContainer = styled(Box)<{ theme: ThemeType; themeColor: string }>`
     border-bottom: 2px dotted ${(p) =>
       p.theme.global?.colors?.["text-fade"]?.light || "inherit"};
   }
+
+  a {
+    color: ${(p) => p.theme.global?.colors?.link?.light || "inherit"};
+    font-weight: bold;
+  }
 `;
 
 export default function MarkdownEditor(props: {
