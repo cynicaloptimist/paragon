@@ -42,8 +42,15 @@ export const LinkDialog = ({
       target={dropTargetRef.current}
       stretch={false}
       align={{ top: "bottom", right: "right" }}
+      round="xsmall"
     >
-      <Box flex direction="row" pad="xsmall" align="center">
+      <Box
+        flex
+        direction="row"
+        pad="xsmall"
+        align="center"
+        background="background-contrast"
+      >
         {linkDialogState.type === "edit" && (
           <>
             <TextInput
