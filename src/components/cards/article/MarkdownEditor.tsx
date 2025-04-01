@@ -71,7 +71,7 @@ export default function MarkdownEditor(props: {
   const themeColor = useThemeColor("brand");
   const theme: ThemeType = React.useContext(ThemeContext);
   const markdownEditor = React.useRef<MDXEditorMethods>(null);
-  const toolbarPortalRef = React.useRef<HTMLDivElement>(null);
+  const dropTargetRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <EditorContainer theme={theme} themeColor={themeColor} fill>
@@ -85,9 +85,7 @@ export default function MarkdownEditor(props: {
           thematicBreakPlugin(),
           linkPlugin(),
           linkDialogPlugin({
-            LinkDialog: () => (
-              <LinkDialog toolbarPortalRef={toolbarPortalRef} />
-            ),
+            LinkDialog: () => <LinkDialog dropTargetRef={dropTargetRef} />,
           }),
           imagePlugin(),
           tablePlugin(),
@@ -108,8 +106,8 @@ export default function MarkdownEditor(props: {
                     <ListsToggle />
                     <Separator />
                     <CreateLink />
+                    <div ref={dropTargetRef} />
                   </Box>
-                  <div ref={toolbarPortalRef} />
                 </Box>
               </>
             ),
