@@ -68,18 +68,13 @@ export default function MarkdownEditor(props: {
   card: ArticleCardState;
   setContent: (content: string) => void;
 }) {
-  const themeColors = {
-    primary: useThemeColor("brand"),
-    secondary: useThemeColor("brand-2"),
-    text: useThemeColor("text-dark"),
-    background: useThemeColor("background"),
-  };
+  const themeColor = useThemeColor("brand");
   const theme: ThemeType = React.useContext(ThemeContext);
   const markdownEditor = React.useRef<MDXEditorMethods>(null);
   const toolbarPortalRef = React.useRef<HTMLDivElement>(null);
 
   return (
-    <EditorContainer theme={theme} themeColor={themeColors.primary} fill>
+    <EditorContainer theme={theme} themeColor={themeColor} fill>
       <MDXEditor
         autoFocus
         markdown={props.card.content}
