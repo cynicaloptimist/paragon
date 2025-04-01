@@ -1,4 +1,4 @@
-import { Text } from "grommet";
+import { Anchor, Text, ThemeContext } from "grommet";
 import React from "react";
 import { DashboardActions } from "../../../actions/DashboardActions";
 import { ReducerContext } from "../../../reducers/ReducerContext";
@@ -13,9 +13,9 @@ export const CardLink = (
   const card = state.cardsById[cardId];
   if (!card) {
     return (
-      <a {...props} target="_blank">
+      <Anchor {...props} target="_blank" color="link">
         {props.children}
-      </a>
+      </Anchor>
     );
   }
   return (
