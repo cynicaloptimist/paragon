@@ -3,7 +3,7 @@ import React from "react";
 import { DashboardActions } from "../../../actions/DashboardActions";
 import { ReducerContext } from "../../../reducers/ReducerContext";
 import { useActiveDashboardId } from "../../hooks/useActiveDashboardId";
-import { themeColor } from "../../hooks/useThemeColor";
+import { useCardColor } from "../../hooks/useCardColor";
 
 export const CardLink = (
   props: React.AnchorHTMLAttributes<HTMLAnchorElement>
@@ -22,16 +22,7 @@ export const CardLink = (
     );
   }
 
-  let linkColor = themeColor(theme, "brand");
-
-  if (card.themeColor) {
-    if (card.themeColor === "custom" && card.customColor) {
-      linkColor = card.customColor;
-    }
-    if (card.themeColor !== "custom") {
-      linkColor = themeColor(theme, card.themeColor);
-    }
-  }
+  const linkColor = useCardColor(card);
 
   return (
     <Text
