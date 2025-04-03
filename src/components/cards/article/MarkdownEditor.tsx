@@ -8,8 +8,8 @@ import styled from "styled-components";
 import {
   BlockTypeSelect,
   BoldItalicUnderlineToggles,
+  Button as MdxButton,
   codeBlockPlugin,
-  CreateLink,
   headingsPlugin,
   imagePlugin,
   linkDialogPlugin,
@@ -25,10 +25,14 @@ import {
   thematicBreakPlugin,
   toolbarPlugin,
   UndoRedo,
+  openLinkEditDialog$,
+  usePublisher,
 } from "@mdxeditor/editor";
 import "@mdxeditor/editor/style.css";
 import _ from "lodash";
 import { LinkDialog } from "./LinkDialog";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLink } from "@fortawesome/free-solid-svg-icons";
 
 const EditorContainer = styled(Box)<{ theme: ThemeType; themeColor: string }>`
   .editor-toolbar {
@@ -93,24 +97,30 @@ export default function MarkdownEditor(props: {
           markdownShortcutPlugin(),
           toolbarPlugin({
             toolbarClassName: "editor-toolbar",
-            toolbarContents: () => (
-              <>
-                <Box>
-                  <Box flex direction="row">
-                    <UndoRedo />
-                    <Separator />
-                    <BoldItalicUnderlineToggles />
-                    <Separator />
-                    <BlockTypeSelect />
-                    <Separator />
-                    <ListsToggle />
-                    <Separator />
-                    <CreateLink />
-                    <div ref={dropTargetRef} />
+            toolbarContents: () => {
+              const openLinkEditDialog = usePublisher(openLinkEditDialog$);
+
+              return (
+                <>
+                  <Box>
+                    <Box flex direction="row">
+                      <UndoRedo />
+                      <Separator />
+                      <BoldItalicUnderlineToggles />
+                      <Separator />
+                      <BlockTypeSelect />
+                      <Separator />
+                      <ListsToggle />
+                      <Separator />
+                      <MdxButton onClick={() => openLinkEditDialog()}>
+                        <FontAwesomeIcon size="sm" icon={faLink} />
+                      </MdxButton>
+                      <div ref={dropTargetRef} />
+                    </Box>
                   </Box>
-                </Box>
-              </>
-            ),
+                </>
+              );
+            },
           }),
         ]}
         onChange={(markdown: string) => {
