@@ -1,4 +1,9 @@
-import { faCheck, faEraser, faEdit } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheck,
+  faEraser,
+  faEdit,
+  faLink,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   useCellValues,
@@ -9,15 +14,25 @@ import {
   removeLink$,
   switchFromPreviewToLinkEdit$,
 } from "@mdxeditor/editor";
-import { Box, TextInput, Button, Drop, Text } from "grommet";
-import { useEffect, useState } from "react";
+import { Box, TextInput, Button, Drop, Text, Select } from "grommet";
+import {
+  useEffect,
+  useContext,
+  useState,
+  SyntheticEvent,
+  ChangeEvent,
+} from "react";
+import { ReducerContext } from "../../../reducers/ReducerContext";
 import _ from "lodash";
+import CardStack from "../../../cards-regular.svg?react";
 
 export const LinkDialog = ({
   dropTargetRef,
 }: {
   dropTargetRef: React.RefObject<HTMLDivElement>;
 }) => {
+  const { state } = useContext(ReducerContext);
+
   const [linkDialogState, rootEditor] = useCellValues(
     linkDialogState$,
     rootEditor$
@@ -27,10 +42,10 @@ export const LinkDialog = ({
   const switchFromPreviewToLinkEdit = usePublisher(
     switchFromPreviewToLinkEdit$
   );
+  const [linkType, setLinkType] = useState<"url" | "card">("url");
   const [cardLink, setCardLink] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log({ linkDialogState });
     if (linkDialogState.type !== "inactive") {
       setCardLink(linkDialogState.url);
     }
@@ -39,6 +54,11 @@ export const LinkDialog = ({
   if (!dropTargetRef.current || linkDialogState.type === "inactive") {
     return null;
   }
+
+  const linkableCards = Object.values(state.cardsById).filter(
+    (card) =>
+      state.activeCampaignId && card.campaignId === state.activeCampaignId
+  );
 
   return (
     <Drop
@@ -51,12 +71,38 @@ export const LinkDialog = ({
       <Box flex direction="row" pad="xsmall" align="center">
         {linkDialogState.type === "edit" && (
           <>
-            <TextInput
-              onChange={(e) => setCardLink(e.target.value)}
-              defaultValue={linkDialogState.url}
-              placeholder="Link URL"
+            {linkType === "url" && (
+              <TextInput
+                onChange={(e) => setCardLink(e.target.value)}
+                defaultValue={linkDialogState.url}
+                placeholder="Link URL"
+              />
+            )}
+            {linkType === "card" && (
+              <Select
+                placeholder="Link Card"
+                options={linkableCards.map((card) => ({
+                  label: card.title,
+                  value: card.cardId,
+                }))}
+                onChange={({ option }) => {
+                  setCardLink(option.value);
+                }}
+              />
+            )}
+
+            <Button
+              icon={<FontAwesomeIcon icon={faLink} />}
+              onClick={() => setLinkType("url")}
+              active={linkType === "url"}
             />
             <Button
+              icon={<CardStack height={18} />}
+              onClick={() => setLinkType("card")}
+              active={linkType === "card"}
+            />
+            <Button
+              disabled={!cardLink}
               onClick={() => {
                 if (cardLink) {
                   updateLink({
