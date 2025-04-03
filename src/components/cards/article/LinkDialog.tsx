@@ -10,7 +10,8 @@ import {
   switchFromPreviewToLinkEdit$,
 } from "@mdxeditor/editor";
 import { Box, TextInput, Button, Drop, Text } from "grommet";
-import { useRef, useEffect } from "react";
+import { useEffect, useState } from "react";
+import _ from "lodash";
 
 export const LinkDialog = ({
   dropTargetRef,
@@ -26,11 +27,13 @@ export const LinkDialog = ({
   const switchFromPreviewToLinkEdit = usePublisher(
     switchFromPreviewToLinkEdit$
   );
-
-  const textInput = useRef<HTMLInputElement>(null);
+  const [cardLink, setCardLink] = useState<string | null>(null);
 
   useEffect(() => {
     console.log({ linkDialogState });
+    if (linkDialogState.type !== "inactive") {
+      setCardLink(linkDialogState.url);
+    }
   }, [linkDialogState]);
 
   if (!dropTargetRef.current || linkDialogState.type === "inactive") {
@@ -43,27 +46,22 @@ export const LinkDialog = ({
       stretch={false}
       align={{ top: "bottom", right: "right" }}
       round="xsmall"
+      background="background"
     >
-      <Box
-        flex
-        direction="row"
-        pad="xsmall"
-        align="center"
-        background="background-contrast"
-      >
+      <Box flex direction="row" pad="xsmall" align="center">
         {linkDialogState.type === "edit" && (
           <>
             <TextInput
-              ref={textInput}
+              onChange={(e) => setCardLink(e.target.value)}
               defaultValue={linkDialogState.url}
               placeholder="Link URL"
             />
             <Button
               onClick={() => {
-                if (textInput.current) {
+                if (cardLink) {
                   updateLink({
                     title: linkDialogState.title,
-                    url: textInput.current.value,
+                    url: cardLink,
                   });
                 }
               }}
