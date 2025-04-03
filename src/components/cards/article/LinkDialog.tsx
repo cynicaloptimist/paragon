@@ -52,18 +52,21 @@ export const LinkDialog = ({
 
   const linkedCard =
     linkDialogState.type !== "inactive"
-      ? linkableCards.find((card) => card.cardId === linkDialogState.url)
+      ? linkableCards.find((card) => card.cardId === linkUrlOrCardId)
       : undefined;
 
   useEffect(() => {
     if (linkDialogState.type !== "inactive") {
       setLinkUrlOrCardId(linkDialogState.url);
       setLinkTitle(linkDialogState.title);
-      if (linkedCard) {
-        setLinkType("card");
-      }
     }
-  }, [linkDialogState, linkedCard]);
+  }, [linkDialogState]);
+
+  useEffect(() => {
+    if (linkedCard) {
+      setLinkType("card");
+    }
+  }, [linkedCard]);
 
   if (!dropTargetRef.current || linkDialogState.type === "inactive") {
     return null;
@@ -117,7 +120,8 @@ export const LinkDialog = ({
               disabled={!linkUrlOrCardId}
               onClick={() => {
                 updateLink({
-                  title: linkTitle ?? linkDialogState.title,
+                  title:
+                    linkTitle || linkedCard?.title || linkDialogState.title,
                   url: linkUrlOrCardId ?? linkDialogState.url,
                 });
               }}
