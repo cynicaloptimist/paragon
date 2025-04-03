@@ -15,16 +15,12 @@ import {
   switchFromPreviewToLinkEdit$,
 } from "@mdxeditor/editor";
 import { Box, TextInput, Button, Drop, Text, Select } from "grommet";
-import {
-  useEffect,
-  useContext,
-  useState,
-  SyntheticEvent,
-  ChangeEvent,
-} from "react";
+import { useEffect, useContext, useState, ReactElement } from "react";
 import { ReducerContext } from "../../../reducers/ReducerContext";
-import _ from "lodash";
+import _, { set } from "lodash";
 import CardStack from "../../../cards-regular.svg?react";
+import { CardState } from "../../../state/CardState";
+import { CardLink } from "./CardLink";
 
 export const LinkDialog = ({
   dropTargetRef,
@@ -43,22 +39,35 @@ export const LinkDialog = ({
     switchFromPreviewToLinkEdit$
   );
   const [linkType, setLinkType] = useState<"url" | "card">("url");
-  const [cardLink, setCardLink] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (linkDialogState.type !== "inactive") {
-      setCardLink(linkDialogState.url);
-    }
-  }, [linkDialogState]);
-
-  if (!dropTargetRef.current || linkDialogState.type === "inactive") {
-    return null;
-  }
+  const [linkUrlOrCardId, setLinkUrlOrCardId] = useState<string | undefined>(
+    undefined
+  );
+  const [linkTitle, setLinkTitle] = useState<string | undefined>(undefined);
 
   const linkableCards = Object.values(state.cardsById).filter(
     (card) =>
       state.activeCampaignId && card.campaignId === state.activeCampaignId
   );
+
+  const linkedCard =
+    linkDialogState.type !== "inactive"
+      ? linkableCards.find((card) => card.cardId === linkDialogState.url)
+      : undefined;
+
+  useEffect(() => {
+    if (linkDialogState.type !== "inactive") {
+      setLinkUrlOrCardId(linkDialogState.url);
+      setLinkTitle(linkDialogState.title);
+      if (linkedCard) {
+        setLinkType("card");
+      }
+    }
+  }, [linkDialogState, linkedCard]);
+
+  if (!dropTargetRef.current || linkDialogState.type === "inactive") {
+    return null;
+  }
 
   return (
     <Drop
@@ -73,7 +82,7 @@ export const LinkDialog = ({
           <>
             {linkType === "url" && (
               <TextInput
-                onChange={(e) => setCardLink(e.target.value)}
+                onChange={(e) => setLinkUrlOrCardId(e.target.value)}
                 defaultValue={linkDialogState.url}
                 placeholder="Link URL"
               />
@@ -81,12 +90,15 @@ export const LinkDialog = ({
             {linkType === "card" && (
               <Select
                 placeholder="Link Card"
+                value={linkUrlOrCardId}
+                valueKey={{ key: "cardId", reduce: true }}
+                labelKey="cardTitle"
                 options={linkableCards.map((card) => ({
-                  label: card.title,
-                  value: card.cardId,
+                  cardTitle: card.title,
+                  cardId: card.cardId,
                 }))}
                 onChange={({ option }) => {
-                  setCardLink(option.value);
+                  setLinkUrlOrCardId(option.cardId);
                 }}
               />
             )}
@@ -102,14 +114,12 @@ export const LinkDialog = ({
               active={linkType === "card"}
             />
             <Button
-              disabled={!cardLink}
+              disabled={!linkUrlOrCardId}
               onClick={() => {
-                if (cardLink) {
-                  updateLink({
-                    title: linkDialogState.title,
-                    url: cardLink,
-                  });
-                }
+                updateLink({
+                  title: linkTitle ?? linkDialogState.title,
+                  url: linkUrlOrCardId ?? linkDialogState.url,
+                });
               }}
               icon={<FontAwesomeIcon icon={faCheck} />}
               tip="Update Link"
@@ -118,7 +128,13 @@ export const LinkDialog = ({
         )}
         {linkDialogState.type === "preview" && (
           <>
-            <Text margin={{ left: "xsmall" }}>{linkDialogState.url}</Text>
+            <Text margin={{ left: "xsmall" }}>
+              {linkedCard ? (
+                <CardLinkPreview cardState={linkedCard} />
+              ) : (
+                linkDialogState.url
+              )}
+            </Text>
             <Button
               onClick={() => {
                 removeLink();
@@ -141,3 +157,7 @@ export const LinkDialog = ({
     </Drop>
   );
 };
+
+function CardLinkPreview({ cardState }: { cardState: CardState }) {
+  return <CardLink href={cardState.cardId}>{cardState.title}</CardLink>;
+}
