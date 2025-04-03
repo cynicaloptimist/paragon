@@ -12,7 +12,6 @@ export const CardLink = (
   const dashboardId = useActiveDashboardId();
   const cardId = props.href || "";
   const card = state.cardsById[cardId];
-  const theme = React.useContext(ThemeContext);
 
   if (!card) {
     return (
