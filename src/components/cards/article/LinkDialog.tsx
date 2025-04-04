@@ -44,11 +44,19 @@ export const LinkDialog = ({
     undefined
   );
   const [linkTitle, setLinkTitle] = useState<string | undefined>(undefined);
+  const [search, setSearch] = useState<string>("");
 
   const linkableCards = Object.values(state.cardsById).filter(
     (card) =>
       state.activeCampaignId && card.campaignId === state.activeCampaignId
   );
+
+  const filteredCards = linkableCards.filter((card) => {
+    if (!search) return true;
+    const cardTitle = card.title.toLocaleLowerCase();
+    const searchLower = search.toLocaleLowerCase();
+    return cardTitle.includes(searchLower);
+  });
 
   const linkedCard =
     linkDialogState.type !== "inactive"
@@ -96,10 +104,12 @@ export const LinkDialog = ({
                 value={linkUrlOrCardId}
                 valueKey={{ key: "cardId", reduce: true }}
                 labelKey="cardTitle"
-                options={linkableCards.map((card) => ({
+                options={filteredCards.map((card) => ({
                   cardTitle: card.title,
                   cardId: card.cardId,
                 }))}
+                onOpen={() => setSearch("")}
+                onSearch={(search) => setSearch(search)}
                 onChange={({ option }) => {
                   setLinkUrlOrCardId(option.cardId);
                 }}
