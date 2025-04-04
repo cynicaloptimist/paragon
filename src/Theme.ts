@@ -46,6 +46,10 @@ export const Theme: ThemeType = {
         },
       },
       "3": {
+        small: {
+          size: "16px",
+          height: "16px",
+        },
         medium: {
           size: "20px",
           height: "20px",
