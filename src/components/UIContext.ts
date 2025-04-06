@@ -11,6 +11,7 @@ type UIContextValue = {
   setLibrarySidebarMode: (mode: LibrarySidebarMode) => void;
   appSettingsVisible: boolean;
   setAppSettingsVisible: (visible: boolean) => void;
+  cardRefsById: Record<string, React.RefObject<HTMLDivElement>>;
 };
 
 export const UIContext = createContext<UIContextValue>({
@@ -18,6 +19,7 @@ export const UIContext = createContext<UIContextValue>({
   appSettingsVisible: false,
   setLibrarySidebarMode: () => {},
   setAppSettingsVisible: () => {},
+  cardRefsById: {},
 });
 
 export function useUIContextState(): UIContextValue {
@@ -30,5 +32,6 @@ export function useUIContextState(): UIContextValue {
     setLibrarySidebarMode,
     appSettingsVisible,
     setAppSettingsVisible,
+    cardRefsById: {},
   };
 }

@@ -1,12 +1,13 @@
 import { Box, ThemeContext } from "grommet";
 import _ from "lodash";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { CardState } from "../../../state/CardState";
 import { useHover } from "../../hooks/useHover";
 import { themeColor } from "../../hooks/useThemeColor";
 import { useToast } from "../../hooks/useToast";
 import { CardFooter } from "./CardFooter";
 import { CardHeader } from "./CardHeader";
+import { UIContext } from "../../UIContext";
 
 export default function BaseCard(props: {
   commands: React.ReactNode;
@@ -20,6 +21,14 @@ export default function BaseCard(props: {
   const [toast, popToast] = useToast(5000);
   const [isFocused, setFocused] = React.useState(false);
   const { ref: hoverRef, hovered: isHovered } = useHover<HTMLDivElement>();
+  const { cardRefsById } = useContext(UIContext);
+
+  useEffect(() => {
+    cardRefsById[props.cardState.cardId] = hoverRef;
+    return () => {
+      delete cardRefsById[props.cardState.cardId];
+    };
+  }, [props.cardState.cardId, cardRefsById, hoverRef]);
 
   const cardColor = props.cardState.themeColor;
   const theme = _.cloneDeep(React.useContext(ThemeContext));
