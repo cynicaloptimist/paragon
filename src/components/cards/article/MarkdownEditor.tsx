@@ -57,9 +57,11 @@ const EditorContainer = styled(Box)<{ theme: ThemeType; themeColor: string }>`
       });
       return headerStyles.join("\n");
     }}
+  }
 
-    border-bottom: 2px dotted ${(p) =>
-      p.theme.global?.colors?.["text-fade"]?.light || "inherit"};
+  .mdxeditor-root-contenteditable {
+    border-bottom: 2px dotted
+      ${(p) => p.theme.global?.colors?.["text-fade"]?.light || "inherit"};
   }
 
   a {
