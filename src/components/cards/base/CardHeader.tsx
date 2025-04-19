@@ -61,6 +61,8 @@ export function CardHeader(props: {
             position: "absolute",
             top: 5,
             right: 5,
+            // z-index above markdown editor toolbar
+            zIndex: 5,
           }}
         >
           {isGmView && (
