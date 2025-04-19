@@ -5,6 +5,7 @@ import { AppSettings, AppState, EmptyState, UserState } from "./AppState";
 import { GetInfoCards, GetInitialState } from "./GetInitialState";
 import { LegacyCardState, UpdateCardState } from "./LegacyCardState";
 import { CardsState } from "./CardState";
+import { pruneDuplicateStarterDashboards } from "./pruneDuplicateStarterDashboards";
 
 export type LegacyAppState = {
   //new
@@ -85,6 +86,8 @@ export function UpdateMissingOrLegacyAppState(
         };
       }
     );
+
+    pruneDuplicateStarterDashboards(appState);
   } else {
     const dashboardId = storedState.playerViewId || randomString();
     appState.dashboardsById = {
