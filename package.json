@@ -1,6 +1,6 @@
 {
   "name": "paragon",
-  "version": "0.12.3",
+  "version": "0.12.4",
   "private": true,
   "engines": {
     "node": ">=20.0.0",
