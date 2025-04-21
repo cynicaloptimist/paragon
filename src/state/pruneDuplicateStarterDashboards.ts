@@ -7,8 +7,6 @@ export function pruneDuplicateStarterDashboards(appState: AppState) {
     ([, dashboard]) => dashboard.name === "Dashboard 1"
   );
 
-  console.log("starterDashboards count", starterDashboards.length);
-
   if (starterDashboards.length <= 1) {
     return;
   }
