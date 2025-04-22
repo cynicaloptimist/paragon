@@ -110,26 +110,13 @@ export function CardHeader(props: {
             onBlur={saveAndClose}
           />
         ) : (
-          <Box
-            fill
-            direction="row"
-            className="drag-handle"
-            onDoubleClick={() =>
+          <DraggableClickableTitle
+            title={props.cardState.title}
+            doEdit={() =>
               (isGmView || isDashboardView) && setHeaderEditable(true)
             }
-            align="center"
-          >
-            <Heading
-              level={3}
-              margin="none"
-              truncate
-              title={props.cardState.title}
-            >
-              {props.cardState.title}
-            </Heading>
-          </Box>
+          />
         )}
-
         <Box direction="row" flex="grow" style={hideableButtonsStyle}>
           <CardColorPickerButton card={props.cardState} />
           <PlayerViewButton
@@ -160,6 +147,38 @@ export function CardHeader(props: {
         )}
       </Box>
     </Header>
+  );
+}
+
+function DraggableClickableTitle({
+  title,
+  doEdit,
+}: {
+  title: string;
+  doEdit: () => void;
+}) {
+  const lastClickedTime = React.useRef<number>(0);
+  return (
+    <Box
+      fill
+      direction="row"
+      className="drag-handle"
+      onMouseDown={() => {
+        // The drag handler class name swallows onClick and onDoubleClick events, so we're manually checking for double clicks here.
+        const currentTime = Date.now();
+        if (currentTime - lastClickedTime.current < 500) {
+          // The drag behavior will cause a blur on the text input, so we need to set a timeout to allow the blur event to fire before we call doEdit.
+          setTimeout(() => doEdit(), 200);
+        }
+
+        lastClickedTime.current = currentTime;
+      }}
+      align="center"
+    >
+      <Heading level={3} margin="none" truncate title={title}>
+        {title}
+      </Heading>
+    </Box>
   );
 }
 
