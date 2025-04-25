@@ -72,7 +72,7 @@ function GeneralSettings() {
           onChange={(event) => {
             dispatch(
               Actions.SetSettings({
-                settings: { collapseMargins: event.target.checked },
+                settingsPartial: { collapseMargins: event.target.checked },
               })
             );
           }}
@@ -120,7 +120,11 @@ function CardTypesSettings() {
         value={state.appSettings.cardTypesInMenu}
         onChange={(changeEvent) => {
           const selectedOptions = changeEvent?.value as unknown as CardType[];
-          dispatch(Actions.SetCardTypesInMenu({ cardTypes: selectedOptions }));
+          dispatch(
+            Actions.SetSettings({
+              settingsPartial: { cardTypesInMenu: selectedOptions },
+            })
+          );
         }}
       />
     </InnerBox>
@@ -187,8 +191,10 @@ function TemplatesSettings() {
             const selectedTemplateIds =
               changeEvent?.value as unknown as string[];
             dispatch(
-              Actions.SetTemplateIdsInMenu({
-                templateIds: selectedTemplateIds,
+              Actions.SetSettings({
+                settingsPartial: {
+                  templateIdsInMenu: selectedTemplateIds,
+                },
               })
             );
           }}

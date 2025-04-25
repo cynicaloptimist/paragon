@@ -12,14 +12,8 @@ export const Actions = {
     hasStorage: boolean;
     hasEpic: boolean;
   }>(),
-  SetCardTypesInMenu: createAction("SetCardTypesInMenu")<{
-    cardTypes: CardType[];
-  }>(),
-  SetTemplateIdsInMenu: createAction("SetTemplateIdsInMenu")<{
-    templateIds: string[];
-  }>(),
   SetSettings: createAction("SetSettings")<{
-    settings: Partial<AppSettings>;
+    settingsPartial: Partial<AppSettings>;
   }>(),
   ImportCardsAndDashboards: createAction("ImportCardsAndDashboards")<{
     cardsById: CardsState;

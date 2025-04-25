@@ -311,32 +311,12 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     };
   }
 
-  if (isActionOf(Actions.SetCardTypesInMenu, action)) {
-    return {
-      ...oldState,
-      appSettings: {
-        ...oldState.appSettings,
-        cardTypesInMenu: action.payload.cardTypes,
-      },
-    };
-  }
-
-  if (isActionOf(Actions.SetTemplateIdsInMenu, action)) {
-    return {
-      ...oldState,
-      appSettings: {
-        ...oldState.appSettings,
-        templateIdsInMenu: action.payload.templateIds,
-      },
-    };
-  }
-
   if (isActionOf(Actions.SetSettings, action)) {
     return {
       ...oldState,
       appSettings: {
         ...oldState.appSettings,
-        ...action.payload.settings,
+        ...action.payload.settingsPartial,
       },
     };
   }
