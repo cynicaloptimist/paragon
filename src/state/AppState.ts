@@ -16,6 +16,7 @@ export type AppState = {
 export type AppSettings = {
   cardTypesInMenu: CardType[];
   templateIdsInMenu: string[];
+  collapseMargins?: boolean;
 };
 
 export type UserState = {

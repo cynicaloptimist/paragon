@@ -5,6 +5,7 @@ import { CardType } from "../state/CardTypes";
 import { CardAction } from "./CardActions";
 import { DashboardAction } from "./DashboardActions";
 import { CampaignState } from "../state/CampaignState";
+import { AppSettings } from "../state/AppState";
 
 export const Actions = {
   SetUserClaims: createAction("SetUserClaims")<{
@@ -16,6 +17,9 @@ export const Actions = {
   }>(),
   SetTemplateIdsInMenu: createAction("SetTemplateIdsInMenu")<{
     templateIds: string[];
+  }>(),
+  SetSettings: createAction("SetSettings")<{
+    settings: Partial<AppSettings>;
   }>(),
   ImportCardsAndDashboards: createAction("ImportCardsAndDashboards")<{
     cardsById: CardsState;

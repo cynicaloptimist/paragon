@@ -2,6 +2,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
+  CheckBox,
   CheckBoxGroup,
   CheckBoxType,
   Layer,
@@ -35,14 +36,14 @@ export function AppSettings() {
       <Box
         background="background"
         pad="small"
-        style={{ width: "400px", height: "600px" }}
+        style={{ width: "500px", height: "600px" }}
         alignContent="center"
         elevation="medium"
         overflow={{ vertical: "auto" }}
       >
         <Tabs>
-          <Tab title="Data and Info">
-            <DataSettingsAndInfo />
+          <Tab title="General">
+            <GeneralSettings />
           </Tab>
           <Tab title="Card Types">
             <CardTypesSettings />
@@ -50,17 +51,42 @@ export function AppSettings() {
           <Tab title="Templates">
             <TemplatesSettings />
           </Tab>
+          <Tab title="My Data">
+            <DataSettings />
+          </Tab>
         </Tabs>
       </Box>
     </Layer>
   );
 }
 
-function DataSettingsAndInfo() {
+function GeneralSettings() {
+  const { state, dispatch } = useContext(ReducerContext);
+
+  return (
+    <InnerBox>
+      <Box pad="small">
+        <CheckBox
+          label="Collapse card margins"
+          checked={state.appSettings.collapseMargins}
+          onChange={(event) => {
+            dispatch(
+              Actions.SetSettings({
+                settings: { collapseMargins: event.target.checked },
+              })
+            );
+          }}
+        />
+        <AppInfo />
+      </Box>
+    </InnerBox>
+  );
+}
+
+function DataSettings() {
   return (
     <InnerBox>
       <ExportImportControls />
-      <AppInfo />
     </InnerBox>
   );
 }
@@ -180,6 +206,6 @@ const InfoText = styled(Text).attrs({ color: "text-fade" })`
 `;
 
 const InnerBox = styled(Box)`
-  width: 300px;
+  width: 350px;
   margin: auto;
 `;

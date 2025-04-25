@@ -215,6 +215,7 @@ export function CardGrid(props: {
           dashboard.layoutCompaction === "compact" ? "vertical" : null
         }
         preventCollision={dashboard.layoutPushCards === "preventcollision"}
+        margin={state.appSettings.collapseMargins ? [0, 0] : undefined}
       >
         {gridItems}
       </ResponsiveGridLayout>

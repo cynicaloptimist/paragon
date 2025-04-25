@@ -331,6 +331,16 @@ export function AppReducer(oldState: AppState, action: RootAction): AppState {
     };
   }
 
+  if (isActionOf(Actions.SetSettings, action)) {
+    return {
+      ...oldState,
+      appSettings: {
+        ...oldState.appSettings,
+        ...action.payload.settings,
+      },
+    };
+  }
+
   if (isActionOf(Actions.ImportCardsAndDashboards, action)) {
     return {
       ...oldState,
