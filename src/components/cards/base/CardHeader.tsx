@@ -60,7 +60,7 @@ export function CardHeader(props: {
           style={{
             position: "absolute",
             top: 5,
-            right: 5,
+            right: 20,
             // z-index above markdown editor toolbar
             zIndex: 5,
           }}
