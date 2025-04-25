@@ -1,4 +1,5 @@
 import { ThemeType } from "grommet";
+import { css } from "styled-components";
 
 export const Theme: ThemeType = {
   global: {
@@ -65,6 +66,15 @@ export const Theme: ThemeType = {
   button: {
     border: {
       radius: "1px",
+    },
+  },
+  tab: {
+    color: "text",
+    extend: css`
+      padding: 0;
+    `,
+    active: {
+      color: "brand",
     },
   },
 };
