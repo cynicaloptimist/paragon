@@ -7,6 +7,7 @@ import { randomString } from "../../randomString";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { CardTypeFriendlyNames } from "../../state/CardTypes";
 import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
+import posthog from "posthog-js";
 
 export function NewCardMenu() {
   const { state, dispatch } = useContext(ReducerContext);
@@ -32,6 +33,9 @@ export function NewCardMenu() {
       onClick: () => {
         const cardId = randomString();
         if (dashboardId) {
+          posthog.capture("card_created", {
+            cardType,
+          });
           dispatch(
             DashboardActions.AddCard({
               dashboardId,
@@ -56,6 +60,10 @@ export function NewCardMenu() {
         onClick: () => {
           const cardId = randomString();
           if (dashboardId) {
+            posthog.capture("card_created_from_template", {
+              cardType: template.type,
+              templateName: template.title,
+            });
             dispatch(
               DashboardActions.AddCardFromTemplate({
                 dashboardId,
