@@ -2,7 +2,7 @@ import * as admin from "firebase-admin";
 import * as functionsv1 from "firebase-functions/v1";
 import { onRequest } from "firebase-functions/v2/https";
 import { logger } from "firebase-functions/v2";
-const { defineString } = require("firebase-functions/params");
+import { defineString } from "firebase-functions/params";
 import * as Url from "url";
 
 import contributors from "./thanks";
@@ -24,11 +24,9 @@ const tiersWithEpicEntitled = ["1937132", "8749940"];
 
 admin.initializeApp();
 
-const client_id = defineString("PATREON_CONFIG_CLIENT_ID").value();
-const client_secret = defineString("PATREON_CONFIG_CLIENT_SECRET").value();
-const redirect_url = defineString("PATREON_CONFIG_REDIRECT_URL").value();
-
-const patreonOAuthClient = patreonOAuth(client_id, client_secret);
+const client_id = defineString("PATREON_CONFIG_CLIENT_ID");
+const client_secret = defineString("PATREON_CONFIG_CLIENT_SECRET");
+const redirect_url = defineString("PATREON_CONFIG_REDIRECT_URL");
 
 type ApiListing = { type: string; id: string };
 
@@ -42,11 +40,16 @@ export const patreon_login = functionsv1.https.onRequest(
 
     functionsv1.logger.info("Patreon Login Redirect: ", request.query);
 
+    const patreonOAuthClient = patreonOAuth(
+      client_id.value(),
+      client_secret.value()
+    );
+
     const oauthGrantCode = Url.parse(request.url, true).query.code;
     try {
       const tokensResponse = await patreonOAuthClient.getTokens(
         oauthGrantCode,
-        redirect_url
+        redirect_url.value()
       );
 
       const patreonAPIClient = patreonAPI(tokensResponse.access_token);
@@ -107,11 +110,16 @@ export const patreon_login_v2 = onRequest(
 
     logger.info("Patreon Login Redirect: ", request.query);
 
+    const patreonOAuthClient = patreonOAuth(
+      client_id.value(),
+      client_secret.value()
+    );
+
     const oauthGrantCode = Url.parse(request.url, true).query.code;
     try {
       const tokensResponse = await patreonOAuthClient.getTokens(
         oauthGrantCode,
-        redirect_url
+        redirect_url.value()
       );
 
       const patreonAPIClient = patreonAPI(tokensResponse.access_token);
