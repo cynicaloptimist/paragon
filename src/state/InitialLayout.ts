@@ -1,8 +1,10 @@
+import type { LayoutItem } from "react-grid-layout/legacy";
+
 export function InitialLayout(
   cardId: string,
   cardType: string,
   dashboardSize: string
-): ReactGridLayout.Layout {
+): LayoutItem {
   let xOffset = 8;
   if (["xxs", "xs", "sm"].includes(dashboardSize)) {
     xOffset = 0;

@@ -2,7 +2,13 @@ import _ from "lodash";
 import { Box, Text } from "grommet";
 import React, { CSSProperties, Suspense, useContext } from "react";
 
-import { Layout, Responsive, WidthProvider } from "react-grid-layout";
+import {
+  Responsive,
+  WidthProvider,
+  type Layout,
+  type LayoutItem,
+  type ResponsiveLayouts,
+} from "react-grid-layout/legacy";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { DashboardReducer } from "../../reducers/DashboardReducer";
 import { CardState } from "../../state/CardState";
@@ -62,7 +68,7 @@ export function CardGrid(props: {
         storedState &&
         GetDashboard(
           UpdateMissingOrLegacyAppState(storedState),
-          activeDashboardId
+          activeDashboardId,
         );
       const emptyDashboardState: DashboardState = {
         name: "Dashboard 1",
@@ -78,7 +84,7 @@ export function CardGrid(props: {
         emptyDashboardState
       );
     },
-    "dashboardState"
+    "dashboardState",
   );
 
   React.useEffect(() => {
@@ -89,7 +95,7 @@ export function CardGrid(props: {
       isPlayerView
     ) {
       const setLayoutsActions = Object.keys(
-        activeDashboardState.layoutsBySize
+        activeDashboardState.layoutsBySize,
       ).map((size) => {
         return DashboardActions.SetLayouts({
           dashboardId: activeDashboardId,
@@ -123,33 +129,40 @@ export function CardGrid(props: {
               y: 0,
               w: MIN_GRID_UNITS_CARD_WIDTH,
               h: MIN_GRID_UNITS_CARD_HEIGHT,
+              minW: MIN_GRID_UNITS_CARD_WIDTH,
+              minH: MIN_GRID_UNITS_CARD_HEIGHT,
             }}
             key={card.cardId}
             card={card}
           />
         );
       }),
-    [cards]
+    [cards],
   );
 
   if (!dashboard) {
     return null;
   }
 
-  const dedupedLayouts = _.mapValues(dashboard.layoutsBySize, (layout) => {
-    return _.uniqBy(layout, (l) => l.i)
-      .filter((l) => activeDashboardState?.openCardIds?.includes(l.i))
-      .map<Layout>((l) => {
-        const layout: Layout = {
-          ...l,
-          w: _.max([l.w, MIN_GRID_UNITS_CARD_WIDTH])!,
-          h: _.max([l.h, MIN_GRID_UNITS_CARD_HEIGHT])!,
-        };
-        return layout;
-      });
-  });
+  const dedupedLayouts: ResponsiveLayouts = _.mapValues(
+    dashboard.layoutsBySize,
+    (layout) => {
+      return _.uniqBy(layout, (l) => l.i)
+        .filter((l) => activeDashboardState?.openCardIds?.includes(l.i))
+        .map<LayoutItem>((l) => {
+          const layout: LayoutItem = {
+            ...l,
+            w: _.max([l.w, MIN_GRID_UNITS_CARD_WIDTH])!,
+            h: _.max([l.h, MIN_GRID_UNITS_CARD_HEIGHT])!,
+            minW: MIN_GRID_UNITS_CARD_WIDTH,
+            minH: MIN_GRID_UNITS_CARD_HEIGHT,
+          };
+          return layout;
+        });
+    },
+  );
 
-  const updateLayout = (newLayout: Layout[]) => {
+  const updateLayout = (newLayout: Layout) => {
     if (
       activeDashboardId &&
       !_.isEqual(dashboard.layoutsBySize[currentBreakpoint], newLayout)
@@ -202,6 +215,9 @@ export function CardGrid(props: {
           }
         }}
         onResize={(_, __, layoutItem, placeholder) => {
+          if (!(layoutItem && placeholder)) {
+            return;
+          }
           if (layoutItem.h < MIN_GRID_UNITS_CARD_HEIGHT) {
             layoutItem.h = MIN_GRID_UNITS_CARD_HEIGHT;
             placeholder.h = MIN_GRID_UNITS_CARD_HEIGHT;
@@ -211,6 +227,8 @@ export function CardGrid(props: {
             placeholder.w = MIN_GRID_UNITS_CARD_WIDTH;
           }
         }}
+        resizeHandles={["se"]}
+        isResizable={true}
         compactType={
           dashboard.layoutCompaction === "compact" ? "vertical" : null
         }
@@ -231,7 +249,7 @@ const GridItem = React.forwardRef(
       style?: CSSProperties;
       children?: React.ReactChild[];
     },
-    ref: React.Ref<HTMLDivElement>
+    ref: React.Ref<HTMLDivElement>,
   ) => {
     const outerSize: Size = {
       height: CSSToNumber(props.style?.height),
@@ -265,7 +283,7 @@ const GridItem = React.forwardRef(
         </Suspense>
       </div>
     );
-  }
+  },
 );
 
 const ErrorText = styled.pre`

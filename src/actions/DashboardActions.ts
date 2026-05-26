@@ -1,4 +1,4 @@
-import GridLayout from "react-grid-layout";
+import type { Layout } from "react-grid-layout/legacy";
 import { createAction, ActionType } from "typesafe-actions";
 import { DashboardState } from "../state/DashboardState";
 import { CardType } from "../state/CardTypes";
@@ -30,7 +30,7 @@ export const DashboardActions = {
   }>(),
   SetLayouts: createDashboardAction("SetLayouts")<{
     gridSize: string;
-    layouts: GridLayout.Layout[];
+    layouts: Layout;
   }>(),
   SetLayoutCompaction: createDashboardAction("SetLayoutCompaction")<{
     layoutCompaction: "free" | "compact";

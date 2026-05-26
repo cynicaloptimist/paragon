@@ -1,5 +1,5 @@
 import _ from "lodash";
-import GridLayout from "react-grid-layout";
+import type { Layout, ResponsiveLayouts } from "react-grid-layout/legacy";
 import { randomString } from "../randomString";
 import { AppSettings, AppState, EmptyState, UserState } from "./AppState";
 import { GetInfoCards, GetInitialState } from "./GetInitialState";
@@ -23,14 +23,14 @@ export type LegacyAppState = {
   cardLibraryVisibility?: boolean;
   playerViewId?: string;
   openCardIds?: string[];
-  layouts?: GridLayout.Layout[];
+  layouts?: Layout;
   layoutCompaction?: "free" | "compact";
 };
 
 export type LegacyDashboardState = {
   //new
   layoutPushCards?: "none" | "preventcollision";
-  layoutsBySize?: GridLayout.Layouts;
+  layoutsBySize?: ResponsiveLayouts;
 
   //current
   name: string;
@@ -38,7 +38,7 @@ export type LegacyDashboardState = {
   layoutCompaction: "free" | "compact";
 
   //legacy
-  layouts?: GridLayout.Layout[];
+  layouts?: Layout;
 };
 
 type LegacyCardsState = Record<string, LegacyCardState>;

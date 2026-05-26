@@ -48,7 +48,9 @@ export default function DrawingCard(props: {
   useCardDrawingFiles(excalidrawRef.current, props.card.cardId);
 
   const dashboard = GetDashboard(state, dashboardId);
-  const allLayouts = Object.values(dashboard?.layoutsBySize || {}).flat();
+  const allLayouts = Object.values(dashboard?.layoutsBySize || {}).flatMap(
+    (layout) => layout ?? []
+  );
   const layoutsForThisCard = allLayouts.filter(
     (l) => l.i === props.card.cardId
   );
