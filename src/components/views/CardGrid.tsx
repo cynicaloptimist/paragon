@@ -49,6 +49,10 @@ function breakpointForSize(size: number) {
   return "xxs";
 }
 
+function layoutBottom(layout: Layout) {
+  return layout.reduce((bottom, item) => Math.max(bottom, item.y + item.h), 0);
+}
+
 export function CardGrid(props: {
   matchGMLayout?: boolean;
   setMatchGMLayout?: (matchGMLayout: boolean) => void;
@@ -151,7 +155,7 @@ export function CardGrid(props: {
   const visibleCardIds = cards.map((card) => card.cardId);
   const dedupedLayouts: ResponsiveLayouts = _.mapValues(
     dashboard.layoutsBySize,
-    (layout, breakpoint) => {
+    (layout) => {
       const existingLayouts = _.uniqBy(layout ?? [], (l) => l.i)
         .filter((l) => visibleCardIds.includes(l.i))
         .map<LayoutItem>((l) => {
@@ -168,15 +172,18 @@ export function CardGrid(props: {
       const existingLayoutIds = existingLayouts.map((layout) => layout.i);
       const missingLayouts = visibleCardIds
         .filter((cardId) => !existingLayoutIds.includes(cardId))
-        .map<LayoutItem>((cardId) => ({
-          i: cardId,
-          x: 0,
-          y: 0,
-          w: MIN_GRID_UNITS_CARD_WIDTH,
-          h: MIN_GRID_UNITS_CARD_HEIGHT,
-          minW: MIN_GRID_UNITS_CARD_WIDTH,
-          minH: MIN_GRID_UNITS_CARD_HEIGHT,
-        }));
+        .reduce<LayoutItem[]>((layouts, cardId) => {
+          layouts.push({
+            i: cardId,
+            x: 0,
+            y: layoutBottom([...existingLayouts, ...layouts]),
+            w: MIN_GRID_UNITS_CARD_WIDTH,
+            h: MIN_GRID_UNITS_CARD_HEIGHT,
+            minW: MIN_GRID_UNITS_CARD_WIDTH,
+            minH: MIN_GRID_UNITS_CARD_HEIGHT,
+          });
+          return layouts;
+        }, []);
 
       return [...existingLayouts, ...missingLayouts];
     },
