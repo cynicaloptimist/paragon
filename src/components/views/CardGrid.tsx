@@ -59,9 +59,8 @@ export function CardGrid(props: {
   });
   const setContainerRef = React.useCallback(
     (element: HTMLDivElement | null) => {
-      (
-        containerRef as React.MutableRefObject<HTMLDivElement | null>
-      ).current = element;
+      (containerRef as React.MutableRefObject<HTMLDivElement | null>).current =
+        element;
     },
     [containerRef],
   );
@@ -139,15 +138,15 @@ export function CardGrid(props: {
     [cards],
   );
 
-  if (!dashboard) {
-    return null;
-  }
-
   React.useEffect(() => {
-    if (mounted) {
+    if (dashboard && mounted) {
       setCurrentBreakpoint(breakpointForSize(width));
     }
   }, [mounted, width]);
+
+  if (!dashboard) {
+    return null;
+  }
 
   const visibleCardIds = cards.map((card) => card.cardId);
   const dedupedLayouts: ResponsiveLayouts = _.mapValues(
