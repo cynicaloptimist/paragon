@@ -1,4 +1,4 @@
-import type { LayoutItem } from "react-grid-layout/legacy";
+import type { LayoutItem } from "react-grid-layout";
 
 export function InitialLayout(
   cardId: string,

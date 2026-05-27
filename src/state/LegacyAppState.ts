@@ -1,5 +1,5 @@
 import _ from "lodash";
-import type { Layout, ResponsiveLayouts } from "react-grid-layout/legacy";
+import type { Layout, ResponsiveLayouts } from "react-grid-layout";
 import { randomString } from "../randomString";
 import { AppSettings, AppState, EmptyState, UserState } from "./AppState";
 import { GetInfoCards, GetInitialState } from "./GetInitialState";

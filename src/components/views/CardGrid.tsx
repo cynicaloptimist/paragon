@@ -3,12 +3,13 @@ import { Box, Text } from "grommet";
 import React, { CSSProperties, Suspense, useContext } from "react";
 
 import {
+  getCompactor,
   Responsive,
-  WidthProvider,
+  useContainerWidth,
   type Layout,
   type LayoutItem,
   type ResponsiveLayouts,
-} from "react-grid-layout/legacy";
+} from "react-grid-layout";
 import { ReducerContext } from "../../reducers/ReducerContext";
 import { DashboardReducer } from "../../reducers/DashboardReducer";
 import { CardState } from "../../state/CardState";
@@ -24,9 +25,9 @@ import { ErrorBoundary } from "react-error-boundary";
 import styled from "styled-components";
 import { getComponentForCard, Size } from "./getComponentForCard";
 
-const ResponsiveGridLayout = WidthProvider(Responsive);
 const MIN_GRID_UNITS_CARD_HEIGHT = 3;
 const MIN_GRID_UNITS_CARD_WIDTH = 4;
+const gridCols = { xxl: 48, xl: 36, lg: 24, md: 20, sm: 12, xs: 8, xxs: 4 };
 
 const breakpoints: { [breakpoint: string]: number } = {
   xxl: 2400,
@@ -53,6 +54,17 @@ export function CardGrid(props: {
   setMatchGMLayout?: (matchGMLayout: boolean) => void;
 }) {
   const { state, dispatch } = useContext(ReducerContext);
+  const { width, containerRef, mounted } = useContainerWidth({
+    measureBeforeMount: true,
+  });
+  const setContainerRef = React.useCallback(
+    (element: HTMLDivElement | null) => {
+      (
+        containerRef as React.MutableRefObject<HTMLDivElement | null>
+      ).current = element;
+    },
+    [containerRef],
+  );
   const matchGMLayout = props.matchGMLayout ?? true;
   const [currentBreakpoint, setCurrentBreakpoint] =
     React.useState<string>("xxl");
@@ -122,20 +134,7 @@ export function CardGrid(props: {
   const gridItems = React.useMemo(
     () =>
       cards.map((card) => {
-        return (
-          <GridItem
-            data-grid={{
-              x: 0,
-              y: 0,
-              w: MIN_GRID_UNITS_CARD_WIDTH,
-              h: MIN_GRID_UNITS_CARD_HEIGHT,
-              minW: MIN_GRID_UNITS_CARD_WIDTH,
-              minH: MIN_GRID_UNITS_CARD_HEIGHT,
-            }}
-            key={card.cardId}
-            card={card}
-          />
-        );
+        return <GridItem key={card.cardId} card={card} />;
       }),
     [cards],
   );
@@ -144,21 +143,43 @@ export function CardGrid(props: {
     return null;
   }
 
+  React.useEffect(() => {
+    if (mounted) {
+      setCurrentBreakpoint(breakpointForSize(width));
+    }
+  }, [mounted, width]);
+
+  const visibleCardIds = cards.map((card) => card.cardId);
   const dedupedLayouts: ResponsiveLayouts = _.mapValues(
     dashboard.layoutsBySize,
-    (layout) => {
-      return _.uniqBy(layout, (l) => l.i)
-        .filter((l) => activeDashboardState?.openCardIds?.includes(l.i))
+    (layout, breakpoint) => {
+      const existingLayouts = _.uniqBy(layout ?? [], (l) => l.i)
+        .filter((l) => visibleCardIds.includes(l.i))
         .map<LayoutItem>((l) => {
-          const layout: LayoutItem = {
+          const sanitizedLayout: LayoutItem = {
             ...l,
             w: _.max([l.w, MIN_GRID_UNITS_CARD_WIDTH])!,
             h: _.max([l.h, MIN_GRID_UNITS_CARD_HEIGHT])!,
             minW: MIN_GRID_UNITS_CARD_WIDTH,
             minH: MIN_GRID_UNITS_CARD_HEIGHT,
           };
-          return layout;
+          return sanitizedLayout;
         });
+
+      const existingLayoutIds = existingLayouts.map((layout) => layout.i);
+      const missingLayouts = visibleCardIds
+        .filter((cardId) => !existingLayoutIds.includes(cardId))
+        .map<LayoutItem>((cardId) => ({
+          i: cardId,
+          x: 0,
+          y: 0,
+          w: MIN_GRID_UNITS_CARD_WIDTH,
+          h: MIN_GRID_UNITS_CARD_HEIGHT,
+          minW: MIN_GRID_UNITS_CARD_WIDTH,
+          minH: MIN_GRID_UNITS_CARD_HEIGHT,
+        }));
+
+      return [...existingLayouts, ...missingLayouts];
     },
   );
 
@@ -182,61 +203,43 @@ export function CardGrid(props: {
     }
   };
 
+  const compactor = getCompactor(
+    dashboard.layoutCompaction === "compact" ? "vertical" : null,
+    false,
+    dashboard.layoutPushCards === "preventcollision",
+  );
+
   return (
-    <Box
-      fill
-      ref={(boxRef) => {
-        if (boxRef) {
-          const box = boxRef.getBoundingClientRect();
-          const breakpoint = breakpointForSize(box.width);
-          setCurrentBreakpoint(breakpoint);
-        }
-      }}
-    >
-      <ResponsiveGridLayout
-        measureBeforeMount
-        breakpoints={breakpoints}
-        cols={{ xxl: 48, xl: 36, lg: 24, md: 20, sm: 12, xs: 8, xxs: 4 }}
-        rowHeight={30}
-        draggableHandle=".drag-handle"
-        style={{ flexGrow: 1 }}
-        layouts={dedupedLayouts}
-        onDragStop={updateLayout}
-        onResizeStop={updateLayout}
-        onBreakpointChange={(newBreakpoint) => {
-          const currentLayouts = dedupedLayouts[currentBreakpoint] ?? [];
-          setCurrentBreakpoint(newBreakpoint);
-          if (activeDashboardId && !dedupedLayouts[newBreakpoint]) {
-            DashboardActions.SetLayouts({
-              dashboardId: activeDashboardId,
-              gridSize: newBreakpoint,
-              layouts: currentLayouts,
-            });
-          }
-        }}
-        onResize={(_, __, layoutItem, placeholder) => {
-          if (!(layoutItem && placeholder)) {
-            return;
-          }
-          if (layoutItem.h < MIN_GRID_UNITS_CARD_HEIGHT) {
-            layoutItem.h = MIN_GRID_UNITS_CARD_HEIGHT;
-            placeholder.h = MIN_GRID_UNITS_CARD_HEIGHT;
-          }
-          if (layoutItem.w < MIN_GRID_UNITS_CARD_WIDTH) {
-            layoutItem.w = MIN_GRID_UNITS_CARD_WIDTH;
-            placeholder.w = MIN_GRID_UNITS_CARD_WIDTH;
-          }
-        }}
-        resizeHandles={["se"]}
-        isResizable={true}
-        compactType={
-          dashboard.layoutCompaction === "compact" ? "vertical" : null
-        }
-        preventCollision={dashboard.layoutPushCards === "preventcollision"}
-        margin={state.appSettings.collapseMargins ? [0, 0] : undefined}
-      >
-        {gridItems}
-      </ResponsiveGridLayout>
+    <Box fill ref={setContainerRef}>
+      {mounted && (
+        <Responsive
+          width={width}
+          breakpoints={breakpoints}
+          cols={gridCols}
+          rowHeight={30}
+          dragConfig={{ enabled: true, handle: ".drag-handle" }}
+          resizeConfig={{ enabled: true, handles: ["se"] }}
+          compactor={compactor}
+          style={{ flexGrow: 1 }}
+          layouts={dedupedLayouts}
+          onDragStop={updateLayout}
+          onResizeStop={updateLayout}
+          onBreakpointChange={(newBreakpoint) => {
+            const currentLayouts = dedupedLayouts[currentBreakpoint] ?? [];
+            setCurrentBreakpoint(newBreakpoint);
+            if (activeDashboardId && !dedupedLayouts[newBreakpoint]) {
+              DashboardActions.SetLayouts({
+                dashboardId: activeDashboardId,
+                gridSize: newBreakpoint,
+                layouts: currentLayouts,
+              });
+            }
+          }}
+          margin={state.appSettings.collapseMargins ? [0, 0] : undefined}
+        >
+          {gridItems}
+        </Responsive>
+      )}
     </Box>
   );
 }
@@ -247,7 +250,7 @@ const GridItem = React.forwardRef(
     props: {
       card: CardState;
       style?: CSSProperties;
-      children?: React.ReactChild[];
+      children?: React.ReactNode;
     },
     ref: React.Ref<HTMLDivElement>,
   ) => {
@@ -278,7 +281,7 @@ const GridItem = React.forwardRef(
             }}
           >
             {getComponentForCard(props.card, outerSize) || null}
-            {props.children?.slice(1)}
+            {props.children}
           </ErrorBoundary>
         </Suspense>
       </div>

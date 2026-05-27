@@ -1,4 +1,4 @@
-import type { ResponsiveLayouts } from "react-grid-layout/legacy";
+import type { ResponsiveLayouts } from "react-grid-layout";
 
 export type DashboardState = {
   name: string;
