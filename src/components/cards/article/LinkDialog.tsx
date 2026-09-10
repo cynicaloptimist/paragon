@@ -47,8 +47,12 @@ export const LinkDialog = ({
   const [search, setSearch] = useState<string>("");
 
   const linkableCards = Object.values(state.cardsById).filter(
-    (card) =>
-      state.activeCampaignId && card.campaignId === state.activeCampaignId
+    (card) => {
+      if (!state.activeCampaignId) {
+        return true;
+      }
+      return card.campaignId === state.activeCampaignId;
+    }
   );
 
   const filteredCards = linkableCards.filter((card) => {
