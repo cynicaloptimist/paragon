@@ -146,10 +146,10 @@ export function CardGrid(props: {
     if (dashboard && mounted) {
       setCurrentBreakpoint(breakpointForSize(width));
     }
-  }, [mounted, width]);
+  }, [dashboard, mounted, width]);
 
   if (!dashboard) {
-    return null;
+    return <Box fill ref={setContainerRef} />;
   }
 
   const visibleCardIds = cards.map((card) => card.cardId);
