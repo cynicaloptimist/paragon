@@ -234,7 +234,7 @@ Work in this order, using separate pull requests where practical.
 #### 2B. Replace the unmaintained Patreon client
 
 - [ ] Extract shared Patreon callback logic so the v1 and v2 handlers do not duplicate it.
-- [ ] Replace `@nathanhigh/patreon` with a small typed client using Node 22's built-in `fetch`, or an actively maintained official client if one is available at implementation time.
+- [ ] Replace `@nathanhigh/patreon` with a small typed client using Node 22's built-in `fetch`, or an actively maintained official client if one is available at implementation time. Consider using a similar approach to what is done in https://github.com/cynicaloptimist/improved-initiative/
 - [ ] Add tests for token exchange, identity/tier parsing, missing or malformed state, Patreon error responses, and redirect allow-listing.
 - [ ] Remove `@nathanhigh/patreon`, `isomorphic-fetch`, and `node-fetch` from the resolved production tree.
 - [ ] Treat redirect validation as part of this change: `state.finalRedirect` is currently accepted as an arbitrary URL.
