@@ -36,6 +36,34 @@ test("updates legacy empty state", () => {
   expect(updatedState).toMatchObject(expectedState);
 });
 
+test("migrates root-level layouts into the responsive xxl layout", () => {
+  const legacyLayout = {
+    i: "cardId",
+    x: 4,
+    y: 3,
+    w: 8,
+    h: 6,
+    minW: 4,
+    minH: 3,
+  };
+  const storedState: LegacyAppState = {
+    cardsById: {},
+    playerViewId: "playerViewId",
+    openCardIds: [legacyLayout.i],
+    layouts: [legacyLayout],
+    layoutCompaction: "compact",
+  };
+
+  const updatedState = UpdateMissingOrLegacyAppState(storedState);
+
+  expect(updatedState.dashboardsById.playerViewId).toMatchObject({
+    openCardIds: [legacyLayout.i],
+    layoutsBySize: { xxl: [legacyLayout] },
+    layoutCompaction: "compact",
+    layoutPushCards: "none",
+  });
+});
+
 test("updates legacy dashboard state", () => {
   const storedState: LegacyAppState = {
     ...EmptyState(),

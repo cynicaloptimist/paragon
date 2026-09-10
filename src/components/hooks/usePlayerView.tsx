@@ -60,7 +60,9 @@ function omitClosedCardsFromState(
         ...dashboard,
         openCardIds: visibleCardIds,
         layoutsBySize: _.mapValues(dashboard.layoutsBySize, (layout) => {
-          return layout.filter((layout) => visibleCardIds.includes(layout.i));
+          return (layout ?? []).filter((layout) =>
+            visibleCardIds.includes(layout.i)
+          );
         }),
       },
     },

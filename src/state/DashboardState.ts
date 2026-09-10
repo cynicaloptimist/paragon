@@ -1,4 +1,4 @@
-import GridLayout from "react-grid-layout";
+import type { ResponsiveLayouts } from "react-grid-layout";
 
 export type DashboardState = {
   name: string;
@@ -6,7 +6,7 @@ export type DashboardState = {
   pinnedCardIds?: string[];
   lastOpenedTimeMs?: number;
   campaignId?: string;
-  layoutsBySize: GridLayout.Layouts;
+  layoutsBySize: ResponsiveLayouts;
   layoutCompaction: "free" | "compact";
   layoutPushCards: "none" | "preventcollision";
 };
