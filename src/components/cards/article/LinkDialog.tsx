@@ -130,6 +130,7 @@ export const LinkDialog = ({
               disabled={!linkUrlOrCardId}
               onClick={() => {
                 updateLink({
+                  text: linkDialogState.text,
                   title:
                     linkTitle || linkedCard?.title || linkDialogState.title,
                   url: linkUrlOrCardId ?? linkDialogState.url,

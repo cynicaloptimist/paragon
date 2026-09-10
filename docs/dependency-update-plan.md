@@ -24,7 +24,7 @@ This file is the source of truth for sequencing and progress. Update the audit s
 
 | Surface | Direct dependencies | Lockfile | Runtime declaration | Outdated snapshot | Audit snapshot |
 | --- | ---: | --- | --- | --- | --- |
-| Web app and root tooling | 90 production, 1 development | `package-lock.json`, lockfile v3 | `.nvmrc`: Node 20; `engines`: Node >=20 | 74 direct packages reported; 38 can move within the current declared range and 36 require a range change | 68 vulnerable package nodes: 4 critical, 31 high, 18 moderate, 15 low |
+| Web app and root tooling | 90 production, 1 development | `package-lock.json`, lockfile v3 | `.nvmrc`: Node 20; `engines`: Node >=20 | 74 direct packages reported; 38 can move within the current declared range and 36 require a range change | Initial: 68 vulnerable package nodes (4 critical, 31 high, 18 moderate, 15 low); reconciled Phase 1A/1B: 59 (3 critical, 25 high, 17 moderate, 14 low) |
 | Firebase Functions | 3 production, 5 development | `functions/package-lock.json`, lockfile v3, plus a redundant `functions/yarn.lock` | Node 18 | `firebase-functions` can move 6.3.2 -> 6.6.0 in-range; major updates are available for the Firebase SDKs | 39 vulnerable package nodes: 3 critical, 22 high, 11 moderate, 3 low; production-only audit: 29 total, including 3 critical and 18 high |
 
 Audit counts are vulnerable package nodes reported by npm, not unique advisories. The root production-only audit is currently identical to the full audit because nearly all build and test tooling is incorrectly listed under `dependencies`.
@@ -59,7 +59,7 @@ There is no committed CI workflow, so these checks currently depend on a develop
 
 | Surface | Vulnerable package | Current path | Intended resolution |
 | --- | --- | --- | --- |
-| Web | `protobufjs` | `firebase` -> `@firebase/firestore` -> `@grpc/proto-loader` | First refresh Firebase and transitives within v11; if still present, upgrade the Firebase web SDK to v12 |
+| Web | `protobufjs` | `firebase` -> `@firebase/firestore` -> `@grpc/proto-loader` | Resolved in Phase 1 by the Firebase v11 refresh, which now selects `protobufjs` 7.6.6 |
 | Web | `websocket-driver` | `firebase` -> `@firebase/database` -> `faye-websocket` | Same Firebase refresh/upgrade; a second copy comes from the obsolete Webpack dev server |
 | Root test tooling | `form-data` | Jest 27 -> jsdom 16 | Replace the CRA/Jest harness with a current test stack, or upgrade Jest as an interim step |
 | Root legacy tooling | `shell-quote` | `react-dev-utils`; another copy via `webpack-dev-server` -> `launch-editor` | Remove the unused CRA/Webpack development stack |
@@ -77,18 +77,18 @@ Representative advisories:
 
 ### Direct high and moderate findings
 
-| Severity | Direct package | Current | Safe/latest target observed | Action |
+| Severity | Direct package | Current | Compatible/latest target observed | Action |
 | --- | --- | ---: | ---: | --- |
-| High | `lodash` | 4.17.21 | 4.18.1 | Compatible-range update in Phase 1 |
-| High | `browserslist` | 4.24.4 | 4.28.9 | Compatible-range update in Phase 1 |
-| High | `postcss` | 8.5.3 | 8.5.28 | Compatible-range update in Phase 1; remove legacy copies later |
-| High | `vite` | 6.2.3 | 6.4.3 in-range; 8.3.0 latest | Apply the in-range fix first, then do the major toolchain upgrade separately |
+| High | `lodash` | 4.18.1 | 4.18.1 | Updated in Phase 1 |
+| High | `browserslist` | 4.28.9 | 4.28.9 | Updated in Phase 1 |
+| High | `postcss` | 8.5.28 | 8.5.28 | Top-level package updated in Phase 1; remove vulnerable legacy copies later |
+| High | `vite` | 6.4.3 | 6.4.3 in-range; 8.3.0 latest | In-range fix applied; do the major toolchain upgrade separately |
 | High | `react-pdf` | 6.2.2 | 11.0.0 | Major security migration; malicious PDFs can execute JavaScript in affected versions ([advisory](https://github.com/advisories/GHSA-87hq-q4gp-9wr4)) |
 | High | `@types/react-pdf` | 5.7.4 | Remove | It pulls an old `pdfjs-dist` at runtime; current `react-pdf` ships types and the project also has a local declaration shim |
 | High | `workbox-webpack-plugin` | 6.6.1 | Remove if unused; otherwise 7.4.1 | It belongs to the legacy Webpack configuration, not the active Vite build |
 | High | `firebase-admin` | 11.11.1 | 13.10.0 | Major migration in the Functions security PR |
 | High, no npm fix | `@nathanhigh/patreon` | 0.5.2 | Replace | Last published metadata is from 2022; it retains `isomorphic-fetch` -> `node-fetch` 1.7.3 with a secure-header forwarding advisory |
-| Moderate | `@mdxeditor/editor` | 3.29.1 | 3.55.0 in-range; 4.2.4 latest | Apply 3.55.0 in Phase 1 and defer v4 migration |
+| Moderate | `@mdxeditor/editor` | 3.55.0 | 3.55.0 in-range; 4.2.4 latest | Phase 1 applied 3.55.0, but the audit still reports its vulnerable `js-yaml` path; retain the v4 migration |
 | Moderate | `@excalidraw/excalidraw` | 0.14.2 | 0.18.1 | Major security migration for the XSS advisory ([advisory](https://github.com/advisories/GHSA-v7v8-gjv7-ffmr)) |
 | Moderate | `webpack-dev-server` | 4.15.2 | Remove if unused | The active development server is Vite |
 | Moderate | `css-minimizer-webpack-plugin`, `resolve-url-loader` | 3.4.1, 4.0.0 | Remove if unused | Legacy Webpack-only chain |
@@ -111,29 +111,28 @@ Phase 0 may land with Phase 1 if that keeps the first pull request small. It mus
 
 Goal: take the fixes already allowed by current manifests, without crossing a semver-major boundary.
 
-#### 1A. Security-bearing root updates
+#### 1A/1B. Combined compatible web batch — awaiting manual smoke test
 
-- [ ] Update `@babel/core` 7.26.10 -> 7.29.7.
-- [ ] Update `@mdxeditor/editor` 3.29.1 -> 3.55.0.
-- [ ] Update `browserslist` 4.24.4 -> 4.28.9 and refresh `caniuse-lite`.
-- [ ] Update `lodash` 4.17.21 -> 4.18.1.
-- [ ] Update `postcss` 8.5.3 -> 8.5.28.
-- [ ] Update `vite` 6.2.3 -> 6.4.3.
-- [ ] Update `webpack` 5.94.0 -> 5.110.3 only if it is still needed before legacy cleanup.
-- [ ] Update `terser-webpack-plugin` 5.3.10 -> 5.6.1 only if it is still needed before legacy cleanup.
-- [ ] Update `firebase` 11.9.0 -> 11.10.0 and allow compatible transitive refreshes.
-- [ ] Re-run both full and production-only audits. Record which critical paths disappear before planning overrides or majors.
+Decision: combine active security-bearing, UI, Vite, and type updates into one validation and commit pass. Do not update legacy packages merely to make `npm outdated` quieter; remove them in Phase 2D instead.
 
-#### 1B. Remaining compatible root updates
+- [x] Update `@babel/core` 7.26.10 -> 7.29.7 and `babel-preset-react-app` 10.0.1 -> 10.1.0.
+- [x] Update `@mdxeditor/editor` 3.29.1 -> 3.55.0 and preserve the existing link text when publishing its now-required update payload.
+- [x] Update `browserslist` 4.24.4 -> 4.28.9, `lodash` 4.17.21 -> 4.18.1, and `postcss` 8.5.3 -> 8.5.28.
+- [x] Update `firebase` 11.9.0 -> 11.10.0 and refresh its compatible transitives.
+- [x] Update `vite` 6.2.3 -> 6.4.3, `@vitejs/plugin-react` 4.3.4 -> 4.7.0, and `vite-plugin-svgr` 4.3.0 -> 4.5.0.
+- [x] Update the active Font Awesome 6 packages to 6.7.2 and the React adapter to 0.2.6. Leave the unused regular icon pack unchanged for removal later.
+- [x] Update `@react-spring/web` to 9.7.5, `grommet` to 2.56.1, `posthog-js` to the latest compatible 1.429.x release, and `react-minimal-pie-chart` to 8.4.1.
+- [x] Retain the merged React Grid Layout v2 migration at 2.2.3, use its shipped types, and exclude the saved batch's obsolete RGL v1 source, dependency, and `@types/react-grid-layout` changes.
+- [x] Update `@types/jest`, `@types/lodash`, `@types/node` 20.x, `@types/react-color`, `@types/react-dom` 18.x, and `@types/styled-components` within their current majors.
+- [x] Update root TypeScript 5.8.3 -> 5.9.3.
+- [x] Perform a clean `npm ci --ignore-scripts`; run all 10 tests across 4 suites, the TypeScript/Vite production build, and `npm ls --depth=0` successfully.
+- [x] Re-run the full and production audits: 59 vulnerable nodes (3 critical, 25 high, 17 moderate, 14 low), down from 68 (4 critical, 31 high, 18 moderate, 15 low).
+- [x] Confirm the Firebase refresh removed the critical `protobufjs` finding by resolving 7.6.6. The remaining critical paths are `form-data`, `shell-quote`, and `websocket-driver`.
+- [ ] Complete the manual browser smoke checklist, including RGL v2 resize/persistence behavior.
+- [ ] Review and accept or follow up on bundle growth. Compared with the original audit baseline (which predates the merged RGL v2 work), the largest raw/gzip changes are the main chunk 456.62/135.73 kB -> 577.54/177.34 kB, Markdown Editor 650.00/208.23 kB -> 705.36/227.03 kB, and Firebase 732.87/212.08 kB -> 763.39/220.97 kB. This comparison cannot attribute the main-chunk change solely to this dependency batch.
+- [ ] Commit the combined batch only after the manual smoke test and bundle review pass.
 
-Split these into small, coherent groups so visual regressions remain attributable:
-
-- [ ] Font Awesome 6 family: core and icon packs -> 6.7.2; React adapter -> 0.2.6.
-- [ ] UI/runtime: `@react-spring/web` -> 9.7.5, `grommet` -> 2.56.1, `posthog-js` -> 1.429.4, `react-grid-layout` -> 1.5.4, `react-minimal-pie-chart` -> 8.4.1.
-- [ ] Vite plugins: `@vitejs/plugin-react` -> 4.7.0 and `vite-plugin-svgr` -> 4.5.0.
-- [ ] Types: `@types/jest` -> 29.5.14, `@types/lodash` -> 4.17.25, `@types/node` -> 20.19.43 temporarily, `@types/react-color` -> 3.0.13, `@types/react-dom` -> 18.3.7, `@types/react-grid-layout` -> 1.3.6, `@types/styled-components` -> 5.1.36.
-- [ ] Build utilities still proven necessary: `babel-loader` -> 8.4.1, `babel-preset-react-app` -> 10.1.0, `html-webpack-plugin` -> 5.6.8, `mini-css-extract-plugin` -> 2.10.2, `resolve` -> 1.22.12, `semver` -> 7.8.5, and `tailwindcss` -> 3.4.19.
-- [ ] Do not update an unused legacy package merely to make `npm outdated` quieter; remove it in Phase 2 instead.
+Intentionally skipped: Webpack/CRA loaders and plugins, Workbox, Tailwind, root ESLint 8, `resolve`, `semver`, and the unused regular Font Awesome icon pack. These remain candidates for removal during the legacy-toolchain cleanup rather than update targets.
 
 #### 1C. Compatible Functions updates
 
@@ -241,7 +240,7 @@ Work in this order, using separate pull requests where practical.
 
 #### 2C. Web Firebase critical paths
 
-- [ ] If the Phase 1 refresh does not clear `protobufjs` and `websocket-driver`, upgrade `firebase` 11 -> 12.19.0 in its own pull request.
+- [ ] Upgrade `firebase` 11 -> 12.19.0 in its own pull request if needed to clear the remaining `websocket-driver` path; Phase 1 already cleared `protobufjs`.
 - [ ] Replace undeclared `@firebase/analytics` and `@firebase/storage` imports with supported `firebase/analytics` and `firebase/storage` entry points, or declare those packages explicitly if there is a documented reason.
 - [ ] Exercise authentication, Realtime Database sync, Storage upload/delete, analytics initialization, and shared dashboard flows.
 
@@ -281,7 +280,7 @@ Phase 2 exit criteria:
 ### Phase 4 — Moderate findings and major UI migrations
 
 - [ ] Upgrade Excalidraw 0.14 -> 0.18.1; test load/restore, editing, persistence, collaboration-related data, and exported drawings.
-- [ ] Upgrade MDX Editor 3 -> 4.2.4 after the patched 3.55 release has stabilized; test links, card links, markdown round-tripping, and toolbar behavior.
+- [ ] Upgrade MDX Editor 3 -> 4.2.4 to clear the remaining vulnerable `js-yaml` path; test links, card links, markdown round-tripping, and toolbar behavior.
 - [ ] Resolve remaining moderate findings, prioritizing browser code that processes user-controlled content.
 
 ### Phase 5 — Remaining major-version modernization
@@ -293,7 +292,7 @@ Do these as separate dependency-family projects, not one bulk pull request:
 - [ ] Vite 6 -> 8 with `@vitejs/plugin-react` and SVG plugins.
 - [ ] Styled Components 5 -> 6 and compatible Grommet validation.
 - [ ] Font Awesome 6 -> 7 and React adapter 0.x -> 3.x.
-- [ ] React Grid Layout 1 -> 2.
+- [x] React Grid Layout 1 -> 2. Completed before the Phase 1A/1B reconciliation; retained at 2.2.3 with package-provided types and CardGrid regression tests.
 - [ ] Tailwind 3 -> 4 only if Tailwind is proven active; otherwise remove it.
 - [ ] Review the remaining major-only packages (`@react-spring/web`, Jest/Babel, loaders, PostCSS plugins, Workbox, and utility packages) and either upgrade or remove them.
 
@@ -345,6 +344,7 @@ For Firebase or authentication changes, also run the Local Emulator Suite and a 
 Manual browser smoke checklist:
 
 - [ ] Create, rename, switch, share, and delete a dashboard.
+- [ ] Resize cards from each handle, drag them, cross responsive breakpoints, reload, and confirm the RGL v2 layout persists.
 - [ ] Create/edit/save each card type.
 - [ ] Verify Markdown links and card links.
 - [ ] Draw, reload, and restore an Excalidraw card.
@@ -358,8 +358,8 @@ Manual browser smoke checklist:
 | Date | Change/PR | Status | Node | Web/root audit C/H/M/L | Functions production C/H/M/L | Notes |
 | --- | --- | --- | --- | --- | --- | --- |
 | 2026-09-10 | Initial audit | Complete | Root 20.20.2; Functions declares 18 | 4 / 31 / 18 / 15 | 3 / 18 / 7 / 1 | Root tests/build pass; Functions install/build/lint pass |
-| TBD | Phase 1A compatible security updates | Not started | 20 temporarily | TBD | n/a | Record remaining critical paths |
-| TBD | Phase 1B/1C compatible updates | Not started | 20 temporarily | TBD | TBD | Remove redundant Functions Yarn lock |
+| 2026-09-10 | Phase 1A/1B combined compatible web batch | Awaiting manual smoke | 20 temporarily | 3 / 25 / 17 / 14 | n/a | Clean install, dependency tree, 4 suites/10 tests, and build pass; bundle growth requires review |
+| TBD | Phase 1C compatible Functions updates | Not started | 20 temporarily | n/a | TBD | Remove redundant Functions Yarn lock |
 | TBD | Phase 1D sibling package layout | Not started | 20 temporarily | TBD | TBD | Structure-only move; Hosting preview and Functions emulator required |
 | TBD | Phase 2A Node/Firebase Functions | Not started | 22 | n/a | TBD | Emulator and staging deploy required |
 | TBD | Phase 2B Patreon replacement | Not started | 22 | n/a | TBD | No-fix dependency must be removed |
