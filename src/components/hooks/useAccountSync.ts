@@ -36,6 +36,7 @@ export function useAccountSync(
   onDashboardsLoaded: (dashboardIds: string[]) => void
 ) {
   if (!environment.VITE_ENABLE_ACCOUNT_SYNC) {
+    onDashboardsLoaded(Object.keys(state.dashboardsById));
     return;
   }
   /* eslint-disable react-hooks/rules-of-hooks */
