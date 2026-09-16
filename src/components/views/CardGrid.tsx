@@ -24,6 +24,7 @@ import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 import { ErrorBoundary } from "react-error-boundary";
 import styled from "styled-components";
 import { getComponentForCard, Size } from "./getComponentForCard";
+import { getFreeLayoutCompactor } from "./freeLayoutCompactor";
 
 const MIN_GRID_UNITS_CARD_HEIGHT = 3;
 const MIN_GRID_UNITS_CARD_WIDTH = 4;
@@ -209,11 +210,12 @@ export function CardGrid(props: {
     }
   };
 
-  const compactor = getCompactor(
-    dashboard.layoutCompaction === "compact" ? "vertical" : null,
-    false,
-    dashboard.layoutPushCards === "preventcollision",
-  );
+  const preventCollision =
+    dashboard.layoutPushCards === "preventcollision";
+  const compactor =
+    dashboard.layoutCompaction === "compact"
+      ? getCompactor("vertical", false, preventCollision)
+      : getFreeLayoutCompactor(preventCollision);
 
   return (
     <Box fill ref={setContainerRef}>
