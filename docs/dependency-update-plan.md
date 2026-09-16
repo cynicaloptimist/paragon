@@ -111,7 +111,7 @@ Phase 0 may land with Phase 1 if that keeps the first pull request small. It mus
 
 Goal: take the fixes already allowed by current manifests, without crossing a semver-major boundary.
 
-#### 1A/1B. Combined compatible web batch — awaiting manual smoke test
+#### 1A/1B. Combined compatible web batch — complete
 
 Decision: combine active security-bearing, UI, Vite, and type updates into one validation and commit pass. Do not update legacy packages merely to make `npm outdated` quieter; remove them in Phase 2D instead.
 
@@ -128,9 +128,9 @@ Decision: combine active security-bearing, UI, Vite, and type updates into one v
 - [x] Perform a clean `npm ci --ignore-scripts`; run all 10 tests across 4 suites, the TypeScript/Vite production build, and `npm ls --depth=0` successfully.
 - [x] Re-run the full and production audits: 59 vulnerable nodes (3 critical, 25 high, 17 moderate, 14 low), down from 68 (4 critical, 31 high, 18 moderate, 15 low).
 - [x] Confirm the Firebase refresh removed the critical `protobufjs` finding by resolving 7.6.6. The remaining critical paths are `form-data`, `shell-quote`, and `websocket-driver`.
-- [ ] Complete the manual browser smoke checklist, including RGL v2 resize/persistence behavior.
-- [ ] Review and accept or follow up on bundle growth. Compared with the original audit baseline (which predates the merged RGL v2 work), the largest raw/gzip changes are the main chunk 456.62/135.73 kB -> 577.54/177.34 kB, Markdown Editor 650.00/208.23 kB -> 705.36/227.03 kB, and Firebase 732.87/212.08 kB -> 763.39/220.97 kB. This comparison cannot attribute the main-chunk change solely to this dependency batch.
-- [ ] Commit the combined batch only after the manual smoke test and bundle review pass.
+- [x] Complete the manual browser smoke checklist, including RGL v2 resize/persistence behavior.
+- [x] Review and accept the bundle growth as non-blocking for this batch. Compared with the original audit baseline (which predates the merged RGL v2 work), the largest raw/gzip changes are the main chunk 456.62/135.73 kB -> 577.54/177.34 kB, Markdown Editor 650.00/208.23 kB -> 705.36/227.03 kB, and Firebase 732.87/212.08 kB -> 763.39/220.97 kB. This comparison cannot attribute the main-chunk change solely to this dependency batch; handle any follow-up bundle analysis as separate work.
+- [x] Commit the combined dependency batch as `f880914`; commit the no-active-campaign linking follow-up as `93a5437`.
 
 Intentionally skipped: Webpack/CRA loaders and plugins, Workbox, Tailwind, root ESLint 8, `resolve`, `semver`, and the unused regular Font Awesome icon pack. These remain candidates for removal during the legacy-toolchain cleanup rather than update targets.
 
@@ -343,22 +343,22 @@ For Firebase or authentication changes, also run the Local Emulator Suite and a 
 
 Manual browser smoke checklist:
 
-- [ ] Create, rename, switch, share, and delete a dashboard.
-- [ ] Resize cards from each handle, drag them, cross responsive breakpoints, reload, and confirm the RGL v2 layout persists.
-- [ ] Create/edit/save each card type.
-- [ ] Verify Markdown links and card links.
-- [ ] Draw, reload, and restore an Excalidraw card.
-- [ ] Upload and view a multipage PDF; confirm the worker is loaded from the intended origin.
-- [ ] Sign in/out, sync an account, and exercise Patreon login success and failure.
-- [ ] Open shared and player views.
-- [ ] Check the production bundle for unexpected size or chunk-count regressions.
+- [x] Create, rename, switch, share, and delete a dashboard.
+- [x] Resize cards from each handle, drag them, cross responsive breakpoints, reload, and confirm the RGL v2 layout persists.
+- [x] Create/edit/save each card type.
+- [x] Verify Markdown links and card links.
+- [x] Draw, reload, and restore an Excalidraw card.
+- [x] Upload and view a multipage PDF; confirm the worker is loaded from the intended origin.
+- [x] Sign in/out, sync an account, and exercise Patreon login success and failure.
+- [x] Open shared and player views.
+- [x] Check the production bundle for unexpected size or chunk-count regressions.
 
 ## Progress ledger
 
 | Date | Change/PR | Status | Node | Web/root audit C/H/M/L | Functions production C/H/M/L | Notes |
 | --- | --- | --- | --- | --- | --- | --- |
 | 2026-09-10 | Initial audit | Complete | Root 20.20.2; Functions declares 18 | 4 / 31 / 18 / 15 | 3 / 18 / 7 / 1 | Root tests/build pass; Functions install/build/lint pass |
-| 2026-09-10 | Phase 1A/1B combined compatible web batch | Awaiting manual smoke | 20 temporarily | 3 / 25 / 17 / 14 | n/a | Clean install, dependency tree, 4 suites/10 tests, and build pass; bundle growth requires review |
+| 2026-09-10/11 | Phase 1A/1B combined compatible web batch | Complete | 20 temporarily | 3 / 25 / 17 / 14 | n/a | Committed as `f880914`; clean install, dependency tree, 4 suites/10 tests, build, manual smoke, and bundle review pass; no-active-campaign linking follow-up is `93a5437` |
 | TBD | Phase 1C compatible Functions updates | Not started | 20 temporarily | n/a | TBD | Remove redundant Functions Yarn lock |
 | TBD | Phase 1D sibling package layout | Not started | 20 temporarily | TBD | TBD | Structure-only move; Hosting preview and Functions emulator required |
 | TBD | Phase 2A Node/Firebase Functions | Not started | 22 | n/a | TBD | Emulator and staging deploy required |
