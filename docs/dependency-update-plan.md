@@ -24,14 +24,14 @@ This file is the source of truth for sequencing and progress. Update the audit s
 
 | Surface | Direct dependencies | Lockfile | Runtime declaration | Outdated snapshot | Audit snapshot |
 | --- | ---: | --- | --- | --- | --- |
-| Web app and root tooling | 90 production, 1 development | `package-lock.json`, lockfile v3 | `.nvmrc`: Node 20; `engines`: Node >=20 | 74 direct packages reported; 38 can move within the current declared range and 36 require a range change | Initial: 68 vulnerable package nodes (4 critical, 31 high, 18 moderate, 15 low); reconciled Phase 1A/1B: 59 (3 critical, 25 high, 17 moderate, 14 low) |
-| Firebase Functions | 3 production, 5 development | `functions/package-lock.json`, lockfile v3, plus a redundant `functions/yarn.lock` | Node 18 | `firebase-functions` can move 6.3.2 -> 6.6.0 in-range; major updates are available for the Firebase SDKs | 39 vulnerable package nodes: 3 critical, 22 high, 11 moderate, 3 low; production-only audit: 29 total, including 3 critical and 18 high |
+| Web app and root tooling | 90 production, 1 development | `package-lock.json`, lockfile v3 | `.nvmrc`: Node 22; `engines`: Node >=22 | 74 direct packages reported; 38 can move within the current declared range and 36 require a range change | Initial: 68 vulnerable package nodes (4 critical, 31 high, 18 moderate, 15 low); reconciled Phase 1A/1B: 59 (3 critical, 25 high, 17 moderate, 14 low) |
+| Firebase Functions | 3 production, 5 development | `functions/package-lock.json`, lockfile v3, plus a redundant `functions/yarn.lock` | Node 22 declared; production deployment pending | `firebase-functions` can move 6.3.2 -> 6.6.0 in-range; major updates are available for the Firebase SDKs | 39 vulnerable package nodes: 3 critical, 22 high, 11 moderate, 3 low; production-only audit: 29 total, including 3 critical and 18 high |
 
 Audit counts are vulnerable package nodes reported by npm, not unique advisories. The root production-only audit is currently identical to the full audit because nearly all build and test tooling is incorrectly listed under `dependencies`.
 
 ### Runtime support finding
 
-Node 18 and Node 20 are both end-of-life upstream. Firebase currently supports Node 20 and Node 22 for Functions and marks Node 18 deprecated. Use Node 22 as the common target; moving Functions only to Node 20 would land on another unsupported upstream runtime.
+Node 18 and Node 20 are both end-of-life upstream. Firebase currently supports Node 20 and Node 22 for Functions and marks Node 18 deprecated. The repository now declares Node 22 as the common target; the production Functions runtime migration remains pending until the baseline deploy succeeds.
 
 References:
 
@@ -52,6 +52,20 @@ The baseline was run on Node 20.20.2 with npm 10.8.2.
 | `npm --prefix functions run lint` | Pass | ESLint succeeds after installing the Functions tree |
 
 There is no committed CI workflow, so these checks currently depend on a developer running them.
+
+### Node 22 deployment baseline validation
+
+The runtime-only migration was validated on 2026-09-16 with Node 22.23.2 and npm 10.9.8. No application or dependency versions changed in this migration.
+
+| Check | Result | Notes |
+| --- | --- | --- |
+| Root `npm ci --ignore-scripts` | Pass | Clean install using the root npm lockfile |
+| Root `npm test -- --watchAll=false --runInBand` | Pass | 5 suites, 20 tests |
+| Root `npm run build` | Pass | TypeScript and Vite production build complete; existing PDF.js and large-chunk warnings remain |
+| Functions `npm ci --ignore-scripts` | Pass | Clean install using `functions/package-lock.json` |
+| Functions `npm run lint` | Pass | ESLint 9.28.0 |
+| Functions `npm run build` | Pass | TypeScript 4.9.5 |
+| Firebase CLI | Ready | 15.30.1 installed for Node 22; direct production deploy intentionally left to the project owner |
 
 ## Key dependency paths
 
@@ -100,7 +114,8 @@ Representative advisories:
 
 - [ ] Add a CI workflow using Node 22 that installs and validates both lockfiles.
 - [ ] Add explicit package-local scripts for `lint` and non-watch `test:ci`; let CI provide the combined repository check instead of coupling the two packages through a web-app script.
-- [ ] Add pinned `packageManager` fields to both packages and tighten their Node engines once Node 22 is adopted.
+- [ ] Add pinned `packageManager` fields to both packages.
+- [x] Set `.nvmrc` and both package engine declarations to Node 22.
 - [ ] Confirm npm as canonical, then remove `functions/yarn.lock` in the first Functions change.
 - [ ] Pin the Firebase CLI version in CI/deployment tooling instead of relying on an unspecified global installation.
 - [ ] Add dependency update automation only after the first cleanup pass, with grouped updates and no automatic merge for majors.
@@ -139,7 +154,7 @@ Intentionally skipped: Webpack/CRA loaders and plugins, Workbox, Tailwind, root 
 - [ ] Update `firebase-functions` 6.3.2 -> 6.6.0.
 - [ ] Update the ESLint 9 family and `typescript-eslint` within their current majors.
 - [ ] Remove unused `firebase-functions-test`; if tests are added first, update it to 3.5.0 instead.
-- [ ] Keep TypeScript at 4.9.5 in this PR; move to 5.9.3 with the Node/Firebase migration so compiler changes are isolated.
+- [ ] Keep TypeScript at 4.9.5 in this PR; move to 5.9.3 with the Firebase SDK migration so compiler changes are isolated.
 - [ ] Regenerate only `functions/package-lock.json`; do not regenerate the Yarn lock.
 
 Phase 1 exit criteria:
@@ -220,9 +235,16 @@ Phase 1D exit criteria:
 
 Work in this order, using separate pull requests where practical.
 
-#### 2A. Node 22 and Firebase Functions SDK family
+#### 2A. Node 22 runtime deployment — code complete, production deploy pending
 
-- [ ] Change the repository `.nvmrc`, `web/package.json` engines, and `functions/package.json` engines to Node 22; use a sufficiently recent Node 22 patch for ESLint 10 compatibility.
+- [x] Change `.nvmrc`, the root package engines, and the Functions package engines to Node 22; regenerate both npm lockfiles without changing dependency versions.
+- [x] Validate clean installs, all 20 web tests, the web production build, and Functions lint/build on Node 22.23.2.
+- [x] Install Firebase CLI 15.30.1 for the Node 22 nvm environment.
+- [ ] From a clean tree on Node 22, run the direct production build and `firebase deploy`; note that the Hosting postdeploy hook runs `npm version patch`.
+- [ ] Confirm both `patreon_login` and `patreon_login_v2` run on Node 22, inspect deployment logs, and smoke Patreon authentication success and failure.
+
+##### 2A follow-up — Firebase Functions SDK family and security
+
 - [ ] Update `firebase-admin` 11.11.1 -> 13.10.0.
 - [ ] Update `firebase-functions` 6.6.x -> 7.3.2 after reviewing the v7 migration notes.
 - [ ] Update Functions TypeScript 4.9.5 -> 5.9.3. Do not jump to TypeScript 7 while `typescript-eslint` supports `<6.1.0`.
@@ -247,7 +269,7 @@ Work in this order, using separate pull requests where practical.
 #### 2D. Remove the inactive CRA/Webpack stack
 
 - [ ] Prove which files under `config/webpack*` and `config/webpackDevServer.config.js` are unreachable from current scripts.
-- [ ] Migrate the three Jest suites to Vitest, or upgrade to Jest 30 if CRA-compatible behavior is still required. Prefer the option that lets the repository delete `react-dev-utils` and the copied CRA configuration.
+- [ ] Migrate the current Jest suite to Vitest, or upgrade to Jest 30 if CRA-compatible behavior is still required. Prefer the option that lets the repository delete `react-dev-utils` and the copied CRA configuration.
 - [ ] Remove unused Webpack-only loaders/plugins, Workbox integration, Tailwind integration if no stylesheet uses it, and stale CRA scripts/configuration.
 - [ ] Remove unused test libraries (`@testing-library/react` and `@testing-library/user-event`) unless new tests use them.
 - [ ] Remove `@types/react-pdf` and validate against `react-pdf`'s own types.
@@ -359,11 +381,12 @@ Manual browser smoke checklist:
 | --- | --- | --- | --- | --- | --- | --- |
 | 2026-09-10 | Initial audit | Complete | Root 20.20.2; Functions declares 18 | 4 / 31 / 18 / 15 | 3 / 18 / 7 / 1 | Root tests/build pass; Functions install/build/lint pass |
 | 2026-09-10/11 | Phase 1A/1B combined compatible web batch | Complete | 20 temporarily | 3 / 25 / 17 / 14 | n/a | Committed as `f880914`; clean install, dependency tree, 4 suites/10 tests, build, manual smoke, and bundle review pass; no-active-campaign linking follow-up is `93a5437` |
-| TBD | Phase 1C compatible Functions updates | Not started | 20 temporarily | n/a | TBD | Remove redundant Functions Yarn lock |
-| TBD | Phase 1D sibling package layout | Not started | 20 temporarily | TBD | TBD | Structure-only move; Hosting preview and Functions emulator required |
-| TBD | Phase 2A Node/Firebase Functions | Not started | 22 | n/a | TBD | Emulator and staging deploy required |
+| TBD | Phase 1C compatible Functions updates | Not started | 22 | n/a | TBD | Remove redundant Functions Yarn lock |
+| TBD | Phase 1D sibling package layout | Not started | 22 | TBD | TBD | Structure-only move; Hosting preview and Functions emulator required |
+| 2026-09-16 | Phase 2A Node 22 runtime baseline | Awaiting production deploy | 22.23.2 | n/a | 3 / 18 / 7 / 1 | Runtime commit `f4c34c3`; clean installs, 5 suites/20 tests, web build, and Functions lint/build pass; direct deploy and production smoke remain |
+| TBD | Phase 2A Firebase Functions SDK/security | Not started | 22 | n/a | TBD | Upgrade Admin/Functions SDKs after the runtime baseline deploy |
 | TBD | Phase 2B Patreon replacement | Not started | 22 | n/a | TBD | No-fix dependency must be removed |
-| TBD | Phase 2C web Firebase | Not started | 22 | TBD | n/a | Only needed if Phase 1 leaves critical paths |
+| TBD | Phase 2C web Firebase | Not started | 22 | TBD | n/a | Resolve the remaining Firebase `websocket-driver` critical path |
 | TBD | Phase 2D legacy toolchain removal | Not started | 22 | TBD | n/a | Reclassify dependencies after cleanup |
 | TBD | Phase 3 high findings | Not started | 22 | TBD | TBD | Zero unexplained production highs required |
 
