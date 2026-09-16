@@ -3,10 +3,17 @@ import {
   cloneLayout,
   cloneLayoutItem,
   getFirstCollision,
+  verticalCompactor,
   type Compactor,
   type Layout,
   type LayoutItem,
 } from "react-grid-layout";
+import type { DashboardState } from "../../state/DashboardState";
+
+type CardGridLayoutSettings = Pick<
+  DashboardState,
+  "layoutCompaction" | "layoutPushCards"
+>;
 
 function pushCollisionsDown(
   layout: LayoutItem[],
@@ -40,15 +47,23 @@ function pushCollisionsDown(
   item.y = moveToY;
 }
 
-function compactFreeLayout(layout: Layout): Layout {
-  const workingLayout = cloneLayout(layout);
+function compactCollisionsOnly(layout: Layout): Layout {
+  const workingLayout = cloneLayout(layout).sort((a, b) => {
+    if (a.moved !== b.moved) {
+      return a.moved ? -1 : 1;
+    }
+    return a.y - b.y || a.x - b.x;
+  });
   const compareWith = workingLayout.filter((item) => item.static);
   const hasStatics = compareWith.length > 0;
   const compactedLayout: Array<Layout[number]> = new Array(
     workingLayout.length,
   );
+  const outputIndexes = new Map(
+    layout.map((item, index) => [item.i, index]),
+  );
 
-  workingLayout.forEach((layoutItem, index) => {
+  workingLayout.forEach((layoutItem) => {
     const item = cloneLayoutItem(layoutItem);
 
     if (!item.static) {
@@ -69,25 +84,47 @@ function compactFreeLayout(layout: Layout): Layout {
     }
 
     item.moved = false;
-    compactedLayout[index] = item;
+    const outputIndex = outputIndexes.get(item.i);
+    if (outputIndex !== undefined) {
+      compactedLayout[outputIndex] = item;
+    }
   });
 
   return compactedLayout;
 }
 
-const freeLayoutCompactor: Compactor = {
+const collisionOnlyCompactor: Compactor = {
   type: null,
-  allowOverlap: false,
-  compact: compactFreeLayout,
+  // Let RGL preserve the pointer-selected position. This compactor resolves
+  // the transient overlap immediately, with the moved item taking priority.
+  allowOverlap: true,
+  compact: compactCollisionsOnly,
 };
 
-const freeLayoutPreventCollisionCompactor: Compactor = {
-  ...freeLayoutCompactor,
+const collisionOnlyPreventCollisionCompactor: Compactor = {
+  ...collisionOnlyCompactor,
+  allowOverlap: false,
   preventCollision: true,
 };
 
-export function getFreeLayoutCompactor(preventCollision: boolean): Compactor {
+const verticalPreventCollisionCompactor: Compactor = {
+  ...verticalCompactor,
+  preventCollision: true,
+};
+
+export function getCardGridCompactor(
+  settings: CardGridLayoutSettings,
+): Compactor {
+  const preventCollision =
+    settings.layoutPushCards === "preventcollision";
+
+  if (settings.layoutCompaction === "compact") {
+    return preventCollision
+      ? verticalPreventCollisionCompactor
+      : verticalCompactor;
+  }
+
   return preventCollision
-    ? freeLayoutPreventCollisionCompactor
-    : freeLayoutCompactor;
+    ? collisionOnlyPreventCollisionCompactor
+    : collisionOnlyCompactor;
 }

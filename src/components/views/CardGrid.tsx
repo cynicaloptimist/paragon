@@ -3,7 +3,6 @@ import { Box, Text } from "grommet";
 import React, { CSSProperties, Suspense, useContext } from "react";
 
 import {
-  getCompactor,
   Responsive,
   useContainerWidth,
   type Layout,
@@ -24,7 +23,7 @@ import { useActiveDashboardId } from "../hooks/useActiveDashboardId";
 import { ErrorBoundary } from "react-error-boundary";
 import styled from "styled-components";
 import { getComponentForCard, Size } from "./getComponentForCard";
-import { getFreeLayoutCompactor } from "./freeLayoutCompactor";
+import { getCardGridCompactor } from "./cardGridCompactor";
 
 const MIN_GRID_UNITS_CARD_HEIGHT = 3;
 const MIN_GRID_UNITS_CARD_WIDTH = 4;
@@ -210,12 +209,7 @@ export function CardGrid(props: {
     }
   };
 
-  const preventCollision =
-    dashboard.layoutPushCards === "preventcollision";
-  const compactor =
-    dashboard.layoutCompaction === "compact"
-      ? getCompactor("vertical", false, preventCollision)
-      : getFreeLayoutCompactor(preventCollision);
+  const compactor = getCardGridCompactor(dashboard);
 
   return (
     <Box fill ref={setContainerRef}>
